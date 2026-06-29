@@ -2,7 +2,7 @@
   "name": "Viajes Marcos & Mery",
   "short_name": "Mis Viajes",
   "description": "Vietnam & Camboya 2026",
-  "start_url": "/",
+  "start_url": "/viajes-marcos-mery/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#1a3a5c",
