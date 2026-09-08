@@ -1,0 +1,12 @@
+MEJORAS — App Viajes Marcos & Mery
+==================================
+Apunta aqui las ideas segun se te ocurran, bajo PENDIENTES.
+Cuando Claude aplica y verifica una, la mueve a HECHAS con [COMPLETADO <fecha>]
+(o [DESCARTADO <fecha>] si se decide no hacerla) y una linea "-> " debajo
+explicando que se hizo. Tu decides cuando borrar las de HECHAS.
+
+=== PENDIENTES ===
+
+
+=== HECHAS ===
+

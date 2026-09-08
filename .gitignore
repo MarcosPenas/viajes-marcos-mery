@@ -2,3 +2,9 @@
 sw_files.json
 __pycache__/
 *.pyc
+.DS_Store
+Thumbs.db
+
+# Material antiguo de desarrollo (scripts, capturas e imágenes obsoletas)
+# no forma parte de la app desplegada
+02_DESARROLLO/

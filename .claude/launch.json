@@ -4,7 +4,7 @@
     {
       "name": "viajes-app",
       "runtimeExecutable": "python3",
-      "runtimeArgs": ["-m", "http.server", "3000", "--directory", "C:\\Users\\mpe.HP2008\\Documents\\viajes-marcos-mery"],
+      "runtimeArgs": ["-m", "http.server", "3000", "--directory", "C:\\Users\\mpe.HP2008\\Documents\\MEGA\\08_Scripts\\App Viajes Marcos Mery"],
       "port": 3000
     }
   ]

@@ -2335,16 +2335,16 @@ function renderDay(date) {
 
   // ── Cabecera del día con foto de ciudad ──
   const CITY_PHOTOS = {
-    'Hanói':           'assets/images/places/hanoi-old-quarter.jpg',
-    'Cat Ba':          'assets/images/places/cat-ba.jpg',
-    'Lan Ha Bay':      'assets/images/places/lan-ha-bay.jpg',
-    'Ninh Binh':       'assets/images/places/tam-coc.jpg',
-    'Hue':             'assets/images/places/hue-imperial-city.png',
-    'Da Nang':         'assets/images/places/dragon-bridge.jpg',
-    'Hoi An':          'assets/images/places/hoi-an.jpg',
-    'Siem Reap':       'assets/images/places/angkor-wat.jpg',
-    'Koh Rong Sanloem':'assets/images/places/koh-rong-sanloem.jpg',
-    'Phnom Penh':      'assets/images/places/phnom-penh.jpg',
+    'Hanói':           'img/places/hanoi.jpg',
+    'Cat Ba':          'img/places/cát_bà_national_park.jpg',
+    'Lan Ha Bay':      'img/places/lan_ha_bay.jpg',
+    'Ninh Binh':       'img/places/tam_coc.jpg',
+    'Hue':             'img/places/huế.jpg',
+    'Da Nang':         'img/places/dragon_bridge_đà_nẵng.jpg',
+    'Hoi An':          'img/places/old_town_hoi_an.jpg',
+    'Siem Reap':       'img/places/angkor_wat.jpg',
+    'Koh Rong Sanloem':'img/places/koh_rong_sanloem.jpg',
+    'Phnom Penh':      'img/places/phnom_penh.jpg',
   };
   const BLOCK_COLORS = {
     'El Norte': '#2d6a4f', 'El Centro': '#8b4513',

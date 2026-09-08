@@ -10,7 +10,7 @@ const DEFAULT_DATA = {
       subtitle: '23 días por el sudeste asiático',
       emoji: '🌏',
       coverGradient: 'linear-gradient(135deg, #1a472a 0%, #2d6a4f 50%, #40916c 100%)',
-      coverImage: 'assets/images/places/lan-ha-bay.jpg',
+      coverImage: 'img/places/lan_ha_bay.jpg',
       myMapsUrl: 'https://www.google.com/maps/d/embed?mid=194Es7AqKfUlcUO6Jttbp0-7O_fFw3Zk',
       startDate: '2026-11-07',
       endDate:   '2026-11-29',
@@ -1189,7 +1189,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 21;
+const DATA_VERSION = 22;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 
