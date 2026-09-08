@@ -7,12 +7,16 @@
 
 ## Estado actual
 
-App **funcionando en producción** en GitHub Pages. En local hay un repo `git` ya inicializado (7-sep-2026, más tarde en la sesión) con un commit que incluye los fixes de mapa/fotos — **todavía no subido a GitHub** porque falta regenerar el token (ver Crítico más abajo).
+App **funcionando en producción** en GitHub Pages. **Importante:** Marcos desarrolla este proyecto en paralelo desde dos PCs (trabajo y casa) que comparten la carpeta vía MEGA — pero `.git` NO se sincroniza entre ellos (ver Parte 19 de `MEMORIA_MAESTRA.md`). Cada PC tiene su propio repo git local, iniciado independientemente el 7/8-sep-2026:
+
+- **PC del trabajo** (`C:\Users\mpe.HP2008\...`): commit `e67e14c`, desciende del historial real de GitHub (`c8d9eb5`) — no necesita `--force` para el push
+- **PC de casa** (`C:\Users\marco\...`): commit `75ce58c`, historial nuevo sin relación con GitHub — necesitaría `--force`/`--allow-unrelated-histories`
+
+Ninguno de los dos se ha subido todavía (bloqueados por el token pendiente de regenerar). Recomendación: subir primero desde el PC del trabajo, luego resetear el de casa contra `origin/main`.
 
 - URL: https://marcospenas.github.io/viajes-marcos-mery
 - Repo: https://github.com/MarcosPenas/viajes-marcos-mery
-- Ruta local: `C:\Users\marco\Documents\MEGA\08_Scripts\App Viajes Marcos Mery`
-- Git local: rama `main`, 1 commit (`75ce58c`), sin `origin` configurado todavía
+- Ruta local: `...\MEGA\08_Scripts\App Viajes Marcos Mery` (distinta según el PC, ver arriba)
 
 ---
 
@@ -68,10 +72,11 @@ App **funcionando en producción** en GitHub Pages. En local hay un repo `git` y
 
 | Tarea | Acción |
 |---|---|
-| ~~Resolver la falta de repo `.git` local~~ | ✅ Hecho el 7-sep-2026 — `git init -b main` + commit `75ce58c` (227 archivos). Confirmado por diff contra el remoto que no había commits que perder |
-| Quitar el token de GitHub de `CLAUDE.md` | El token `ghp_oyTnVy...` sigue en texto plano en `CLAUDE.md` (Parte "TAREAS PENDIENTES" #2) — quitarlo de ahí ANTES de hacer push, o quedará en el historial de un repo público |
-| Regenerar token de GitHub | Ir a https://github.com/settings/tokens → Tokens (classic) → eliminar token antiguo → generar nuevo → ejecutar `git remote set-url origin https://MarcosPenas:[NUEVO_TOKEN]@github.com/MarcosPenas/viajes-marcos-mery.git` (con el repo local ya no hace falta `set-url`, sino `git remote add origin ...`) |
-| Subir a GitHub los fixes del 7-sep-2026 | `git push -u origin main --force` (o `--allow-unrelated-histories`) una vez regenerado el token — hace falta forzar porque el historial local es nuevo y no desciende del commit remoto `c8d9eb5` |
+| ~~Resolver la falta de repo `.git` local~~ | ✅ Hecho, cada PC por separado (ver Estado actual arriba) — `.git` no se sincroniza vía MEGA (`.megaignore` excluye archivos ocultos), así que no era un único problema a resolver una vez, sino algo que ocurrió en cada máquina |
+| ~~Quitar el token de GitHub de `CLAUDE.md`~~ | ✅ Hecho el 8-sep-2026 (PC del trabajo) — sustituido por instrucciones sin el secreto en texto plano. El token en sí sigue sin regenerar |
+| Regenerar token de GitHub | Ir a https://github.com/settings/tokens → Tokens (classic) → eliminar token antiguo → generar uno nuevo. Usarlo solo en el momento del push (no guardarlo en ningún archivo del repo) |
+| Subir a GitHub desde el PC del trabajo | `git remote add origin https://github.com/MarcosPenas/viajes-marcos-mery.git` (si no está ya) + `git push -u origin main` con el token nuevo — el commit `e67e14c` desciende del remoto, no hace falta `--force` |
+| Sincronizar el PC de casa después | Una vez subido desde el trabajo: `git fetch origin && git reset --hard origin/main` en el PC de casa (descarta el commit local `75ce58c`, o guardarlo antes en una rama con `git branch backup-75ce58c` por si acaso) |
 
 ### 🟠 ALTA prioridad
 
@@ -100,7 +105,8 @@ App **funcionando en producción** en GitHub Pages. En local hay un repo `git` y
 - Incrementar `?v=N` en index.html al modificar cualquier CSS o JS
 - Si se modifica `DEFAULT_DATA` en `js/data.js`, incrementar TAMBIÉN la constante interna `DATA_VERSION` del propio archivo (no solo el `?v=N`), o los navegadores que ya visitaron la app seguirán viendo los datos viejos guardados en `localStorage`
 - Entregar siempre archivos completos, nunca fragmentos
-- Repo `git` local ya inicializado (7-sep-2026), rama `main`, sin `origin` configurado — no hacer push sin quitar antes el token expuesto de `CLAUDE.md` y sin regenerar el token
+- `.git` NO se sincroniza entre el PC del trabajo y el de casa vía MEGA (`.megaignore` excluye archivos ocultos) — cada PC tiene su propio repo y commit local. Comprobar `git log --oneline -5` en la máquina en la que estés antes de hacer push o asumir el estado del repo (ver Parte 19 de la Memoria Maestra)
+- El token de GitHub expuesto ya se quitó de `CLAUDE.md` (8-sep-2026) — pero sigue sin regenerarse; no hacer push sin regenerarlo primero
 - Documentar cada cambio en `HISTORIAL_DE_CAMBIOS.md` y `CONTINUIDAD.md` a medida que se hace, no solo al cerrar la sesión
 - Si hay un `Mejoras.txt` en la raíz con entradas pendientes: al aplicar una, moverla a `HECHAS` con `[COMPLETADO <fecha>]` y una línea `->` explicando qué se hizo — nunca borrarla, eso lo hace Marcos a mano
 

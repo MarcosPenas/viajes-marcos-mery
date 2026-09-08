@@ -2,6 +2,23 @@
 
 ---
 
+## 2026-09-08 — Descubierto: dos repos git locales independientes (trabajo + casa) + reconciliación
+
+**Contexto:** esta sesión (PC del trabajo, `C:\Users\mpe.HP2008\...`) investigó por su cuenta, en paralelo y sin saberlo, el mismo problema que la sesión del PC de casa había resuelto poco antes (ver entrada anterior, "Repo git inicializado en local"). Cada sesión llegó a una solución distinta:
+- **Esta sesión (trabajo):** clonó el remoto público de GitHub a una carpeta aparte, copió su `.git` (conservando los 3 commits reales) a la carpeta del proyecto, y comprometió encima la reorganización de carpetas + documentación + fixes de mapa/fotos → commit `e67e14c`, descendiente real del remoto `c8d9eb5`.
+- **La sesión de casa (antes):** hizo `git init -b main` desde cero → commit `75ce58c`, sin relación con el historial remoto.
+
+**Causa raíz de que esto pasara dos veces:** `.megaignore` en la raíz de MEGA excluye `.git` (y `.claude/`) de la sincronización entre los dos PCs (regla `-:.*`). El resto de archivos sí se sincroniza — de hecho, mientras esta sesión trabajaba, los cambios de documentación de la sesión de casa fueron llegando vía MEGA y se mezclaron sin querer con el commit `e67e14c` (git añadió lo que hubiera en disco en el momento del `git add -A`). Se revisó y corrigió esa mezcla a mano en `MEMORIA_MAESTRA.md`, `CONTINUIDAD.md` y `CLAUDE.md` para que no quedaran referencias cruzadas incoherentes (rutas del otro PC, número de commit del otro repo, etc.).
+
+**Decisión tomada:** mantener el commit `e67e14c` de esta sesión como el que se sube primero (no necesita `--force`), y que el PC de casa resetee su repo contra `origin/main` después del push, en vez de intentar fusionar los dos historiales. Pendiente de que Marcos lo confirme y ejecute (ambos bloqueados por el token de GitHub sin regenerar).
+
+**Otros cambios de esta sesión:**
+- Quitado el token de GitHub en texto plano de `CLAUDE.md` (seguía ahí pese a estar marcado como "pendiente quitar" por la sesión de casa)
+- Documentada la causa raíz del `.megaignore` de forma permanente en la Parte 19 de `MEMORIA_MAESTRA.md`, explicando que es una característica estructural del setup (no un bug a arreglar una vez) — cualquier sesión futura en cualquiera de los dos PCs debe tenerlo en cuenta
+- Guardada esta convención en la memoria persistente de Claude Code (fuera del repo) para que futuras sesiones en el PC del trabajo comprueben cambios del otro PC al empezar, sin que Marcos tenga que pedirlo
+
+---
+
 ## 2026-09-07 (continuación) — Repo git inicializado en local + convenciones de sesión
 
 **Cambio 1 — `git init` + primer commit local:** Se confirmó por diff directo contra los raw files de GitHub (`index.html`, `js/data.js`, `js/app.js`) que el remoto (`https://github.com/MarcosPenas/viajes-marcos-mery`, commit `c8d9eb5`) estaba desactualizado respecto al local — no tenía los fixes de mapa/fotos de este mismo día. Se hizo `git init -b main` en la carpeta local (no existía `.git`, ver hallazgo más abajo) y un commit inicial con los 227 archivos activos del código y la documentación.

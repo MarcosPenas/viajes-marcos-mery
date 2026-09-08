@@ -12,7 +12,7 @@
 
 **URL pública:** https://marcospenas.github.io/viajes-marcos-mery  
 **Repo GitHub:** https://github.com/MarcosPenas/viajes-marcos-mery  
-**Ruta local:** `C:\Users\mpe.HP2008\Documents\MEGA\08_Scripts\App Viajes Marcos Mery`  
+**Ruta local:** `...\MEGA\08_Scripts\App Viajes Marcos Mery` (la carpeta se sincroniza vía MEGA entre el PC del trabajo, `C:\Users\mpe.HP2008\...`, y el de casa, `C:\Users\marco\...` — ver Parte 19 para lo que NO se sincroniza)  
 **Estado:** [FUNCIONANDO] en producción. Instalable en Android e iOS.
 
 ---
@@ -464,17 +464,19 @@ py -3 -m http.server 3000 --directory "ruta/al/proyecto"
 
 ---
 
-## PARTE 19 — INCIDENCIA: NO HAY REPOSITORIO GIT LOCAL — ✅ RESUELTA (7-sep-2026)
+## PARTE 19 — GIT LOCAL: CADA PC TIENE EL SUYO, NO SE SINCRONIZA POR MEGA
 
 Al retomar el proyecto el 7-sep-2026 se comprobó que la carpeta local **no tenía `.git`** (`git status` → "not a git repository"). La documentación previa (CLAUDE.md, tarea pendiente #1) asumía que solo faltaba hacer `git add/commit/push`, pero en realidad no había repositorio inicializado en esta ruta.
 
-**Causa confirmada (7-sep-2026):** `C:\Users\marco\Documents\MEGA\.megaignore` (raíz de TODA la carpeta MEGA, afecta a todos los proyectos sincronizados) contiene la regla `-:.*`, que excluye de la sincronización cualquier archivo/carpeta que empiece por punto — incluido `.git`. Por eso, si el repo se llegó a crear en otro PC (o antes de mover el proyecto a MEGA el 2-sep), nunca pudo sincronizarse aquí vía MEGA. **Esto no es un problema a resolver** en este proyecto (a diferencia de Gestor de Descargas, que sí depende de un `.git` compartido vía MEGA entre PCs): aquí GitHub es el mecanismo real de sincronización entre equipos, MEGA solo mueve el resto de archivos. Pero implica que el `.git` creado hoy es **local a este PC** — si Marcos abre el proyecto en otro ordenador, ese PC no lo tendrá (habrá que repetir `git clone` ahí, no asumir que ya existe).
+**Causa raíz (confirmada 8-sep-2026):** `.megaignore` en la raíz de la carpeta MEGA (afecta a todos los proyectos sincronizados, no solo a este) contiene la regla `-:.*`, que excluye de la sincronización cualquier archivo/carpeta que empiece por punto — incluidos `.git` y `.claude/`. Como Marcos desarrolla este proyecto en paralelo desde dos PCs (trabajo y casa) que comparten la carpeta vía MEGA, **el resto de archivos sí se sincroniza entre ambos equipos, pero `.git` nunca lo ha hecho ni lo hará**. GitHub es el único mecanismo real de sincronización de historial entre los dos PCs — MEGA solo mueve código, imágenes y documentación.
 
-**Cómo se resolvió (mismo día, más tarde en la sesión):**
-1. Se descargaron los raw files del remoto (`index.html`, `js/data.js`, `js/app.js` vía `raw.githubusercontent.com`, sin necesitar token por ser público) y se compararon línea a línea contra el local
-2. Confirmado: el remoto (`c8d9eb5`) estaba desactualizado respecto al local — no había commits en GitHub que no existieran ya aquí. Caso "remoto desactualizado", no "remoto más avanzado"
-3. Se creó `.gitignore` (excluye `02_DESARROLLO/`, `*.py`, `sw_files.json`) y se hizo `git init -b main` + commit inicial (`75ce58c`, 227 archivos)
-4. **Pendiente todavía:** regenerar el token de GitHub (Parte 13 — el token antiguo sigue en texto plano en `CLAUDE.md`, quitarlo de ahí antes de nada) y luego `git remote add origin` + `git push -u origin main --force` (hace falta forzar porque el historial local no desciende del commit remoto)
+**Consecuencia práctica:** el 7 y 8 de septiembre de 2026, sesiones de Claude Code en cada uno de los dos PCs detectaron el mismo problema en paralelo y cada una inicializó su propio repo git local, de forma independiente:
+- **PC del trabajo** (esta máquina, ruta `C:\Users\mpe.HP2008\...`): se clonó el remoto público de GitHub a una carpeta aparte, se copió su `.git` (conservando los 3 commits reales de GitHub) a la carpeta del proyecto, y se hizo un commit nuevo (`e67e14c`) encima con la reorganización de carpetas, la documentación y los fixes de mapa/fotos. Este historial **sí desciende** del commit remoto (`c8d9eb5`), así que un `git push` normal (sin `--force`) debería funcionar una vez configurado `origin` y regenerado el token.
+- **PC de casa** (ruta `C:\Users\marco\...`): hizo `git init -b main` desde cero y un commit propio (`75ce58c`, 227 archivos) sin relación con el historial remoto. Para subir ese habría hecho falta `--force` o `--allow-unrelated-histories`.
+
+Ninguno de los dos se ha subido a GitHub todavía (ambos bloqueados por el token pendiente de regenerar). **Antes de hacer push desde cualquiera de los dos PCs, comprobar con Marcos en qué estado está el otro**, para no perder trabajo. Recomendación: subir primero desde el PC del trabajo (`e67e14c`, no necesita `--force`) y, después, en el PC de casa, descartar el commit local (`git fetch origin && git reset --hard origin/main`, o guardar `75ce58c` en una rama aparte por si acaso) y seguir desde ahí.
+
+**Para cualquier sesión futura en cualquiera de los dos PCs:** no asumáis que el otro PC tiene el mismo commit — comprobad `git log --oneline -5` y compararlo contra lo que diga esta sección antes de hacer push o asumir el estado del repo.
 
 ---
 
@@ -490,11 +492,11 @@ Soy Marcos. Tengo una app PWA de guía de viaje personal que desarrollé con Cla
 
 **Stack:** HTML/CSS/JS vanilla puro. Sin frameworks, sin npm, sin backend, sin login.
 
-**Ruta local:** `C:\Users\marco\Documents\MEGA\08_Scripts\App Viajes Marcos Mery`  
+**Ruta local:** `...\MEGA\08_Scripts\App Viajes Marcos Mery` — el PC del trabajo la tiene en `C:\Users\mpe.HP2008\Documents\MEGA\...`, el de casa en `C:\Users\marco\Documents\MEGA\...` (mismo contenido, sincronizado por MEGA; comprobar cuál eres antes de copiar comandos con ruta absoluta)  
 **Código activo:** en la raíz de esa carpeta (index.html, css/, js/, img/, sw.js, manifest.json)  
 **Repo GitHub:** `https://github.com/MarcosPenas/viajes-marcos-mery` (público, usuario: MarcosPenas)  
 **URL pública:** `https://marcospenas.github.io/viajes-marcos-mery`
-**Git local:** ya inicializado (7-sep-2026), rama `main`, commit `75ce58c`, sin `origin` configurado — falta regenerar token y hacer push
+**Git local:** OJO — `.git` NO se sincroniza entre los dos PCs vía MEGA (ver Parte 19). Cada PC tiene su propio repo local y su propio commit; comprobar `git log --oneline -5` en la máquina en la que estés antes de asumir nada, y no hacer push sin confirmar con Marcos qué PC va primero
 
 **Documentación:** Lee `01_ESPECIFICACIONES/MEMORIA_MAESTRA.md` y `01_ESPECIFICACIONES/CONTINUIDAD.md`. Si hay ideas de mejora pendientes de Marcos, están en `Mejoras.txt` (raíz).
 
@@ -507,7 +509,7 @@ Soy Marcos. Tengo una app PWA de guía de viaje personal que desarrollé con Cla
 
 **Servidor local:**
 ```bash
-py -3 -m http.server 3000 --directory "C:\Users\marco\Documents\MEGA\08_Scripts\App Viajes Marcos Mery"
+py -3 -m http.server 3000 --directory "...\MEGA\08_Scripts\App Viajes Marcos Mery"   # sustituir por tu ruta (ver arriba)
 ```
 
 **Reglas críticas:**

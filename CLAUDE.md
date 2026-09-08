@@ -4,19 +4,21 @@
 
 ## ⚠️ TAREAS PENDIENTES — HAZ ESTO PRIMERO
 
-### 1. Resolver la falta de repositorio git local (BLOQUEA todo lo demás)
+### 1. Git local — cada PC tiene el suyo, no se sincroniza por MEGA (IMPORTANTE)
 
-**7-sep-2026:** se comprobó que esta carpeta NO tiene `.git` inicializado (`git status` → "not a git repository"). No se puede hacer commit/push de nada, incluidos los fixes descritos abajo, hasta resolver esto. Ver detalle y opciones en `01_ESPECIFICACIONES/MEMORIA_MAESTRA.md` → Parte 19.
+**Causa raíz encontrada (8-sep-2026):** `.megaignore` en la raíz de MEGA excluye todo lo que empiece por punto (`-:.*`), así que `.git` (y `.claude/`) nunca se sincronizan entre el PC del trabajo y el de casa — solo el resto de archivos (código, docs, imágenes) se sincroniza. Cada PC tuvo que inicializar su propio repo git local el 7/8-sep-2026, cada uno con un commit distinto y sin relación entre sí. **GitHub es el único punto de sincronización real entre los dos equipos para el historial de versiones — MEGA no sirve para eso.**
+
+Antes de hacer push desde cualquiera de los dos PCs, comprobar en qué commit está el otro (o preguntar a Marcos) para no pisar trabajo. Una vez que uno de los dos haga push, el otro debe descartar su commit local y sincronizar desde GitHub (`git fetch origin && git reset --hard origin/main`), no intentar mezclar los dos historiales. Detalle completo en `01_ESPECIFICACIONES/MEMORIA_MAESTRA.md` → Parte 19.
 
 ### 2. Regenerar token de GitHub (URGENTE — el anterior fue expuesto)
 
-El token `[REDACTED_GITHUB_TOKEN]` quedó visible en el historial del chat. Aún no se ha regenerado.
+Había un token de GitHub en texto plano en este archivo desde hace tiempo, visible en el historial del chat. **Se ha quitado de aquí el 8-sep-2026** porque este archivo ya está trackeado en git y a punto de subirse a un repo público — dejarlo habría metido el secreto en el historial de git para siempre. El token en sí sigue sin regenerar.
 
 Pasos:
 1. Ir a https://github.com/settings/tokens
-2. Eliminar ese token
+2. Eliminar el token classic existente asociado a este repo (buscar por nombre/fecha, empieza por `ghp_`)
 3. Crear uno nuevo (scope: `repo`)
-4. Ejecutar: `git remote set-url origin https://MarcosPenas:[NUEVO_TOKEN]@github.com/MarcosPenas/viajes-marcos-mery.git`
+4. Usarlo solo en el momento del push, sin guardarlo en ningún archivo del repo — por ejemplo `git push https://MarcosPenas:[NUEVO_TOKEN]@github.com/MarcosPenas/viajes-marcos-mery.git main`, o configurarlo en el credential manager de Windows en vez de en la URL del remote
 
 ### 3. Subir los fixes del 7-sep-2026 en cuanto se resuelvan los puntos 1 y 2
 
