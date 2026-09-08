@@ -476,7 +476,7 @@ Al retomar el proyecto el 7-sep-2026 se comprobó que la carpeta local **no ten�
 
 Ninguno de los dos se ha subido a GitHub todavía (ambos bloqueados por el token pendiente de regenerar). **Antes de hacer push desde cualquiera de los dos PCs, comprobar con Marcos en qué estado está el otro**, para no perder trabajo. Recomendación: subir primero desde el PC del trabajo (`e67e14c`, no necesita `--force`) y, después, en el PC de casa, descartar el commit local (`git fetch origin && git reset --hard origin/main`, o guardar `75ce58c` en una rama aparte por si acaso) y seguir desde ahí.
 
-**Para cualquier sesión futura en cualquiera de los dos PCs:** no asumáis que el otro PC tiene el mismo commit — comprobad `git log --oneline -5` y compararlo contra lo que diga esta sección antes de hacer push o asumir el estado del repo.
+**Para cualquier sesión futura en cualquiera de los dos PCs:** no asumáis que el otro PC tiene el mismo commit — comprobad `git log --oneline -5` y compararlo contra lo que diga esta sección antes de hacer push o asumir el estado del repo. Además, **leed y actualizad `01_ESPECIFICACIONES/COORDINACION_SESIONES.md`** antes y después de tocar git — es el tablón de estado activo entre las dos sesiones (esta Parte 19 es el histórico/contexto, ese archivo es "qué está pasando ahora mismo").
 
 ---
 

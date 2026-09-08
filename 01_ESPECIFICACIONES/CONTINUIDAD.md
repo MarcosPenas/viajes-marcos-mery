@@ -114,7 +114,7 @@ Ninguno de los dos se ha subido todavía (bloqueados por el token pendiente de r
 
 ## Cómo arrancar el trabajo en la nueva sesión
 
-1. Leer este archivo y `MEMORIA_MAESTRA.md`
+1. Leer **`COORDINACION_SESIONES.md` primero** (estado activo entre los dos PCs), luego este archivo y `MEMORIA_MAESTRA.md`
 2. Comprobar que la app sigue funcionando: http://localhost:3000 (arrancar servidor) o https://marcospenas.github.io/viajes-marcos-mery
 3. Pedir al usuario que confirme qué tarea quiere abordar primero
 4. Lo más probable: resolver lo del repo `.git` → regenerar token → subir los fixes del 7-sep-2026 → seguir la auditoría visual del resto de días
