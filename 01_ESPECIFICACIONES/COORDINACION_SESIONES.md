@@ -15,7 +15,7 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 ## 🔴 Acción en curso ahora mismo
 
 **Quién:** sesión "App Viajes - Pc Trabajo" (esta sesión, PC del trabajo)
-**Qué:** a punto de regenerar el token de GitHub y hacer `git push` del commit `91d5136` (que incluye `e67e14c` encima del historial real de GitHub, `c8d9eb5`) a `origin/main`.
+**Qué:** a punto de regenerar el token de GitHub y hacer `git push` del commit `ce07689` (encima del historial real de GitHub, `c8d9eb5` — incluye `e67e14c`, `91d5136` y este mismo archivo de coordinación) a `origin/main`.
 **Estado:** esperando que Marcos pegue el token nuevo en el chat de esta sesión.
 
 **⚠️ Si estás en la sesión del PC de casa leyendo esto:** NO hagas `git push` de tu commit local `75ce58c` — no está relacionado con el historial real de GitHub y pisaría lo que se sube desde aquí. Cuando el push de esta sesión se confirme más abajo, ejecuta en el PC de casa:

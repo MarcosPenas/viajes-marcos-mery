@@ -8,3 +8,9 @@ Thumbs.db
 # Material antiguo de desarrollo (scripts, capturas e imágenes obsoletas)
 # no forma parte de la app desplegada
 02_DESARROLLO/
+
+# Sistema de "Mejoras" (buzón local de pendientes/hechas de Marcos) —
+# herramienta de trabajo personal, no forma parte de la app desplegada
+# ni tiene sentido en un repo público
+Mejoras.bat
+_app_mejoras/
