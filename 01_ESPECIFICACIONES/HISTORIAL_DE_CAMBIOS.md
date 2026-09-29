@@ -2,6 +2,21 @@
 
 ---
 
+## 2026-09-29 (continuación 2) — Días de vuelo: ficha del aeropuerto, no de la ciudad
+
+Marcos avisó: en Barcelona (05-nov) y Shenzhen (06-nov, escala) no hay plan de visitar la ciudad, son puramente días de tránsito — la ficha "Sobre `<ciudad>`" no debía hablar de la ciudad.
+
+**Cambio (commit `7155070`):**
+- `day.city` del 05-nov: `'Barcelona'` → `'Aeropuerto de Barcelona-El Prat'`
+- `day.city` del 06-nov: `'Barcelona → Shenzhen (en vuelo)'` → `'Aeropuerto de Shenzhen (escala)'` — de paso corrige un bug: con el valor anterior, `_cleanCityName()` (que corta por `→`) devolvía "Barcelona" también para este día, así que la ficha del día 6 mostraba la MISMA información que el día 5 y nunca llegaba a mencionar Shenzhen
+- `CITY_INFO`: entrada de Barcelona reescrita para hablar solo del aeropuerto (terminales T1/T2, tránsito); nueva entrada para Shenzhen (tránsito sin visado en China, T3 de Bao'an)
+
+Verificado visualmente: ambas fichas cargan foto real y extracto de Wikipedia del aeropuerto correspondiente.
+
+**Archivos:** `js/data.js` (DATA_VERSION 30→31), `js/app.js` (CITY_INFO, v=116), `index.html`.
+
+---
+
 ## 2026-09-29 — Puesta al día tras 3 semanas + primera lista de Google Maps cruzada
 
 **Contexto:** primera sesión en el PC del trabajo desde el 8-sep. Mientras tanto, el 28-sep hubo una sesión maratoniana en el PC de casa (itinerario de 25 días reescrito, ficha de ciudad, decenas de fixes) y el 14/24-sep se desplegó un nuevo sistema de "Mejoras" centralizado en varios proyectos. Nada de esto estaba comprometido en el repo git de este PC.
