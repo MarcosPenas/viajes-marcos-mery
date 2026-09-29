@@ -2,6 +2,31 @@
 
 ---
 
+## 2026-09-29 (continuación 4) — Mapa de la app vinculado a las 7 listas de Google Maps
+
+Cierre del tema "los mapas de la app no coinciden con mis mapas": Marcos importó manualmente las 7 listas (siguiendo el método `⋮` → "Volver a importar y combinar" → "Añadir más elementos" → Subir CSV) en las 10 capas de su My Maps ("Vietnam", `mid=194Es7AqKfUlcUO6Jttbp0-7O_fFw3Zk`, el mismo que la app embebe en la pestaña "Mapa"). Se verificó capa por capa (tabla de datos, no solo pines del mapa) hasta confirmar las 10 completas:
+
+| Capa | Sitios nuevos | CSV usado |
+|---|---|---|
+| Hanoi | 45 | `01_Hanoi.csv` |
+| Ninh Binh | 22 | `04_Ninh_Binh.csv` |
+| Lan Ha Bay | 11 | `03_Cat_Ba.csv` (la lista original juntaba Cat Ba + Lan Ha Bay) |
+| Cat Ba | 11 | `03_Cat_Ba.csv` (mismo archivo, en la otra capa) |
+| Hue | 17 | `02c_Hue.csv` |
+| Da Nang | 12 | `02b_Da_Nang.csv` |
+| Hoi An | 33 | `02a_Hoi_An.csv` |
+| Siem Reap | 26 | `06_Camboya_Norte.csv` |
+| Phnom Penh | 10 | `07_Camboya_Sur.csv` |
+| Koh Rong Sanloem *(nombre desactualizado — el contenido real es Chau Doc/Can Tho, Delta del Mekong)* | 13 | `05_Vietnam_Sur.csv` |
+
+**Nota sobre `02_Vietnam_Centro.csv`:** el CSV original juntaba Hoi An+Da Nang+Hue (62 sitios) en un solo archivo, pero el mapa de Marcos tiene esas 3 como capas separadas — no coincidía. Se dividió en `02a_Hoi_An.csv` (33), `02b_Da_Nang.csv` (12) y `02c_Hue.csv` (17); el combinado se borró.
+
+**Intento fallido documentado (para no repetirlo):** antes de que Marcos lo hiciera manualmente, se intentó automatizar la importación vía Claude para Chrome usando Google Sheets como intermediario (para evitar el diálogo nativo de archivo). La pestaña de Sheets dejó de responder a las capturas de pantalla (aunque `read_page` seguía funcionando) — demasiado arriesgado sin poder verificar visualmente lo que se escribía, así que se abandonó. Quedó una hoja de cálculo sin título vacía en el Drive de Marcos (inofensiva, se puede borrar).
+
+**Archivos:** `02_DESARROLLO/csv_mymaps/` (7 CSV finales: `01_Hanoi`, `02a_Hoi_An`, `02b_Da_Nang`, `02c_Hue`, `03_Cat_Ba`, `04_Ninh_Binh`, `05_Vietnam_Sur`, `06_Camboya_Norte`, `07_Camboya_Sur` — 9 archivos para las 10 capas). No versionados en git (excluidos junto con `02_DESARROLLO/`).
+
+---
+
 ## 2026-09-29 (continuación 3) — Auditoría de fotos completada: restaurantes y platos
 
 Segunda mitad de la auditoría pedida por Marcos ("sitio por sitio, comida por comida") — la primera mitad (sitios, commit `942cd7d`) ya estaba hecha; esta cubre los 38 restaurantes/platos del itinerario.
