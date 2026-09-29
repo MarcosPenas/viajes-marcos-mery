@@ -2,6 +2,27 @@
 
 ---
 
+## 2026-09-29 (continuación 7) — Marcos revisa la app en vivo: bug de contenido copiado (Old Market/Pub Street) y fotos genéricas repetidas
+
+Marcos pidió ver la app en el navegador para comprobar él mismo si de verdad no había fallos de imágenes (razonable — el script de la continuación 6 solo pilla huecos "duros", como se advirtió). Con capturas del día 10-nov (Hanói → Siem Reap) y del día 14-nov (Phnom Penh) encontró dos problemas reales que el script no detecta porque no son fallos técnicos, son de **contenido y de variedad**:
+
+**1. Bug de contenido real (no solo de foto) — `'Old Market (Phsar Chas)'`:** tenía copy-pasteado literalmente el texto de `'Pub Street'` (notes/description/tips idénticos, hablando de que se corta el tráfico a las 18:00, Angkor Beer, el bar Red Piano de Angelina Jolie…). Un mercado con la ficha de una calle de bares. Reescrita con contenido real y propio: mercado tradicional, producto fresco + ala de souvenirs, consejos de regateo.
+
+**2. Cuatro sitios de un mismo día usando la misma foto genérica de ciudad:** en el día 10-nov, `Wat Preah Prom Rath`, `Old Market`, `Pub Street` y `Siem Reap River` alias-eaban los tres primeros a `Siem_Reap` (foto genérica de la ciudad, repetida) y el cuarto también. Visualmente parecía que la app estuviera rota, aunque técnicamente "cargaban algo". Corregido:
+- `Wat Preah Prom Rath`: sin artículo propio en Wikipedia, pero sí fotos reales en Wikimedia Commons — foto directa (`photo:`) de las estatuas del templo.
+- `Pub Street`: mismo caso, foto directa de la calle de noche.
+- `Old Market (Phsar Chas)`: sí tiene artículo dedicado, mal encontrado antes — alias correcto a `Psar_Chas` ("Old Market (Siem Reap)"), foto real del interior del mercado.
+- `Siem Reap River`: artículo dedicado `Siem_Reap_River` con foto real del río (antes usaba el genérico `Siem_Reap`). Además tenía `notes: ''` vacío — se le añadió descripción/tips reales.
+- `Wat Damnak y alrededores`: no tenía el problema (ya usaba su propio alias con foto real), confirmado al revisar.
+
+**3. Mismo patrón en comida — `Nom Banh Chok` y `Bai Sach Chrouk`:** ambos aliaseaban a `Cambodian_cuisine` (genérico) porque sus artículos de Wikipedia existen pero sin foto (ya detectado en la auditoría anterior). Encontrada foto real de `Nom Banh Chok` en Wikimedia Commons (búsqueda directa, no vía artículo de Wikipedia) — foto directa añadida. `Bai Sach Chrouk` se queda con el genérico: no se encontró ninguna foto específica en Commons tras buscar.
+
+**Lección de proceso:** el script de verificación (continuación 6) comprueba "¿carga una foto?", no "¿es una foto específica y no genérica?", ni "¿el texto es del sitio correcto?". Estos dos tipos de fallo solo se pillan mirando la app de verdad, como hizo Marcos. Quedan más casos probablemente sin revisar en el resto del itinerario (~150 sitios) — el patrón de "varios sitios seguidos con la misma foto genérica de ciudad" es la señal más fácil de detectar a simple vista si se sigue revisando.
+
+**Archivos:** `js/data.js` (DATA_VERSION 34), `js/app.js` (v=120), `index.html` (`?v=34`/`?v=120`).
+
+---
+
 ## 2026-09-29 (continuación 6) — Auditoría sistemática foto↔sitio: script de verificación, 4 huecos reales corregidos
 
 Fase 2 del encargo de Marcos ("analiza sitio por sitio imagen por imagen comida por comida"): en vez de revisar los ~156 sitios/platos del itinerario uno a uno a mano, se escribió un script en Node que replica exactamente la lógica de `loadWikiPhoto()` (mismo orden de prioridad: `photo` directo → `IMAGE_MAP` → imagen local en `img/places/` → alias de `WIKI_ARTICLES` → nombre crudo como artículo) y comprueba, para cada uno de los 156 sitios/restaurantes de `js/data.js`, si termina resolviendo a una imagen real o si cae en el último nivel (usar el propio nombre español/vietnamita como si fuera un slug de Wikipedia — casi garantizado que falla).

@@ -193,19 +193,21 @@ const DEFAULT_DATA = {
           places: [
             { name: 'Wat Preah Prom Rath', type: 'temple',
               notes: 'Templo budista activo en el centro de Siem Reap. Buda reclinado de 1500. Entrada gratuita.',
-              photo: 'https://picsum.photos/seed/wat-preah-prom-rath-buddha/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/20171129_Wat_Preah_Prom_Rath_Siem_Reap_6207_DxO.jpg/500px-20171129_Wat_Preah_Prom_Rath_Siem_Reap_6207_DxO.jpg',
               description: 'Uno de los templos budistas más hermosos del centro de Siem Reap. A diferencia de las ruinas grises de Angkor, este complejo destaca por sus tejados dorados y ser un monasterio vivo donde residen monjes. En el interior: Buda reclinado histórico de ~1500, jardines con estatuas coloridas narrando la vida de Buda y murales pintados a mano.',
               tips: 'En la orilla occidental del río de Siem Reap, a pocos pasos de Pub Street y Old Market. Entrada gratuita (dejar donativo). Mejor a primera hora o al atardecer para coincidir con los rezos de los monjes.' },
-            { name: 'Siem Reap River', type: 'nature', notes: '' },
+            { name: 'Siem Reap River', type: 'nature',
+              notes: 'El río que atraviesa la ciudad, con paseo arbolado en ambas orillas — agradable para pasear al atardecer.',
+              description: 'Un río estrecho y tranquilo que cruza el centro de Siem Reap, con un paseo peatonal arbolado en ambas orillas que conecta buena parte de los sitios de esta primera toma de contacto: Wat Preah Prom Rath, el Old Market y Pub Street están todos a pocos minutos andando de su orilla.',
+              tips: 'El tramo más agradable para pasear es entre el puente de Old Market y el Royal Independence Gardens, especialmente al atardecer con las luces de los templos encendidas.' },
             { name: 'Old Market (Phsar Chas)', type: 'monument',
-              notes: 'El corazón del ocio de Siem Reap. Desde las 18:00 se corta al tráfico. Angkor Beer a 0,50 USD.',
-              photo: 'https://picsum.photos/seed/pub-street-siem-reap-night/200/200',
-              description: 'Pub Street (Street 08) se corta al tráfico a las 18:00 y se llena de viajeros. Precios bajos: jarras de cerveza local desde 0,50-1 USD. Amok (curry jemer) y barbacoa camboyana. El bar más famoso: The Red Piano (donde Angelina Jolie tomaba cócteles durante el rodaje de Tomb Raider).',
-              tips: 'Old Market (Phsar Chas) justo al lado: artesanías, kramas (pañuelos camboyanos) y souvenirs. Le Pain Du Coeur: panadería a la vuelta que a partir de las 18:00 pone todo a mitad de precio.' },
+              notes: 'El mercado más antiguo de Siem Reap: producto fresco, especias, pescado seco y un ala entera de souvenirs y artesanía.',
+              description: 'El mercado tradicional más antiguo de la ciudad, con dos caras bien distintas: la parte de siempre, con pescado, carne, especias y producto fresco para los vecinos; y una ampliación hacia el lado turístico con puestos de kramas (los pañuelos a cuadros camboyanos), tallas de madera, plata y todo tipo de souvenirs, a precio de regateo.',
+              tips: 'Justo al lado de Pub Street, orilla del río. Mejor por la mañana para ver la parte de producto fresco en pleno funcionamiento; por la tarde predomina la zona de souvenirs. Regatear es lo normal, empezar pidiendo la mitad del precio inicial.' },
             { name: 'Wat Damnak y alrededores', type: 'temple', notes: '' },
             { name: 'Pub Street', type: 'monument',
               notes: 'El corazón del ocio de Siem Reap. Desde las 18:00 se corta al tráfico. Angkor Beer a 0,50 USD.',
-              photo: 'https://picsum.photos/seed/pub-street-siem-reap-night/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/Siem_Reap_Pub_Street_01.jpg/500px-Siem_Reap_Pub_Street_01.jpg',
               description: 'Pub Street (Street 08) se corta al tráfico a las 18:00 y se llena de viajeros. Precios bajos: jarras de cerveza local desde 0,50-1 USD. Amok (curry jemer) y barbacoa camboyana. El bar más famoso: The Red Piano (donde Angelina Jolie tomaba cócteles durante el rodaje de Tomb Raider).',
               tips: 'Old Market (Phsar Chas) justo al lado: artesanías, kramas (pañuelos camboyanos) y souvenirs. Le Pain Du Coeur: panadería a la vuelta que a partir de las 18:00 pone todo a mitad de precio.' }
           ],
@@ -352,7 +354,8 @@ const DEFAULT_DATA = {
               tips: 'Mejor al atardecer. El 25 de noviembre aquí se celebra el Festival del Agua (Bon Om Touk) — ver aviso aparte.' }
           ],
           restaurants: [
-            { name: 'Nom Banh Chok', type: 'restaurant', notes: 'Fideos de arroz con salsa de pescado y hierbas, desayuno típico camboyano.' },
+            { name: 'Nom Banh Chok', type: 'restaurant', notes: 'Fideos de arroz con salsa de pescado y hierbas, desayuno típico camboyano.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/6/61/Num_Banh_Chok.jpg/500px-Num_Banh_Chok.jpg' },
             { name: 'Bai Sach Chrouk', type: 'restaurant', notes: 'Cerdo a la parrilla sobre arroz partido, clásico desayuno-almuerzo de Phnom Penh.' }
           ],
           transport: [],
@@ -888,7 +891,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 33;
+const DATA_VERSION = 34;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 

@@ -296,7 +296,7 @@ const WIKI_ARTICLES = {
   'Teatro de Marionetas de Agua': 'Thăng_Long_Water_Puppet_Theatre',
   'Lago Truc Bach': 'West_Lake_(Hanoi)',
   'West Lake (Tây Hồ)': 'West_Lake_(Hanoi)',
-  'Old Market (Phsar Chas)': 'Siem_Reap',
+  'Old Market (Phsar Chas)': 'Psar_Chas', // artículo dedicado "Old Market (Siem Reap)", foto real del mercado — antes usaba el genérico Siem_Reap
   'Amanecer en Angkor Wat': 'Angkor_Wat',
   'Banteay Kdei': 'Banteay_Kdei',
   'Angkor Thom (South Gate)': 'Angkor_Thom',
@@ -331,7 +331,7 @@ const WIKI_ARTICLES = {
   'Pagoda Tran Quoc': 'Trấn_Quốc_Pagoda',
   'Templo Quan Thanh': 'Quán_Thánh_Temple',
   // Siem Reap / Angkor
-  'Siem Reap River': 'Siem_Reap',
+  'Siem Reap River': 'Siem_Reap_River', // artículo dedicado con foto real del río — antes usaba el genérico Siem_Reap
   'Wat Damnak y alrededores': 'Wat_Damnak',
   'Ta Nei': 'Ta_Nei',
   'Baphuon': 'Baphuon',
