@@ -40,6 +40,7 @@ let weatherCache = {};
 const WIKI_ARTICLES = {
   // ── HANÓI — lugares ────────────────────────────────────────
   'Old Quarter — primera noche': 'Old_Quarter,_Hanoi',
+  'Old Quarter (Barrio Antiguo)': 'Old_Quarter,_Hanoi',
   'Old Quarter': 'Old_Quarter,_Hanoi',
   'Lago Hoan Kiem y Templo Ngoc Son': 'Hoàn_Kiếm_Lake',
   'Lago Hoan Kiem': 'Hoàn_Kiếm_Lake',
@@ -313,6 +314,64 @@ const WIKI_ARTICLES = {
   'Pagoda de Bai Dinh': 'Bái_Đính_Pagoda',
   'Palacio Real de Phnom Penh': 'Royal_Palace,_Phnom_Penh',
 
+  // ── ALIAS 29-SEP-2026: auditoría de fotos, itinerario 25 días ──
+  // Hanói
+  'Palacio de la Ópera y Hotel Sofitel Legend Metropole': 'Hanoi_Opera_House',
+  'Puente de Long Bien': 'Long_Biên_Bridge',
+  'Mercado Dong Xuan': 'Đồng_Xuân_Market',
+  'Templo Bach Ma': 'Old_Quarter,_Hanoi', // sin artículo propio en Wikipedia (comprobado 29-sep-2026)
+  'Pagoda Tran Quoc': 'Trấn_Quốc_Pagoda',
+  'Templo Quan Thanh': 'Quán_Thánh_Temple',
+  // Siem Reap / Angkor
+  'Siem Reap River': 'Siem_Reap',
+  'Wat Damnak y alrededores': 'Wat_Damnak',
+  'Ta Nei': 'Ta_Nei',
+  'Baphuon': 'Baphuon',
+  'Terraza de los Elefantes (templo Tep Pranam)': 'Terrace_of_the_Elephants',
+  'Phare, The Cambodian Circus': 'Phare_Ponleu_Selpak', // "Phare,_the_Cambodian_Circus" no existe (comprobado 29-sep-2026); usa la escuela que lo fundó
+  'Pueblos rurales, arrozales y palmeras de azúcar': 'Siem_Reap_province',
+  'West Baray (Plan A)': 'West_Baray',
+  // Delta del Mekong (Chau Doc / Can Tho) — sin artículo propio: foto representativa de la ciudad
+  // Nota: "Châu_Đốc" existe en Wikipedia pero SIN foto (comprobado 29-sep-2026) —
+  // se usan en su lugar artículos vecinos que sí tienen imagen real
+  'Monumento a la Hamburguesa del Delta (Estatua del Pez Basa)': 'An_Giang',
+  'Chợ Châu Đốc (Mercado Central de Chau Doc)': 'An_Giang',
+  'El Río Hậu: Aldeas Flotantes y Comunidad Cham': 'Mekong_Delta',
+  'Chợ Châu Đốc en hora punta': 'An_Giang',
+  'Mausoleo de Thoại Ngọc Hầu (Tomb of Thoai Ngoc Hau)': 'Thoại_Ngọc_Hầu',
+  'Montaña Sam (Nui Sam)': 'An_Giang', // foto real: templo de Bà Chúa Xứ, en la propia Montaña Sam
+  'Victoria Nui Sam Lodge (mirador de los arrozales)': 'An_Giang',
+  'Bến Ninh Kiều (Muelle de Ninh Kieu)': 'Can_Tho',
+  'Ninh Kieu Footbridge': 'Can_Tho',
+  'Chùa Ông Cần Thơ': 'Can_Tho',
+  'Nhà cổ Bình Thủy': 'Can_Tho',
+  'Thiền viện Trúc Lâm Phương Nam': 'Can_Tho',
+  'Chợ nổi Cái Răng (Mercado Flotante de Cai Rang)': 'Cai_Rang', // "Cái_Răng_floating_market" no existe (comprobado 29-sep-2026)
+  // Hoi An
+  'Mercado central Chợ Hội An': 'Hội_An',
+  'Chùa Cầu (Puente Japonés)': 'Japanese_Covered_Bridge',
+  'Casas Antiguas y Capillas Familiares': 'Hội_An',
+  'Salones de Asambleas Chinos': 'Hội_An',
+  'Museos Históricos': 'Hội_An',
+  'Puentes, Templos y Casas Comunales': 'Hội_An',
+  'Espectáculos, Demostraciones y Tumbas': 'Hội_An',
+  'Mercado de pescado de Thanh Ha': 'Hội_An',
+  'Mercado de Tan An (Tiger Market)': 'Hội_An',
+  'Mercado de Ba Le': 'Hội_An',
+  // Da Nang
+  'Mercado nocturno Son Tra': 'Da_Nang',
+  'Love Lock Bridge': 'Dragon_Bridge_(Đà_Nẵng)',
+  // Hue
+  'Mercado nocturno de Dong Ba': 'Đông_Ba_Market',
+  'Paseo junto al río Perfume': 'Perfume_River',
+  'Tumba de Tu Duc': 'Tomb_of_Tự_Đức',
+  'Tumba de Minh Mang': 'Imperial_City,_Huế', // "Tomb_of_Minh_Mạng" no existe; "Minh_Mạng" tiene solo un .gif que la app no carga bien (comprobado 29-sep-2026)
+  // Cat Ba / Lan Ha Bay
+  'Atardecer en Flamingo Cat Ba Resort': 'Cát_Bà_island',
+  'Cannon Fort (Pháo Đài Thần Công)': 'Cát_Bà_island',
+  'Lan Ha Bay (crucero 2d/1n o excursión de 1 día)': 'Lan_Ha_Bay',
+  'Trekking al pueblo de Viet Hai': 'Lan_Ha_Bay',
+  'Ba Trai Dao (Isla de los 3 melocotones)': 'Lan_Ha_Bay',
 };
 
 // Comida típica y curiosidades por ciudad, para la ficha "Sobre <ciudad>" —

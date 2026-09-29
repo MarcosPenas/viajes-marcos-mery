@@ -432,7 +432,11 @@ const DEFAULT_DATA = {
           date: '2026-11-18', city: 'Can Tho → Hoi An', country: '🇻🇳 Vietnam', block: 'El Centro',
           summary: 'Mercado flotante de Cai Rang por la mañana. Vuelo Can Tho→Da Nang y traslado a Hoi An.',
           places: [
-            { name: 'Chợ nổi Cái Răng (Mercado Flotante de Cai Rang)', type: 'market', notes: '' },
+            { name: 'Chợ nổi Cái Răng (Mercado Flotante de Cai Rang)', type: 'market',
+              notes: 'El mercado flotante más grande del Delta del Mekong. Decenas de barcas cargadas de fruta y verdura al amanecer.',
+              photo: 'https://picsum.photos/seed/cai-rang-floating-market-boats/200/200',
+              description: 'El mayor y más auténtico de los mercados flotantes del Delta del Mekong: decenas de barcas de mayoristas cargadas hasta arriba de piñas, sandías, coles y demás producto, cada una con un "bẹo" (palo vertical) del que cuelga una muestra de lo que vende, para no tener que gritar por encima del ruido de los motores. Los barqueros más pequeños venden fruta, café y fideos directamente a otras barcas y a los turistas, sin bajarse nunca del agua.',
+              tips: 'Hay que ir muy temprano — el ambiente real es entre 5:30 y 7:30, después empieza a vaciarse. Se contrata una barca pequeña desde el muelle de Ninh Kieu (~45 min de trayecto) o más cerca desde el propio Cai Rang. Llevar efectivo pequeño para comprar fruta o un café flotante.' },
             { name: 'Old Quarter Hoi An (paseo introductorio)', type: 'monument', notes: 'Comprar bono y escoger 5 monumentos.' },
             { name: 'Calle Trần Phú', type: 'cafe',
               notes: 'Corazón del Old Quarter. Azoteas de Faifo Coffee. Mot Hoi An: té helado en vaso de bambú con pétalo de loto.',
@@ -697,8 +701,12 @@ const DEFAULT_DATA = {
               photo: 'https://picsum.photos/seed/cat-ba-wild-beach-hidden/200/200',
               description: 'A 1,5 km del paseo marítimo principal (¼ Road). Mucho menos concurrida que las Cat Co. Paseo plano y agradable.',
               tips: 'Desde el puerto: caminar por la calle Hung Vuong hacia el interior (sube al mercado de Cat Ba), girar a la izquierda en calle Tung Thu y seguir hasta que se abra la bahía. 20 min andando.' },
-            { name: 'Atardecer en Flamingo Cat Ba Resort', type: 'nature', notes: '' },
-            { name: 'Cannon Fort', type: 'monument', notes: '' }
+            { name: 'Atardecer en Flamingo Cat Ba Resort', type: 'nature', notes: 'Chiringuito/resort en la ruta de las playas Cat Co, buen sitio para parar a tomar algo viendo el atardecer sobre la bahía.' },
+            { name: 'Cannon Fort (Pháo Đài Thần Công)', type: 'monument',
+              notes: 'El mejor mirador 360° de la isla. Cañones franceses de la IIGM y túneles excavados a mano.',
+              photo: 'https://picsum.photos/seed/cannon-fort-cat-ba-viewpoint/200/200',
+              description: 'En lo alto de una colina sobre el pueblo de Cat Ba, este fuerte construido por los franceses durante la Segunda Guerra Mundial (y reutilizado después por vietnamitas y estadounidenses) conserva los cañones originales apuntando a la bahía, además de túneles y búnkeres excavados a mano que se pueden recorrer. Desde arriba, la vista panorámica de 360° abarca el pueblo, el puerto y los islotes kársticos de Lan Ha Bay — el mejor mirador de la isla sin necesidad de barco.',
+              tips: '15-20 min a pie cuesta arriba desde el pueblo (o mototaxi). Entrada ~200.000 VND. Mejor al atardecer — hay un pequeño café-mirador arriba para esperar la puesta de sol con vistas a la bahía.' }
           ],
           restaurants: [
             { name: 'Marisco de Cat Ba', type: 'restaurant', notes: 'Marisco recién sacado del agua en las balsas flotantes de la bahía.' },
@@ -715,8 +723,16 @@ const DEFAULT_DATA = {
           date: '2026-11-27', city: 'Cat Ba', country: '🇻🇳 Vietnam', block: 'Vuelta al Norte',
           summary: 'Plan: navegar por los islotes.',
           places: [
-            { name: 'Lan Ha Bay (crucero 2d/1n o excursión de 1 día)', type: 'nature', notes: '' },
-            { name: 'Trekking al pueblo de Viet Hai', type: 'nature', notes: 'Probablemente incluido en el tour.' },
+            { name: 'Lan Ha Bay (crucero 2d/1n o excursión de 1 día)', type: 'nature',
+              notes: 'La hermana tranquila de Ha Long Bay — mismos islotes kársticos, muchísimos menos cruceros masivos.',
+              photo: 'https://picsum.photos/seed/lan-ha-bay-cruise-karst-islands/200/200',
+              description: 'Lan Ha Bay comparte la misma bahía y los mismos picos de piedra caliza que la famosa Ha Long Bay, pero al estar administrada desde Cat Ba (no desde Ha Long City) recibe una fracción de los cruceros masivos — aguas más limpias y playas casi vacías entre semana. Un día o dos típicos de crucero incluyen navegación entre los islotes, kayak o paddle surf en calas escondidas, parada para nadar en aguas turquesa, y si es de 2D/1N, noche a bordo o en un bungalow flotante con cena de marisco.',
+              tips: 'Reservar con antelación (Flamingo Cruises o similar tienen buena fama). La excursión de 1 día suele incluir kayak + baño + comida; la de 2D/1N añade noche a bordo y más paradas. Llevar bañador puesto y protección solar — el sol en el agua pega fuerte.' },
+            { name: 'Trekking al pueblo de Viet Hai', type: 'nature',
+              notes: 'Pueblo rural aislado dentro del Parque Nacional, solo accesible en barco + sendero o en bici.',
+              photo: 'https://picsum.photos/seed/viet-hai-village-cat-ba-trek/200/200',
+              description: 'Viet Hai es un pequeño pueblo agrícola escondido en un valle dentro del Parque Nacional de Cat Ba, sin carretera de acceso directo — solo se llega en barco hasta un embarcadero y luego a pie o en bici por un sendero entre arrozales y selva (unos 45-60 min caminando). Vida rural tradicional, casas de adobe y mucha tranquilidad, en fuerte contraste con el ambiente turístico del pueblo de Cat Ba.',
+              tips: 'Suele venir incluido en los tours de kayak/Lan Ha Bay como parada de medio día. Se puede alquilar bici en el pueblo para el tramo final. Buena opción de comida casera vietnamita en alguna de las pocas casas-restaurante locales.' },
             { name: 'Ba Trai Dao (Isla de los 3 melocotones)', type: 'beach', notes: 'Parada clásica de los cruceros por Lan Ha Bay para nadar — de tus mapas guardados.' }
           ],
           restaurants: [],
