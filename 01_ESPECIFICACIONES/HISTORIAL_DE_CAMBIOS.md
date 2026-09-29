@@ -28,6 +28,22 @@
 
 **Conclusión general:** de las 189 entradas en las 7 listas de Marcos, la inmensa mayoría (>85%) ya estaban reflejadas en el itinerario de una forma u otra. Los pocos huecos reales encontrados eran sobre todo omisiones puntuales (Chùa Cầu, tumbas de Hue) más que contenido nuevo por descubrir — el trabajo previo de research ya era muy sólido.
 
+---
+
+## 2026-09-29 (continuación) — Auditoría de fotos (sitio por sitio) + intento de vincular los mapas
+
+**Contexto:** Marcos vio en capturas que varios sitios y platos no cargan foto, y pidió una auditoría completa: comprobar sitio por sitio y comida por comida que la foto exista y sea la correcta.
+
+**Diagnóstico:** la app resuelve la foto de cada sitio por coincidencia **exacta de texto** entre el `name` de `data.js` y las claves de `WIKI_ARTICLES` (~275 alias a artículos de Wikipedia, en `js/app.js`). Ese mapa se escribió para el itinerario de 23 días antiguo; con la reescritura a 25 días muchos nombres cambiaron aunque fuera un paréntesis, y dejaron de coincidir — la app cae entonces a una búsqueda "a ciegas" del nombre en Wikipedia, que falla para sitios muy específicos (mercados locales, restaurantes, miradores menores).
+
+**Resultado (commit `942cd7d`):** ~55 alias nuevos o corregidos — ver detalle completo en el mensaje del commit. Cobertura añadida: todo el Delta del Mekong (nuevo, sin ningún alias previo), varios de Hanói, Angkor, y Hoi An/Da Nang/Hue, más los sitios de Cat Ba de hoy. Cada artículo se verificó dos veces contra la API real de Wikipedia (que existe, y que tiene foto — no solo texto) antes de darlo por bueno; se encontraron y evitaron varios casos donde el artículo existe pero no tiene imagen (`Châu_Đốc`) o solo tiene un `.gif` que la app no carga (`Minh_Mạng`). También se corrigió un error propio de nombre exacto ("Tumba de Minh Mang" vs. lo que había escrito mal). Verificado visualmente en el navegador tras el fix.
+
+**Pendiente — todavía no completo:** la auditoría se centró en **sitios** ("Qué ver"). Falta revisar los **restaurantes/platos** de la misma forma (Marcos pidió explícitamente "comida por comida" también) y los días que quedan sin comprobar visualmente uno a uno.
+
+**Intento de vincular el mapa de la app con los mapas guardados de Marcos:** el "Mapa" de la app embebe un único Google My Maps (`mid=194Es7Aq...`) que Marcos edita en su cuenta — no coincide con sus 7 listas guardadas ("de todos modos los mapas de la app no coinciden con mis mapas"). Se generaron 7 CSV (`02_DESARROLLO/csv_mymaps/`, con columna `Location` con pistas de geocodificación) a partir del texto completo de las 7 listas, listos para importarlos como capas nuevas en ese mismo My Maps vía Claude para Chrome (con la sesión real de Marcos, sin pedirle ninguna contraseña). La importación en sí se interrumpió por un fallo transitorio de la plataforma (el clasificador de seguridad dejó de responder durante varios minutos, afectando a todas las herramientas que escriben) — **sigue pendiente**, los CSV ya están listos.
+
+**Archivos:** `js/app.js` (WIKI_ARTICLES, v=115), `02_DESARROLLO/csv_mymaps/*.csv` (nuevo, 7 archivos, ignorados por git — son un intermedio de trabajo).
+
 **Incidencia técnica confirmada:** el panel de resultados de una lista de Google Maps ("Mis mapas") no carga los últimos elementos con scroll normal ni con `find`+`scroll_to` repetido — se quedó en 19 de 22 sitios pese a varios intentos (rueda del ratón, scroll_to sobre el último elemento visible, tecla End). No se encontró la forma de forzar la carga completa esta vez; para las próximas 3 listas (mucho más grandes) puede hacer falta otra estrategia — quizá pedirle a Marcos que exporte la lista, o aceptar la cobertura parcial como aquí.
 
 **Decisión de ritmo respetada:** no se ha hecho `git push` — sigue vigente la decisión de Marcos del 28-sep de esperar ~1 semana antes de publicar.
