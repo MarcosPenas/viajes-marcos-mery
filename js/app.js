@@ -378,9 +378,13 @@ const WIKI_ARTICLES = {
 // contenido curado a mano (no viene de Wikipedia), pensado para el estilo de
 // viaje de Marcos y Mery: auténtico, callejero, sin prisa
 const CITY_INFO = {
-  'Barcelona': {
-    food: 'Solo noche de tránsito, pero si hay hueco: un bocadillo de jamón o unas bravas cerca del aeropuerto. Nada que planear, mañana toca comida de avión.',
-    curiosities: 'El vuelo intercontinental sale desde El Prat. Llegar con margen — es un aeropuerto grande y el check-in de la maleta facturada puede tener cola.'
+  'Aeropuerto de Barcelona-El Prat': {
+    food: 'Noche de tránsito, no de turismo — Barcelona ciudad no entra en el plan esta vez. Si hay hueco antes de dormir, un bocadillo de jamón o unas bravas cerca del hotel/aeropuerto; mañana ya toca comida de avión.',
+    curiosities: 'El Prat tiene dos terminales (T1 y T2) bastante separadas entre sí — comprobar bien desde cuál sale el vuelo intercontinental antes de ir. Es un aeropuerto grande: llegar con margen, el check-in de la maleta facturada puede tener cola en la T1.'
+  },
+  'Aeropuerto de Shenzhen (escala)': {
+    food: 'Escala de varias horas, sin salir del aeropuerto — Shenzhen ciudad tampoco entra en el plan. La Terminal 3 de Bao\'an tiene bastante oferta de comida dentro de la zona de tránsito internacional (cadenas chinas y occidentales), buen momento para probar algo local sin gastar un día entero.',
+    curiosities: 'China exige visado normalmente, pero varias ciudades (Shenzhen incluida) tienen tránsito sin visado de hasta 72-144h para pasajeros en conexión internacional — conviene llevar el billete de continuación a mano por si lo piden al pasar el control. El edificio de la T3, con forma de manta ondulada, es obra del mismo estudio que el aeropuerto de Madrid-Barajas (Studio Fuksas).'
   },
   'Hanói': {
     food: 'La cuna del phở (mejor por la mañana, en puestos con taburetes bajos), el bún chả que hizo famoso Obama, el cà phê trứng (café de huevo) y el bia hơi callejero a 30 céntimos el vaso. Comer en la calle, sentados en plástico, es la experiencia real — los sitios con menú plastificado en inglés son para turistas.',

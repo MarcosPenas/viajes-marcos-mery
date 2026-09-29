@@ -16,7 +16,7 @@ const DEFAULT_DATA = {
       endDate:   '2026-11-29',
       days: [
         {
-          date: '2026-11-05', city: 'Barcelona', country: '🇪🇸 España', block: 'Vuelos',
+          date: '2026-11-05', city: 'Aeropuerto de Barcelona-El Prat', country: '🇪🇸 España', block: 'Vuelos',
           summary: 'Vuelo Santiago–Barcelona (Vueling, localizador FJUFTJ). Noche en Barcelona antes del vuelo intercontinental del día siguiente.',
           places: [],
           restaurants: [],
@@ -28,7 +28,7 @@ const DEFAULT_DATA = {
           notes: ''
         },
         {
-          date: '2026-11-06', city: 'Barcelona → Shenzhen (en vuelo)', country: '🇪🇸 España → 🇨🇳 China', block: 'Vuelos',
+          date: '2026-11-06', city: 'Aeropuerto de Shenzhen (escala)', country: '🇪🇸 España → 🇨🇳 China', block: 'Vuelos',
           summary: 'Bus L99 al aeropuerto (07:50). Vuelo internacional Barcelona–Shenzhen (Shenzhen Airlines, localizador ME0D7S). Escala en Shenzhen de 5h 40min antes de continuar a Hanói al día siguiente.',
           places: [],
           restaurants: [],
@@ -866,7 +866,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 30;
+const DATA_VERSION = 31;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 
