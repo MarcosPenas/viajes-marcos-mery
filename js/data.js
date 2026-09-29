@@ -150,6 +150,7 @@ const DEFAULT_DATA = {
               tips: 'Calle Đồng Xuân, extremo norte del Old Quarter. Aprox. 6:00-18:00, entrada gratuita. Ir más por el ambiente que a "ver un mercado".' },
             { name: 'Templo Bach Ma', type: 'temple',
               notes: 'El templo más antiguo de Hanói, escondido entre tiendas del Old Quarter.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Bach_Ma_Temple%2C_Hanoi_%282018%29_01.jpg/500px-Bach_Ma_Temple%2C_Hanoi_%282018%29_01.jpg',
               description: 'Su nombre significa "Caballo Blanco", por la leyenda de un caballo que ayudó al emperador a trazar las murallas de la ciudad. Interior pequeño pero cargado de incienso, estatuas y ofrendas — un contraste silencioso con el bullicio de alrededor.',
               tips: 'Calle Hàng Buồm. Aprox. 8:00-17:00, gratuito. No hace falta mucho tiempo, pero está de paso en la ruta del Old Quarter.' },
             { name: 'Murales de Phùng Hưng (Street Art)', type: 'monument',
@@ -212,7 +213,8 @@ const DEFAULT_DATA = {
               tips: 'Old Market (Phsar Chas) justo al lado: artesanías, kramas (pañuelos camboyanos) y souvenirs. Le Pain Du Coeur: panadería a la vuelta que a partir de las 18:00 pone todo a mitad de precio.' }
           ],
           restaurants: [
-            { name: 'Cena de comida Khmer', type: 'restaurant', notes: '' }
+            { name: 'Cena de comida Khmer', type: 'restaurant', notes: '',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Fish_Amok-_Khmer_specialty.jpg/500px-Fish_Amok-_Khmer_specialty.jpg' }
           ],
           transport: [
             { type: 'flight', icon: '✈️', details: 'Vuelo Hanói→Siem Reap — Vietnam Airlines, localizador ZCSDYH. María: 23 kg facturado + cabina 8 kg. Marcos: 23 kg facturado + cabina 8 kg.', from: 'Hanói (HAN)', to: 'Siem Reap', time: '15:10–16:55 (1h 40min)' }
@@ -299,7 +301,8 @@ const DEFAULT_DATA = {
           ],
           restaurants: [
             { name: 'Lok Lak', type: 'restaurant', notes: 'Ternera salteada camboyana con arroz y huevo frito.' },
-            { name: 'Khmer BBQ', type: 'restaurant', notes: 'Parrilla camboyana para compartir, típica de las salidas rurales de un día completo.' }
+            { name: 'Khmer BBQ', type: 'restaurant', notes: 'Parrilla camboyana para compartir, típica de las salidas rurales de un día completo.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Cambodian_BBQ_%2811468613985%29.jpg/500px-Cambodian_BBQ_%2811468613985%29.jpg' }
           ],
           transport: [],
           hotel: { name: 'The Nest', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -356,7 +359,8 @@ const DEFAULT_DATA = {
           restaurants: [
             { name: 'Nom Banh Chok', type: 'restaurant', notes: 'Fideos de arroz con salsa de pescado y hierbas, desayuno típico camboyano.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/6/61/Num_Banh_Chok.jpg/500px-Num_Banh_Chok.jpg' },
-            { name: 'Bai Sach Chrouk', type: 'restaurant', notes: 'Cerdo a la parrilla sobre arroz partido, clásico desayuno-almuerzo de Phnom Penh.' }
+            { name: 'Bai Sach Chrouk', type: 'restaurant', notes: 'Cerdo a la parrilla sobre arroz partido, clásico desayuno-almuerzo de Phnom Penh.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/Bay_sach_chrouk.jpg/500px-Bay_sach_chrouk.jpg' }
           ],
           transport: [],
           hotel: { name: 'Jungle Addition', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -385,8 +389,10 @@ const DEFAULT_DATA = {
               tips: 'Se ve bien desde fuera, de paso hacia el Riverside.' }
           ],
           restaurants: [
-            { name: 'Lap Khmer', type: 'restaurant', notes: 'Ceviche de ternera camboyano, marinado en cítricos.' },
-            { name: 'Amok de pollo o verduras', type: 'restaurant', notes: 'Versión más ligera del curry jemer, buena opción de cena en Phnom Penh.' }
+            { name: 'Lap Khmer', type: 'restaurant', notes: 'Ceviche de ternera camboyano, marinado en cítricos.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Fish_Amok-_Khmer_specialty.jpg/500px-Fish_Amok-_Khmer_specialty.jpg' },
+            { name: 'Amok de pollo o verduras', type: 'restaurant', notes: 'Versión más ligera del curry jemer, buena opción de cena en Phnom Penh.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Fish_Amok-_Khmer_specialty.jpg/500px-Fish_Amok-_Khmer_specialty.jpg' }
           ],
           transport: [],
           hotel: { name: 'Jungle Addition', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -433,11 +439,16 @@ const DEFAULT_DATA = {
               photo: 'https://picsum.photos/seed/tra-su-cajuput-forest-boat/200/200',
               description: 'Un bosque de melaleuca (cajuput) permanentemente inundado, con el agua cubierta de una capa de lentejas de agua de un verde casi fosforescente. Se recorre en dos tramos: primero en barca a motor por el canal principal hasta una torre-mirador de 4 pisos con vistas a todo el humedal, y luego el tramo bueno en barca de remo silenciosa entre los árboles, ideal para ver garzas, cigüeñas y otras aves acuáticas — mejor de noviembre a abril, temporada alta de aves.',
               tips: 'A ~30 km / 1h en coche de Chau Doc. Entrada + barca motor ~100.000 VND, tramo en barca de remo aparte (~150.000 VND, negociable). Necesita medio día — compite con el resto del plan de la mañana en Chau Doc, elegir según el tiempo disponible antes del bus a Can Tho.' },
-            { name: 'Bến Ninh Kiều (Muelle de Ninh Kieu)', type: 'nature', notes: 'Paseo marítimo y parque costero de Can Tho, de tus mapas guardados.' },
-            { name: 'Ninh Kieu Footbridge', type: 'monument', notes: 'Puente peatonal iluminado por la noche.' },
-            { name: 'Chùa Ông Cần Thơ', type: 'temple', notes: 'Templo taoísta chino, uno de los más antiguos de Can Tho.' },
-            { name: 'Nhà cổ Bình Thủy', type: 'monument', notes: 'Casa antigua colonial, mezcla de arquitectura vietnamita y francesa.' },
-            { name: 'Thiền viện Trúc Lâm Phương Nam', type: 'temple', notes: 'El monasterio zen más grande del Delta del Mekong.' }
+            { name: 'Bến Ninh Kiều (Muelle de Ninh Kieu)', type: 'nature', notes: 'Paseo marítimo y parque costero de Can Tho, de tus mapas guardados.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Ninh_Kieu_Quay.jpg/500px-Ninh_Kieu_Quay.jpg' },
+            { name: 'Ninh Kieu Footbridge', type: 'monument', notes: 'Puente peatonal iluminado por la noche.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Ninh_Kieu_Quay.jpg/500px-Ninh_Kieu_Quay.jpg' },
+            { name: 'Chùa Ông Cần Thơ', type: 'temple', notes: 'Templo taoísta chino, uno de los más antiguos de Can Tho.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/4/42/Le_temple_d%C3%94ng_%28Can_Tho%2C_Vietnam%29_%286642900621%29.jpg/500px-Le_temple_d%C3%94ng_%28Can_Tho%2C_Vietnam%29_%286642900621%29.jpg' },
+            { name: 'Nhà cổ Bình Thủy', type: 'monument', notes: 'Casa antigua colonial, mezcla de arquitectura vietnamita y francesa.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Nha_co_Binh_Thuy_1.jpg/500px-Nha_co_Binh_Thuy_1.jpg' },
+            { name: 'Thiền viện Trúc Lâm Phương Nam', type: 'temple', notes: 'El monasterio zen más grande del Delta del Mekong.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Thi%E1%BB%81n_Vi%E1%BB%87n_Tr%C3%BAc_L%C3%A2m_Ph%C6%B0%C6%A1ng_Nam.jpg/500px-Thi%E1%BB%81n_Vi%E1%BB%87n_Tr%C3%BAc_L%C3%A2m_Ph%C6%B0%C6%A1ng_Nam.jpg' }
           ],
           restaurants: [
             { name: 'Pescado de agua dulce del Mekong', type: 'restaurant', notes: 'Chau Doc es la mayor región productora de pescado de agua dulce de Vietnam.' },
@@ -486,7 +497,8 @@ const DEFAULT_DATA = {
           date: '2026-11-19', city: 'Hoi An', country: '🇻🇳 Vietnam', block: 'El Centro',
           summary: 'Plan: Corazón histórico y espectáculo.',
           places: [
-            { name: 'Mercado central Chợ Hội An', type: 'market', notes: '' },
+            { name: 'Mercado central Chợ Hội An', type: 'market', notes: '',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Central_Market_Hoi_An.JPG/500px-Central_Market_Hoi_An.JPG' },
             { name: 'Chùa Cầu (Puente Japonés)', type: 'monument',
               notes: 'El símbolo de Hoi An — sale en el billete de 20.000 VND. Construido por comerciantes japoneses en el s.XVII.',
               photo: 'https://picsum.photos/seed/chua-cau-japanese-covered-bridge-hoi-an/200/200',
@@ -609,7 +621,7 @@ const DEFAULT_DATA = {
           places: [
             { name: 'Cementerio City of Ghosts (valorar si ir)', type: 'monument',
               notes: 'El cementerio más fotogénico de Asia. Lápidas de colores entre la vegetación. Ángulo opuesto al turístico.',
-              photo: 'https://picsum.photos/seed/hue-city-of-ghosts-cemetery/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/An_Bang_Village_Cemetery_01.jpg/500px-An_Bang_Village_Cemetery_01.jpg',
               description: 'El vasto cementerio en los alrededores de Hue, conocido popularmente como "Ciudad de los Fantasmas", es uno de los más grandes y visualmente impactantes de Asia. Las tumbas de cerámica pintadas en tonos turquesa, rojo y dorado se extienden entre la vegetación subtropical durante kilómetros. Muchas siguen el estilo imperial en miniatura, con puertas de entrada, jardines y estanques diminutos.',
               tips: 'Al sur de la ciudad, en los alrededores de la zona de tumbas imperiales. Se puede recorrer en bici desde el centro (~8 km). Sin entrada. No hay carteles turísticos — es un cementerio activo. Respetar el espacio. Mejor al atardecer para la luz dorada sobre las cerámicas de colores.' },
             { name: 'Puente Thanh Toan', type: 'monument',
@@ -729,7 +741,7 @@ const DEFAULT_DATA = {
             { name: 'Atardecer en Flamingo Cat Ba Resort', type: 'nature', notes: 'Chiringuito/resort en la ruta de las playas Cat Co, buen sitio para parar a tomar algo viendo el atardecer sobre la bahía.' },
             { name: 'Cannon Fort (Pháo Đài Thần Công)', type: 'monument',
               notes: 'El mejor mirador 360° de la isla. Cañones franceses de la IIGM y túneles excavados a mano.',
-              photo: 'https://picsum.photos/seed/cannon-fort-cat-ba-viewpoint/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/View_of_the_sea_from_Cannon_Fort_Park_on_Cat_Ba_Island%2C_Vietnam%2C_20240130_1601_4441.jpg/500px-View_of_the_sea_from_Cannon_Fort_Park_on_Cat_Ba_Island%2C_Vietnam%2C_20240130_1601_4441.jpg',
               description: 'En lo alto de una colina sobre el pueblo de Cat Ba, este fuerte construido por los franceses durante la Segunda Guerra Mundial (y reutilizado después por vietnamitas y estadounidenses) conserva los cañones originales apuntando a la bahía, además de túneles y búnkeres excavados a mano que se pueden recorrer. Desde arriba, la vista panorámica de 360° abarca el pueblo, el puerto y los islotes kársticos de Lan Ha Bay — el mejor mirador de la isla sin necesidad de barco.',
               tips: '15-20 min a pie cuesta arriba desde el pueblo (o mototaxi). Entrada ~200.000 VND. Mejor al atardecer — hay un pequeño café-mirador arriba para esperar la puesta de sol con vistas a la bahía.' }
           ],
@@ -750,7 +762,7 @@ const DEFAULT_DATA = {
           places: [
             { name: 'Lan Ha Bay (crucero 2d/1n o excursión de 1 día)', type: 'nature',
               notes: 'La hermana tranquila de Ha Long Bay — mismos islotes kársticos, muchísimos menos cruceros masivos.',
-              photo: 'https://picsum.photos/seed/lan-ha-bay-cruise-karst-islands/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3d/Lan_Ha_bay_jonques.jpg/500px-Lan_Ha_bay_jonques.jpg',
               description: 'Lan Ha Bay comparte la misma bahía y los mismos picos de piedra caliza que la famosa Ha Long Bay, pero al estar administrada desde Cat Ba (no desde Ha Long City) recibe una fracción de los cruceros masivos — aguas más limpias y playas casi vacías entre semana. Un día o dos típicos de crucero incluyen navegación entre los islotes, kayak o paddle surf en calas escondidas, parada para nadar en aguas turquesa, y si es de 2D/1N, noche a bordo o en un bungalow flotante con cena de marisco.',
               tips: 'Reservar con antelación (Flamingo Cruises o similar tienen buena fama). La excursión de 1 día suele incluir kayak + baño + comida; la de 2D/1N añade noche a bordo y más paradas. Llevar bañador puesto y protección solar — el sol en el agua pega fuerte.' },
             { name: 'Trekking al pueblo de Viet Hai', type: 'nature',
@@ -891,7 +903,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 34;
+const DATA_VERSION = 35;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 

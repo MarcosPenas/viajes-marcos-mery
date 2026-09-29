@@ -2,6 +2,38 @@
 
 ---
 
+## 2026-09-29 (continuación 8) — Auditoría visual real, sitio por sitio, imagen por imagen (pedido explícito tras queja de Marcos)
+
+Marcos, con razón, se quejó de que los scripts anteriores (continuación 6) daban una falsa sensación de "ya está todo revisado" cuando en la práctica seguía encontrando fallos a simple vista (continuación 7) — pidió explícitamente dejar los scripts y mirar la app de verdad, imagen por imagen, "aunque sea 30 minutos". Esta es esa pasada.
+
+**Método:** en vez de reimplementar la lógica de fotos en Node (como en la continuación 6, que resultó insuficiente), se usó el propio código en ejecución de la app — un bucle en la consola del navegador que recorre los 25 días reales vía `navigate('day', ...)`, deja que cargue cada foto con el pipeline real (`loadWikiPhoto`), y recoge el `src` final de cada imagen. Esto da el dato exacto de qué ve un usuario, no una aproximación. Con esos datos se agruparon las fotos que comparten URL entre varios sitios con nombres distintos — la señal más fiable de "aquí hay algo genérico o mal puesto" — y cada caso sospechoso se verificó **visualmente** (descargando la imagen candidata y mirándola) antes de aplicarla, no solo comprobando que "existe".
+
+**Encontrados y corregidos con foto real y verificada a ojo (11 sitios):**
+| Sitio | Antes | Después |
+|---|---|---|
+| `Cementerio City of Ghosts` (Hue) | Foto de la Ciudad Imperial (sitio totalmente distinto) | Foto real del cementerio de An Bang |
+| `Amok de pollo o verduras` + `Lap Khmer` + `Cena de comida Khmer` | Foto de un bajorrelieve de piedra del templo Bayon (el artículo "Cambodian_cuisine" de Wikipedia tiene ESA foto de thumbnail — parece una pared, no comida) | Foto real de amok en hoja de plátano (Lap Khmer y Cena de comida Khmer se quedan con esta misma foto como genérico-pero-honesto, no se encontró foto específica de ninguna de las dos) |
+| `Khmer BBQ` | Igual bajorrelieve | Foto real de una mesa de BBQ camboyano |
+| `Bai Sach Chrouk` | Igual bajorrelieve | Foto real del plato (encontrada por la grafía alternativa "Bay sach chrouk") |
+| `Mercado central Chợ Hội An` | Foto genérica de Hội An ciudad (compartida con otros 9 sitios distintos) | Foto real del mercado |
+| `Bến Ninh Kiều` + `Ninh Kieu Footbridge` | Foto genérica de Can Tho (compartida con 4 sitios más) | Foto real del muelle/paseo (comparten foto entre sí porque es literalmente el mismo sitio) |
+| `Chùa Ông Cần Thơ` | Igual genérica de Can Tho | Foto real del interior del templo chino |
+| `Nhà cổ Bình Thủy` | Igual genérica de Can Tho | Foto real de la casa colonial |
+| `Thiền viện Trúc Lâm Phương Nam` | Igual genérica de Can Tho | Foto real del monasterio |
+| `Templo Bach Ma` (Hanói) | Foto genérica del Old Quarter (compartida con 3 sitios más) | Foto real de la fachada del templo |
+| `Lan Ha Bay (crucero...)` | Foto genérica de la bahía (placeholder picsum sin resolver) | Foto real de juncos navegando entre los karst |
+| `Cannon Fort` (Cat Ba) | Foto genérica de la isla (compartida con playas) | Foto real de las vistas desde el fuerte |
+
+**Verificación del `Old Quarter Hoi An`/`Chợ đêm Hội An`:** re-confirmado que las 5 fichas "categoría del bono" (Casas Antiguas, Salones Chinos, Museos, Puentes/Templos, Espectáculos) comparten a propósito la foto genérica de Hội An — son literalmente categorías del ticket combinado, no sitios individuales, así que no es un fallo (`js/data.js:505-509`).
+
+**Quedan generic-pero-honestos sin foto específica** (revisado, no se encontró nada mejor en Wikimedia Commons tras buscar): `Mercado de pescado de Thanh Ha`, `Mercado de Tan An (Tiger Market)`, `Mercado de Ba Le` (comparten foto de Hội An ciudad), `Bun Ca`/`Bún Cá Châu Đốc`/`Ốc (caracoles de río)` (genérico de comida vietnamita), `Marisco de Da Nang`/`Marisco de Cat Ba`/`Último marisco en Cat Ba` (genérico de marisco, por diseño — son entradas deliberadamente vagas), `Trekking al pueblo de Viet Hai`/`Ba Trai Dao`/`Ngu Lam Peak` (comparten foto de Lan Ha Bay). Ninguno de estos es una foto **incorrecta** (todas son del país/región correcta), solo no son específicas — nivel de prioridad mucho menor que los 11 corregidos arriba, que sí mostraban algo activamente distinto o ajeno al sitio.
+
+**Confirmado con la misma recolección en vivo:** 0 imágenes rotas (`loaded: false`) en las 157 entradas únicas del itinerario tras el fix (antes de esto, `Phare, The Cambodian Circus` aparecía como rota en una primera pasada — resultó ser un falso positivo del tiempo de espera del propio script de recolección, no un fallo real; verificado por separado con más margen de espera).
+
+**Archivos:** `js/data.js` (DATA_VERSION 35), `index.html` (`?v=35`).
+
+---
+
 ## 2026-09-29 (continuación 7) — Marcos revisa la app en vivo: bug de contenido copiado (Old Market/Pub Street) y fotos genéricas repetidas
 
 Marcos pidió ver la app en el navegador para comprobar él mismo si de verdad no había fallos de imágenes (razonable — el script de la continuación 6 solo pilla huecos "duros", como se advirtió). Con capturas del día 10-nov (Hanói → Siem Reap) y del día 14-nov (Phnom Penh) encontró dos problemas reales que el script no detecta porque no son fallos técnicos, son de **contenido y de variedad**:
