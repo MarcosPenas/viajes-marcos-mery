@@ -16,7 +16,7 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 
 ## 🟢 Nada en curso ahora mismo
 
-Última sesión activa: PC del trabajo, 29-sep-2026 — puesta al día y commit de todo el trabajo pendiente (ver más abajo). Sin bloqueos activos ni acciones a medias.
+Última sesión activa: PC del trabajo, 29-sep-2026 — huecos de contenido (Tra Su, Café Giảng, stubs Chau Doc) + auditoría sistemática foto↔sitio con script (4 huecos más corregidos, incl. una foto claramente equivocada en el mercado nocturno de Hoi An). Ver `HISTORIAL_DE_CAMBIOS.md`, continuaciones 5 y 6. Sin bloqueos activos ni acciones a medias.
 
 **Decisión de ritmo vigente (Marcos, 28-sep-2026):** acumular cambios en local ~1 semana antes de publicar a GitHub/producción. No pushear por iniciativa propia — solo cuando Marcos lo pida explícitamente.
 
@@ -34,7 +34,7 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 
 | PC | Rama | Último commit local | ¿Desciende del remoto real? |
 |---|---|---|---|
-| Trabajo (`C:\Users\mpe.HP2008\...`) | `main` | `cdff33c` (29-sep-2026) — incluye TODO el trabajo del 28-sep del PC de casa, ya revisado y comprometido aquí | Sí (cadena completa hasta `c8d9eb5`) |
+| Trabajo (`C:\Users\mpe.HP2008\...`) | `main` | `6365479` (29-sep-2026) — 21 commits por encima de `origin/main`, incluye todo el trabajo del 28-sep del PC de casa | Sí (cadena completa hasta `c8d9eb5`) |
 | Casa (`C:\Users\marco\...`) | `main` | `cb9c4d1` (28-sep-2026), 5 commits encima de `75ce58c` | No — historial nuevo, `git init` desde cero |
 
 **Importante para la próxima sesión en el PC de casa:** el contenido de tus 5 commits (`4c5d322`…`cb9c4d1`) ya está integrado en el commit `cdff33c` del PC del trabajo (se copió el estado final de los archivos, no cada commit individual). Cuando este PC empiece a hacer push a GitHub, el PC de casa deberá resetear su rama contra `origin/main` en vez de intentar pushear sus propios commits — ver "Decisiones ya tomadas" abajo. Si quieres conservar tu historial de 5 commits como referencia, créate una rama antes de resetear (`git branch backup-28sep`).
