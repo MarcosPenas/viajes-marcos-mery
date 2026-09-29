@@ -648,7 +648,7 @@ const DEFAULT_DATA = {
               notes: 'Antigua capital de Vietnam del s.X. A 10 km en bici. Templos del s.XVII.',
               photo: 'https://picsum.photos/seed/hoa-lu-ancient-capital-temple/200/200',
               description: 'La primera capital unificada de Vietnam (s.X). Los palacios reales de madera desaparecieron pero quedan reconstrucciones del s.XVII: Templo de Dinh Tien Hoang (patio con lecho de dragón de piedra) y Templo de Le Dai Hanh (estatuas y tambores de bronce). La Puerta Oriental sobre el río es la postal del lugar.',
-              tips: 'A 10 km de Tam Coc, en bici (paisaje precioso). 7:00-17:00, 20.000 VND.' },
+              tips: 'A 10 km de Tam Coc, en bici (paisaje precioso). 7:00-17:00, 20.000 VND. Justo al lado está la Pagoda Nhat Tru (de un solo pilar), un templo budista pequeño que se visita en 5 min de paso.' },
             { name: 'Pagoda de Bai Dinh', type: 'temple',
               notes: 'El complejo budista más grande de Vietnam. 5 récords nacionales. Torre Bao Thien de 100m.',
               photo: 'https://picsum.photos/seed/bai-dinh-pagoda-buddha-tower/200/200',
@@ -836,7 +836,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 28;
+const DATA_VERSION = 29;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 
