@@ -2,6 +2,24 @@
 
 ---
 
+## 2026-09-29 — Puesta al día tras 3 semanas + primera lista de Google Maps cruzada
+
+**Contexto:** primera sesión en el PC del trabajo desde el 8-sep. Mientras tanto, el 28-sep hubo una sesión maratoniana en el PC de casa (itinerario de 25 días reescrito, ficha de ciudad, decenas de fixes) y el 14/24-sep se desplegó un nuevo sistema de "Mejoras" centralizado en varios proyectos. Nada de esto estaba comprometido en el repo git de este PC.
+
+**Cambio 1 — Puesta al día del repo local:** verificada la app en el navegador (funciona bien, sin errores de JS), comprometido todo el trabajo pendiente del PC de casa (commit `cdff33c`) y el propio del trabajo (migración de Mejoras, commit `0f762d2`). `COORDINACION_SESIONES.md` actualizado — se había quedado desfasado, la sesión del 28-sep no lo tocó pese a decir que sí.
+
+**Cambio 2 — Resuelto el "cabo suelto" del sistema de Mejoras:** es una app centralizada en `00_Guía Apps/Sistema_Mejoras/03_APLICACION/` (`Mejoras.vbs`), compartida por varios proyectos de Marcos. `MEJORAS.lnk` y `01_ESPECIFICACIONES/MEJORAS.json` añadidos a `.gitignore` (herramienta personal). Detectado y documentado por qué el `.lnk` no es portable entre los dos PCs: guarda una ruta absoluta (`C:\Users\mpe.HP2008\...`) que no existe en el otro usuario de Windows — cada PC necesita crear su propio acceso directo.
+
+**Cambio 3 — Primera lista de Google Maps cruzada (Ninh Binh, 22 sitios):** ver detalle en el commit `07ca429`. Resultado: el bloque de Ninh Binh ya estaba muy completo, solo se añadió una mención a la Pagoda Nhat Tru como tip dentro de la tarjeta de Hoa Lu. Quedan las 3 listas grandes (Vietnam Centro 62, Hanói 46, Camboya Norte 26).
+
+**Incidencia técnica confirmada:** el panel de resultados de una lista de Google Maps ("Mis mapas") no carga los últimos elementos con scroll normal ni con `find`+`scroll_to` repetido — se quedó en 19 de 22 sitios pese a varios intentos (rueda del ratón, scroll_to sobre el último elemento visible, tecla End). No se encontró la forma de forzar la carga completa esta vez; para las próximas 3 listas (mucho más grandes) puede hacer falta otra estrategia — quizá pedirle a Marcos que exporte la lista, o aceptar la cobertura parcial como aquí.
+
+**Decisión de ritmo respetada:** no se ha hecho `git push` — sigue vigente la decisión de Marcos del 28-sep de esperar ~1 semana antes de publicar.
+
+**Archivos modificados:** `js/data.js` (DATA_VERSION 28→29, tip de Nhat Tru Pagoda), `index.html` (?v=29), `.gitignore`, `01_ESPECIFICACIONES/CONTINUIDAD.md`, `01_ESPECIFICACIONES/COORDINACION_SESIONES.md`.
+
+---
+
 ## 2026-09-28 (continuación 3) — Contenido del documento .odt de María (pareja de Marcos)
 
 **Contexto:** Marcos pasó `C:\Users\marco\Downloads\itinerario final V&C.odt`, un documento de investigación muy detallado escrito por su pareja (no es la versión definitiva, seguirá creciendo). Se extrajo el texto (ODT es un zip con `content.xml`) — 1410 líneas, ~158.000 caracteres. Cubre, con un nivel de detalle mucho mayor que cualquier fuente anterior: Hanói (día 1-3), Siem Reap (día 1-3), Phnom Penh (día 1-2), y se queda a medias en Chau Doc/Can Tho/Hoi An/Da Nang (pendiente, la propia María sigue escribiéndolo).
