@@ -10,20 +10,15 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 3. Después de una acción que afecte al otro PC (push, cambio de decisión, bloqueo nuevo): actualizar este archivo en el mismo momento, no al final de la sesión
 4. Si encuentras una sección con una fecha/sesión distinta a la tuya y no cuadra con lo que esperabas, decírselo a Marcos explícitamente antes de asumir nada
 
+**⚠️ Nota del 29-sep-2026:** este archivo se quedó desactualizado durante la sesión maratoniana del 28-sep en el PC de casa (no se tocó pese a que `CONTINUIDAD.md` de esa sesión decía que sí) — seguía hablando de "esperando el token" cuando ya había 5 commits nuevos sin mencionar aquí. Si vas a hacer cambios largos de git, actualiza esto aunque estés concentrado en otra cosa.
+
 ---
 
-## 🔴 Acción en curso ahora mismo
+## 🟢 Nada en curso ahora mismo
 
-**Quién:** sesión "App Viajes - Pc Trabajo" (esta sesión, PC del trabajo)
-**Qué:** a punto de regenerar el token de GitHub y hacer `git push` del commit `ce07689` (encima del historial real de GitHub, `c8d9eb5` — incluye `e67e14c`, `91d5136` y este mismo archivo de coordinación) a `origin/main`.
-**Estado:** esperando que Marcos pegue el token nuevo en el chat de esta sesión.
+Última sesión activa: PC del trabajo, 29-sep-2026 — puesta al día y commit de todo el trabajo pendiente (ver más abajo). Sin bloqueos activos ni acciones a medias.
 
-**⚠️ Si estás en la sesión del PC de casa leyendo esto:** NO hagas `git push` de tu commit local `75ce58c` — no está relacionado con el historial real de GitHub y pisaría lo que se sube desde aquí. Cuando el push de esta sesión se confirme más abajo, ejecuta en el PC de casa:
-```bash
-git fetch origin
-git branch backup-75ce58c        # opcional, por si quieres conservar tu commit como referencia
-git reset --hard origin/main
-```
+**Decisión de ritmo vigente (Marcos, 28-sep-2026):** acumular cambios en local ~1 semana antes de publicar a GitHub/producción. No pushear por iniciativa propia — solo cuando Marcos lo pida explícitamente.
 
 ---
 
@@ -31,16 +26,18 @@ git reset --hard origin/main
 
 | Fecha | PC | Commit subido | Notas |
 |---|---|---|---|
-| _(ninguno todavía)_ | | | El repo remoto sigue en `c8d9eb5` (29-jun-2026) mientras no se confirme el push de arriba |
+| _(ninguno todavía)_ | | | El repo remoto sigue en `c8d9eb5` (29-jun-2026) |
 
 ---
 
-## Estado de los repos git locales (puede quedar desactualizado — comprobar con `git log --oneline -5`)
+## Estado de los repos git locales (comprobar con `git log --oneline -5` — esto puede quedar desactualizado)
 
 | PC | Rama | Último commit local | ¿Desciende del remoto real? |
 |---|---|---|---|
-| Trabajo (`C:\Users\mpe.HP2008\...`) | `main` | `91d5136` | Sí (vía `e67e14c` ← `c8d9eb5`) |
-| Casa (`C:\Users\marco\...`) | `main` | `75ce58c` | No — historial nuevo, `git init` desde cero |
+| Trabajo (`C:\Users\mpe.HP2008\...`) | `main` | `cdff33c` (29-sep-2026) — incluye TODO el trabajo del 28-sep del PC de casa, ya revisado y comprometido aquí | Sí (cadena completa hasta `c8d9eb5`) |
+| Casa (`C:\Users\marco\...`) | `main` | `cb9c4d1` (28-sep-2026), 5 commits encima de `75ce58c` | No — historial nuevo, `git init` desde cero |
+
+**Importante para la próxima sesión en el PC de casa:** el contenido de tus 5 commits (`4c5d322`…`cb9c4d1`) ya está integrado en el commit `cdff33c` del PC del trabajo (se copió el estado final de los archivos, no cada commit individual). Cuando este PC empiece a hacer push a GitHub, el PC de casa deberá resetear su rama contra `origin/main` en vez de intentar pushear sus propios commits — ver "Decisiones ya tomadas" abajo. Si quieres conservar tu historial de 5 commits como referencia, créate una rama antes de resetear (`git branch backup-28sep`).
 
 ---
 
@@ -49,3 +46,5 @@ git reset --hard origin/main
 - El PC del trabajo sube primero a GitHub (su historial no necesita `--force`)
 - El PC de casa resetea su repo local contra `origin/main` después, en vez de fusionar los dos historiales
 - El token de GitHub no se guarda en ningún archivo del repo (ni `.md`, ni `.claude/`) — se usa solo en el momento del push
+- **(28-sep-2026)** No hay prisa por publicar — Marcos quiere acumular cambios ~1 semana en local primero. No iniciar un push sin que él lo pida explícitamente
+- **(29-sep-2026)** El sistema de Mejoras es la app centralizada en `00_Guía Apps/Sistema_Mejoras/` — `MEJORAS.lnk` y `01_ESPECIFICACIONES/MEJORAS.json` de este proyecto están en `.gitignore` (herramienta personal, no va al repo público). El PC de casa necesita su propio `MEJORAS.lnk` (el de aquí no es portable, ver `CONTINUIDAD.md`)
