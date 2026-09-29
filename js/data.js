@@ -458,11 +458,16 @@ const DEFAULT_DATA = {
           summary: 'Plan: Corazón histórico y espectáculo.',
           places: [
             { name: 'Mercado central Chợ Hội An', type: 'market', notes: '' },
+            { name: 'Chùa Cầu (Puente Japonés)', type: 'monument',
+              notes: 'El símbolo de Hoi An — sale en el billete de 20.000 VND. Construido por comerciantes japoneses en el s.XVII.',
+              photo: 'https://picsum.photos/seed/chua-cau-japanese-covered-bridge-hoi-an/200/200',
+              description: 'El monumento más fotografiado de Hoi An y su imagen oficial (aparece en el billete de 20.000 VND). Construido a finales del s.XVI por la comunidad de comerciantes japoneses para conectar su barrio con el chino, cruza un pequeño canal con tejado curvo cubierto y vigas de madera talladas. En el centro hay un templete con un altar dedicado a Tran Vo Bac De, dios protector de los marineros — por eso el puente también hace de templo. Está flanqueado por estatuas de un mono y un perro (se dice que la construcción empezó en año del Mono y terminó en año del Perro).',
+              tips: 'Incluido en el bono de entradas del Old Quarter. Recién restaurado — mejor luz al atardecer, cuando se encienden los farolillos alrededor. Suele haber cola para cruzarlo en las horas centrales del día.' },
             { name: 'Old Quarter (bono, 5 monumentos)', type: 'monument',
-              notes: 'Primer paseo. Bia Hoi Corner, street food, caos maravilloso.',
-              photo: 'https://picsum.photos/seed/hanoi-old-quarter-night/200/200',
-              description: 'El Old Quarter es un laberinto de 36 calles históricas especializadas en gremios artesanales: Hàng Bạc (Plata), Hàng Mã (Farolillos), Hàng Quạt (Altares), Hàng Chiếu (Esterillas). Las Casas Tubo tienen fachadas de 2-4m pero hasta 60m de profundidad — los impuestos se pagaban por anchura. Los fines de semana se corta al tráfico y hay mercado nocturno (vie-dom 18:30-23:30).',
-              tips: 'Bia Hoi Corner: esquina Lương Ngọc Quyến y Tạ Hiện — cerveza callejera 0,30 USD. Ancient House 87 Ma May: 10.000 VND para ver interior de casa tubo. Puerta Ô Quan Chưởng: única de la muralla del s.XVIII. TIMO mujeres con sombrero cónico y fruta: rechazar desde el primer momento.' },
+              notes: 'Casco antiguo UNESCO. Farolillos, casas tubo centenarias, canales. Elige 5 monumentos del bono de entrada.',
+              photo: 'https://picsum.photos/seed/hoi-an-ancient-town-lanterns/200/200',
+              description: 'El casco antiguo de Hoi An es Patrimonio Mundial UNESCO desde 1999: un puerto comercial del s.XV-XIX que se conservó casi intacto al perder importancia frente a otros puertos vietnamitas. Sus calles peatonales de casas-tubo amarillas, farolillos de seda de colores y canales tranquilos se recorren mejor a pie o en bici. La entrada única (120.000 VND) da acceso a elegir 5 de entre ~20 monumentos (casas antiguas, salones de asambleas chinos, museos, templos).',
+              tips: 'Los farolillos se encienden al anochecer — mucho más bonito de noche que de día. Los días 14 del calendario lunar hay "Noche de los Farolillos": se apaga la luz eléctrica del casco antiguo entero.' },
             { name: 'Casas Antiguas y Capillas Familiares', type: 'monument', notes: '6 sitios posibles dentro del bono.' },
             { name: 'Salones de Asambleas Chinos', type: 'monument', notes: '5 sitios posibles dentro del bono.' },
             { name: 'Museos Históricos', type: 'museum', notes: '5 sitios posibles dentro del bono.' },
@@ -588,7 +593,16 @@ const DEFAULT_DATA = {
               photo: 'https://picsum.photos/seed/abandoned-water-park-hue-dragon/200/200',
               description: 'Parque acuático abandonado con un dragón gigante de tres cabezas emergiendo de un lago cubierto de vegetación. Toboganes oxidados y estructuras cubiertas por la selva. Este año parece que han rehabilitado alguna zona.',
               tips: 'A 8 km de Hue. En taxi: 10 min desde Khai Dinh, 10 min de Minh Mang. Alquilar una bici local para recorrer el parque: ~1€. La visita dura ~1 hora.' },
-            { name: 'Tumbas imperiales', type: 'monument', notes: '' },
+            { name: 'Tumba de Tu Duc', type: 'monument',
+              notes: 'La más poética de las tumbas imperiales — pabellones sobre un lago de lotos, donde el emperador escribía versos.',
+              photo: 'https://picsum.photos/seed/tomb-tu-duc-hue-lake-pavilion/200/200',
+              description: 'Tu Duc (r. 1848-1883) diseñó su propia tumba como residencia de retiro mientras aún vivía — de hecho la usaba para escapar de la corte, pescar y escribir poesía (dejó más de 4.000 poemas). A diferencia de otras tumbas, aquí el conjunto de pabellones de madera, el lago de lotos Luu Khiem y el pabellón Xung Khiem (donde componía) priman sobre la grandiosidad militar. Irónicamente, pese a tener 104 concubinas, no dejó descendencia.',
+              tips: '5 km al sur de Hue. Incluida en el ticket combinado con la Ciudadela (420.000 VND, 2 días). 7:00-17:30. La más tranquila y menos masificada de las tumbas grandes.' },
+            { name: 'Tumba de Minh Mang', type: 'monument',
+              notes: 'La más simétrica y solemne — arquitectura confuciana clásica entre lagos y jardines.',
+              photo: 'https://picsum.photos/seed/tomb-minh-mang-hue-symmetric/200/200',
+              description: 'Minh Mang (r. 1820-1841), el emperador que más reforzó el poder centralizado, encargó la tumba más ortodoxa y simétrica de todas: un eje central de 700m que atraviesa patios, el Templo Sung An (culto al emperador y su esposa) y termina en un túmulo circular rodeado por el lago Tan Nguyet, con forma de media luna. Representa el orden confuciano llevado a la arquitectura funeraria.',
+              tips: 'A 12 km de Hue, la más alejada de las tres grandes. Incluida en el ticket combinado. Menos concurrida que Khai Dinh; ideal para combinar con la Calle del Incienso de Thuy Xuan, que queda de camino.' },
             { name: 'Calle del incienso de Thuy Xuan', type: 'monument',
               notes: 'Puestos fabricando varillas de incienso de colores artesanales. Entre la Tumba Tu Duc y Khai Dinh.',
               photo: 'https://picsum.photos/seed/thuy-xuan-incense-street-hue/200/200',
@@ -836,7 +850,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 29;
+const DATA_VERSION = 30;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 
