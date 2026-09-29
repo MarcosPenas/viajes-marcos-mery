@@ -225,7 +225,7 @@ const WIKI_ARTICLES = {
   'Le Pain Du Coeur': 'Siem_Reap',
   'Restaurante en la playa': 'Seafood',
   'Restaurante junto al Mekong': 'Sisowath_Quay',
-  'Sovanna Restaurant': 'Nom_banh_chok',
+  'Sovanna Restaurant': 'Cambodian_cuisine',
   'Última ruta de street food': 'Vietnamese_cuisine',
 
   // ── PLATOS NUEVOS POR DÍA ──────────────────────────────────
@@ -256,17 +256,17 @@ const WIKI_ARTICLES = {
   'Fish Amok (curry jemer en hoja de coco)': 'Fish_amok',
   'Lok Lak (ternera salteada camboyana)': 'Loc_lac',
   'Kuy Teav (sopa de fideos jemer del desayuno)': 'Kuy_teav',
-  'Num Banh Chok (fideos jemer al amanecer)': 'Nom_banh_chok',
+  'Num Banh Chok (fideos jemer al amanecer)': 'Cambodian_cuisine',
   'Amok de pollo o verduras (cena en Pub Street)': 'Cambodian_cuisine',
-  'Khmer BBQ (última noche en Siem Reap)': 'Bai_sach_chrouk',
+  'Khmer BBQ (última noche en Siem Reap)': 'Cambodian_cuisine',
   // Koh Rong
   'Mariscos frescos a la brasa (Saracen Bay)': 'Seafood',
   'Cena a la luz de las velas en la playa': 'Seafood',
   'Comida post-trekking (bar de playa)': 'Tropical_fish',
   // Phnom Penh
-  'Bai Sach Chrouk (cerdo a la brasa, desayuno de Phnom Penh)': 'Bai_sach_chrouk',
+  'Bai Sach Chrouk (cerdo a la brasa, desayuno de Phnom Penh)': 'Cambodian_cuisine',
   'Lap Khmer (ceviche camboyano de ternera)': 'Cambodian_cuisine',
-  'Nom Banh Chok (desayuno ligero antes del S-21)': 'Nom_banh_chok',
+  'Nom Banh Chok (desayuno ligero antes del S-21)': 'Cambodian_cuisine',
   'Cena jemer junto al Mekong (última en Camboya)': 'Phnom_Penh',
   // Hanói regreso
   'Phở Gà o Phở Bò (desayuno de reencuentro con Vietnam)': 'Vietnamese_cuisine',
@@ -372,6 +372,31 @@ const WIKI_ARTICLES = {
   'Lan Ha Bay (crucero 2d/1n o excursión de 1 día)': 'Lan_Ha_Bay',
   'Trekking al pueblo de Viet Hai': 'Lan_Ha_Bay',
   'Ba Trai Dao (Isla de los 3 melocotones)': 'Lan_Ha_Bay',
+
+  // ── ALIAS 29-SEP-2026 (continuación): auditoría de restaurantes/platos ──
+  'Bia Hơi': 'Bia_hơi',
+  'Kuy Teav': 'Kuy_teav',
+  'Khmer BBQ': 'Cambodian_cuisine',
+  'Nom Banh Chok': 'Cambodian_cuisine',
+  'Bai Sach Chrouk': 'Cambodian_cuisine',
+  'Lap Khmer': 'Cambodian_cuisine',
+  'Amok de pollo o verduras': 'Cambodian_cuisine',
+  'Cena de comida Khmer': 'Cambodian_cuisine',
+  'Bun Ca': 'Vietnamese_cuisine', // sin artículo propio (comprobado 29-sep-2026)
+  'Chao Ca': 'Congee',
+  'Pescado de agua dulce del Mekong': 'Mekong_Delta',
+  'Bún Cá Châu Đốc': 'Vietnamese_cuisine',
+  'Fruta y café flotante en Cai Rang': 'Cai_Rang',
+  'Hủ Tiếu': 'Hủ_tiếu',
+  'Cao Lầu': 'Cao_lầu', // con tilde — "Cao Lau" (sin tilde) apuntaba a un artículo distinto y no coincidía con el nombre real de data.js
+  'Bánh Mì Phượng': 'Bánh_mì', // sin artículo propio; "Bánh mì Phượng" (con minúscula) ya existía pero no coincidía por mayúsculas
+  'Marisco de Da Nang': 'Seafood',
+  'Dê nướng (cabra a la parrilla)': 'Goat_meat',
+  'Dê (cabra) en distintas preparaciones': 'Goat_meat',
+  'Ốc (caracoles de río)': 'Vietnamese_cuisine',
+  'Marisco de Cat Ba': 'Seafood',
+  'Chả Mực Cát Bà': 'Squid_as_food',
+  'Último marisco en Cat Ba': 'Seafood',
 };
 
 // Comida típica y curiosidades por ciudad, para la ficha "Sobre <ciudad>" —
