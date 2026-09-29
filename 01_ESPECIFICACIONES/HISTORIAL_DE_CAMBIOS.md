@@ -2,6 +2,28 @@
 
 ---
 
+## 2026-09-29 (continuación 5) — Huecos de contenido rellenados: Tra Su, Café Giảng, stubs de Chau Doc
+
+Primera fase del encargo de Marcos ("completa toda la información faltante... analiza sitio por sitio imagen por imagen comida por comida"): antes de la auditoría sistemática de correspondencia foto↔sitio, se rellenaron los huecos de contenido detectados en la ronda anterior.
+
+**Cambios en `js/data.js` (DATA_VERSION 31→32):**
+- **Bosque de Tra Su (Cajuput)** — antes solo mencionado en texto libre en `notes` del día 16-nov ("valorar"); ahora es una ficha completa en `places[]` del día 17-nov (Chau Doc → Can Tho), con descripción del humedal de melaleuca y aviso de que compite con el resto del plan de esa mañana.
+- **Monumento a la Hamburguesa del Delta** y **Chợ Châu Đốc** (día 16-nov) — tenían `notes: ''` vacío, sin descripción de ningún tipo. Rellenados con descripción + tips.
+- **Café Giảng** — el itinerario solo tenía el plato genérico "Cà Phê Trứng" sin identificar el local. Renombrado a `'Café Giảng (Cà Phê Trứng)'` con la historia real (Nguyen Van Giang, ex-barman del Metropole, invento de 1946) y dirección.
+- De paso, se enriqueció también `'Bún Chả Hương Liên'` (mismo día, 08-nov) que solo tenía una línea de `notes`.
+
+**Cambios en `js/app.js` (v=117→118) — `WIKI_ARTICLES`:**
+- `'Café Giảng (Cà Phê Trứng)'` → `Cà_phê_trứng` (nuevo alias por el renombrado).
+- `'Bosque de Tra Su (Cajuput)'` → `Melaleuca_cajuputi` (no hay artículo dedicado a Tra Su con foto; se usa el árbol real que forma el bosque).
+- **Bug encontrado y corregido de paso:** `'Monumento a la Hamburguesa del Delta'` y `'Chợ Châu Đốc (Mercado Central de Chau Doc)'` ya tenían alias apuntando a `An_Giang` (foto genérica de un templo, añadida en la auditoría anterior). Al añadir alias más específicos para estas mismas claves quedó una **clave duplicada en el objeto `WIKI_ARTICLES`** — en JS, la última gana, así que las nuevas quedaban silenciosamente ignoradas hasta que se detectó visualmente (ambas fichas mostraban la misma foto de templo, nada que ver con un pez o un mercado). Corregido sustituyendo el valor de las claves ya existentes en vez de añadir duplicados: `Pangasius_bocourti` (foto real de pez basa) y `Wet_market` (mercado genérico, no hay artículo específico de Chợ Châu Đốc con foto). Se aprovechó para aplicar el mismo fix a `'Chợ Châu Đốc en hora punta'` (mismo mercado, día 17-nov).
+- Se hizo un barrido de claves duplicadas en todo `WIKI_ARTICLES` (script rápido en Node): 5 duplicados más, todos inofensivos (mismo valor repetido, no hay divergencia) — no se tocaron.
+
+Verificado visualmente en el navegador (servidor local): las 4 fichas nuevas/corregidas cargan foto real y distinta entre sí (pez basa, mercado, bosque verde, foto histórica de Obama/Bourdain en Bún Chả Hương Liên, egg coffee).
+
+**Archivos:** `js/data.js` (DATA_VERSION 32), `js/app.js` (v=118), `index.html` (`?v=32`/`?v=118`).
+
+---
+
 ## 2026-09-29 (continuación 4) — Mapa de la app vinculado a las 7 listas de Google Maps
 
 Cierre del tema "los mapas de la app no coinciden con mis mapas": Marcos importó manualmente las 7 listas (siguiendo el método `⋮` → "Volver a importar y combinar" → "Añadir más elementos" → Subir CSV) en las 10 capas de su My Maps ("Vietnam", `mid=194Es7AqKfUlcUO6Jttbp0-7O_fFw3Zk`, el mismo que la app embebe en la pestaña "Mapa"). Se verificó capa por capa (tabla de datos, no solo pines del mapa) hasta confirmar las 10 completas:

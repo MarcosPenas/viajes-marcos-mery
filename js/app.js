@@ -194,6 +194,7 @@ const WIKI_ARTICLES = {
   // ── RESTAURANTES / PLATOS ───────────────────────────────────
   'Café Giang': 'Cà_phê_trứng',
   'Café Giang (Café de Huevo)': 'Cà_phê_trứng',
+  'Café Giảng (Cà Phê Trứng)': 'Cà_phê_trứng',
   'Café Phố Cổ (azotea secreta sobre el lago)': 'Hoàn_Kiếm_Lake',
   'Bún Chả Hương Liên (Obama Restaurant)': 'Bún_chả',
   'Bún Chả Hương Liên': 'Bún_chả',
@@ -281,6 +282,8 @@ const WIKI_ARTICLES = {
   'Mì Quảng': 'Mì_Quảng',
   'Bánh Khoái': 'Bánh_khoái',
   'Cơm Cháy': 'Rice_crust',
+  // ── HUECOS DE CONTENIDO (29-sep-2026): Tra Su, Café Giảng ──
+  'Bosque de Tra Su (Cajuput)': 'Melaleuca_cajuputi', // árbol cajuput real; no hay artículo dedicado a Tra Su con foto
   // ── ALIAS 25-DIAS (28-sep-2026): mismo articulo, nombre nuevo del itinerario ──
   'Old Quarter (Barrio Antiguo)': 'Old_Quarter,_Hanoi',
   'Old Quarter (bono, 5 monumentos)': 'Old_Quarter,_Hanoi',
@@ -334,10 +337,10 @@ const WIKI_ARTICLES = {
   // Delta del Mekong (Chau Doc / Can Tho) — sin artículo propio: foto representativa de la ciudad
   // Nota: "Châu_Đốc" existe en Wikipedia pero SIN foto (comprobado 29-sep-2026) —
   // se usan en su lugar artículos vecinos que sí tienen imagen real
-  'Monumento a la Hamburguesa del Delta (Estatua del Pez Basa)': 'An_Giang',
-  'Chợ Châu Đốc (Mercado Central de Chau Doc)': 'An_Giang',
+  'Monumento a la Hamburguesa del Delta (Estatua del Pez Basa)': 'Pangasius_bocourti', // foto real de pez basa (Basa fish), mejor que el genérico An_Giang
+  'Chợ Châu Đốc (Mercado Central de Chau Doc)': 'Wet_market', // genérico de mercado; no hay artículo específico del mercado con foto
   'El Río Hậu: Aldeas Flotantes y Comunidad Cham': 'Mekong_Delta',
-  'Chợ Châu Đốc en hora punta': 'An_Giang',
+  'Chợ Châu Đốc en hora punta': 'Wet_market', // mismo mercado que el día anterior, misma foto genérica
   'Mausoleo de Thoại Ngọc Hầu (Tomb of Thoai Ngoc Hau)': 'Thoại_Ngọc_Hầu',
   'Montaña Sam (Nui Sam)': 'An_Giang', // foto real: templo de Bà Chúa Xứ, en la propia Montaña Sam
   'Victoria Nui Sam Lodge (mirador de los arrozales)': 'An_Giang',

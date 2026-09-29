@@ -118,8 +118,14 @@ const DEFAULT_DATA = {
               tips: 'Đinh Tiên Hoàng 57B. Pases de 45 min (15:00, 16:10, 17:20, 18:30, 20:00), 100.000-200.000 VND. Comprar con antelación. Filas 1-2 salpican.' }
           ],
           restaurants: [
-            { name: 'Bún Chả Hương Liên', type: 'restaurant', notes: 'El local donde comieron Obama y Bourdain en 2016.' },
-            { name: 'Cà Phê Trứng', type: 'restaurant', notes: 'Café de huevo, invento de 1946 cuando escaseaba la leche.' }
+            { name: 'Bún Chả Hương Liên', type: 'restaurant',
+              notes: 'El local donde comieron Obama y Bourdain en 2016.',
+              description: 'Bún chả (albóndigas y panceta a la parrilla sobre fideos de arroz, en un caldo agridulce) en el local que se hizo mundialmente famoso tras la visita de Barack Obama y Anthony Bourdain en 2016 para el programa "Parts Unknown". Desde entonces tiene la mesa donde comieron protegida bajo una vitrina de cristal.',
+              tips: '24 Lê Văn Hưu, dist. Hai Bà Trưng. Pide el "Combo Obama" (bún chả + nem + Bia Hà Nội), el mismo menú que sirvieron aquel día. Suele haber cola a la hora de comer.' },
+            { name: 'Café Giảng (Cà Phê Trứng)', type: 'restaurant',
+              notes: 'Café de huevo, invento de 1946 cuando escaseaba la leche. Café Giảng es la cafetería original.',
+              description: 'Nguyen Van Giang, antiguo barman del Sofitel Metropole, inventó el cà phê trứng en 1946 batiendo yema de huevo con azúcar y leche condensada hasta formar una espuma cremosa sobre café caliente, como sustituto de la leche fresca (escasa entonces en Hanói). Café Giảng, fundado por él, sigue siendo la referencia del plato, servido en un cuenco de barro con agua caliente debajo para mantenerlo templado.',
+              tips: '39 Nguyễn Hữu Huân, dist. Hoan Kiem — entrada discreta por un callejón, subir a la 2ª planta. Local pequeño y muy turístico a mediodía; mejor a media mañana. Pide también el cacao de huevo si no eres de café.' }
           ],
           transport: [],
           hotel: { name: 'Secret Garden Hanoi', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -388,8 +394,16 @@ const DEFAULT_DATA = {
           date: '2026-11-16', city: 'Phnom Penh → Chau Doc', country: '🇰🇭 Camboya → 🇻🇳 Vietnam', block: 'Delta del Mekong',
           summary: 'Cruzar la frontera hacia Vietnam. Ferry rápido a Chau Doc por el río Mekong, con parada en frontera de ~2h.',
           places: [
-            { name: 'Monumento a la Hamburguesa del Delta (Estatua del Pez Basa)', type: 'monument', notes: '' },
-            { name: 'Chợ Châu Đốc (Mercado Central de Chau Doc)', type: 'market', notes: '' }
+            { name: 'Monumento a la Hamburguesa del Delta (Estatua del Pez Basa)', type: 'monument',
+              notes: 'Escultura gigante de un pez basa a la entrada de Chau Doc, apodada así por su forma redondeada.',
+              photo: 'https://picsum.photos/seed/chau-doc-basa-fish-statue/200/200',
+              description: 'Una gran escultura circular de un pez basa (pangasius), el pez de piscifactoría que sostiene buena parte de la economía pesquera del Delta del Mekong y llena los mercados y menús de la zona. Vista desde ciertos ángulos su silueta redondeada y las "capas" del pez le han valido el apodo cariñoso de "la hamburguesa" entre los viajeros. Marca simbólicamente la entrada/salida de Chau Doc junto al río Hậu.',
+              tips: 'Está de paso, junto a la carretera de acceso a la ciudad — parada rápida de 5 minutos para la foto, no hace falta planificarla aparte.' },
+            { name: 'Chợ Châu Đốc (Mercado Central de Chau Doc)', type: 'market',
+              notes: 'Mercado fronterizo famoso por sus puestos de pescado seco y mắm (pasta de pescado fermentado).',
+              photo: 'https://picsum.photos/seed/chau-doc-market-dried-fish/200/200',
+              description: 'El mercado central de esta ciudad fronteriza del Delta, conocido en todo Vietnam por sus filas interminables de pescado seco colgado al sol y sus enormes tinajas de mắm (pasta/salsa de pescado fermentado), producto estrella de Chau Doc gracias a la abundancia de pesca del río Hậu. También hay puestos de fruta, especias y productos camboyanos, reflejo de la cercanía con la frontera.',
+              tips: 'Mejor por la mañana, cuando hay más movimiento y los puestos de pescado seco están en pleno montaje. El olor a mắm es intenso — parte de la experiencia, pero aviso para quien sea sensible.' }
           ],
           restaurants: [
             { name: 'Bun Ca', type: 'restaurant', notes: 'Sopa de pescado del Delta del Mekong, con fuerte influencia jemer.' },
@@ -411,6 +425,11 @@ const DEFAULT_DATA = {
             { name: 'Mausoleo de Thoại Ngọc Hầu (Tomb of Thoai Ngoc Hau)', type: 'monument', notes: '' },
             { name: 'Montaña Sam (Nui Sam)', type: 'nature', notes: 'Misticismo y vistas panorámicas.' },
             { name: 'Victoria Nui Sam Lodge (mirador de los arrozales)', type: 'nature', notes: '' },
+            { name: 'Bosque de Tra Su (Cajuput)', type: 'nature',
+              notes: 'Reserva de aves en barca de remo entre un bosque inundado verde fluorescente. A 1h de Chau Doc.',
+              photo: 'https://picsum.photos/seed/tra-su-cajuput-forest-boat/200/200',
+              description: 'Un bosque de melaleuca (cajuput) permanentemente inundado, con el agua cubierta de una capa de lentejas de agua de un verde casi fosforescente. Se recorre en dos tramos: primero en barca a motor por el canal principal hasta una torre-mirador de 4 pisos con vistas a todo el humedal, y luego el tramo bueno en barca de remo silenciosa entre los árboles, ideal para ver garzas, cigüeñas y otras aves acuáticas — mejor de noviembre a abril, temporada alta de aves.',
+              tips: 'A ~30 km / 1h en coche de Chau Doc. Entrada + barca motor ~100.000 VND, tramo en barca de remo aparte (~150.000 VND, negociable). Necesita medio día — compite con el resto del plan de la mañana en Chau Doc, elegir según el tiempo disponible antes del bus a Can Tho.' },
             { name: 'Bến Ninh Kiều (Muelle de Ninh Kieu)', type: 'nature', notes: 'Paseo marítimo y parque costero de Can Tho, de tus mapas guardados.' },
             { name: 'Ninh Kieu Footbridge', type: 'monument', notes: 'Puente peatonal iluminado por la noche.' },
             { name: 'Chùa Ông Cần Thơ', type: 'temple', notes: 'Templo taoísta chino, uno de los más antiguos de Can Tho.' },
@@ -866,7 +885,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 31;
+const DATA_VERSION = 32;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 
