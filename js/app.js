@@ -284,6 +284,11 @@ const WIKI_ARTICLES = {
   'Cơm Cháy': 'Rice_crust',
   // ── HUECOS DE CONTENIDO (29-sep-2026): Tra Su, Café Giảng ──
   'Bosque de Tra Su (Cajuput)': 'Melaleuca_cajuputi', // árbol cajuput real; no hay artículo dedicado a Tra Su con foto
+  // ── AUDITORÍA FOTO↔SITIO (29-sep-2026): 4 huecos reales encontrados con un script de verificación (existe alias + tiene foto) ──
+  'El Callejón Colectivo Cũ (Cư xá Cũ)': 'Hanoi', // sin artículo propio; foto genérica de la ciudad
+  'Old Quarter Hoi An (paseo introductorio)': 'Hoi_An_Old_Town', // ojo: "Hoi_An" a secas es ahora desambiguación (Wikipedia reorganizó el artículo en 2025)
+  'Chợ đêm Hội An (Mercado Nocturno de los Farolillos)': 'Hoi_An_Old_Town', // no hay artículo del mercado nocturno; antes "Night market" resolvía por casualidad a un mercado de Seúl
+  'Sitios pendientes del Old Quarter': 'Old_Quarter,_Hanoi',
   // ── ALIAS 25-DIAS (28-sep-2026): mismo articulo, nombre nuevo del itinerario ──
   'Old Quarter (Barrio Antiguo)': 'Old_Quarter,_Hanoi',
   'Old Quarter (bono, 5 monumentos)': 'Old_Quarter,_Hanoi',

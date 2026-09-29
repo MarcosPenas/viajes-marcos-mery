@@ -462,7 +462,10 @@ const DEFAULT_DATA = {
               photo: 'https://picsum.photos/seed/hoi-an-tran-phu-rooftop/200/200',
               description: 'La calle principal del casco antiguo tiene azoteas fotogénicas: Faifo Coffee y 92 Station Restaurant & Cafe. Mot Hoi An es famoso por el té helado servido en un vaso de bambú con un pétalo de loto flotando.',
               tips: 'Faifo Coffee y 92 Station: azoteas con vistas al casco antiguo. Mot Hoi An: calle Trần Phú, famoso por el té de bambú.' },
-            { name: 'Night market', type: 'market', notes: '' }
+            { name: 'Chợ đêm Hội An (Mercado Nocturno de los Farolillos)', type: 'market',
+              notes: 'Puestos y farolillos de seda a lo largo del río Thu Bon, al cruzar el puente hacia An Hội.',
+              description: 'Al anochecer, la orilla del río en la isleta de An Hội (al otro lado del puente desde el casco antiguo) se llena de puestos de ropa, artesanía y comida callejera bajo cientos de farolillos de seda de colores. La estampa más fotografiada es la de las barcas con velas de colores remando por el río, y los vendedores de farolillos de papel flotantes que se sueltan al agua con un deseo.',
+              tips: 'Cruza el puente An Hội desde el casco antiguo, orilla sur del río Thu Bon. Mejor justo después de la puesta de sol, cuando se encienden los farolillos. Un paseo en barca con farolillo flotante cuesta unos 50.000-100.000 VND, negociable.' }
           ],
           restaurants: [
             { name: 'Fruta y café flotante en Cai Rang', type: 'restaurant', notes: 'Los barcos del mercado flotante venden fruta y sirven café/fideos sin bajarse de la barca.' },
@@ -885,7 +888,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 32;
+const DATA_VERSION = 33;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 

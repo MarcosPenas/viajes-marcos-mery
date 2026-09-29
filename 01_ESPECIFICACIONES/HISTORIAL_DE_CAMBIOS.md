@@ -2,6 +2,27 @@
 
 ---
 
+## 2026-09-29 (continuación 6) — Auditoría sistemática foto↔sitio: script de verificación, 4 huecos reales corregidos
+
+Fase 2 del encargo de Marcos ("analiza sitio por sitio imagen por imagen comida por comida"): en vez de revisar los ~156 sitios/platos del itinerario uno a uno a mano, se escribió un script en Node que replica exactamente la lógica de `loadWikiPhoto()` (mismo orden de prioridad: `photo` directo → `IMAGE_MAP` → imagen local en `img/places/` → alias de `WIKI_ARTICLES` → nombre crudo como artículo) y comprueba, para cada uno de los 156 sitios/restaurantes de `js/data.js`, si termina resolviendo a una imagen real o si cae en el último nivel (usar el propio nombre español/vietnamita como si fuera un slug de Wikipedia — casi garantizado que falla).
+
+**Resultado:** 152 de 156 resuelven bien por alguna de las vías normales (100 con imagen local ya descargada, 20 vía `IMAGE_MAP`, 32 vía alias de Wikipedia con foto confirmada). Solo **4 caían al último nivel** sin alias — de esos, 2 daban 404 limpio (sin foto en absoluto) y, más grave, **1 resolvía "por accidente" a un artículo real pero completamente equivocado**:
+
+| Sitio | Problema | Fix |
+|---|---|---|
+| `'Night market'` (día 18-nov, Hoi An) | El nombre en inglés genérico coincidía con el artículo real de Wikipedia "Night market" — pero su foto es de **Myeongdong, Seúl (Corea del Sur)**, nada que ver con Hoi An. Además tenía `notes: ''` vacío. | Renombrado a `'Chợ đêm Hội An (Mercado Nocturno de los Farolillos)'`, con descripción/tips del mercado nocturno real de la isleta An Hội; alias nuevo a `Hoi_An_Old_Town` |
+| `'Old Quarter Hoi An (paseo introductorio)'` (día 18-nov) | Sin alias, 404 | Alias nuevo a `Hoi_An_Old_Town` — **ojo:** el artículo `Hoi_An` a secas es ahora una página de desambiguación (Wikipedia reorganizó el artículo de la ciudad en 2025), hay que usar `Hoi_An_Old_Town` específicamente |
+| `'El Callejón Colectivo Cũ (Cư xá Cũ)'` (día 09-nov, Hanói) | Sin alias, 404. No existe artículo dedicado a los bloques de viviendas comunales de Đống Đa | Alias genérico a `Hanoi` (mejor una foto de la ciudad que ninguna) |
+| `'Sitios pendientes del Old Quarter'` (día 29-nov, último día) | Sin alias, 404 (es un texto de resumen, no un sitio real) | Alias a `Old_Quarter,_Hanoi`, coherente con el resto de entradas del Old Quarter |
+
+Verificado en el navegador leyendo `img.src`/`img.dataset.wiki` de cada tarjeta (no solo capturas de pantalla) — las 4 cargan ahora una foto real y correcta.
+
+**Nota de proceso:** el script solo detecta huecos "duros" (sin foto en absoluto o alias mal formado). No detecta un alias que apunte a un artículo real pero semánticamente incorrecto salvo que, como en el caso de "Night market", el nombre del sitio coincida por casualidad con un título real de Wikipedia. Para pillar más casos como ese habría que revisar visualmente foto por foto — quedó descartado por volumen (~350 alias en `WIKI_ARTICLES`), pero si Marcos ve alguna foto que no encaje navegando la app, es la señal de que hay más.
+
+**Archivos:** `js/data.js` (DATA_VERSION 33), `js/app.js` (v=119), `index.html` (`?v=33`/`?v=119`). Script de auditoría en el scratchpad de la sesión (no versionado, reproducible si hace falta).
+
+---
+
 ## 2026-09-29 (continuación 5) — Huecos de contenido rellenados: Tra Su, Café Giảng, stubs de Chau Doc
 
 Primera fase del encargo de Marcos ("completa toda la información faltante... analiza sitio por sitio imagen por imagen comida por comida"): antes de la auditoría sistemática de correspondencia foto↔sitio, se rellenaron los huecos de contenido detectados en la ronda anterior.
