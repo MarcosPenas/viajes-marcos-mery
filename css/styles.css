@@ -482,7 +482,7 @@ html, body {
 .day-row {
   display: flex; align-items: center; gap: 12px;
   padding: 14px 16px; border-bottom: 1px solid var(--border);
-  cursor: pointer; background: white;
+  cursor: pointer; background: var(--surface);
   -webkit-tap-highlight-color: transparent; transition: background .1s;
 }
 .day-date-box { display: flex; flex-direction: column; align-items: center; width: 40px; flex-shrink: 0; }
@@ -848,15 +848,6 @@ html, body {
   display: flex; flex-wrap: wrap; gap: 8px;
 }
 /* right column: map */
-.wc-map {
-  width: 140px; flex-shrink: 0;
-  border-radius: 0 24px 24px 0;
-  overflow: hidden;
-  opacity: .9; align-self: stretch;
-  min-height: 160px;
-}
-.wc-map .leaflet-container { background: #0f1f4a; height: 100% !important; }
-
 /* ── ROUTE MAP ── */
 /* ══════════════════════════════════════════════════════════
    STATS ROW — dashboard premium
@@ -1013,7 +1004,7 @@ html, body {
 .qa-btn {
   display: flex; flex-direction: column; align-items: center;
   gap: 5px; padding: 12px 4px; border: 1px solid var(--border);
-  border-radius: var(--radius-sm); background: white;
+  border-radius: var(--radius-sm); background: var(--surface);
   cursor: pointer; -webkit-tap-highlight-color: transparent;
   font-size: 10px; color: var(--text-sm); font-weight: 600;
   transition: background .1s;
@@ -1116,7 +1107,7 @@ html, body {
 /* ── HIGHLIGHT PILLS ── */
 .highlight-pill {
   display: inline-flex; align-items: center; gap: 6px;
-  background: white; border: 1px solid var(--border);
+  background: var(--surface); border: 1px solid var(--border);
   border-radius: 20px; padding: 6px 12px;
   font-size: 13px; color: var(--text); font-weight: 500;
   box-shadow: var(--shadow);
@@ -1227,7 +1218,7 @@ html, body {
 .doc-item2 {
   display: flex; align-items: center; gap: 12px;
   padding: 13px 16px; border-bottom: 1px solid var(--border);
-  background: white;
+  background: var(--surface);
 }
 .doc-item2.doc-confirmed { opacity: 1; }
 .doc-item2.doc-pending   { opacity: .9; }
@@ -1259,7 +1250,7 @@ html, body {
 
 .add-doc-btn {
   width: 100%; padding: 13px; border: 1.5px dashed var(--border);
-  border-radius: var(--radius-sm); background: white;
+  border-radius: var(--radius-sm); background: var(--surface);
   color: var(--primary); font-size: 14px; font-weight: 700;
   cursor: pointer; -webkit-tap-highlight-color: transparent;
 }
@@ -1271,7 +1262,7 @@ html, body {
 }
 .notes-tab {
   flex: 1; padding: 8px 4px; border-radius: var(--radius-sm);
-  border: 1.5px solid var(--border); background: white;
+  border: 1.5px solid var(--border); background: var(--surface);
   font-size: 12px; font-weight: 600; color: var(--text-sm);
   cursor: pointer; transition: all .15s;
   -webkit-tap-highlight-color: transparent;
@@ -1441,6 +1432,25 @@ html, body {
   color: var(--primary);
   flex: 1;
 }
+.city-info-card { cursor: pointer; }
+.city-info-arrow {
+  font-size: 12px; color: var(--text-xs); transition: transform .2s; flex-shrink: 0;
+}
+.city-info-card.open .city-info-arrow { transform: rotate(180deg); }
+.city-info-body {
+  display: none; margin-top: 10px;
+}
+.city-info-card.open .city-info-body { display: block; }
+.city-info-photo {
+  width: 100%; height: 140px; border-radius: var(--radius-sm);
+  background-size: cover; background-position: center;
+  margin-bottom: 10px;
+}
+.city-info-text {
+  font-size: 13.5px; line-height: 1.6; color: var(--text-sm);
+}
+.city-info-extra { margin-top: 10px; }
+.city-info-extra-title { font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
 .dsc-count {
   background: var(--primary);
   color: white;
@@ -2094,6 +2104,7 @@ html[data-theme="dark"] {
   --accent:     #f6c252; --accent-lt:  #fad97a;
   --green:      #52b788; --red:        #e57373;
   --bg:         #0f1923; --surface:    #1a2535;
+  --card:       #1a2535;
   --border:     #2d3f55; --text:       #e8edf2;
   --text-sm:    #a0b0c0; --text-xs:    #6b8099;
   --shadow:     0 2px 12px rgba(0,0,0,0.40);
@@ -2141,6 +2152,15 @@ html[data-theme="dark"] .day-hero-overlay { background: linear-gradient(to top, 
 html[data-theme="dark"] .day-sticky-bar { background: rgba(26,37,53,0.97); border-top-color: var(--border); }
 html[data-theme="dark"] .sticky-btn { background: #233045; color: var(--primary); border-color: var(--border); }
 html[data-theme="dark"] .tcv2-bottom { background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 100%); }
+html[data-theme="dark"] .day-row2:active { background: #233045; }
+html[data-theme="dark"] .day-row-no-tr { background: #1e2b3d; }
+html[data-theme="dark"] .tr-inline, html[data-theme="dark"] .htl-inline,
+html[data-theme="dark"] .htl-card--transit, html[data-theme="dark"] .htl2-card-transit { background: #233045; }
+html[data-theme="dark"] .htl-inline-transit { background: #1e2b3d; }
+html[data-theme="dark"] .docs-hint { background: #16283d; border-bottom-color: #2d4a68; }
+html[data-theme="dark"] .lugar-tips { background: #3a2f12; border-color: #6b551f; }
+html[data-theme="dark"] .tnow-transport-card.tnow-night { background: #2a2140; }
+html[data-theme="dark"] .dsc-transport-card { background: var(--surface); }
 
 /* ── Forzar CLARO manual (anula media query en sistemas oscuros) ── */
 html[data-theme="light"] {
@@ -2148,6 +2168,7 @@ html[data-theme="light"] {
   --accent:     #e8a020; --accent-lt:  #f6c252;
   --green:      #1a7b6b; --red:        #c0392b;
   --bg:         #F4F5F7; --surface:    #ffffff;
+  --card:       #ffffff;
   --border:     #e8ecf0; --text:       #1a202c;
   --text-sm:    #4a5568; --text-xs:    #8896a8;
   --shadow:     0 2px 16px rgba(0,0,0,0.07);
@@ -2282,13 +2303,13 @@ html[data-theme="light"] .sticky-btn:active { background: #e8ecf0; }
 }
 /* currency selector tabs — card style */
 .currency-tabs {
-  display: flex; gap: 8px; margin-top: 16px;
+  display: flex; gap: 6px; margin-top: 16px;
 }
 .fx-tab {
-  flex: 1;
+  flex: 1; min-width: 0;
   border: 2px solid var(--border); background: var(--bg);
-  border-radius: 14px; padding: 10px 8px;
-  display: flex; align-items: center; gap: 9px;
+  border-radius: 14px; padding: 8px 6px;
+  display: flex; align-items: center; gap: 6px;
   cursor: pointer; transition: all .18s;
   text-align: left;
 }
@@ -2297,9 +2318,9 @@ html[data-theme="light"] .sticky-btn:active { background: #e8ecf0; }
   background: linear-gradient(135deg,#eef2ff,#e8f0ff);
   box-shadow: 0 3px 12px rgba(74,111,220,.18);
 }
-.fx-tab-flag { font-size: 26px; line-height: 1; flex-shrink: 0; }
+.fx-tab-flag { font-size: 22px; line-height: 1; flex-shrink: 0; }
 .fx-tab-info {
-  display: flex; flex-direction: column; gap: 1px; min-width: 0;
+  display: flex; flex-direction: column; gap: 1px; min-width: 0; overflow: hidden;
 }
 .fx-tab-key {
   font-size: 13px; font-weight: 900; color: var(--text);
@@ -2648,6 +2669,7 @@ html[data-theme="light"] .sticky-btn:active { background: #e8ecf0; }
 /* Zone headers */
 /* ══ HOTEL TIMELINE — GANTT TEMPORAL v2 (tab Alojamiento) ══ */
 .htl2-zone { margin-bottom: 20px; }
+.htl2-zone > .block-section-header { padding-left: 16px; padding-right: 16px; }
 
 /* Wrapper flex: col-fechas + col-tarjetas */
 .htl2-wrapper {

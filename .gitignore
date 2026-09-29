@@ -11,6 +11,10 @@ Thumbs.db
 
 # Sistema de "Mejoras" (buzón local de pendientes/hechas de Marcos) —
 # herramienta de trabajo personal, no forma parte de la app desplegada
-# ni tiene sentido en un repo público
+# ni tiene sentido en un repo público. Rediseñado el 24-sep-2026 como app
+# centralizada en 00_Guía Apps/Sistema_Mejoras/ (fuera de este repo);
+# aquí solo quedan el acceso directo y el buzón de datos de este proyecto
 Mejoras.bat
 _app_mejoras/
+MEJORAS.lnk
+01_ESPECIFICACIONES/MEJORAS.json

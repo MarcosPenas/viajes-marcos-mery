@@ -1,18 +1,26 @@
 # Continuidad — App Viajes Marcos & Mery
 
-**Actualizado:** 7 de septiembre de 2026  
-**Sesión:** Claude Sonnet 5 (Claude Code) — nueva cuenta, primera sesión de continuidad  
+**Actualizado:** 29 de septiembre de 2026  
+**Sesión:** Claude Sonnet 5 (Claude Code) — PC del trabajo — revisión y puesta al día tras la sesión maratoniana del PC de casa (ver bloque del 28-sep más abajo, no se toca)
+
+---
+
+## 👉 LEE ESTO PRIMERO
+
+La sesión del 28-sep (PC de casa) hizo muchísimo trabajo real y lo dejó todo documentado con mucho detalle — ver el bloque de esa fecha más abajo, íntegro. Hoy (29-sep, PC del trabajo) se ha hecho una puesta al día: leídos todos los documentos de continuidad, verificada la app (funciona bien), comprometido en git local todo lo que estaba sin commitear, y resuelto el cabo suelto del sistema de Mejoras. **No se ha tocado contenido ni itinerario todavía** — antes de decidir qué tarea pendiente abordar, revisar la sección "Tareas pendientes" más abajo (sigue siendo válida, viene de la sesión del 28-sep) y comprobar con Marcos por dónde seguir.
 
 ---
 
 ## Estado actual
 
-App **funcionando en producción** en GitHub Pages. **Importante:** Marcos desarrolla este proyecto en paralelo desde dos PCs (trabajo y casa) que comparten la carpeta vía MEGA — pero `.git` NO se sincroniza entre ellos (ver Parte 19 de `MEMORIA_MAESTRA.md`). Cada PC tiene su propio repo git local, iniciado independientemente el 7/8-sep-2026:
+App **funcionando en producción** en GitHub Pages (versión antigua, 23 días) — el **itinerario de 25 días** vive solo en local todavía, en ambos PCs, **por decisión explícita de Marcos** (28-sep-2026: "acumular cambios en local ~1 semana antes de publicar", ver Tareas pendientes). No hay prisa por el push.
 
-- **PC del trabajo** (`C:\Users\mpe.HP2008\...`): commit `e67e14c`, desciende del historial real de GitHub (`c8d9eb5`) — no necesita `--force` para el push
-- **PC de casa** (`C:\Users\marco\...`): commit `75ce58c`, historial nuevo sin relación con GitHub — necesitaría `--force`/`--allow-unrelated-histories`
+`.git` NO se sincroniza entre los dos PCs vía MEGA (ver Parte 19 de `MEMORIA_MAESTRA.md`) — cada PC tiene su propio repo y commits locales, independientes:
 
-Ninguno de los dos se ha subido todavía (bloqueados por el token pendiente de regenerar). Recomendación: subir primero desde el PC del trabajo, luego resetear el de casa contra `origin/main`.
+- **PC del trabajo** (`C:\Users\mpe.HP2008\...`): rama `main`, último commit ver `git log --oneline -3` (incluye todo el trabajo del 28-sep del PC de casa, comprometido aquí el 29-sep tras revisar que la app funciona bien) — desciende del historial real de GitHub (`c8d9eb5`), no necesita `--force` para el push
+- **PC de casa** (`C:\Users\marco\...`): 5 commits propios (`4c5d322`…`cb9c4d1`) encima de `75ce58c` — historial sin relación con GitHub, necesitaría `--force`/`--allow-unrelated-histories`
+
+Ninguno de los dos se ha subido todavía — ni por el token pendiente de regenerar, ni porque Marcos decidió esperar. Cuando llegue el momento: subir primero desde el PC del trabajo, luego resetear el de casa contra `origin/main` (ver `COORDINACION_SESIONES.md` para el estado más al día de esto).
 
 - URL: https://marcospenas.github.io/viajes-marcos-mery
 - Repo: https://github.com/MarcosPenas/viajes-marcos-mery
@@ -20,7 +28,43 @@ Ninguno de los dos se ha subido todavía (bloqueados por el token pendiente de r
 
 ---
 
-## Qué se hizo en esta sesión (7 sep 2026)
+## Qué se hizo en esta sesión (28 sep 2026) — resumen largo
+
+**Bloque 1 — Itinerario de 25 días desde cero:**
+1. Marcos pegó el itinerario "casi definitivo" (vuelos, alojamientos, plan día a día) — ruta muy distinta desde el día 14 respecto a la versión anterior (ya no hay Koh Rong; ahora ferry por el Mekong a Chau Doc y Can Tho)
+2. `trip.startDate` ampliado a `2026-11-05` para incluir los 2 días de vuelos España→Barcelona→Shenzhen dentro de la app → el viaje pasa de 23 a **25 días**
+3. Array `days` de `js/data.js` reescrito por completo (25 entradas), primero solo con la "columna vertebral" (fechas, vuelos, alojamientos, sitios con notas breves)
+4. Bugs propios de la reescritura arreglados: reloj de doble huso mostrando Barcelona con hora de Vietnam; bug real de años atrás en varias tablas de colores por `block` que nunca tenían las claves reales (`Angkor`, `Phnom Penh`) y mostraban "General"; colisión de agrupación por reutilizar el bloque `'El Norte'` en dos tramos no contiguos (Hanói + Cat Ba, resuelto con `'Vuelta al Norte'`)
+
+**Bloque 2 — Marcos fue probando la app en vivo y reportando problemas según los veía:**
+5. Tasas de cambio actualizadas (consultadas por WebSearch: VND 29.600, KHR 4.630, USD 1,14 por €)
+6. "Lo que nos espera" (Home) — era un array hardcodeado con hitos del itinerario VIEJO (Koh Rong, fechas antiguas), reescrito con hitos reales
+7. Bug real: el contador de "países visitados" mostraba 7 en vez de 4 (contaba cada string de cruce de frontera como un país nuevo)
+8. **Más de 15 componentes con texto ilegible en tema oscuro** (fondo claro hardcodeado + texto de variable de tema) — corregidos uno a uno a medida que Marcos los iba viendo en capturas: `.highlight-pill`, `.tr-inline`/`.htl-inline` (pestaña Transportes), `.dsc-transport-card`, `.lugar-tips`, `.docs-hint`, etc. También la variable `--card` (9 tarjetas, incluida la de divisas) nunca se adaptaba a tema oscuro — corregida
+9. Mini-mapa quitado de la tarjeta de tiempo de la portada (a petición explícita de Marcos, "antes estaba mejor")
+10. Bug real de overflow confirmado por medición en el DOM: la tarjeta de divisas desbordaba 64px con las 3 monedas — corregido (padding/gap/iconos más compactos)
+11. **Nueva ficha "Sobre `<ciudad>`"** debajo de "Qué ver" en cada día — desplegable (colapsada por defecto), con historia (Wikipedia en vivo, español) + curiosidades + platos típicos curados a mano (`CITY_INFO`, 11 ciudades), pensada para el estilo de viaje de Marcos y Mery
+12. "Dónde comer" pasa de vacío/1 plato a 2 platos representativos por día en 20 de los 25 días
+13. **App ahora salta directamente a la portada del viaje al abrir**, sin pasar por "Mis Viajes" — a petición de Marcos, solo mientras haya un único viaje guardado (`DB.trips.length === 1`)
+
+**Bloque 3 — Reutilización y contenido nuevo:**
+14. 65 de los 109 sitios del itinerario nuevo recuperaron `description`/`tips` ya verificados del itinerario anterior (extraídos del commit git `75ce58c`, antes de la reescritura), con sus alias correspondientes en `WIKI_ARTICLES` para que la foto siga resolviendo bien
+15. Bug propio grave (y arreglado en la misma sesión): al insertar la ficha de ciudad, un edit se comió por error las líneas `const _wikiCache = {}` / `const _citySummaryCache = {}`, rompiendo silenciosamente la carga de fotos de **todos** los sitios, no solo los nuevos
+16. Marcos pasó `C:\Users\marco\Downloads\itinerario final V&C.odt`, un documento de investigación muy detallado escrito por María (su pareja) — **no es la versión definitiva, seguirá creciendo**. Se extrajo el texto (1410 líneas) y se reescribieron `description`/`tips` de **43 sitios** con esa información: Hanói días 2-3 (19), Siem Reap completo incl. Phare Circus (15), Phnom Penh completo (9)
+17. **Hallazgo importante de ese documento:** el Festival del Agua de Camboya (Bon Om Touk, el evento más grande del año en el país) cae el **25 de noviembre** — pero ese día, en el itinerario actual, se está en Tam Coc, a un país de distancia. Se lo perderían por completo. Dejado como aviso ⚠️ en las notas del día 15-nov de la app
+18. Primera pasada (parcial) de cruce contra las 7 listas de Google Maps de Marcos: Cat Ba (añadido "Ba Trai Dao") y Vietnam Sur/Can Tho (convertidos varios sitios de una nota de texto a tarjetas reales) — **las 4 listas grandes (Vietnam Centro 62, Hanói 46, Camboya Norte 26, Ninh Binh 22) se quedaron sin cruzar, ver Tareas pendientes**
+19. Se generó y envió a Marcos un CSV con 109 sitios del itinerario para importar en su Google My Maps
+20. Explicado a Marcos que nada de esto llega a sus móviles todavía (la PWA instalada apunta a GitHub Pages, no a esta carpeta local) — decidió explícitamente: acumular cambios en local ~1 semana más antes de publicar
+
+**Cabo suelto — ✅ RESUELTO (29-sep-2026, PC del trabajo):** el sistema de Mejoras se rediseñó el 24-sep-2026 como una app **centralizada** en `C:\...\MEGA\08_Scripts\00_Guía Apps\Sistema_Mejoras\03_APLICACION\` (`Mejoras.vbs`, `Mejoras.html`, `Mejoras.ico`), compartida por todos los proyectos de Marcos — cada proyecto solo tiene `MEJORAS.lnk` (acceso directo a esa app centralizada) + `01_ESPECIFICACIONES/MEJORAS.json` (el buzón de datos de ESE proyecto, que la app centralizada lee/escribe). Está desplegado igual en Dj Hub, Gestor de Descargas, Monitor, NextCue, Stems Virtual Dj y Comparador de duplicados.
+
+**Por qué fallaba en el PC de casa:** un acceso directo (`.lnk`) de Windows guarda una ruta ABSOLUTA fija al crearse. Este `MEJORAS.lnk` se creó en el PC del trabajo apuntando a `C:\Users\mpe.HP2008\...` — esa ruta no existe en el PC de casa (`C:\Users\marco\...`), así que el acceso directo rompe ahí aunque el resto de la carpeta `Sistema_Mejoras` sí se sincronice bien por MEGA. **Pendiente:** crear un `MEJORAS.lnk` propio en el PC de casa apuntando a su propia ruta (`C:\Users\marco\Documents\MEGA\08_Scripts\00_Guía Apps\Sistema_Mejoras\03_APLICACION\Mejoras.vbs`) — no sirve copiar el `.lnk` del otro PC. Esto es un problema del propio `Sistema_Mejoras` (afecta a todos los proyectos, no solo a este); avisar en esa carpeta si hace falta una solución más robusta (p.ej. un `.vbs` que resuelva la ruta desde `%USERPROFILE%` en vez de un `.lnk` fijo).
+
+`01_ESPECIFICACIONES/MEJORAS.json` está vacío (0 pendientes, 0 hechas) — nada que migrar todavía en este proyecto. Ambos archivos (`MEJORAS.lnk`, `MEJORAS.json`) están en `.gitignore` — son herramienta personal, no van al repo público.
+
+---
+
+## Qué se hizo en la sesión del 7 sep 2026
 
 1. Se leyó toda la documentación de `01_ESPECIFICACIONES/` y se hizo un resumen del estado del proyecto
 2. Se arrancó el servidor local y se probó la app a fondo (Home, Dashboard, Días, Día 1, Día 3, Hoy, Mapa, Docs, toggle de tema)
@@ -62,34 +106,37 @@ Ninguno de los dos se ha subido todavía (bloqueados por el token pendiente de r
 - Tiempo meteorológico, reloj doble huso, conversor de divisas
 - Modo oscuro/claro
 - Service Worker con caché offline
-- Itinerario completo de 23 días
+- Itinerario de 25 días reescrito (28-sep-2026) con la ruta y fechas definitivas — falta contenido rico (descripciones/tips/fotos) de los sitios nuevos
 
 ---
 
 ## Tareas pendientes
 
-### 🔴 CRÍTICO — hacer antes de cualquier otra cosa
+**Nota de ritmo (28-sep-2026):** Marcos decidió explícitamente acumular cambios en local ~1 semana antes de publicar — no hay prisa por el push. Prioriza el contenido/UX sobre el tema de GitHub salvo que él diga lo contrario.
+
+### 🔴 Lo primero que hay que retomar mañana (pedido explícito hoy, sin terminar)
 
 | Tarea | Acción |
 |---|---|
-| ~~Resolver la falta de repo `.git` local~~ | ✅ Hecho, cada PC por separado (ver Estado actual arriba) — `.git` no se sincroniza vía MEGA (`.megaignore` excluye archivos ocultos), así que no era un único problema a resolver una vez, sino algo que ocurrió en cada máquina |
-| ~~Quitar el token de GitHub de `CLAUDE.md`~~ | ✅ Hecho el 8-sep-2026 (PC del trabajo) — sustituido por instrucciones sin el secreto en texto plano. El token en sí sigue sin regenerar |
-| Regenerar token de GitHub | Ir a https://github.com/settings/tokens → Tokens (classic) → eliminar token antiguo → generar uno nuevo. Usarlo solo en el momento del push (no guardarlo en ningún archivo del repo) |
-| Subir a GitHub desde el PC del trabajo | `git remote add origin https://github.com/MarcosPenas/viajes-marcos-mery.git` (si no está ya) + `git push -u origin main` con el token nuevo — el commit `e67e14c` desciende del remoto, no hace falta `--force` |
-| Sincronizar el PC de casa después | Una vez subido desde el trabajo: `git fetch origin && git reset --hard origin/main` en el PC de casa (descarta el commit local `75ce58c`, o guardarlo antes en una rama con `git branch backup-75ce58c` por si acaso) |
+| Continuar el documento .odt de María | `C:\Users\marco\Downloads\itinerario final V&C.odt` — llega hasta Da Nang (21-nov) y se corta ahí porque María todavía lo está escribiendo. Faltan por procesar: **Chau Doc, Can Tho, Hoi An, Da Nang**. Comprobar primero si hay una versión más nueva/completa del archivo antes de re-extraer |
+| Cruzar las 4 listas grandes de Google Maps | Vietnam Centro (62 sitios), Vietnam Norte-Hanói (46), Camboya Norte (26), Vietnam Norte-Ninh Binh (22) — enlaces en `MEMORIA_MAESTRA.md` Parte 20. Hoy solo se cruzaron las 2 pequeñas (Cat Ba, Vietnam Sur). **Ojo:** al intentarlo hoy, el scroll dentro del panel de la lista de Google Maps no cargaba más resultados con `computer scroll` — probar `find`+`scroll_to` sobre el último elemento visible, o pedirle a Marcos que exporte/comparta la lista de otra forma si sigue sin funcionar |
+| Contrastar TODO cuando María termine su documento | Marcos lo dijo explícitamente: "no es la versión definitiva, cuando la tengamos terminada contrastarás la info y meterás o quitarás lo que corresponda" — no dar por bueno el contenido actual de Hanói/Siem Reap/Phnom Penh como definitivo, es la mejor versión disponible HOY, no la final |
+| Avisar del conflicto del Festival del Agua | Ya está como aviso en la app (día 15-nov), pero conviene comentárselo a Marcos en la próxima sesión por si quiere reordenar el viaje para no perdérselo (25-nov, Phnom Penh) |
 
 ### 🟠 ALTA prioridad
 
 | Tarea | Acción |
 |---|---|
-| Auditoría visual de imágenes | Ya revisado el 7-sep-2026: Home, Dashboard, Días, Día 1 (Hanói), Día 3 (Cat Ba), Hoy, Mapa, Docs. Falta pasar por el resto de los 23 días |
-| Revisar datos personales en repo público | ✅ Hecho el 7-sep-2026 — `js/data.js` (`localEmergency`, `contacts`) solo tiene teléfonos públicos de emergencia y la embajada de España, nada sensible |
+| Contenido rico de Hue, Tam Coc/Ninh Binh y Cat Ba | Estos bloques (días 22-29) siguen sin `description`/`tips` de ninguna fuente rica todavía — ni del itinerario antiguo ni del documento de María (que no llega tan lejos) |
+| Descargar/verificar imágenes reales | Los sitios nuevos dependen del fallback en vivo (Wikipedia/Commons) para la foto — funciona pero no está verificado uno a uno. Cuando el contenido esté más maduro, hacer una pasada de descarga a `img/places/` como se hizo en la auditoría del 7-sep-2026 (ahora obsoleta, era sobre la ruta vieja) |
+| Regenerar token de GitHub | Solo cuando Marcos quiera publicar (dijo: dentro de ~1 semana). Ir a https://github.com/settings/tokens → eliminar el antiguo → generar uno nuevo → usarlo solo en el momento del push, sin guardarlo en ningún archivo |
+| Subir a GitHub desde el PC del trabajo primero | `git push -u origin main` con el token nuevo (commit `e67e14c`, desciende del remoto, no hace falta `--force`). Luego, en el PC de casa: `git fetch origin && git reset --hard origin/main` (el commit local de casa parte de un historial no relacionado) |
 
 ### 🟡 MEDIA prioridad (antes del viaje — noviembre 2026)
 
 | Tarea | Acción |
 |---|---|
-| Actualizar tasas de cambio | Editar `FX_RATES` en `js/app.js`: VND (actualmente 27.000/€), KHR (4.400/€), USD (1.08/€) |
+| ~~Actualizar tasas de cambio~~ | ✅ Hecho 28-sep-2026 (VND 29.600, KHR 4.630, USD 1,14/€) |
 | Verificar instalación en iOS Safari | Probar en iPhone: Safari → compartir → "Añadir a pantalla de inicio" |
 | Mapa offline | Descargar Leaflet.js localmente y añadirlo al array ASSETS de sw.js |
 
@@ -114,12 +161,25 @@ Ninguno de los dos se ha subido todavía (bloqueados por el token pendiente de r
 
 ## Cómo arrancar el trabajo en la nueva sesión
 
-1. Leer **`COORDINACION_SESIONES.md` primero** (estado activo entre los dos PCs), luego este archivo y `MEMORIA_MAESTRA.md`
-2. Comprobar que la app sigue funcionando: http://localhost:3000 (arrancar servidor) o https://marcospenas.github.io/viajes-marcos-mery
+1. Leer **`COORDINACION_SESIONES.md` primero** (estado activo entre los dos PCs — hoy se dejó muy detallado porque Marcos avisó que sigue mañana desde otro PC), luego este archivo y `MEMORIA_MAESTRA.md`
+2. Comprobar que la app sigue funcionando: http://localhost:3000 (arrancar servidor) o https://marcospenas.github.io/viajes-marcos-mery (la de producción sigue en la versión vieja, nada de esta sesión se ha publicado)
 3. Pedir al usuario que confirme qué tarea quiere abordar primero
-4. Lo más probable: resolver lo del repo `.git` → regenerar token → subir los fixes del 7-sep-2026 → seguir la auditoría visual del resto de días
+4. Lo más probable: retomar el documento .odt de María y las 4 listas grandes de Google Maps — ver la sección 🔴 de "Tareas pendientes" arriba, tiene el detalle exacto de por dónde se quedó cada cosa
 
 ---
+
+## Archivos modificados en la sesión del 28-sep-2026 (resumen — ver HISTORIAL_DE_CAMBIOS.md para el detalle completo)
+
+- `js/data.js` — itinerario de 25 días reescrito por completo, 108 sitios con contenido enriquecido (65 del itinerario antiguo + 43 del documento de María), restaurantes rellenados, aviso del Festival del Agua. `DATA_VERSION` 22→28
+- `js/app.js` — múltiples fixes de contraste, bug de conteo de países, ficha "Sobre la ciudad" nueva (`CITY_INFO`), mini-mapa del tiempo quitado, boot directo a la portada si hay 1 solo viaje, FX_RATES actualizado. v=103→114
+- `css/styles.css` — fondos hardcodeados corregidos a `var(--surface)`/`var(--card)` con overrides de tema oscuro, fix de overflow en tarjeta de divisas. v=64→67
+- `index.html` — versiones actualizadas en cada cambio de JS/CSS
+- `.claude/launch.json` (nuevo, para esta máquina)
+- `01_ESPECIFICACIONES/MEMORIA_MAESTRA.md` — nueva Parte 20 (itinerario + pool de Google Maps)
+- `01_ESPECIFICACIONES/CONTINUIDAD.md` (este archivo)
+- `01_ESPECIFICACIONES/HISTORIAL_DE_CAMBIOS.md` (4 entradas nuevas del 28-sep-2026, con todo el detalle técnico)
+- `02_DESARROLLO/itinerario_25dias_para_my_maps.csv` (nuevo, generado y enviado a Marcos)
+- 5 commits locales nuevos en el PC de casa (`4c5d322`…`cb9c4d1`, encima de `75ce58c`) — nada subido a GitHub
 
 ## Archivos modificados en la sesión del 7-sep-2026
 

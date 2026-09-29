@@ -206,7 +206,7 @@ const WIKI_ARTICLES = {
   'Bún bò Nam Bộ': 'Bún_bò_Nam_Bộ',
   'Chả cá Lã Vọng': 'Chả_cá_Lã_Vọng',
   'Bánh mì Phượng': 'Bánh_mì',
-  'Bánh Mì': 'Bánh_xèo',
+  'Bánh Mì': 'Bánh_mì',
   'White Rose (Bánh Bao Vạc)': 'Bánh_bao_vạc',
   'White Rose Restaurant': 'Hội_An',
   'Cao Lau (Quán Cao Lầu Thanh)': 'Cao_lầu',
@@ -271,9 +271,145 @@ const WIKI_ARTICLES = {
   'Phở Gà o Phở Bò (desayuno de reencuentro con Vietnam)': 'Vietnamese_cuisine',
   'Chả Cá Lã Vọng (el único plato del restaurante más antiguo de Hanói)': 'Chả_cá_Lã_Vọng',
   'Último Phở o Bánh Mì antes del vuelo': 'Bánh_mì',
+  // ── PLATOS 25-DIAS (28-sep-2026) ──
+  'Chả Cá Lã Vọng': 'Chả_cá_Lã_Vọng',
+  'Bánh Bèo, Nậm y Lọc': 'Bánh_bèo',
+  'Phở Bò': 'Phở',
+  'Bún Chả Hương Liên': 'Bún_chả',
+  'Lok Lak': 'Loc_lac',
+  'Mì Quảng': 'Mì_Quảng',
+  'Bánh Khoái': 'Bánh_khoái',
+  'Cơm Cháy': 'Rice_crust',
+  // ── ALIAS 25-DIAS (28-sep-2026): mismo articulo, nombre nuevo del itinerario ──
+  'Old Quarter (Barrio Antiguo)': 'Old_Quarter,_Hanoi',
+  'Old Quarter (bono, 5 monumentos)': 'Old_Quarter,_Hanoi',
+  'Calle Phan Đình Phùng': 'Hanoi_Opera_House',
+  'Teatro de Marionetas de Agua': 'Thăng_Long_Water_Puppet_Theatre',
+  'Lago Truc Bach': 'West_Lake_(Hanoi)',
+  'West Lake (Tây Hồ)': 'West_Lake_(Hanoi)',
+  'Old Market (Phsar Chas)': 'Siem_Reap',
+  'Amanecer en Angkor Wat': 'Angkor_Wat',
+  'Banteay Kdei': 'Banteay_Kdei',
+  'Angkor Thom (South Gate)': 'Angkor_Thom',
+  'Bayon': 'Angkor_Thom',
+  'Banteay Srei ⭐': 'Banteay_Srei',
+  'Banteay Samré': 'Banteay_Samré',
+  'Preah Khan': 'Preah_Khan',
+  'Beng Mealea ⭐⭐⭐⭐⭐ (Plan B)': 'Beng_Mealea',
+  'Riverside (Sisowath Quay)': 'Sisowath_Quay',
+  'Calle Trần Phú': 'Hội_An',
+  'Ruta en bici isla de Cam Kim (Vietnam rural)': 'An_Bàng_Beach',
+  'Playa An Bang (ruta en bici)': 'An_Bàng_Beach',
+  'Cementerio City of Ghosts (valorar si ir)': 'Imperial_City,_Huế',
+  'Puente Thanh Toan': 'Thanh_Toàn_Bridge',
+  'Calle del incienso de Thuy Xuan': 'Perfume_River',
+  'Hang Mua (mejor al amanecer)': 'Mua_Cave',
+  'Parque nacional de Cuc Phuong (descartar por distancia)': 'Cúc_Phương_National_Park',
+  'Ruta de playas Cat Co': 'Cát_Bà_island',
+  'Ngu Lam Peak': 'Lan_Ha_Bay',
+  'Hospital Cave': 'Cát_Bà_National_Park',
+  'Mausoleo de Ho Chi Minh y Pagoda de un Solo Pilar': 'Ho_Chi_Minh_Mausoleum',
+  'Prisión de Hoa Lo': 'Hỏa_Lò_Prison',
+  'Pagoda de Bai Dinh': 'Bái_Đính_Pagoda',
+  'Palacio Real de Phnom Penh': 'Royal_Palace,_Phnom_Penh',
+
+};
+
+// Comida típica y curiosidades por ciudad, para la ficha "Sobre <ciudad>" —
+// contenido curado a mano (no viene de Wikipedia), pensado para el estilo de
+// viaje de Marcos y Mery: auténtico, callejero, sin prisa
+const CITY_INFO = {
+  'Barcelona': {
+    food: 'Solo noche de tránsito, pero si hay hueco: un bocadillo de jamón o unas bravas cerca del aeropuerto. Nada que planear, mañana toca comida de avión.',
+    curiosities: 'El vuelo intercontinental sale desde El Prat. Llegar con margen — es un aeropuerto grande y el check-in de la maleta facturada puede tener cola.'
+  },
+  'Hanói': {
+    food: 'La cuna del phở (mejor por la mañana, en puestos con taburetes bajos), el bún chả que hizo famoso Obama, el cà phê trứng (café de huevo) y el bia hơi callejero a 30 céntimos el vaso. Comer en la calle, sentados en plástico, es la experiencia real — los sitios con menú plastificado en inglés son para turistas.',
+    curiosities: 'El Old Quarter tiene 36 calles, cada una históricamente dedicada a un gremio (seda, plata, farolillos…) y todavía se nota en lo que se vende. El tráfico de motos parece caótico pero tiene su lógica: para cruzar, camina despacio y constante, nunca corras ni te pares en seco.'
+  },
+  'Siem Reap': {
+    food: 'La cocina jemer es más suave que la vietnamita: amok (curry de pescado al vapor en hoja de plátano), lok lak y sopas con hierba limón. Pub Street concentra la vida nocturna, pero los mejores platos suelen estar un par de calles más allá.',
+    curiosities: 'Angkor Wat mira al oeste (no al este como casi todos los templos hindúes), por eso el amanecer detrás de sus torres es tan fotografiado. El pase de Angkor es personal e intransferible, con foto — lleva el pasaporte el primer día para sacarlo.'
+  },
+  'Phnom Penh': {
+    food: 'Amok, lap khmer (ceviche de ternera) y desayunos de nom banh chok (fideos con salsa de pescado y hierbas) en los mercados. El Central Market y el Russian Market son buen sitio para street food barato y auténtico.',
+    curiosities: 'La ciudad todavía procesa la memoria del genocidio de los jemeres rojos (1975-79) — Tuol Sleng y Choeung Ek no son visitas fáciles, pero ayudan a entender el país. Fuera de eso, el Riverside al atardecer es puro ambiente local, nada que ver con esa historia.'
+  },
+  'Chau Doc': {
+    food: 'Zona fronteriza con fuerte influencia camboyana y cham (musulmana): bun ca (sopa de pescado) y mucho pescado del Mekong en general — es la región productora de pescado de agua dulce más importante de Vietnam.',
+    curiosities: 'Aquí se cruza el Mekong hacia/desde Camboya en barco, mucho más interesante que un paso fronterizo terrestre. Hay comunidades flotantes reales (no un montaje turístico) a las que la gente accede en barca.'
+  },
+  'Can Tho': {
+    food: 'Capital no oficial del Delta del Mekong — arroz, pescado y fruta tropical en todas sus formas. El mercado flotante de Cai Rang es también el sitio para desayunar flotando: cafés y vendedores de fideos pasan en barca entre los puestos de fruta.',
+    curiosities: 'Cai Rang funciona mejor muy temprano (antes de las 8h) — a media mañana ya se ha vaciado gran parte del ambiente. Los barcos "anuncian" lo que venden colgando una muestra en un palo vertical (una piña, una col…), así que no hace falta gritar el género.'
+  },
+  'Hoi An': {
+    food: 'Cao lầu (fideos gruesos que, dice la leyenda, solo saben igual con el agua de un pozo concreto de la ciudad), banh mi (aquí están entre los mejores de Vietnam) y white rose (banh bao vac, unas empanadillas de gambas translúcidas típicas del lugar).',
+    curiosities: 'De noche, cuando se apagan las luces y se encienden los farolillos de seda, la ciudad cambia por completo — merece la pena volver a pasear el mismo sitio de día y de noche. Muchas sastrerías hacen ropa a medida en 24-48h, algo muy típico de Hoi An si hay tiempo.'
+  },
+  'Da Nang': {
+    food: 'Mì Quảng (fideos de cúrcuma con gambas y cerdo, plato bandera de la región) y mucho marisco fresco en la costa. Ciudad más moderna y menos "de postal" que Hoi An, con buena comida de playa.',
+    curiosities: 'El Puente del Dragón escupe fuego y agua los fines de semana por la noche (sábado ~21h) — merece la pena cuadrar la visita si coincide. Las Marble Mountains son 5 colinas de mármol/caliza con cuevas-templo dentro, no solo un mirador.'
+  },
+  'Hue': {
+    food: 'La cocina más elaborada y "de palacio" de Vietnam — bun bo Hue (sopa picante con limoncillo), banh khoai (crepe crujiente) y platos pensados originalmente para la mesa imperial, en porciones pequeñas y muy cuidadas.',
+    curiosities: 'Fue la capital imperial de Vietnam hasta 1945 — de ahí la Ciudadela y las tumbas de los emperadores, muy distintas en estilo entre sí porque cada uno diseñó la suya en vida. El río Perfume debe su nombre a las flores de los jardines río arriba, no a nada relacionado con perfumería.'
+  },
+  'Tam Coc': {
+    food: 'Cabra (dê) en todas sus formas es la especialidad de Ninh Binh, junto con com chay (arroz de corteza crujiente). Zona rural, buena para comer en casas locales más que en restaurantes turísticos.',
+    curiosities: 'A esta zona se la llama "la bahía de Ha Long en tierra firme" por sus torres de piedra caliza, pero navegando un río de arroz en vez de mar. Muchas barcas las reman los pies, no las manos — no es solo postureo, es la técnica real de la zona.'
+  },
+  'Cat Ba': {
+    food: 'Marisco recién sacado del agua — las balsas flotantes de mariscos en la bahía sirven lo que acaban de pescar. Isla, así que aquí la dieta gira mucho más hacia el marisco que en el interior.',
+    curiosities: 'Lan Ha Bay es hermana de la mucho más famosa Bahía de Ha Long, con los mismos karsts de piedra caliza pero muchísimo menos masificada. En noviembre, algunas zonas de la bahía tienen plancton bioluminiscente visible de noche si el mar está en calma.'
+  },
 };
 
 const _wikiCache = {};
+const _citySummaryCache = {};
+
+// Nombre de ciudad "limpio" a partir del campo day.city (puede venir como
+// "Hanói → Siem Reap" en días de traslado, o con una nota entre paréntesis)
+function _cleanCityName(city) {
+  if (!city) return '';
+  return city.split('→')[0].replace(/\(.*\)/, '').trim();
+}
+
+// Resumen en español de la ciudad/lugar del día, para la ficha "Sobre <ciudad>"
+async function _fetchCitySummary(cityName) {
+  if (_citySummaryCache[cityName]) return _citySummaryCache[cityName];
+  try {
+    const res = await fetch(`https://es.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(cityName)}`);
+    if (!res.ok) throw new Error('not found');
+    const data = await res.json();
+    _citySummaryCache[cityName] = {
+      extract: data.extract || '',
+      photo: data.thumbnail?.source || data.originalimage?.source || '',
+      url: data.content_urls?.desktop?.page || '',
+    };
+  } catch(e) { _citySummaryCache[cityName] = {}; }
+  return _citySummaryCache[cityName];
+}
+
+function toggleCityInfo(date) {
+  const card = document.getElementById('city-info-' + date);
+  if (card) card.classList.toggle('open');
+}
+
+async function loadCitySummary(cardEl, cityName) {
+  if (!cardEl || cardEl.dataset.loaded) return;
+  cardEl.dataset.loaded = '1';
+  const info = await _fetchCitySummary(cityName);
+  if (!cardEl.isConnected) return;
+  if (!info.extract) { cardEl.style.display = 'none'; return; }
+  const textEl  = cardEl.querySelector('.city-info-text');
+  const photoEl = cardEl.querySelector('.city-info-photo');
+  if (textEl) textEl.textContent = info.extract;
+  if (photoEl && info.photo) {
+    photoEl.style.backgroundImage = `url('${info.photo}')`;
+    photoEl.style.display = 'block';
+  }
+}
 
 async function _fetchWikiEntry(article) {
   if (_wikiCache[article]) return _wikiCache[article];
@@ -730,9 +866,6 @@ const WEATHER_CITY_COORDS = {
   'Ninh Binh':              [20.2539,  105.9750],
   'Da Nang':                [16.0544,  108.2022],
 };
-let _wcMapInstance = null;
-let _wcMapTileAdded = false;
-
 function weatherPill(data, label) {
   const icon = data?.icon || '🌡️';
   const temp = data?.temp || '—';
@@ -751,25 +884,7 @@ function weatherPill(data, label) {
         <div class="wc-desc">${desc}</div>
         ${meta ? `<div class="wc-meta">${meta}</div>` : ''}
       </div>
-      <div class="wc-map" id="wc-map"></div>
     </div>`;
-}
-
-function initWeatherMap(label) {
-  const mapEl = document.getElementById('wc-map');
-  if (!mapEl || typeof L === 'undefined') return;
-  const coords = WEATHER_CITY_COORDS[label];
-  if (!coords) { mapEl.style.display = 'none'; return; }
-  mapEl.style.display = 'block';
-  if (_wcMapInstance) {
-    _wcMapInstance.off(); _wcMapInstance.remove(); _wcMapInstance = null;
-  }
-  const map = L.map(mapEl, { zoomControl: false, dragging: false, scrollWheelZoom: false,
-    doubleClickZoom: false, attributionControl: false });
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 13 }).addTo(map);
-  map.setView(coords, 11);
-  L.circleMarker(coords, { radius: 7, color: '#fff', fillColor: '#60a5fa', fillOpacity: 1, weight: 2 }).addTo(map);
-  _wcMapInstance = map;
 }
 
 function weatherWidget(data, locationLabel) {
@@ -981,8 +1096,6 @@ async function renderTripDashboard() {
           });
         }
       }
-      // Init map after DOM is painted
-      setTimeout(() => initWeatherMap(r.label), 60);
       if (!instant) {
         slot.style.cssText = 'opacity:0;transition:none';
         setTimeout(() => {
@@ -1159,8 +1272,9 @@ function tickDualClock(trip) {
   const t = today();
   const destCity = (() => {
     const d = trip.days.find(day => day.date === t);
-    if (d) return d.city;
-    const next = trip.days.find(day => day.date > t);
+    if (d && d.block !== 'Vuelos') return d.city;
+    // Días de vuelo (España→Asia) no son el "destino" a efectos de este reloj — saltar al primer día real
+    const next = trip.days.find(day => day.date > t && day.block !== 'Vuelos') || trip.days.find(day => day.date > t);
     return next ? next.city : (trip.days[0]?.city || 'Destino');
   })();
   // Vietnam & Cambodia both UTC+7
@@ -1182,9 +1296,9 @@ function tickDualClock(trip) {
 
 // ── CONVERSOR DE DIVISAS ────────────────────────────────────
 const FX_RATES = {
-  VND: { name: 'Dong vietnamita', cc: 'vn', symbol: '₫', perEur: 27000 },
-  KHR: { name: 'Riel camboyano',  cc: 'kh', symbol: '៛', perEur: 4400  },
-  USD: { name: 'Dólar USA',       cc: 'us', symbol: '$', perEur: 1.08  },
+  VND: { name: 'Dong vietnamita', cc: 'vn', symbol: '₫', perEur: 29600 },
+  KHR: { name: 'Riel camboyano',  cc: 'kh', symbol: '៛', perEur: 4630  },
+  USD: { name: 'Dólar USA',       cc: 'us', symbol: '$', perEur: 1.14  },
 };
 function flagImg(cc, size) {
   const s = size || 32;
@@ -1302,10 +1416,12 @@ function buildTripStatsHTML(trip) {
   const pastBlocks = new Set(allDays.filter(d => d.date < t).map(d => d.block).filter(Boolean));
   if (dayNum >= 0) pastBlocks.add(allDays[dayNum].block);
 
-  // Países
-  const countryByDay = allDays.map(d => d.country || '');
+  // Países — un día de tránsito fronterizo ("España → China") cuenta como el
+  // primer país real del texto, no como una entrada nueva distinta
+  const primaryCountry = c => (c || '').replace(/[^a-zA-ZÀ-ÿ ]/g, '').trim().split(' ').filter(Boolean)[0] || '';
+  const countryByDay = allDays.map(d => primaryCountry(d.country));
   const countries = [...new Set(countryByDay.filter(Boolean))];
-  const doneCountries = new Set(allDays.filter(d => d.date <= t).map(d => d.country).filter(Boolean));
+  const doneCountries = new Set(allDays.filter(d => d.date <= t).map(d => primaryCountry(d.country)).filter(Boolean));
 
   // Noches por país
   const nightsVI = allDays.filter(d => (d.country||'').toLowerCase().includes('vietnam')).length;
@@ -1551,6 +1667,8 @@ function buildDashboardHTML(trip, active, past, diff, day, nextDay, pendingTotal
   const ZONE_META = {
     'El Norte':   { color: '#1A7B6B', lt: '#d0f0e8', label: 'Vietnam Norte',   wiki: 'Lan_Ha_Bay',
                     desc: 'Hanói, Cat Ba, Lan Ha Bay y Ninh Binh. La esencia del norte: bahías cársticas, templos milenarios y pho auténtico.' },
+    'Vuelta al Norte': { color: '#1A7B6B', lt: '#d0f0e8', label: 'Cat Ba · vuelta al Norte', wiki: 'Lan_Ha_Bay',
+                    desc: 'Cat Ba y Lan Ha Bay antes de volver a Hanói para el vuelo de regreso.' },
     'El Centro':  { color: '#D4581A', lt: '#fde8d8', label: 'Vietnam Centro',   wiki: 'Hội_An',
                     desc: 'Hue, Da Nang y Hoi An. El tren panorámico HD3 por el Hai Van Pass, la ciudad imperial y los farolillos de seda.' },
     'Angkor':     { color: '#C1513A', lt: '#fde0da', label: 'Angkor & Siem Reap', wiki: 'Angkor_Wat',
@@ -1573,6 +1691,7 @@ function buildDashboardHTML(trip, active, past, diff, day, nextDay, pendingTotal
   // Gradientes vivos para los círculos por zona
   const ZONE_GRADIENTS = {
     'El Norte':   'linear-gradient(135deg,#22a07a,#1A7B6B)',
+    'Vuelta al Norte': 'linear-gradient(135deg,#22a07a,#1A7B6B)',
     'El Centro':  'linear-gradient(135deg,#e86828,#D4581A)',
     'Angkor':     'linear-gradient(135deg,#d96048,#C1513A)',
     'Koh Rong':   'linear-gradient(135deg,#22b0e8,#0090C4)',
@@ -1941,8 +2060,14 @@ function renderItinerary(tab) {
 
   const BLOCK_ZONE = {
     'El Norte':  { color: '#2d6a4f', lt: '#d8f0e6', label: 'Vietnam Norte' },
+    'Vuelta al Norte': { color: '#2d6a4f', lt: '#d8f0e6', label: 'Cat Ba · vuelta al Norte' },
+    'Delta del Mekong': { color: '#1a90b8', lt: '#d6f0fa', label: 'Delta del Mekong' },
+    'Vuelos':    { color: '#5c6b7a', lt: '#e4e8ec', label: 'Vuelos' },
+    'Ninh Binh': { color: '#2d6a4f', lt: '#d8f0e6', label: 'Ninh Binh' },
     'El Centro': { color: '#8b4513', lt: '#f5e6da', label: 'Vietnam Centro' },
     'Camboya':   { color: '#b07d1a', lt: '#fdf3d8', label: 'Angkor & Camboya' },
+    'Angkor':    { color: '#b07d1a', lt: '#fdf3d8', label: 'Angkor & Siem Reap' },
+    'Phnom Penh': { color: '#8B5E3C', lt: '#f5e6d8', label: 'Phnom Penh' },
     'Islas':     { color: '#0077a8', lt: '#d6f0fa', label: 'Koh Rong' },
     'Cierre':    { color: '#5b4080', lt: '#ede8f5', label: 'Cierre' },
     'El Cierre': { color: '#5b4080', lt: '#ede8f5', label: 'El Cierre' },
@@ -2170,6 +2295,8 @@ function renderItinerary(tab) {
   const HTL_ZONE_COLORS = {
     'El Norte':'#1a6e8a','El Centro':'#c45e1a','Camboya':'#b84830',
     'Islas':'#1a90b8','Cierre':'#6644aa','El Cierre':'#6644aa',
+    'Vuelta al Norte':'#1a6e8a','Angkor':'#b84830','Phnom Penh':'#8B5E3C',
+    'Delta del Mekong':'#1a90b8','Ninh Binh':'#1a6e8a','Vuelos':'#5c6b7a',
   };
   const _svH = p => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
   const _HSVG = {
@@ -2511,6 +2638,33 @@ function renderDay(date) {
       <button class="dsc-see-all" onclick="showDayTab('lugares')">Ver todos los lugares →</button>
     </div>` : '';
 
+  // Ficha "Sobre <ciudad>" — resumen general del lugar donde se está ese día.
+  // Desplegable para no ocupar tanto espacio: historia primero, luego
+  // curiosidades y, si aporta algo, platos típicos al final.
+  const cityForInfo = _cleanCityName(day.city);
+  const cityCurated = CITY_INFO[cityForInfo];
+  const citySummaryHtml = cityForInfo ? `
+    <div class="dsc-card city-info-card" id="city-info-${date}" onclick="toggleCityInfo('${date}')">
+      <div class="dsc-header">
+        <span class="dsc-header-icon">🌏</span>
+        <span class="dsc-title">Sobre ${escHtml(cityForInfo)}</span>
+        <span class="city-info-arrow">▾</span>
+      </div>
+      <div class="city-info-body">
+        <div class="city-info-photo" style="display:none"></div>
+        <p class="city-info-text">Cargando información de ${escHtml(cityForInfo)}…</p>
+        ${cityCurated ? `
+          <div class="city-info-extra">
+            <div class="city-info-extra-title">✨ Curiosidades</div>
+            <p class="city-info-text">${escHtml(cityCurated.curiosities)}</p>
+          </div>
+          <div class="city-info-extra">
+            <div class="city-info-extra-title">🍜 Platos típicos</div>
+            <p class="city-info-text">${escHtml(cityCurated.food)}</p>
+          </div>` : ''}
+      </div>
+    </div>` : '';
+
   // Restaurantes preview en resumen
   const restPreviewHtml = day.restaurants.length ? `
     <div class="dsc-card">
@@ -2533,6 +2687,7 @@ function renderDay(date) {
       ${transportHtml}
       ${hotelHtml}
       ${lugaresPreviewHtml}
+      ${citySummaryHtml}
       ${restPreviewHtml}
       ${buildCultureHTML(day.block)}
       <div style="height:80px"></div>
@@ -2689,6 +2844,7 @@ function renderDay(date) {
 
   // Cargar fotos reales de Wikipedia de forma asíncrona
   loadPageWikiPhotos();
+  if (cityForInfo) loadCitySummary(document.getElementById('city-info-' + date), cityForInfo);
 }
 
 function lugarThumbError(el, emoji) {
@@ -2928,10 +3084,14 @@ const TRANSPORT_TIPS = {
 
 const BLOCK_ZONE_COLORS = {
   'El Norte':   { color: '#1A7B6B', lt: '#d0f0e8' },
+  'Vuelta al Norte': { color: '#1A7B6B', lt: '#d0f0e8' },
   'El Centro':  { color: '#D4581A', lt: '#fde8d8' },
   'Angkor':     { color: '#C1513A', lt: '#fde0da' },
   'Koh Rong':   { color: '#0090C4', lt: '#cceeff' },
   'Phnom Penh': { color: '#8B5E3C', lt: '#f5e6d8' },
+  'Delta del Mekong': { color: '#0090C4', lt: '#cceeff' },
+  'Ninh Binh':  { color: '#1A7B6B', lt: '#d0f0e8' },
+  'Vuelos':     { color: '#5c6b7a', lt: '#e4e8ec' },
   'Cierre':     { color: '#6B4FAE', lt: '#e8e0f8' },
   'El Cierre':  { color: '#6B4FAE', lt: '#e8e0f8' },
   'Camboya':    { color: '#C1513A', lt: '#fde0da' },
@@ -3196,13 +3356,13 @@ function renderTodayPreTrip(trip, isPast) {
 
   // Highlights del viaje
   const highlights = [
-    { icon: '🛳️', text: 'Crucero Lan Ha Bay', date: '10–11 NOV' },
-    { icon: '🌄', text: 'Amanecer en Hang Mua', date: '12 NOV' },
-    { icon: '🚆', text: 'Tren panorámico Hai Van Pass', date: '15 NOV' },
-    { icon: '🏮', text: 'Hoi An de noche', date: '16–19 NOV' },
-    { icon: '🏯', text: 'Angkor Wat al amanecer', date: '21 NOV' },
-    { icon: '🌴', text: 'Koh Rong Sanloem', date: '24–25 NOV' },
-    { icon: '✨', text: 'Plancton bioluminiscente', date: '25 NOV' },
+    { icon: '🛫', text: 'Vuelo a Asia (Barcelona→Shenzhen)', date: '6 NOV' },
+    { icon: '🏯', text: 'Amanecer en Angkor Wat', date: '11 NOV' },
+    { icon: '⛴️', text: 'Ferry por el Mekong a Chau Doc', date: '16 NOV' },
+    { icon: '🎭', text: 'Hoi An Memories Show', date: '19 NOV' },
+    { icon: '🚆', text: 'Tren panorámico Hai Van Pass', date: '22 NOV' },
+    { icon: '🌄', text: 'Amanecer en Hang Mua', date: '25 NOV' },
+    { icon: '🛳️', text: 'Crucero Lan Ha Bay', date: '27 NOV' },
   ];
 
   el('view-content').innerHTML = `
@@ -3593,11 +3753,17 @@ function buildHotelTimelineHTML(trip) {
     'El Norte':  '#1a6e8a', 'El Centro': '#c45e1a',
     'Camboya':   '#b84830', 'Islas':     '#1a90b8',
     'Cierre':    '#6644aa', 'El Cierre': '#6644aa',
+    'Vuelta al Norte': '#1a6e8a', 'Angkor': '#b84830',
+    'Phnom Penh': '#8B5E3C', 'Delta del Mekong': '#1a90b8',
+    'Ninh Binh': '#1a6e8a', 'Vuelos': '#5c6b7a',
   };
   const ZONE_LABELS = {
     'El Norte':  'Vietnam Norte',    'El Centro': 'Vietnam Centro',
     'Camboya':   'Angkor & Camboya', 'Islas':     'Koh Rong',
     'Cierre':    'Phnom Penh',       'El Cierre': 'Phnom Penh',
+    'Vuelta al Norte': 'Cat Ba · vuelta al Norte', 'Angkor': 'Angkor & Siem Reap',
+    'Phnom Penh': 'Phnom Penh', 'Delta del Mekong': 'Delta del Mekong',
+    'Ninh Binh': 'Ninh Binh', 'Vuelos': 'Vuelos',
   };
 
   // Iconos SVG para tipos de alojamiento
@@ -3931,5 +4097,12 @@ function addNewDoc() {
 
 document.addEventListener('DOMContentLoaded', () => {
   setupNav();
-  navigate('home');
+  // Con un solo viaje guardado, nos saltamos "Mis Viajes" y vamos directos
+  // a su portada. En cuanto haya más de uno, vuelve a mostrarse la lista.
+  if (DB.trips.length === 1) {
+    currentTripId = DB.trips[0].id;
+    navigate('trip');
+  } else {
+    navigate('home');
+  }
 });

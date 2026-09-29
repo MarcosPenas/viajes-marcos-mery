@@ -480,6 +480,35 @@ Ninguno de los dos se ha subido a GitHub todavía (ambos bloqueados por el token
 
 ---
 
+## PARTE 20 — ITINERARIO DEFINITIVO (25 DÍAS) Y POOL DE CANDIDATOS DE GOOGLE MAPS
+
+**28-sep-2026:** Marcos volvió después de varias semanas sin tocar la app con el itinerario "casi definitivo" del viaje (vuelos, alojamientos y plan día a día) y pidió actualizarla. Se acordó con él hacerlo en dos fases:
+
+1. **Columna vertebral (hecha el 28-sep-2026):** el array `days` de `js/data.js` se reescribió por completo con las 25 fechas (`2026-11-05` a `2026-11-29` — se decidió con Marcos incluir los 2 días de vuelos España→Barcelona→Shenzhen dentro de la app, antes eran solo 23 días empezando en Hanói), ciudades, bloques, vuelos/buses/ferry/tren con localizador y equipaje, alojamientos y la lista de sitios de cada día con `name`/`type`/`notes`, pero **sin** `description`/`tips`/`photo` largos todavía — la UI ya tiene fallback para eso (usa `notes` como subtítulo, o "Sin información adicional." si no hay nada, y busca foto en `img/places/`, luego `IMAGE_MAP`, luego Wikipedia en vivo). Ver detalle completo de bugs encontrados/arreglados en esa sesión en `HISTORIAL_DE_CAMBIOS.md` (entrada 2026-09-28).
+2. **Contenido rico (pendiente, próximas sesiones):** descripciones largas, tips prácticos y fotos locales para los sitios nuevos, a medida que Marcos vaya revisando y decidiendo entre los candidatos de Google Maps de abajo.
+
+**La ruta cambió sustancialmente respecto a la versión anterior (23 días):** ya no se va a Koh Rong Sanloem (playa); en su lugar, después de Phnom Penh se cruza el Mekong en ferry a Chau Doc y se sigue por Can Tho (Delta del Mekong, Vietnam) antes de volar a Da Nang/Hoi An. El resto del bloque "El Centro" (Hoi An, Da Nang, Hue) y el cierre (Tam Coc/Ninh Binh, Cat Ba, Hanói) se mantienen pero en otro orden.
+
+### Pool de candidatos: listas de Google Maps de Marcos
+
+Marcos tiene 7 listas compartidas de Google Maps ("Mis mapas") con sitios que ha ido guardando, ya organizadas por región — coinciden casi exactamente con los `block` del itinerario. Son el sitio de referencia para ir decidiendo, día a día, qué añadir o cambiar en próximas sesiones (no se ha volcado el contenido completo de estas listas en la app todavía, solo una selección ya viene reflejada en el itinerario pegado por Marcos):
+
+| Lista | Enlace | Región / bloque | Nº de sitios (aprox.) |
+|---|---|---|---|
+| Vietnam Norte - Hanoi | https://maps.app.goo.gl/5sZjuX5shLeN23VQ9 | Hanói | 46 |
+| Vietnam Norte - Cat Ba | https://maps.app.goo.gl/HBaQJuX5u9x8hb1q8 | Cat Ba / Lan Ha Bay ("Vuelta al Norte") | 11 |
+| Vietnam Norte - Ninh Binh | https://maps.app.goo.gl/84XJTc24RdobJ8Wn9 | Tam Coc / Ninh Binh | 22 |
+| Vietnam Centro | https://maps.app.goo.gl/BHRPNBsw3Nzb6jhi6 | Hoi An / Da Nang / Hue | 62 |
+| Vietnam Sur | https://maps.app.goo.gl/BCnrKbroe42rNVXm9 | Chau Doc / Can Tho (Delta del Mekong) | 13 |
+| Camboya Norte | https://maps.app.goo.gl/Z9R3cBadG96yFpwRA | Siem Reap / Angkor | 26 |
+| Camboya Sur | https://maps.app.goo.gl/mU25Z4Pz5AvijrRQA | Phnom Penh | 10 |
+
+**Cómo abrirlas:** son enlaces cortos de Google Maps (`maps.app.goo.gl`); al abrirlos piden aceptar/rechazar cookies una vez (elegir "Rechazar todo") y luego muestran la lista completa con nombre, categoría y valoración de cada sitio. No se puede extraer el contenido con `curl`/`WebFetch` porque la página necesita JavaScript — hay que usar un navegador real (o el navegador integrado de Claude Code) y leer el texto de la página ya cargada.
+
+**Marcos avisó que seguirá añadiendo sitios a estas listas en las próximas semanas** — no dar por cerrado este pool, volver a consultarlo en cada sesión de "próximos pasos" del itinerario.
+
+---
+
 ## ANEXO A — BLOQUE DE CONTEXTO COMPACTO PARA NUEVA IA
 
 **Pegar esto al inicio de una nueva conversación:**
@@ -502,8 +531,8 @@ Soy Marcos. Tengo una app PWA de guía de viaje personal que desarrollé con Cla
 
 **Versiones actuales de archivos:**
 - styles.css → `?v=64`
-- app.js → `?v=103` (3935 líneas)
-- data.js → `?v=22` (1222 líneas; `DATA_VERSION` interno = 22)
+- app.js → `?v=106`
+- data.js → `?v=24` (`DATA_VERSION` interno = 24; itinerario de 25 días reescrito 28-sep-2026, ver Parte 20)
 - imageMap.js → `?v=12` (123 líneas, 115 entradas)
 - Cache SW → `"viajes-v2"`
 
