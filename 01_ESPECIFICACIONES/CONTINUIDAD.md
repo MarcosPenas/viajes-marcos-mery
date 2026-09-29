@@ -7,7 +7,7 @@
 
 ## 👉 LEE ESTO PRIMERO
 
-La sesión del 28-sep (PC de casa) hizo muchísimo trabajo real y lo dejó todo documentado con mucho detalle — ver el bloque de esa fecha más abajo, íntegro. El 29-sep (PC del trabajo) se hizo la puesta al día (git, sistema de Mejoras) y además **se cruzaron las 7 listas de Google Maps de Marcos contra el itinerario** (189 sitios, ver `HISTORIAL_DE_CAMBIOS.md`) — el itinerario resultó estar ya muy completo; los pocos huecos reales (Chùa Cầu, tumbas de Hue) están corregidos. Quedan pendientes sobre todo el documento `.odt` de María (solo accesible desde el PC de casa) y decisiones menores de Marcos sobre huecos opcionales — ver "Tareas pendientes" más abajo.
+La sesión del 28-sep (PC de casa) hizo muchísimo trabajo real y lo dejó todo documentado con mucho detalle — ver el bloque de esa fecha más abajo, íntegro. El 29-sep (PC del trabajo, sesión larga) se hizo: puesta al día de git y del sistema de Mejoras; **cruce de las 7 listas de Google Maps de Marcos contra el itinerario** (189 sitios — muy completo ya, pocos huecos reales corregidos: Chùa Cầu, tumbas de Hue); **auditoría completa de fotos** pedida por Marcos ("sitio por sitio, comida por comida") — ~78 alias de Wikipedia nuevos o corregidos entre sitios y restaurantes, incluidos varios bugs reales que llevaban tiempo sin foto (`Cao Lầu`, `Bai_sach_chrouk`/`Nom_banh_chok` sin imagen); y las fichas de los días de vuelo (Barcelona/Shenzhen) ahora hablan del aeropuerto, no de la ciudad, porque no se visitan. Queda pendiente sobre todo: importar los CSV de las listas de Google Maps al My Maps de la app (preparado, pero el último clic de "seleccionar archivo" lo tiene que dar Marcos — ver más abajo) y el documento `.odt` de María (solo accesible desde el PC de casa).
 
 ---
 

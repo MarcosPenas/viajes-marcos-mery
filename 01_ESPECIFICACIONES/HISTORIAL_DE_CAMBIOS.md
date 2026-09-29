@@ -2,6 +2,24 @@
 
 ---
 
+## 2026-09-29 (continuación 3) — Auditoría de fotos completada: restaurantes y platos
+
+Segunda mitad de la auditoría pedida por Marcos ("sitio por sitio, comida por comida") — la primera mitad (sitios, commit `942cd7d`) ya estaba hecha; esta cubre los 38 restaurantes/platos del itinerario.
+
+**Resultado (commit `2230a20`):** 23 alias nuevos en `WIKI_ARTICLES`, cada uno verificado dos veces (existe + tiene foto real) contra la API de Wikipedia antes de darlo por bueno. Mismo patrón de bug que en los sitios: varios platos solo tenían alias para su forma "con paréntesis" (`"Khmer BBQ (última noche en Siem Reap)"`) pero el restaurante en `data.js` usa la forma corta (`"Khmer BBQ"`) — no coincidía nunca.
+
+**Dos hallazgos de bugs preexistentes** (no introducidos hoy, llevaban tiempo así):
+- `'Cao Lau'` (sin tilde) nunca coincidía con el nombre real en `data.js`, `'Cao Lầu'` (con tilde) — el plato llevaba toda la vida de la app sin foto pese a tener "alias" en el mapa.
+- `'Bai_sach_chrouk'` y `'Nom_banh_chok'` (usados en 5 alias distintos, algunos de antes de esta sesión) resultaron ser artículos de Wikipedia **sin imagen** — pasaban la comprobación de "existe" pero no la de "tiene foto". Sustituidos por `'Cambodian_cuisine'` (con foto real) en los 5 sitios.
+
+Verificado visualmente en el navegador: Phnom Penh (Lap Khmer, Amok), Chau Doc→Can Tho (Pescado de agua dulce, Bún Cá Châu Đốc, Fruta y café en Cai Rang, Hủ Tiếu) y Hoi An (Cao Lầu, Mì Quảng) — todos cargan foto real, ninguno en blanco.
+
+**Auditoría de fotos — estado final:** sitios (`942cd7d`) ✅ + restaurantes (`2230a20`) ✅. Entre las dos, ~78 alias nuevos o corregidos en `WIKI_ARTICLES`. Dado el tamaño del mapa (~350 entradas), no se ha comprobado el 100% una por una — se auditaron sistemáticamente todos los sitios/platos de la reescritura de 25 días (los más propensos a tener huecos) y una muestra representativa se verificó visualmente sin fallos. Si Marcos ve alguna foto en blanco o incorrecta navegando la app, es el mejor momento para decirlo — con el itinerario ya estable, deberían ser casos sueltos, no un problema sistémico.
+
+**Archivos:** `js/app.js` (v=117).
+
+---
+
 ## 2026-09-29 (continuación 2) — Días de vuelo: ficha del aeropuerto, no de la ciudad
 
 Marcos avisó: en Barcelona (05-nov) y Shenzhen (06-nov, escala) no hay plan de visitar la ciudad, son puramente días de tránsito — la ficha "Sobre `<ciudad>`" no debía hablar de la ciudad.
