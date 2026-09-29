@@ -509,11 +509,16 @@ const DEFAULT_DATA = {
               photo: 'https://picsum.photos/seed/hoi-an-ancient-town-lanterns/200/200',
               description: 'El casco antiguo de Hoi An es Patrimonio Mundial UNESCO desde 1999: un puerto comercial del s.XV-XIX que se conservó casi intacto al perder importancia frente a otros puertos vietnamitas. Sus calles peatonales de casas-tubo amarillas, farolillos de seda de colores y canales tranquilos se recorren mejor a pie o en bici. La entrada única (120.000 VND) da acceso a elegir 5 de entre ~20 monumentos (casas antiguas, salones de asambleas chinos, museos, templos).',
               tips: 'Los farolillos se encienden al anochecer — mucho más bonito de noche que de día. Los días 14 del calendario lunar hay "Noche de los Farolillos": se apaga la luz eléctrica del casco antiguo entero.' },
-            { name: 'Casas Antiguas y Capillas Familiares', type: 'monument', notes: '6 sitios posibles dentro del bono.' },
-            { name: 'Salones de Asambleas Chinos', type: 'monument', notes: '5 sitios posibles dentro del bono.' },
-            { name: 'Museos Históricos', type: 'museum', notes: '5 sitios posibles dentro del bono.' },
-            { name: 'Puentes, Templos y Casas Comunales', type: 'monument', notes: '3 sitios posibles dentro del bono.' },
-            { name: 'Espectáculos, Demostraciones y Tumbas', type: 'monument', notes: '3 sitios posibles dentro del bono.' },
+            { name: 'Casas Antiguas y Capillas Familiares', type: 'monument', notes: '6 sitios posibles dentro del bono.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Hoi_An_-_Tan_Ky_Old_House.jpg/500px-Hoi_An_-_Tan_Ky_Old_House.jpg' },
+            { name: 'Salones de Asambleas Chinos', type: 'monument', notes: '5 sitios posibles dentro del bono.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Phuc_Kien_Assembly_Hall%2C_Hoi_An%2C_Vietnam_%2846132773251%29.jpg/500px-Phuc_Kien_Assembly_Hall%2C_Hoi_An%2C_Vietnam_%2846132773251%29.jpg' },
+            { name: 'Museos Históricos', type: 'museum', notes: '5 sitios posibles dentro del bono.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Hoi_An_Museum_main_building.jpg/500px-Hoi_An_Museum_main_building.jpg' },
+            { name: 'Puentes, Templos y Casas Comunales', type: 'monument', notes: '3 sitios posibles dentro del bono.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/Hoi_An_-_Quan_Cong_Temple.jpg/500px-Hoi_An_-_Quan_Cong_Temple.jpg' },
+            { name: 'Espectáculos, Demostraciones y Tumbas', type: 'monument', notes: '3 sitios posibles dentro del bono.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/Traditional_Vietnamese_Music.jpg/500px-Traditional_Vietnamese_Music.jpg' },
             { name: 'Hoi An Memories Show', type: 'monument',
               notes: 'Gran espectáculo en la isla Hen. 500 actores. 20:00-21:00. Eco 22€ / HI 28€ / VIP 45€.',
               photo: 'https://picsum.photos/seed/hoi-an-memories-show/200/200',
@@ -903,7 +908,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 35;
+const DATA_VERSION = 36;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 

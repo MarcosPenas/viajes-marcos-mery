@@ -1761,6 +1761,12 @@ function buildDashboardHTML(trip, active, past, diff, day, nextDay, pendingTotal
   const _svgPlane = `<svg viewBox="0 0 24 24" fill="white" width="26" height="26"><path d="M21 16l-8.5-4.5V4a2.5 2.5 0 0 0-5 0v7.5L3 16v2.5l4.5-1.5v3.5l-1.5 1H19l-1.5-1V17l4.5 1.5V16z"/></svg>`;
 
   const ZONE_META = {
+    'Vuelos':     { color: '#3d6b96', lt: '#dceaf5', label: 'Vuelos', wiki: 'Barcelona–El_Prat_Airport',
+                    desc: 'Barcelona y escala en Shenzhen antes de aterrizar en Hanói.' },
+    'Delta del Mekong': { color: '#2e8b57', lt: '#d6f0e0', label: 'Delta del Mekong', wiki: 'Mekong_Delta',
+                    desc: 'Chau Doc y Can Tho, cruzando la frontera camboyano-vietnamita por el río Mekong.' },
+    'Ninh Binh':  { color: '#4a7c3f', lt: '#e0f0d8', label: 'Ninh Binh', wiki: 'Trang_An',
+                    desc: 'Tam Coc y Trang An — la "Ha Long Bay terrestre", arrozales entre picos kársticos.' },
     'El Norte':   { color: '#1A7B6B', lt: '#d0f0e8', label: 'Vietnam Norte',   wiki: 'Lan_Ha_Bay',
                     desc: 'Hanói, Cat Ba, Lan Ha Bay y Ninh Binh. La esencia del norte: bahías cársticas, templos milenarios y pho auténtico.' },
     'Vuelta al Norte': { color: '#1A7B6B', lt: '#d0f0e8', label: 'Cat Ba · vuelta al Norte', wiki: 'Lan_Ha_Bay',

@@ -2,6 +2,18 @@
 
 ---
 
+## 2026-09-29 (continuación 9) — Dos fallos más vistos por Marcos: 5 fotos idénticas en Hoi An y 3 círculos vacíos en Inicio
+
+Marcos, mirando la app en directo, encontró dos cosas más que la pasada anterior no cubrió:
+
+**1. "La primero que abro Hoi An la misma imagen 7 veces repetida":** el día 19-nov (Hoi An), las 5 fichas de categorías del bono combinado (Casas Antiguas y Capillas Familiares, Salones de Asambleas Chinos, Museos Históricos, Puentes/Templos/Casas Comunales, Espectáculos/Demostraciones/Tumbas) mostraban todas la misma foto genérica de la ciudad — technically "correcto" según el razonamiento de la continuación 8 (son categorías abstractas del ticket, no sitios físicos), pero **visualmente se ve como un fallo real**, y Marcos tenía razón en señalarlo así. Corregido dándole a cada una una foto real y distinta de un sitio representativo de esa categoría: Casa Tan Ky (casas antiguas), Salón de Fujian (asambleas chinas), fachada del Museo de Hoi An (museos), Templo Quan Cong (puentes/templos), actuación de música tradicional vietnamita (espectáculos).
+
+**2. "En Inicio ya hay dos sin imagen":** en el timeline de zonas de la pantalla de Inicio (los círculos de "Vuelos", "Vietnam Norte", "Angkor & Siem Reap"...), 3 bloques (`Vuelos`, `Delta del Mekong`, `Ninh Binh`) no tenían entrada en `ZONE_META` de `js/app.js` — sin la clave `wiki`, el círculo se quedaba con el color de fondo plano, sin foto, indistinguible de "roto". Bug real, no solo de contenido: los otros 6 bloques sí la tenían. Añadidas las 3 entradas que faltaban: vista aérea del aeropuerto de Barcelona-El Prat (Vuelos), el puente Cao Lãnh sobre el Mekong (Delta del Mekong), barcas entre los karst de Trang An (Ninh Binh).
+
+**Archivos:** `js/data.js` (DATA_VERSION 36), `js/app.js` (`ZONE_META`, v=121), `index.html` (`?v=36`/`?v=121`).
+
+---
+
 ## 2026-09-29 (continuación 8) — Auditoría visual real, sitio por sitio, imagen por imagen (pedido explícito tras queja de Marcos)
 
 Marcos, con razón, se quejó de que los scripts anteriores (continuación 6) daban una falsa sensación de "ya está todo revisado" cuando en la práctica seguía encontrando fallos a simple vista (continuación 7) — pidió explícitamente dejar los scripts y mirar la app de verdad, imagen por imagen, "aunque sea 30 minutos". Esta es esa pasada.
