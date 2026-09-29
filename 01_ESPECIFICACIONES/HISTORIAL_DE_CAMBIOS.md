@@ -10,11 +10,23 @@
 
 **Cambio 2 — Resuelto el "cabo suelto" del sistema de Mejoras:** es una app centralizada en `00_Guía Apps/Sistema_Mejoras/03_APLICACION/` (`Mejoras.vbs`), compartida por varios proyectos de Marcos. `MEJORAS.lnk` y `01_ESPECIFICACIONES/MEJORAS.json` añadidos a `.gitignore` (herramienta personal). Detectado y documentado por qué el `.lnk` no es portable entre los dos PCs: guarda una ruta absoluta (`C:\Users\mpe.HP2008\...`) que no existe en el otro usuario de Windows — cada PC necesita crear su propio acceso directo.
 
-**Cambio 3 — Dos listas de Google Maps cruzadas (Ninh Binh 22 + Camboya Norte 26):**
-- **Ninh Binh:** ver detalle en el commit `07ca429`. Ya estaba muy completo, solo se añadió una mención a la Pagoda Nhat Tru como tip dentro de la tarjeta de Hoa Lu.
-- **Camboya Norte (25 de 26 sitios revisados):** resultado incluso mejor de lo esperado — el bloque de Angkor (3 días, 11/12/13-nov) ya cubre 18 de los ~25 sitios reales de la lista, incluidos varios que al principio parecían huecos (Baphuon, Pre Rup, Ta Som, Old Market/Pub Street — ya estaban, mi primer vistazo con `grep` los había pasado por alto por buscar las palabras clave equivocadas). **Huecos reales, todos opcionales/menores, sin tocar — pendiente de que Marcos decida:** Museo de las Minas Terrestres de Camboya (4.6★, 993 reseñas — experiencia auténtica y con historia, encajaría cerca de Banteay Srei el 12-nov, pero ese día ya tiene 6 paradas), Lotus Silk Farm (4.9★) y Artisans Silk Farm (5.0★, redundantes entre sí), Banteay Srey Butterfly Centre, Wat Damnak. No se añadieron porque el día 12-nov ya está muy lleno — mejor que Marcos elija cuál (si alguno) sustituye a otra parada, no añadirlos todos sin más.
+**Cambio 3 — Las 7 listas de Google Maps de Marcos, cruzadas por completo contra el itinerario:**
 
-Quedan las 2 listas grandes: Vietnam Centro (62 sitios) y Hanói (46).
+*Método:* el scroll automatizado del panel de resultados de Google Maps se resistió incluso en el Chrome real de Marcos con su sesión iniciada (probado con `computer scroll`, `find`+`scroll_to`, tecla End, y hasta pidiéndole a Marcos que scrolleara él mismo — se quedaba a medias, ~19-25 de cada lista). Se probaron 5 exportaciones de Google Takeout sin dar con el checkbox correcto ("Save"/"Guardado" tampoco funcionó). **Lo que sí funcionó:** Marcos usó Claude para Chrome (la extensión, con su sesión real) para abrir cada lista y hacer scroll de verdad hasta el final, y pegó el resultado completo. Las 7 listas confirmadas al 100% (189 sitios en total): Hanói 45/45 (Maps decía 46 pero solo hay 45 reales), Vietnam Centro 62/62, Cat Ba 11/11, Ninh Binh 22/22, Vietnam Sur 13/13, Camboya Norte 26/26, Camboya Sur 10/10.
+
+*Resultado del cruce:*
+- **Ninh Binh:** ya estaba muy completo. Solo se añadió una mención a la Pagoda Nhat Tru como tip dentro de la tarjeta de Hoa Lu (commit `07ca429`).
+- **Camboya Norte:** el bloque de Angkor (3 días) ya cubría 18 de los ~25 sitios reales. Huecos reales, todos opcionales/menores, dejados para que Marcos decida: Museo de las Minas Terrestres, 2 granjas de seda, Butterfly Centre, Wat Damnak (commit `6ceae6a`).
+- **Camboya Sur (Phnom Penh):** 100% ya cubierto, sin cambios.
+- **Hanói:** prácticamente el 100% ya cubierto, como tarjeta propia o mencionado en tips de otra tarjeta. Sin cambios de código.
+- **Vietnam Centro (Hoi An/Da Nang/Hue):** también muy completo, pero se encontraron 2 huecos reales que sí merecían arreglo (commit `6f225b2`):
+  1. **Bug de contenido:** la tarjeta "Old Quarter" de Hoi An (19-nov) tenía la descripción de Hanói copiada por error (calles y foto de Hanói, no de Hoi An). Reescrita con contenido real.
+  2. **Chùa Cầu (Puente Japonés)** — el símbolo más icónico de Hoi An (sale en el billete de 20.000 VND) — solo se mencionaba de pasada como referencia de otro puente, nunca tenía ficha propia. Añadida.
+  3. **"Tumbas imperiales" en Hue estaba completamente vacío** (`notes: ''`) pese a ser de las visitas más importantes de la ciudad. Sustituido por dos tarjetas reales: Tumba de Tu Duc y Tumba de Minh Mang.
+  
+  Huecos menores dejados sin tocar (opcionales): Santuario de My Son y Ba Na Hills (ya mencionados como opcionales en notas), península de Son Tra.
+
+**Conclusión general:** de las 189 entradas en las 7 listas de Marcos, la inmensa mayoría (>85%) ya estaban reflejadas en el itinerario de una forma u otra. Los pocos huecos reales encontrados eran sobre todo omisiones puntuales (Chùa Cầu, tumbas de Hue) más que contenido nuevo por descubrir — el trabajo previo de research ya era muy sólido.
 
 **Incidencia técnica confirmada:** el panel de resultados de una lista de Google Maps ("Mis mapas") no carga los últimos elementos con scroll normal ni con `find`+`scroll_to` repetido — se quedó en 19 de 22 sitios pese a varios intentos (rueda del ratón, scroll_to sobre el último elemento visible, tecla End). No se encontró la forma de forzar la carga completa esta vez; para las próximas 3 listas (mucho más grandes) puede hacer falta otra estrategia — quizá pedirle a Marcos que exporte la lista, o aceptar la cobertura parcial como aquí.
 
