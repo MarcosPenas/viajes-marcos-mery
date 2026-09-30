@@ -433,11 +433,11 @@ const WIKI_ARTICLES = {
 const CITY_INFO = {
   'Aeropuerto de Barcelona-El Prat': {
     food: 'Noche de tránsito, no de turismo — Barcelona ciudad no entra en el plan esta vez. Si hay hueco antes de dormir, un bocadillo de jamón o unas bravas cerca del hotel/aeropuerto; mañana ya toca comida de avión.',
-    curiosities: 'El Prat tiene dos terminales (T1 y T2) bastante separadas entre sí — comprobar bien desde cuál sale el vuelo intercontinental antes de ir. Es un aeropuerto grande: llegar con margen, el check-in de la maleta facturada puede tener cola en la T1.'
+    curiosities: 'El Prat tiene dos terminales (T1 y T2) bastante separadas entre sí — el vuelo internacional a Shenzhen (Shenzhen Airlines) sale de la Terminal 1, desde las puertas de embarque de la zona D (la gran mayoría de sus vuelos usan esa zona, alguna vez la E). Es un aeropuerto grande: llegar con margen, el check-in de la maleta facturada puede tener cola en la T1.'
   },
   'Aeropuerto de Shenzhen (escala)': {
     food: 'Escala de varias horas, sin salir del aeropuerto — Shenzhen ciudad tampoco entra en el plan. La Terminal 3 de Bao\'an tiene bastante oferta de comida dentro de la zona de tránsito internacional (cadenas chinas y occidentales), buen momento para probar algo local sin gastar un día entero.',
-    curiosities: 'China exige visado normalmente, pero varias ciudades (Shenzhen incluida) tienen tránsito sin visado de hasta 72-144h para pasajeros en conexión internacional — conviene llevar el billete de continuación a mano por si lo piden al pasar el control. El edificio de la T3, con forma de manta ondulada, es obra del mismo estudio que el aeropuerto de Madrid-Barajas (Studio Fuksas).'
+    curiosities: 'China exige visado normalmente, pero desde diciembre de 2024 España está entre los 54 países con tránsito sin visado ampliado a 240 horas (10 días) en Shenzhen y otras ciudades — de sobra para esta escala de 5h40min, aunque el plan es quedarse en la zona de tránsito sin salir. Para la conexión internacional-internacional en la T3 basta con seguir los carteles de "Transfer" (no hace falta recoger la maleta facturada si va facturada hasta Hanói). Llevar el billete de continuación a mano por si lo piden al pasar cualquier control. El edificio de la T3, con forma de manta ondulada, es obra del mismo estudio que el aeropuerto de Madrid-Barajas (Studio Fuksas).'
   },
   'Hanói': {
     food: 'La cuna del phở (mejor por la mañana, en puestos con taburetes bajos), el bún chả que hizo famoso Obama, el cà phê trứng (café de huevo) y el bia hơi callejero a 30 céntimos el vaso. Comer en la calle, sentados en plástico, es la experiencia real — los sitios con menú plastificado en inglés son para turistas.',

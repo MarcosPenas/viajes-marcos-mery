@@ -2,6 +2,29 @@
 
 ---
 
+## 2026-09-30 (continuación) — Tarjetas de info de aeropuerto (pedido explícito, investigado con cuidado)
+
+Primera de las tareas pendientes marcadas como 🔴 explícitas de Marcos: tarjetas de consejos/terminal para los días de aeropuerto, y una de "qué hacer al aterrizar" para el día de llegada a Hanói. Investigado con WebSearch antes de escribir nada de inmigración, tal y como pidió Marcos ("es delicado").
+
+**Barcelona-El Prat (`CITY_INFO`):** confirmado que Shenzhen Airlines opera desde la Terminal 1 (puertas zona D principalmente) — antes el texto solo decía "comprobar bien desde cuál sale", ahora lo dice directamente.
+
+**Shenzhen Bao'an (`CITY_INFO`):** corregido un dato que ya estaba desactualizado — la política de tránsito sin visado no es de 72-144h, subió a **240 horas (10 días)** desde diciembre de 2024, y España está entre los 54 países con acceso. Añadida nota práctica: para la conexión internacional-internacional en la T3 basta con seguir los carteles de "Transfer".
+
+**Llegada a Hanói (notas del día 07-nov, no en `CITY_INFO` porque es específico de ESE día, no de la ciudad en general):** ficha nueva y completa con:
+- Terminal T2 (internacional), proceso de inmigración+maletas+aduana (30-60 min)
+- **Hallazgo importante de la investigación:** desde junio de 2026 Vietnam exige rellenar la "Vietnam Digital Arrival Card" ONLINE antes de volar (prearrival.immigration.gov.vn, dentro de las 72h antes del vuelo, genera un QR para enseñar en inmigración) — esto es ADEMÁS del eVisa, no lo sustituye. No estaba contemplado en ningún sitio de la app. Añadida también como tarea nueva (`pre3b`, fecha 06-nov, para que les salga de recordatorio el día antes de aterrizar)
+- Transporte al centro: distancia (27 km, 35-50 min), opciones con precio (Grab 250-350k VND, taxi oficial 350-450k VND, bus 86 exprés 45k VND/persona) y aviso de la estafa clásica de taxis no oficiales dentro de la terminal
+
+**Nota técnica:** el campo `notes` de cada día en `data.js` se inserta sin escapar en el HTML (a diferencia de `curiosities`/`food` de `CITY_INFO`, que sí pasan por `escHtml()`) — por eso el texto de Barcelona/Shenzhen no lleva markdown (no se renderizaría), mientras que en teoría `notes` sí admitiría etiquetas HTML simples si hiciera falta formatearlo más.
+
+**Verificado en el navegador:** las 3 fichas cargan bien, la tarea nueva aparece en `DB.tasks` (que es una lista separada de `tripNotes.preTripTasks` — ojo, hay dos listas de checklist distintas en la app, no confundirlas).
+
+**Archivos:** `js/data.js` (DATA_VERSION 47→48, día 07-nov y tarea `pre3b`), `js/app.js` (`CITY_INFO` Barcelona/Shenzhen, v→128), `index.html`.
+
+Sources: [Shenzhen Airlines - Aeropuerto de Barcelona - El Prat](https://www.barcelona-airport.com/esp/aerolineas/shenzhen-airlines) · [240-Hour Visa-Free Transit at Shenzhen Baoan Airport](https://www.chinaairlinetravel.com/airport-guide/shenzhen-airport/144hours-visa.html) · [Vietnam Digital Arrival Card guide](https://www.traveloka.com/en-en/explore/tips/vietnam-digital-arrival-card/1007396) · [Noi Bai International Airport Arrival Guide](https://www.vietnamparadisetravel.com/blog/noi-bai-international-airport) · [Hanoi Airport to City: Transport Options & Costs](https://www.hanoitourism.org/hanoi-airport-to-city/)
+
+---
+
 ## 2026-09-30 (PC del trabajo) — Reconciliación tras sincronización MEGA con la sesión del PC de casa: 28 fotos rotas encontradas y corregidas
 
 Al retomar la sesión, `git status` mostró que varios archivos (`js/data.js`, `js/app.js`, `css/styles.css`, los `.md` de especificaciones, y 3 imágenes locales borradas) habían cambiado en el disco sin que este PC los hubiera commiteado — la sesión del PC de casa de anoche (29-sep, ver continuaciones 10-16) se sincronizó por MEGA encima del trabajo de este PC. Como `.git` no viaja por MEGA (ver Parte 19 de la Memoria Maestra), el resultado es un archivo de **contenido mezclado**: `git log` de este PC no tiene los commits de casa, pero los ARCHIVOS en disco sí llevan sus cambios, superpuestos a los míos de ayer tarde.

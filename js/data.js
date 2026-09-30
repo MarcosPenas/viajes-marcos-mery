@@ -78,7 +78,7 @@ const DEFAULT_DATA = {
           ],
           hotel: { name: 'Secret Garden Hanoi', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
           tasks: [],
-          notes: 'Alojamiento Secret Garden Hanoi: entrada 7-nov, salida 10-nov.'
+          notes: 'Llegada a Vietnam — qué hacer al aterrizar en Nội Bài (HAN): el avión llega a la Terminal T2 (terminal internacional), donde están los controles de inmigración, la recogida de maletas y la aduana. 1) Inmigración: enseñar el pasaporte y el eVisa (imprimido o en el móvil) — con eVisa se pasa directo a control, sin gestión adicional en el aeropuerto. Importante: desde junio de 2026 hace falta rellenar también la "Vietnam Digital Arrival Card" ONLINE antes de volar, en prearrival.immigration.gov.vn — se hace dentro de las 72h antes del vuelo (o sea, el día 6 o muy temprano el día 7), genera un código QR que hay que enseñar al agente de inmigración junto al pasaporte. No sustituye al eVisa, es un trámite aparte. 2) Recogida de equipaje y aduana (todo el proceso de inmigración+maletas suele llevar 30-60 min según cuánta gente haya). 3) Ir a la ciudad: el aeropuerto está a unos 27 km del Old Quarter (35-50 min en coche). Opción más cómoda: Grab (app de VTC, se pide en el propio aeropuerto con wifi) por 250.000-350.000 VND. Taxi oficial (Mai Linh u otro con distintivo del aeropuerto) algo más caro, 350.000-450.000 VND. Opción económica: bus 86 (línea exprés turística a Old Quarter/Estación de tren), 45.000 VND por persona, sale cada 25-30 min. Evitar a cualquiera que ofrezca taxi/transporte dentro de la terminal antes de la zona oficial de taxis — es la estafa clásica de todos los aeropuertos del sudeste asiático. Alojamiento Secret Garden Hanoi: entrada 7-nov, salida 10-nov.'
         },
         {
           date: '2026-11-08', city: 'Hanói', country: '🇻🇳 Vietnam', block: 'El Norte',
@@ -951,6 +951,7 @@ const DEFAULT_DATA = {
     { id: 'pre1', date: '2026-11-07', text: 'Comprar seguros de viaje', done: false },
     { id: 'pre2', date: '2026-11-07', text: 'Solicitar visado Vietnam (eVisa)', done: false },
     { id: 'pre3', date: '2026-11-07', text: 'Solicitar visado Camboya (eVisa $30)', done: false },
+    { id: 'pre3b', date: '2026-11-06', text: 'Rellenar la Vietnam Digital Arrival Card (prearrival.immigration.gov.vn) — dentro de las 72h antes del vuelo a Hanói, genera QR para inmigración', done: false },
     { id: 'pre4', date: '2026-11-10', text: 'Reservar crucero Lan Ha Bay', done: false },
     { id: 'pre5', date: '2026-11-15', text: 'Comprar billete tren Hue→Da Nang (12go.asia)', done: false },
     { id: 'pre6', date: '2026-11-17', text: 'Reservar entradas Hoi An Memories Show (klook.com)', done: false },
@@ -973,7 +974,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 47;
+const DATA_VERSION = 48;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 
