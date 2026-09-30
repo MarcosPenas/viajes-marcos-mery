@@ -3,10 +3,24 @@
 // ============================================================
 
 // ── TEMA (claro / oscuro / auto) ─────────────────────────────
-(function initTheme() {
-  const saved = localStorage.getItem('theme'); // 'dark' | 'light' | null
-  if (saved) document.documentElement.dataset.theme = saved;
-})();
+// Importante: SIEMPRE se deja un data-theme explícito en <html>, incluso en
+// modo "auto". Así todo el CSS de tema vive en un solo sitio
+// (html[data-theme="dark"/"light"]) y no hace falta mantener duplicado el
+// mismo juego de reglas dentro de @media (prefers-color-scheme: dark) —
+// ese bloque se quedó desactualizado durante días porque los arreglos de
+// contraste solo se añadían al bloque de data-theme explícito.
+function _applyAutoTheme() {
+  const saved = localStorage.getItem('theme'); // 'dark' | 'light' | null (auto)
+  if (saved) { document.documentElement.dataset.theme = saved; return; }
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.dataset.theme = prefersDark ? 'dark' : 'light';
+}
+_applyAutoTheme();
+if (window.matchMedia) {
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
+    if (!localStorage.getItem('theme')) _applyAutoTheme();
+  });
+}
 
 function toggleTheme() {
   const html = document.documentElement;
@@ -19,8 +33,8 @@ function toggleTheme() {
     html.dataset.theme = next;
     localStorage.setItem('theme', next);
   } else {
-    delete html.dataset.theme;
     localStorage.removeItem('theme');
+    _applyAutoTheme(); // vuelve a "auto", pero deja igualmente un data-theme explícito resuelto
   }
 }
 
@@ -195,7 +209,6 @@ const WIKI_ARTICLES = {
   'Café Giang': 'Cà_phê_trứng',
   'Café Giang (Café de Huevo)': 'Cà_phê_trứng',
   'Café Giảng (Cà Phê Trứng)': 'Cà_phê_trứng',
-  'Café Phố Cổ (azotea secreta sobre el lago)': 'Hoàn_Kiếm_Lake',
   'Bún Chả Hương Liên (Obama Restaurant)': 'Bún_chả',
   'Bún Chả Hương Liên': 'Bún_chả',
   'Phở Cuốn Hương Mai': 'Phở',
@@ -272,41 +285,68 @@ const WIKI_ARTICLES = {
   // Hanói regreso
   'Phở Gà o Phở Bò (desayuno de reencuentro con Vietnam)': 'Vietnamese_cuisine',
   'Chả Cá Lã Vọng (el único plato del restaurante más antiguo de Hanói)': 'Chả_cá_Lã_Vọng',
-  'Último Phở o Bánh Mì antes del vuelo': 'Bánh_mì',
   // ── PLATOS 25-DIAS (28-sep-2026) ──
   'Chả Cá Lã Vọng': 'Chả_cá_Lã_Vọng',
   'Bánh Bèo, Nậm y Lọc': 'Bánh_bèo',
-  'Phở Bò': 'Phở',
-  'Bún Chả Hương Liên': 'Bún_chả',
   'Lok Lak': 'Loc_lac',
   'Mì Quảng': 'Mì_Quảng',
   'Bánh Khoái': 'Bánh_khoái',
   'Cơm Cháy': 'Rice_crust',
+  // ── RECONCILIACIÓN TRAS SYNC MEGA CON PC DE CASA (30-sep-2026): 27 fotos rotas ──
+  // El PC de casa renombró varias entradas de data.js con nombres más descriptivos
+  // y actualizó sus propios alias en este archivo, pero tras la sincronización por MEGA
+  // (que no hace merge, solo sustituye archivos) el data.js de este PC se quedó con los
+  // nombres cortos originales — sin alias exacto, esas fichas se quedaban sin foto.
+  // Se añaden aquí los alias que faltaban con el nombre EXACTO que hay ahora en data.js.
+  'Café Phố Cổ (azotea secreta sobre el lago)': 'Hoàn_Kiếm_Lake', // IMAGE_MAP apuntaba a un archivo local ya borrado
+  'Victoria Nui Sam Lodge (mirador de los arrozales)': 'An_Giang',
+  'Bún Cá Châu Đốc': 'Vietnamese_cuisine',
+  'Calle Trần Phú': 'Hội_An',
+  'Chợ đêm Hội An (Mercado Nocturno de los Farolillos)': 'Hoi_An_Old_Town',
+  'Fruta y café flotante en Cai Rang': 'Cai_Rang',
+  'Old Quarter (bono, 5 monumentos)': 'Old_Quarter,_Hanoi',
+  'Mercado de pescado de Thanh Ha': 'Hội_An',
+  'Mercado de Tan An (Tiger Market)': 'Hội_An',
+  'Mercado de Ba Le': 'Hội_An',
+  'Talleres Artesanales': 'Talleres artesanales hoi an', // coincide con el archivo local ya descargado img/places/talleres_artesanales_hoi_an.jpg
+  'Bánh Mì Phượng': 'Bánh_mì',
+  'Paseo junto al río Perfume': 'Perfume_River',
+  'Dê (cabra) en distintas preparaciones': 'Goat_meat',
+  'Ốc (caracoles de río)': 'Vietnamese_cuisine',
+  'Ruta de playas Cat Co': 'Cat_Ba_Island', // ojo: "Cát_Bà_island" (con tildes) no resuelve, hace falta "Cat_Ba_Island" sin tildes
+  'Atardecer en Flamingo Cat Ba Resort': 'Lan_Ha_Bay',
+  'Marisco de Cat Ba': 'Seafood',
+  'Trekking al pueblo de Viet Hai': 'Lan_Ha_Bay',
+  'Ba Trai Dao (Isla de los 3 melocotones)': 'Lan_Ha_Bay',
+  'Hospital Cave': 'Cát_Bà_National_Park',
+  'Último marisco en Cat Ba': 'Seafood',
+  'Sitios pendientes del Old Quarter': 'Old_Quarter,_Hanoi',
+  // Contenido nuevo del PC de casa (Angkor extras, Da Nang) que llegó sin alias:
+  // 'Banteay Srey Butterfly Centre' usa photo: directo en data.js (foto BSRC real de Commons), no alias
+  'Lotus Silk Farm': 'Siem_Reap_province',
+  'Clases de Cocina': 'Hội_An',
+  'Mercado nocturno Son Tra': 'Da_Nang',
+  'Aldea de Frescos de Da Nang': 'Da_Nang',
   // ── HUECOS DE CONTENIDO (29-sep-2026): Tra Su, Café Giảng ──
   'Bosque de Tra Su (Cajuput)': 'Melaleuca_cajuputi', // árbol cajuput real; no hay artículo dedicado a Tra Su con foto
   // ── AUDITORÍA FOTO↔SITIO (29-sep-2026): 4 huecos reales encontrados con un script de verificación (existe alias + tiene foto) ──
   'El Callejón Colectivo Cũ (Cư xá Cũ)': 'Hanoi', // sin artículo propio; foto genérica de la ciudad
   'Old Quarter Hoi An (paseo introductorio)': 'Hoi_An_Old_Town', // ojo: "Hoi_An" a secas es ahora desambiguación (Wikipedia reorganizó el artículo en 2025)
-  'Chợ đêm Hội An (Mercado Nocturno de los Farolillos)': 'Hoi_An_Old_Town', // no hay artículo del mercado nocturno; antes "Night market" resolvía por casualidad a un mercado de Seúl
-  'Sitios pendientes del Old Quarter': 'Old_Quarter,_Hanoi',
   // ── ALIAS 25-DIAS (28-sep-2026): mismo articulo, nombre nuevo del itinerario ──
-  'Old Quarter (Barrio Antiguo)': 'Old_Quarter,_Hanoi',
-  'Old Quarter (bono, 5 monumentos)': 'Old_Quarter,_Hanoi',
   'Calle Phan Đình Phùng': 'Hanoi_Opera_House',
   'Teatro de Marionetas de Agua': 'Thăng_Long_Water_Puppet_Theatre',
-  'Lago Truc Bach': 'West_Lake_(Hanoi)',
+  'Lago Truc Bach': 'Trúc_Bạch_Lake',
   'West Lake (Tây Hồ)': 'West_Lake_(Hanoi)',
   'Old Market (Phsar Chas)': 'Psar_Chas', // artículo dedicado "Old Market (Siem Reap)", foto real del mercado — antes usaba el genérico Siem_Reap
   'Amanecer en Angkor Wat': 'Angkor_Wat',
   'Banteay Kdei': 'Banteay_Kdei',
   'Angkor Thom (South Gate)': 'Angkor_Thom',
-  'Bayon': 'Angkor_Thom',
+  'Bayon': 'Bayon',
   'Banteay Srei ⭐': 'Banteay_Srei',
   'Banteay Samré': 'Banteay_Samré',
   'Preah Khan': 'Preah_Khan',
   'Beng Mealea ⭐⭐⭐⭐⭐ (Plan B)': 'Beng_Mealea',
   'Riverside (Sisowath Quay)': 'Sisowath_Quay',
-  'Calle Trần Phú': 'Hội_An',
   'Ruta en bici isla de Cam Kim (Vietnam rural)': 'An_Bàng_Beach',
   'Playa An Bang (ruta en bici)': 'An_Bàng_Beach',
   'Cementerio City of Ghosts (valorar si ir)': 'Imperial_City,_Huế',
@@ -314,9 +354,7 @@ const WIKI_ARTICLES = {
   'Calle del incienso de Thuy Xuan': 'Perfume_River',
   'Hang Mua (mejor al amanecer)': 'Mua_Cave',
   'Parque nacional de Cuc Phuong (descartar por distancia)': 'Cúc_Phương_National_Park',
-  'Ruta de playas Cat Co': 'Cát_Bà_island',
   'Ngu Lam Peak': 'Lan_Ha_Bay',
-  'Hospital Cave': 'Cát_Bà_National_Park',
   'Mausoleo de Ho Chi Minh y Pagoda de un Solo Pilar': 'Ho_Chi_Minh_Mausoleum',
   'Prisión de Hoa Lo': 'Hỏa_Lò_Prison',
   'Pagoda de Bai Dinh': 'Bái_Đính_Pagoda',
@@ -348,7 +386,6 @@ const WIKI_ARTICLES = {
   'Chợ Châu Đốc en hora punta': 'Wet_market', // mismo mercado que el día anterior, misma foto genérica
   'Mausoleo de Thoại Ngọc Hầu (Tomb of Thoai Ngoc Hau)': 'Thoại_Ngọc_Hầu',
   'Montaña Sam (Nui Sam)': 'An_Giang', // foto real: templo de Bà Chúa Xứ, en la propia Montaña Sam
-  'Victoria Nui Sam Lodge (mirador de los arrozales)': 'An_Giang',
   'Bến Ninh Kiều (Muelle de Ninh Kieu)': 'Can_Tho',
   'Ninh Kieu Footbridge': 'Can_Tho',
   'Chùa Ông Cần Thơ': 'Can_Tho',
@@ -363,23 +400,13 @@ const WIKI_ARTICLES = {
   'Museos Históricos': 'Hội_An',
   'Puentes, Templos y Casas Comunales': 'Hội_An',
   'Espectáculos, Demostraciones y Tumbas': 'Hội_An',
-  'Mercado de pescado de Thanh Ha': 'Hội_An',
-  'Mercado de Tan An (Tiger Market)': 'Hội_An',
-  'Mercado de Ba Le': 'Hội_An',
-  // Da Nang
-  'Mercado nocturno Son Tra': 'Da_Nang',
-  'Love Lock Bridge': 'Dragon_Bridge_(Đà_Nẵng)',
   // Hue
   'Mercado nocturno de Dong Ba': 'Đông_Ba_Market',
-  'Paseo junto al río Perfume': 'Perfume_River',
   'Tumba de Tu Duc': 'Tomb_of_Tự_Đức',
   'Tumba de Minh Mang': 'Imperial_City,_Huế', // "Tomb_of_Minh_Mạng" no existe; "Minh_Mạng" tiene solo un .gif que la app no carga bien (comprobado 29-sep-2026)
   // Cat Ba / Lan Ha Bay
-  'Atardecer en Flamingo Cat Ba Resort': 'Cát_Bà_island',
   'Cannon Fort (Pháo Đài Thần Công)': 'Cát_Bà_island',
   'Lan Ha Bay (crucero 2d/1n o excursión de 1 día)': 'Lan_Ha_Bay',
-  'Trekking al pueblo de Viet Hai': 'Lan_Ha_Bay',
-  'Ba Trai Dao (Isla de los 3 melocotones)': 'Lan_Ha_Bay',
 
   // ── ALIAS 29-SEP-2026 (continuación): auditoría de restaurantes/platos ──
   'Bia Hơi': 'Bia_hơi',
@@ -393,18 +420,11 @@ const WIKI_ARTICLES = {
   'Bun Ca': 'Vietnamese_cuisine', // sin artículo propio (comprobado 29-sep-2026)
   'Chao Ca': 'Congee',
   'Pescado de agua dulce del Mekong': 'Mekong_Delta',
-  'Bún Cá Châu Đốc': 'Vietnamese_cuisine',
-  'Fruta y café flotante en Cai Rang': 'Cai_Rang',
   'Hủ Tiếu': 'Hủ_tiếu',
   'Cao Lầu': 'Cao_lầu', // con tilde — "Cao Lau" (sin tilde) apuntaba a un artículo distinto y no coincidía con el nombre real de data.js
-  'Bánh Mì Phượng': 'Bánh_mì', // sin artículo propio; "Bánh mì Phượng" (con minúscula) ya existía pero no coincidía por mayúsculas
   'Marisco de Da Nang': 'Seafood',
   'Dê nướng (cabra a la parrilla)': 'Goat_meat',
-  'Dê (cabra) en distintas preparaciones': 'Goat_meat',
-  'Ốc (caracoles de río)': 'Vietnamese_cuisine',
-  'Marisco de Cat Ba': 'Seafood',
   'Chả Mực Cát Bà': 'Squid_as_food',
-  'Último marisco en Cat Ba': 'Seafood',
 };
 
 // Comida típica y curiosidades por ciudad, para la ficha "Sobre <ciudad>" —
@@ -2601,7 +2621,7 @@ function renderDay(date) {
     <div class="day-tabs" id="day-tabs">
       <button class="day-tab active" onclick="showDayTab('resumen')">Resumen</button>
       <button class="day-tab" onclick="showDayTab('lugares')">Lugares</button>
-      <button class="day-tab" onclick="showDayTab('comer')">Comer</button>
+      ${day.restaurants.length ? `<button class="day-tab" onclick="showDayTab('comer')">Qué comer</button>` : ''}
       <button class="day-tab" onclick="showDayTab('mapa')">Mapa</button>
       <button class="day-tab" onclick="showDayTab('notas')">Notas</button>
     </div>`;
@@ -2772,7 +2792,7 @@ function renderDay(date) {
     <div class="dsc-card">
       <div class="dsc-header">
         <span class="dsc-header-icon">🍜</span>
-        <span class="dsc-title">Dónde comer</span>
+        <span class="dsc-title">Qué comer</span>
         <span class="dsc-count">${day.restaurants.length}</span>
       </div>
       <div class="photo-circles-row">
@@ -2834,7 +2854,7 @@ function renderDay(date) {
         <div class="section-title">📍 Lugares a visitar</div>
         ${day.places.map((p, i) => lugarCardHtml(p, i, 'place', placeIcon(p.type))).join('')}` : ''}
       ${day.restaurants.length ? `
-        <div class="section-title">🍜 Dónde comer & beber</div>
+        <div class="section-title">🍜 Qué comer</div>
         ${day.restaurants.map((r, i) => lugarCardHtml(r, i, 'rest', r.type === 'cafe' ? '☕' : '🍜')).join('')}` : ''}
       ${!day.places.length && !day.restaurants.length
         ? `<div class="empty-state"><span class="empty-icon">📍</span><p>No hay lugares registrados para este día.</p></div>` : ''}
@@ -2873,17 +2893,21 @@ function renderDay(date) {
 
   // ── TAB: Mapa ──
   const DAY_MAP_COORDS = {
+    'Barcelona':      [41.3874, 2.1686, 12],
+    'Shenzhen':       [22.5431, 114.0579, 11],
     'Hanói':          [21.0285, 105.8542, 14],
     'Cat Ba':         [20.7291, 107.0475, 13],
     'Lan Ha Bay':     [20.7500, 107.0800, 12],
+    'Tam Coc':        [20.2506, 105.9745, 13],
     'Ninh Binh':      [20.2506, 105.9745, 13],
     'Hue':            [16.4637, 107.5909, 13],
     'Da Nang':        [16.0544, 108.2022, 13],
     'Hoi An':         [15.8801, 108.3380, 14],
     'Siem Reap':      [13.3671, 103.8448, 13],
     'Angkor':         [13.4125, 103.8670, 13],
-    'Koh Rong':       [10.5833, 103.3667, 13],
     'Phnom Penh':     [11.5564, 104.9282, 13],
+    'Chau Doc':       [10.7010, 105.1258, 13],
+    'Can Tho':        [10.0452, 105.7469, 13],
   };
   const myMapsId = trip?.myMapsUrl?.match(/mid=([^&]+)/)?.[1];
   const cityKey = Object.keys(DAY_MAP_COORDS).find(k => day.city?.includes(k)) || '';

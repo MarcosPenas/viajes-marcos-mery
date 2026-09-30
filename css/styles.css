@@ -247,24 +247,26 @@ html, body {
 /* ── ITINERARY LIST ── */
 /* ── ITINERARY REDISEÑADO ── */
 .itinerary-wrap { padding: 8px 0; }
-.block-section { margin: 0 16px 20px; }
+.block-section { margin: 0 16px 20px; border-radius: 20px; overflow: hidden; box-shadow: var(--shadow-md); }
 .block-section-header {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 4px 0 10px;
+  padding: 10px 16px;
   font-size: 13px; font-weight: 800;
   border-bottom: none;
+  background: var(--surface);
+  border-radius: 20px 20px 0 0;
+  margin-bottom: -1px;
 }
+.htl2-zone > .block-section-header { border-radius: 20px 20px 0 0; }
 .bsh-label { font-size: 13px; }
 .bsh-count {
-  font-size: 11px; font-weight: 700; opacity: .55;
-  background: currentColor; color: white;
+  font-size: 11px; font-weight: 700; opacity: .75;
   padding: 2px 8px; border-radius: 10px;
-  background: rgba(0,0,0,.06); color: inherit;
+  background: var(--border); color: inherit;
 }
 .block-days-list {
-  border-radius: 20px;
+  border-radius: 0 0 20px 20px;
   overflow: hidden;
-  box-shadow: var(--shadow-md);
   border-left: none;
 }
 .day-row2 {
@@ -2161,6 +2163,9 @@ html[data-theme="dark"] .docs-hint { background: #16283d; border-bottom-color: #
 html[data-theme="dark"] .lugar-tips { background: #3a2f12; border-color: #6b551f; }
 html[data-theme="dark"] .tnow-transport-card.tnow-night { background: #2a2140; }
 html[data-theme="dark"] .dsc-transport-card { background: var(--surface); }
+html[data-theme="dark"] .currency-eur-badge { background: linear-gradient(135deg,#1b3a2a,#234a34); color: #6fd89a; }
+html[data-theme="dark"] .currency-local-badge { background: linear-gradient(135deg,#1a2d52,#233a63); }
+html[data-theme="dark"] .fx-tab.active { background: linear-gradient(135deg,#1a2d52,#233a63); }
 
 /* ── Forzar CLARO manual (anula media query en sistemas oscuros) ── */
 html[data-theme="light"] {

@@ -2,6 +2,166 @@
 
 ---
 
+## 2026-09-30 (PC del trabajo) — Reconciliación tras sincronización MEGA con la sesión del PC de casa: 28 fotos rotas encontradas y corregidas
+
+Al retomar la sesión, `git status` mostró que varios archivos (`js/data.js`, `js/app.js`, `css/styles.css`, los `.md` de especificaciones, y 3 imágenes locales borradas) habían cambiado en el disco sin que este PC los hubiera commiteado — la sesión del PC de casa de anoche (29-sep, ver continuaciones 10-16) se sincronizó por MEGA encima del trabajo de este PC. Como `.git` no viaja por MEGA (ver Parte 19 de la Memoria Maestra), el resultado es un archivo de **contenido mezclado**: `git log` de este PC no tiene los commits de casa, pero los ARCHIVOS en disco sí llevan sus cambios, superpuestos a los míos de ayer tarde.
+
+**Verificación exhaustiva antes de commitear nada:**
+1. `git diff --numstat` confirmó que `HISTORIAL_DE_CAMBIOS.md` solo tenía inserciones (0 borrados) — su convención de "nunca se borra, se añade arriba" hizo que las dos sesiones convivieran bien ahí. `CONTINUIDAD.md`, `js/app.js` y `js/data.js` sí tenían borrados además de inserciones — contenido realmente divergente, no solo acumulado.
+2. Comprobación de claves duplicadas en `WIKI_ARTICLES`: solo 2 duplicados inofensivos (mismo valor en ambas), nada roto por colisión de claves como pasó ayer.
+3. **Auditoría completa en vivo (recorrido real por los 25 días, no un script aparte) encontró 28 fichas sin ninguna foto que cargara** (`src` vacío) — causa raíz: el PC de casa **renombró muchas entradas** en su `data.js` (añadiendo sufijos descriptivos, p.ej. `'Calle Trần Phú'` → `'Calle Trần Phú — azoteas y Mot Hoi An'`) y actualizó sus alias de `WIKI_ARTICLES` a juego — pero el `data.js` que llegó a este PC por MEGA se quedó con los nombres CORTOS originales. Los alias con el nombre largo no encontraban su ficha, y viceversa.
+
+**Fix aplicado:** en vez de intentar adivinar o replicar los renombrados del PC de casa (arriesgado sin ver su commit real), se añadieron alias nuevos usando el nombre EXACTO que hay ahora en este `data.js`, reutilizando el mismo destino real que ya tenía la versión renombrada cuando existía uno equivalente (ej. `'Calle Trần Phú'` → `Hội_An`, igual que su `'Calle Trần Phú — azoteas...'` → `Hội_An`). Para las ~5 fichas de contenido totalmente nuevo del PC de casa (Banteay Srey Butterfly Centre, Lotus Silk Farm, Clases de Cocina, Mercado nocturno Son Tra, Aldea de Frescos de Da Nang — extras de Angkor y Da Nang, buen contenido) se buscó foto real en Wikimedia Commons desde cero, verificada a ojo antes de aplicarla (foto real de mariposa del propio Banteay Srey Butterfly Research Center para esa ficha).
+
+**Bug adicional encontrado de paso (no introducido hoy, ya existía en el trabajo del PC de casa):** su alias `'Ruta de playas Cat Co (1, 2 y 3)': 'Cát_Bà_island'` usa el artículo con tildes, que no existe en Wikipedia — el real es `Cat_Ba_Island` (sin tildes). Corregido en la entrada equivalente de este PC; **queda pendiente corregir también la suya** si sigue usando el nombre con sufijo.
+
+**Verificado con recorrido en vivo completo por los 25 días (en 4 tandas para evitar timeouts): 0 imágenes rotas en las 167 fichas del itinerario** (antes de este fix: 27-28 rotas). Sintaxis de ambos archivos comprobada con Node antes de comprometer nada.
+
+**Archivos:** `js/data.js` (DATA_VERSION 46→47), `js/app.js` (v→127), `index.html`.
+
+**Para la próxima sesión del PC de casa:** este commit no desciende de tus commits locales (`4dc5851`...`d48f9a4`) — sigue siendo el mismo problema de siempre, cada PC tiene su propio historial git y solo los ARCHIVOS se sincronizan por MEGA. Cuando retomes, compara tu `git log` con el de aquí antes de asumir cuál versión es la "buena" — ninguna de las dos es más correcta, son cambios en paralelo sobre la misma base.
+
+---
+
+## 2026-09-29 (continuación 16, PC de casa) — Bug estructural de fotos duplicadas encontrado y corregido (27 casos) + fixes de UI varios
+
+**El hallazgo más importante de esta continuación.** Marcos fue navegando la app en vivo (mientras yo trabajaba en otras cosas en paralelo) y fue reportando, uno tras otro, sitios con miniaturas repetidas o directamente incorrectas: la Catedral de San José mostrando la Torre de la Tortuga del Lago Hoan Kiem, la Ciudadela de Thang Long mostrando el logo de un blog, "Lap Khmer" y "Amok" compartiendo foto (y ninguna de las dos su plato real), el Monumento al Pez Basa mostrando un pez de piscifactoría vivo en vez de la escultura, Montaña Sam y Victoria Nui Sam Lodge con la misma foto, Bến Ninh Kieu y su puente con la misma foto, Puente del Dragón/Love Lock Bridge/Mercado nocturno Son Tra los tres pareciendo el mismo puente, y la bahía de Lan Ha compartida por 3 sitios distintos de Cat Ba.
+
+**Causa raíz identificada:** no eran casos aislados. Escribí un script que analiza el objeto `WIKI_ARTICLES` de `app.js` (la tabla que alias cada nombre de sitio a un artículo de Wikipedia para buscar su foto) y encontró que **72 artículos de Wikipedia estaban asignados a 2 o más nombres de sitio distintos** — de esos, cruzando contra los nombres que existen de verdad en el `data.js` actual (muchos eran nombres huérfanos del itinerario viejo, ya no usados, inofensivos), quedaron **15 grupos con dos o más sitios REALES compartiendo la misma foto**, sumando 27 líneas de alias duplicadas. Herencia de cuando se fueron asignando alias uno a uno durante la reescritura del itinerario del 28-sep, sin comprobar si ese artículo de Wikipedia ya estaba en uso por otro sitio.
+
+**Corregido con un script de limpieza automática:** para cada grupo de sitios reales que compartían el mismo artículo, se conserva el alias solo en el primero (el más representativo) y se elimina de los demás — así cada uno cae al siguiente paso de la cadena de resolución (Wikipedia con su propio nombre, o sin foto) en vez de heredar la foto de otro sitio. **27 líneas de alias duplicadas eliminadas.** Además, 3 archivos locales confirmados con contenido erróneo (`catedral_san_jose_hanoi.jpg`, `café_phố_cổ_azotea_secreta_sobre_el_lago.jpg`, `imperial_citadel_of_thăng_long.jpg`) se borraron de `img/places/` tras verificar a ojo que no correspondían al lugar.
+
+**5 fotos nuevas verificadas a ojo y añadidas con foto directa** (para los casos que valían la pena buscar en vez de dejar sin foto): Catedral de San José (real, neogótica), Ciudadela Imperial de Thang Long (puerta Doan Mon), Monumento al Pez Basa (la escultura real, no un pez vivo), Love Lock Bridge Da Nang (foto real del muelle con faroles). "Lap Khmer" se quedó sin foto (no hay ninguna en Commons) y "Amok de pollo o verduras" se renombró a "Amok" a secas, quedándose con la foto real de Fish Amok (la versión con cobertura fotográfica y la más icónica del plato nacional).
+
+**Otros arreglos de UI reportados por Marcos mientras navegaba en vivo:**
+- **"🍜 Dónde comer & beber" seguía apareciendo** en la pestaña "Lugares" de cada día pese a que ayer se renombró el título de la pestaña y de la vista previa — quedaba este tercer sitio sin tocar. Ahora dice "🍜 Qué comer" en los tres.
+- **Pestaña "Qué comer" oculta en los días de aeropuerto** (Barcelona, Shenzhen) cuando no hay restaurantes registrados — antes se veía la pestaña vacía con "Sin platos registrados para esta zona", ahora directamente no aparece esa pestaña.
+- **Corregido el "piquito"** (pequeño triángulo oscuro asomando en la esquina superior izquierda de las tarjetas de bloque en "Días"/"Transportes") — causa: la cabecera del bloque y la lista de días de abajo tenían cada una su propio `border-radius` y se superponían con un margen negativo de 1px, dejando un hueco de subpíxel en la esquina por el que se colaba el fondo. Solución de raíz: el redondeado y el `overflow:hidden` ahora se aplican una sola vez al contenedor `.block-section` que envuelve a ambos, en vez de intentar que coincidan por separado.
+
+**Encontrado (no arreglado en la app, requiere acción de Marcos):** el mapa de la pestaña "Mapa" se veía en blanco. Probado el enlace `myMapsUrl` directamente sin sesión de Google → pide iniciar sesión ("The map you requested is only available to some users"). **El mapa de Google My Maps de Marcos no está compartido en modo público** ("Cualquier usuario con el enlace"), sino en un modo restringido — por eso el iframe embebido no puede cargarlo para nadie que no tenga su sesión de Google. Instrucciones dadas a Marcos: My Maps → mapa "Vietnam" → `⋮` → Compartir → Acceso general → "Cualquier usuario con el enlace" (Lector).
+
+**Pendiente para la próxima sesión:**
+- Confirmar con Marcos si ya cambió la visibilidad del mapa y volver a probar el iframe
+- Bloque de tarjetas de "info del aeropuerto" (consejos, mapa de terminales si aplica, y para Hanói qué hacer nada más aterrizar) — pedido explícito, sin empezar
+- Ampliar "Qué comer" de 2 a 4-5 platos por día donde tenga sentido, investigando en internet además de lo ya puesto — pedido explícito, sin empezar
+- Seguir el barrido de fotos: quedan sitios sin revisar visualmente fuera de los que Marcos ha ido reportando en vivo; y de los 72 grupos de alias duplicados originales, quedan ~57 grupos con nombres huérfanos del itinerario viejo — limpiarlos en algún momento no es urgente (no causan bugs visibles, son código muerto) pero ensucian el archivo
+- Seguir el criterio de relevancia turística en las listas de Google Maps que quedan: Vietnam Norte-Hanói (terminado el filtrado, falta Ninh Binh y repasar Cat Ba/Vietnam Sur que ya se hicieron en otra sesión con otro método)
+
+**Archivos:** `js/app.js` (27 alias duplicados eliminados, rename "Qué comer" en Lugares, fix tab Qué comer condicional, v→126), `js/data.js` (5 fotos verificadas nuevas, Lap Khmer/Amok renombrado, DATA_VERSION→46), `css/styles.css` (fix border-radius/overflow de `.block-section`, v→70), `img/places/` (3 archivos erróneos borrados), `index.html`.
+
+---
+
+## 2026-09-29 (continuación 15, PC de casa) — Criterio de relevancia turística para las listas de Google Maps + primeros sitios añadidos
+
+**Contexto:** Marcos pidió explícitamente no volcar los ~200 sitios de sus 7 listas de Google Maps tal cual ("muchos son simples lugares que apuntamos y a lo mejor vamos o no"), sino que estableciera yo un criterio de relevancia turística, comparando con webs de viaje, y metiera solo los que de verdad aportan.
+
+**Criterio adoptado:** Google Maps ya da, para cada sitio guardado en una lista, su valoración media y (más importante) **el número de reseñas** — una señal agregada de miles de viajeros reales, equivalente a lo que daría cruzar manualmente contra TripAdvisor/webs de viaje sitio a sitio. Un sitio se considera de interés turístico real si tiene **aprox. ≥150-300 reseñas** (varía según lo nicho de la categoría) y no es ya una entrada distinta de algo que la app cubre con más detalle bajo otro nombre. Sitios con muy pocas reseñas o sin valoración (localidades sueltas, negocios genéricos) se descartan salvo que sean claramente icónicos pese a lo nicho (p.ej. un mercado nocturno pequeño pero único de una ciudad concreta).
+
+**Método:** abrir cada una de las 7 listas compartidas (enlaces en `MEMORIA_MAESTRA.md`, Parte 20) en el navegador — son públicas, no requieren la sesión de Marcos — extraer todos los sitios con su categoría/reseñas, y contrastar nombre por nombre contra lo que ya existe en `data.js` para esa ciudad/día. Solo se procesa lo que no está ya cubierto.
+
+**Lista "Camboya Sur" (10 sitios):** 8/10 ya cubiertos con ficha rica. El puerto internacional ya está referenciado como punto de salida del ferry (transporte, no ficha de sitio). Solo "Toul Tom Poung Evening Market" (4.0, 22 reseñas) se descarta por criterio — muy pocas reseñas, redundante con el Mercado Ruso de día que sí está cubierto.
+
+**Lista "Camboya Norte" (26 sitios, Angkor/Siem Reap):** 23/26 ya cubiertos. 3 huecos reales por encima del umbral, ya identificados como "opcionales" en una sesión anterior pero nunca decididos — decisión tomada hoy, añadidos al día 12-nov (ruta rural hacia Banteay Srei, donde están los tres físicamente):
+- **Museo de Minas Terrestres de Camboya** (4.6, 994 reseñas) — foto verificada (Commons, la vitrina de artillería inerte del propio museo)
+- **Banteay Srey Butterfly Centre** (4.5, 500 reseñas) — sin foto, verificado que Commons no tiene ninguna imagen real del sitio
+- **Lotus Silk Farm** (4.9, 3.949 reseñas — la de más reseñas de las tres) — sin foto, mismo motivo
+- Descartada "Artisans Silk Farm" (166 reseñas, redundante con Lotus Silk Farm) y "Preah Dak" (sin reseñas, es una localidad, no un sitio)
+
+**Dos sitios más, ya señalados como pendientes en sesiones anteriores y resueltos hoy con la misma autorización de Marcos:**
+- **Santuario de My Son** (ruinas Cham, Patrimonio UNESCO, cerca de Hoi An) — añadido al 20-nov, foto verificada (Commons)
+- **Península de Son Tra / Montaña de los Monos** (Da Nang, con la Pagoda Linh Ung y su Buda blanco de 67m) — añadido al 21-nov, foto verificada (Commons) — distinto del "Mercado nocturno Son Tra" que ya existía, mismo nombre de zona pero sitio distinto
+
+Los 5 sitios nuevos verificados en el navegador tras aplicarlos: las 3 fotos nuevas cargan correctamente en las fichas, y los 2 sitios sin foto muestran el placeholder genérico esperado (no rotos, no con foto equivocada).
+
+**Pendiente:** repetir el mismo método (abrir lista → extraer con reseñas → filtrar por el criterio → cruzar contra `data.js`) para las 4 listas grandes que quedan: Vietnam Norte-Hanói (46), Vietnam Centro (62, la más grande — Hoi An/Da Nang/Hue), Vietnam Norte-Ninh Binh (22) y Vietnam Norte-Cat Ba (11)/Vietnam Sur (13, estas dos ya se revisaron a fondo en una sesión anterior, probablemente con menos huecos).
+
+**Archivos:** `js/data.js` (DATA_VERSION 42→43), `index.html` (`data.js?v=43`).
+
+---
+
+## 2026-09-29 (continuación 12, PC de casa) — Contenido de María: Hoi An (clases de cocina, talleres) y Da Nang (mercado nocturno, Aldea de Frescos)
+
+**Contexto:** retomado el trabajo interrumpido de meter el contenido del documento `.odt` de María para los días 19-21 (Hoi An/Da Nang) que quedó pendiente en la continuación 10 al parar para verificar imágenes primero.
+
+**Añadido a 2026-11-20 (Hoi An):**
+- **Clases de Cocina**: las dos opciones que describe María (Isla de Thuan Tinh 35€ con mercado+barco+cocina, y "Cocina Tradicional" 34€ con huertos y técnicas de arroz).
+- **Talleres Artesanales**: farolillos de cera y el taller con impacto social Reaching Out Vietnam (artesanos con discapacidad, calle Nguyễn Thái Học 103).
+- Nota del día actualizada: ya no dice "pendiente: Clases de Cocina, Talleres Artesanales" porque ahora están metidos; se deja solo "Ba Na Hills (ver día 21)" y "Santuario de My Son" como pendientes reales.
+
+**Añadido/enriquecido en 2026-11-21 (Da Nang):**
+- **Mercado nocturno Son Tra** y **Love Lock Bridge**: tenían `notes: ''` (sin contenido) — rellenados con el detalle de María (zonas del mercado, horarios, ubicación exacta junto al Puente del Dragón).
+- **Aldea de Frescos de Da Nang** (Làng Bích Họa): sitio nuevo, no existía ninguna ficha — barrio de murales a 2 min del hotel LaDa's House.
+
+**Sobre las fotos de estos 5 sitios nuevos/enriquecidos: dejados sin `photo:` a propósito, no es un olvido.** Antes de escribirlas comprobé con un script (mismo método de commons_search que usa la app) qué encontraría el buscador en vivo para "Aldea de Frescos de Da Nang" — solo devuelve PDFs irrelevantes sin ninguna foto real del sitio, ni con el nombre en español ni en inglés. Como `loadWikiPhoto()` en `app.js` (la función que carga la miniatura en la ficha) solo prueba `WIKI_ARTICLES[nombre] → artículo de Wikipedia en inglés`, y no existe artículo para este sitio, el resultado real en la app es que la ficha se queda sin foto (no rota, sin `src`) — mismo comportamiento ya aceptado para otros sitios sin foto confirmada (p.ej. `Mercado de Tan An`, `Mercado de Ba Le`). Poner una `photo:` inventada o mal emparejada habría sido peor que dejarla vacía.
+
+**Evitada una duplicación:** al escribir la ficha de "Calle Trần Phú" y "Night Market" para el 19-nov, comprobé que ya existían fichas equivalentes (con foto y descripción) para el día de llegada 18-nov (`Calle Trần Phú` y `Chợ đêm Hội An (Mercado Nocturno de los Farolillos)`) — retiradas las nuevas del 19-nov para no repetir el mismo sitio en dos días distintos de la ficha "Días".
+
+**Sigue pendiente del documento de María:** el bono de 22 monumentos de Hoi An solo está resumido por categorías (no monumento a monumento — son 22 sitios, la app ya tiene las 5 categorías del bono con foto representativa, decisión de la continuación anterior de no crear 22 fichas individuales); Chau Doc/Can Tho siguen con el contenido resumido que ya tenían (el documento de María es muy breve ahí, no da para más).
+
+**Archivos:** `js/data.js` (DATA_VERSION 39→40), `index.html` (`data.js?v=40`).
+
+---
+
+## 2026-09-29 (continuación 13, PC de casa) — Dos huecos de contenido en Chau Doc rellenados
+
+Revisando el día 17-nov (Chau Doc → Can Tho) encontré dos sitios con `notes: ''` vacío: **Mausoleo de Thoại Ngọc Hầu** y **Victoria Nui Sam Lodge**. Rellenados con una frase factual breve cada uno (mandarín Nguyễn enterrado junto a sus dos esposas a los pies de la Montaña Sam; terraza-mirador de arrozales fronterizos con Camboya). Comprobado también que las 4 opciones nocturnas de Can Tho que lista María (Chợ đêm Đề Thám, Bờ kè Cái Khế, Chợ đêm Ninh Kiều, Chợ đêm Cần Thơ) ya estaban recogidas como nota de texto en el día (decisión de una sesión anterior, razonable dado que se solapan bastante con Bến Ninh Kiều/Ninh Kieu Footbridge que sí tienen ficha propia) — no se ha tocado.
+
+**Archivos:** `js/data.js` (DATA_VERSION 40→41), `index.html` (`data.js?v=41`).
+
+---
+
+## 2026-09-29 (continuación 14, PC de casa) — Barrido final de huecos `notes: ''` en toda la app
+
+Búsqueda de todos los sitios con `notes: ''` (vacío) en el archivo entero, no solo Chau Doc. Encontrados y rellenados 6 más: **Wat Damnak** (Siem Reap, sede de Cambodian Living Arts), **Mercado central Chợ Hội An** (horario de María: abre 06:00, subasta de pescadores 5-7h), **Mercado de pescado de Thanh Ha** (subasta de madrugada 03:00-07:00), **Mercado de Tan An/Tiger Market** y **Mercado de Ba Le** (horarios de María), **Mercado nocturno de Dong Ba** y **Paseo junto al río Perfume** (Hue — María no cubre Hue en su documento, así que estos dos son de conocimiento general, no de su texto). Solo queda un `notes: ''` en todo el archivo: "Cena de comida Khmer", un placeholder genérico de cena que ya tiene foto propia — no aporta rellenarlo.
+
+**Archivos:** `js/data.js` (DATA_VERSION 41→42), `index.html` (`data.js?v=42`).
+
+---
+
+## 2026-09-29 (continuación 11, PC de casa) — CAUSA RAÍZ de los problemas de contraste: dos temas oscuros paralelos
+
+**El hallazgo más importante de estos dos días de arreglos de contraste.** Marcos reportó que el bloque de Transportes "ya no se lee nada" en oscuro pese a que ya se había arreglado ayer (`.tr-inline`, ver continuación del 28-sep). Investigado a fondo: **la app tiene DOS bloques de CSS de tema oscuro totalmente independientes**:
+1. `html[data-theme="dark"] { ... }` — el bloque donde se han ido añadiendo TODOS los arreglos de contraste de esta sesión y la de ayer. Solo se activa si el usuario ha tocado el interruptor de tema DENTRO de la app.
+2. `@media (prefers-color-scheme: dark) { ... }` — un bloque paralelo, con las mismas variables pero **ninguno de los arreglos de componentes** (`.tr-inline`, `.docs-hint`, `.lugar-tips`, `.currency-*`, etc.), que se activa automáticamente si el sistema operativo/navegador está en modo oscuro **y el usuario nunca ha tocado el interruptor de la app**.
+
+`initTheme()` en `js/app.js` solo fijaba `data-theme` en `<html>` si había una preferencia guardada en `localStorage` — si no (caso "auto", el que tiene cualquiera que no haya tocado el interruptor nunca, muy probablemente el caso de Marcos en el navegador/móvil que estaba mirando), `data-theme` se quedaba sin fijar y el navegador usaba el bloque `@media`, **desactualizado desde el primer arreglo de contraste que se hizo**. Esto explica por qué tantos arreglos de estos dos días "no se notaban" para Marcos pese a estar bien hechos y verificados en el navegador de pruebas (que si tenía data-theme explícito).
+
+**Corregido de raíz:** `initTheme()` ahora SIEMPRE fija un `data-theme` explícito en `<html>`, incluso en modo "auto" — resolviendo `matchMedia('(prefers-color-scheme: dark)')` una vez al cargar y quedándose escuchando cambios del sistema mientras siga en "auto". Así todo el CSS de tema vive en un único sitio (`html[data-theme=...]`) y el bloque `@media` (~150 líneas, líneas 1993-2150 aprox.) queda efectivamente muerto — se ha dejado en el archivo por prudencia (no borrar código sin verificarlo del todo) pero ya no debería activarse nunca.
+
+**Otros arreglos de esta continuación:**
+- `DAY_MAP_COORDS` en `app.js` no tenía las ciudades nuevas del itinerario (Barcelona, Shenzhen, Chau Doc, Can Tho, y `'Tam Coc'` suelto) → esos días perdían el embed del My Maps de Marcos y cae a Leaflet. Añadidas las 5 claves que faltaban, confirmado que los 25 días resuelven ya a unas coordenadas.
+- 5 fotos verificadas a ojo (descargadas y miradas antes de aplicar) y corregidas por ser iguales entre sitios distintos o directamente incorrectas: `Bayon` (compartía foto con Angkor Thom), `Lago Truc Bach` (compartía con West Lake), `Calle Phan Đình Phùng` (compartía con la Ópera — ahora foto real de la avenida con túnel de árboles), `Chợ Châu Đốc` ×2 (mostraba un mercado de Hong Kong, ahora mercado real de Chau Doc), `El Río Hậu` (mostraba un puente de otra ciudad, ahora una casa flotante real).
+- `.block-section-header` (títulos de bloque en la pestaña Días) rediseñado para fundirse visualmente con la tarjeta de la lista de abajo — antes quedaba a medio camino entre texto suelto y tarjeta.
+- "Dónde comer" → renombrado a **"Qué comer"** en el resumen y pestaña del día (petición de Marcos: hoy solo hay platos, no restaurantes reales con ubicación; cuando haya info de restaurantes real se añadirá un bloque nuevo "Dónde comer" con sitios identificados en el mapa).
+
+**Pendiente explícito de Marcos, para próximas sesiones:** cuando haya información real de restaurantes (no solo platos típicos), crear un bloque "Dónde comer" separado con restaurantes concretos, identificados también en el mapa. Además, todos los sitios de las listas de Google Maps de Marcos deberían tener su propia ficha (info + imagen) en la app — de momento solo una parte de esas ~200 referencias tiene ficha propia.
+
+**Archivos:** `js/app.js` (fix de tema raíz, `DAY_MAP_COORDS`, 3 alias `WIKI_ARTICLES`, rename "Qué comer", v→123), `css/styles.css` (`.block-section-header`/`.block-days-list`/`.bsh-count` rediseñados, v→69), `js/data.js` (3 `photo` directos, DATA_VERSION→38), `index.html`.
+
+---
+
+## 2026-09-29 (continuación 10, PC de casa) — Mapa sin coordenadas para las ciudades nuevas + 5 fotos verificadas a mano
+
+**Contexto:** Marcos siguió esta misma mañana en otra sesión en el PC del trabajo (ver el bloque `## 👉 LEE ESTO PRIMERO` de `CONTINUIDAD.md` para el resumen completo de esa sesión). Al volver al PC de casa reportó que el mapa de la pestaña "Mapa" no aparecía en varios días, y pidió explícitamente no parchear solo los ejemplos que él viera sino repetir el proceso completo de la continuación 8 (recolección en vivo + agrupar por foto compartida + verificar a ojo antes de aplicar).
+
+**Bug real de mapa encontrado y corregido:** `DAY_MAP_COORDS` en `js/app.js` (la tabla que decide si se muestra el My Maps embed de Marcos o se cae al Leaflet genérico) seguía con las claves de ciudad de la ruta ANTIGUA — nunca se actualizó tras la reescritura del itinerario del 28-sep. Días con ciudades nuevas (Barcelona, Shenzhen, Chau Doc, Can Tho) o con el nombre exacto sin coincidencia (`'Tam Coc'` solo, sin la palabra "Ninh Binh") no encontraban ninguna clave y perdían el mapa por completo. Añadidas las 5 claves que faltaban — confirmado por script que los 25 días ahora resuelven a unas coordenadas.
+
+**Repetición del proceso de la continuación 8 (recolección en vivo + agrupar por foto compartida):** recolectadas las 157 fotos resueltas de sitios/restaurantes existentes (antes de añadir el contenido nuevo de María) y agrupadas por URL compartida entre nombres distintos — 19 grupos encontrados. La mayoría ya eran "genérico-pero-honesto" conocidos de la continuación 8 (mismo país/comida, sin foto específica disponible). **5 casos nuevos verificados a ojo (descargando la imagen y mirándola) y corregidos con foto real y distinta:**
+
+| Sitio | Antes | Después (verificado a ojo) |
+|---|---|---|
+| `Bayon` | La misma foto que `Angkor Thom (South Gate)` (alias compartido a `Angkor_Thom`) | Alias propio a `Bayon` — foto real de las torres con caras |
+| `Lago Truc Bach` | La misma foto que `West Lake (Tây Hồ)` | Alias propio a `Trúc_Bạch_Lake` — foto real del lago con su isla |
+| `Calle Phan Đình Phùng` | La misma foto que el Palacio de la Ópera | Foto directa verificada (Commons) — la avenida con túnel de árboles y un ciclista con sombrero cónico, tal cual la describe María |
+| `Chợ Châu Đốc` (dos entradas, día 16 y 17) | Foto de un mercado de Hong Kong (`WetmarketHK.jpg` — mal etiquetado en Wikipedia, ni siquiera es de Vietnam) | Foto directa verificada de "Chau Doc Market" en Commons |
+| `El Río Hậu: Aldeas Flotantes y Comunidad Cham` | Foto de un puente en Cao Lãnh (ciudad distinta) | Foto directa verificada — casa flotante real en el río, con bandera vietnamita |
+
+**Quedan sin tocar (mismo criterio que la continuación 8, no son fallos):** ~14 grupos más donde el nombre compartido es la misma entidad física (Bến Ninh Kiều/su puente, el mismo mercado mencionado dos días seguidos) o donde no se encontró ninguna foto más específica tras buscar (comida genérica vietnamita/camboyana, marisco, Old Quarter de Hoi An). Pendiente repetir esta misma recolección después de añadir el contenido nuevo de Chau Doc/Can Tho/Hoi An/Da Nang del documento de María.
+
+**Archivos:** `js/app.js` (`DAY_MAP_COORDS`, 3 alias de `WIKI_ARTICLES`, v=122), `js/data.js` (3 campos `photo` directos añadidos, DATA_VERSION 37→38), `index.html`, `.gitignore` (añadido `MEJORAS.lnk`/`MEJORAS.json`, documentados pero no aplicados en el PC de casa).
+
+---
+
 ## 2026-09-29 (continuación 9) — Dos fallos más vistos por Marcos: 5 fotos idénticas en Hoi An y 3 círculos vacíos en Inicio
 
 Marcos, mirando la app en directo, encontró dos cosas más que la pasada anterior no cubrió:

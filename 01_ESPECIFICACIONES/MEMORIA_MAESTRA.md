@@ -507,6 +507,8 @@ Marcos tiene 7 listas compartidas de Google Maps ("Mis mapas") con sitios que ha
 
 **Marcos avisó que seguirá añadiendo sitios a estas listas en las próximas semanas** — no dar por cerrado este pool, volver a consultarlo en cada sesión de "próximos pasos" del itinerario.
 
+**Criterio de relevancia turística (decisión de Marcos, 29-sep-2026):** no volcar los ~200 sitios de estas listas tal cual en la app — muchos son simples pines guardados, no necesariamente lugares a los que se vaya a ir. Criterio adoptado: usar el nº de reseñas de Google Maps como proxy de relevancia real (aprox. ≥150-300 reseñas ≈ sitio con interés turístico genuino, equivalente a contrastar con webs de viaje), y cruzar contra lo que ya cubre `data.js` antes de añadir nada — solo se añaden los huecos reales por encima del umbral, con foto verificada. Aplicado hasta el 29-sep-2026 a Camboya Sur, Camboya Norte y Vietnam Centro (ver `HISTORIAL_DE_CAMBIOS.md`, continuaciones 15-16); Hanói a medias; Ninh Binh sin empezar.
+
 ---
 
 ## ANEXO A — BLOQUE DE CONTEXTO COMPACTO PARA NUEVA IA

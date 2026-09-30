@@ -51,7 +51,7 @@ const DEFAULT_DATA = {
               tips: 'Bia Hoi Corner: esquina Lương Ngọc Quyến y Tạ Hiện — cerveza callejera 0,30 USD. Ancient House 87 Ma May: 10.000 VND para ver interior de casa tubo. Puerta Ô Quan Chưởng: única de la muralla del s.XVIII. TIMO mujeres con sombrero cónico y fruta: rechazar desde el primer momento.' },
             { name: 'Catedral de San José', type: 'temple',
               notes: 'Neogótica de 1886 inspirada en Notre-Dame. Fachada ennegrecida muy fotogénica. Gratuita.',
-              photo: 'https://picsum.photos/seed/hanoi-saint-joseph-cathedral/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Hanoi_St_Joseph%27s_cathedral.jpg/500px-Hanoi_St_Joseph%27s_cathedral.jpg',
               description: 'La iglesia católica más antigua de Hanói (1886), con dos torres de 31 metros. Al entrar, los vitrales franceses del XIX contrastan con el altar de madera lacada en rojo y oro estilo vietnamita. La Plaza de la Virgen frente a la entrada es un punto de reunión icónico.',
               tips: 'Nhà Chung 40. 8:00-11:00 y 14:00-17:00. Gratuita. Se llena en misas dominicales.' },
             { name: 'Lago Hoan Kiem y Templo Ngoc Son', type: 'temple',
@@ -61,9 +61,13 @@ const DEFAULT_DATA = {
               tips: 'Templo Ngoc Son: 8:00-18:00, 30.000 VND. Lago: gratuito 24h. Los domingos se cierra al tráfico todo alrededor — el mejor momento. Fines de semana hay mercado peatonal nocturno.' },
             { name: 'Café Phố Cổ (azotea secreta sobre el lago)', type: 'cafe',
               notes: 'Las mejores vistas del Lago Hoan Kiem. Entrada por una tienda de sedas en Hàng Gai 11.',
-              photo: 'https://picsum.photos/seed/hanoi-rooftop-lake-hoan-kiem/200/200',
               description: 'El café con mejores vistas secretas del lago. Completamente oculto a pie de calle. Hay que entrar por una tienda de sedas del nº 11 de Hàng Gai, cruzar el pasillo oscuro hasta el patio interior antiguo, y subir 4 pisos por escaleras de caracol empinadas.',
-              tips: 'Hàng Gai nº 11. 8:00-23:00. Entra en la tienda de sedas → fondo del pasillo → patio → escaleras de caracol al 4º piso. Terraza panorámica espectacular. Precio económico.' }
+              tips: 'Hàng Gai nº 11. 8:00-23:00. Entra en la tienda de sedas → fondo del pasillo → patio → escaleras de caracol al 4º piso. Terraza panorámica espectacular. Precio económico.' },
+            { name: 'Tạ Hiện (Beer Street)', type: 'monument',
+              notes: 'La calle de la fiesta y la Bia Hoi Corner del Barrio Antiguo — taburetes de plástico, cerveza a 0,30 USD y ambiente hasta tarde.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Ta-hien-street-3559133.jpg/500px-Ta-hien-street-3559133.jpg',
+              description: 'La calle más animada del Barrio Antiguo por las noches, sobre todo en su cruce con Lương Ngọc Quyến (la "Bia Hoi Corner"): terrazas improvisadas con taburetes bajos de plástico ocupan toda la acera, cerveza artesanal recién hecha a 0,30 USD el vaso, y ambiente mixto de locales y turistas hasta bien entrada la noche.',
+              tips: 'Se anima sobre todo a partir de las 19:00-20:00, fines de semana especialmente. Fácil combinarlo con el paseo del Old Quarter.' }
           ],
           restaurants: [
             { name: 'Phở Bò', type: 'restaurant', notes: 'Desayuno clásico de reencuentro con Vietnam.' },
@@ -86,10 +90,12 @@ const DEFAULT_DATA = {
               tips: 'Exterior 5:00-22:00, interior (cuerpo) 8:00-11:00. Cierra lunes y viernes, y también sept-nov por el reembalsamamiento anual en Rusia. Entrada gratuita al recinto exterior.' },
             { name: 'Ciudadela Imperial de Thang Long', type: 'monument',
               notes: 'Patrimonio UNESCO. 13 siglos de poder imperial. Búnker secreto a 9m de profundidad con los mapas de guerra intactos.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/4/41/Thang_Long_Citadel.jpg/500px-Thang_Long_Citadel.jpg',
               description: 'Centro del poder político vietnamita durante 13 siglos. La Puerta Doan Mon (entrada sur, subible) da vistas a la Torre de la Bandera; se conservan escalinatas de piedra del s.XV con dragones tallados. Escondido detrás, el búnker de hormigón de 1967 (Casa D67) baja 9m bajo tierra con las salas de mapas y teléfonos desde donde el general Giap dirigió la guerra. Las excavaciones del sector 18 Hoang Dieu siguen activas.',
               tips: 'Hoang Dieu 19, dist. Ba Dinh. Ma-Do 8:00-17:00, 30.000 VND. Poca sombra: sombrero y agua. Muy pocos turistas.' },
             { name: 'Calle Phan Đình Phùng', type: 'monument',
               notes: 'La avenida más bonita de Hanói — túnel verde de árboles, favorita para fotos con Ao Dai.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/Mua-thu-ha-noi.jpg/500px-Mua-thu-ha-noi.jpg',
               description: 'Avenida de 1,5km flanqueada por árboles gigantes que forman un túnel verde, apodada "la calle del otoño". Conecta el norte del Old Quarter con West Lake. Verás vendedoras ambulantes de flores en bicicleta y la Iglesia de Cửa Bắc (1932, amarilla).',
               tips: 'Mejor entre 7:00-9:30h, sobre todo en otoño (sept-nov) con las hojas caídas. Parada obligatoria de té helado (Trà Chanh) en los callejones laterales.' },
             { name: 'Lago B-52 (Hữu Tiệp Lake)', type: 'monument',
@@ -142,6 +148,7 @@ const DEFAULT_DATA = {
               tips: 'Acceso libre 24h. A media altura del puente hay unas escaleras metálicas que bajan a la Isla de los Plátanos.' },
             { name: 'Isla de los Plátanos (Bãi Giữa)', type: 'nature',
               notes: 'Isla rural en el Río Rojo bajo el Puente Long Bien. Vietnam agrícola a 5 min del Old Quarter.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Bai_giua_song_Hong.jpg/500px-Bai_giua_song_Hong.jpg',
               description: 'Bajo el Puente Long Bien, en mitad del Río Rojo, una isla de plataneras, papayas y huertas donde desaparece el caos de motos. Hay una comunidad flotante en los márgenes y una piscina pública rodeada de bananeros.',
               tips: 'Bajar por las escaleras a mitad del puente (algo oxidadas) o en bici con rampa. Piscina ~100.000 VND. Zona norte: locales nadando en el río al atardecer.' },
             { name: 'Mercado Dong Xuan', type: 'market',
@@ -205,7 +212,8 @@ const DEFAULT_DATA = {
               notes: 'El mercado más antiguo de Siem Reap: producto fresco, especias, pescado seco y un ala entera de souvenirs y artesanía.',
               description: 'El mercado tradicional más antiguo de la ciudad, con dos caras bien distintas: la parte de siempre, con pescado, carne, especias y producto fresco para los vecinos; y una ampliación hacia el lado turístico con puestos de kramas (los pañuelos a cuadros camboyanos), tallas de madera, plata y todo tipo de souvenirs, a precio de regateo.',
               tips: 'Justo al lado de Pub Street, orilla del río. Mejor por la mañana para ver la parte de producto fresco en pleno funcionamiento; por la tarde predomina la zona de souvenirs. Regatear es lo normal, empezar pidiendo la mitad del precio inicial.' },
-            { name: 'Wat Damnak y alrededores', type: 'temple', notes: '' },
+            { name: 'Wat Damnak y alrededores', type: 'temple',
+              notes: 'Pagoda tranquila junto al río, lejos del circuito turístico. Sede de Cambodian Living Arts (música y danza tradicional jemer).' },
             { name: 'Pub Street', type: 'monument',
               notes: 'El corazón del ocio de Siem Reap. Desde las 18:00 se corta al tráfico. Angkor Beer a 0,50 USD.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/7/77/Siem_Reap_Pub_Street_01.jpg/500px-Siem_Reap_Pub_Street_01.jpg',
@@ -285,6 +293,20 @@ const DEFAULT_DATA = {
               notes: 'Muy parecido a Angkor Wat en estilo, pero casi sin turistas.',
               description: 'Templo hinduista del s.XII dedicado a Vishnú, en piedra arenisca con bajorrelieves intrincados. Su nombre honra a los samré, una etnia local de la región.',
               tips: '30 min. Algo apartado de los circuitos principales — eso es justo lo que lo hace tranquilo. Fácil en tuk-tuk, bici o moto.' },
+            { name: 'Museo de Minas Terrestres de Camboya', type: 'museum',
+              notes: 'Fundado por Aki Ra, ex-niño soldado convertido en desminador. De camino a Banteay Srei.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Artilleries_at_Cambodia_Landmine_Museum.jpg/500px-Artilleries_at_Cambodia_Landmine_Museum.jpg',
+              description: 'Museo fundado por Aki Ra, antiguo niño soldado de los Jemeres Rojos que de adulto se dedicó a desactivar minas a mano y hoy dirige una ONG de desminado. Expone miles de minas y artefactos explosivos ya inertes recuperados por todo el país, y explica con crudeza el legado de las guerras de Camboya (se calcula que aún quedan millones de minas sin detonar en el país). Parte de la entrada financia directamente el desminado real.',
+              tips: 'Está en la carretera hacia Banteay Srei, se puede combinar con la visita a ese templo. Tema sensible — valorar si encaja con el ánimo del día.' },
+            { name: 'Banteay Srey Butterfly Centre', type: 'nature',
+              notes: 'Santuario de mariposas tropicales, justo al lado del Museo de Minas, de camino a Banteay Srei.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/The_Knight_%28Lebadea_martha%29%2C_BSRC%2C_Cambodia.jpg/500px-The_Knight_%28Lebadea_martha%29%2C_BSRC%2C_Cambodia.jpg',
+              description: 'El mayor santuario de mariposas tropicales del Sudeste Asiático, con cientos de ejemplares nativos volando libres dentro de una gran carpa de malla y un pequeño centro de interpretación sobre su ciclo de vida.',
+              tips: 'Justo al lado del Museo de Minas Terrestres, en la misma carretera hacia Banteay Srei — fácil combinar los dos.' },
+            { name: 'Lotus Silk Farm', type: 'monument',
+              notes: 'Extracción y tejido artesanal de "seda de loto", una fibra rarísima sacada del tallo de la flor.',
+              description: 'Granja y taller donde se extrae a mano la fibra de los tallos de la flor de loto para tejer una tela muy rara y cara, alternativa vegetal a la seda de gusano. Se puede ver todo el proceso, desde el corte del tallo hasta el hilado y el telar tradicional.',
+              tips: 'Visita guiada corta (20-30 min) que explica el proceso paso a paso. Tienda propia de bufandas y textiles de seda de loto a la salida.' },
             { name: 'Pueblos rurales, arrozales y palmeras de azúcar', type: 'nature', notes: 'Casas tradicionales Khmer, pequeñas pagodas/templos locales.' },
             { name: 'Preah Khan', type: 'temple',
               notes: '"Espada Sagrada" — uno de los templos más grandes de Angkor, con higueras estranguladoras.',
@@ -389,15 +411,14 @@ const DEFAULT_DATA = {
               tips: 'Se ve bien desde fuera, de paso hacia el Riverside.' }
           ],
           restaurants: [
-            { name: 'Lap Khmer', type: 'restaurant', notes: 'Ceviche de ternera camboyano, marinado en cítricos.',
-              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Fish_Amok-_Khmer_specialty.jpg/500px-Fish_Amok-_Khmer_specialty.jpg' },
-            { name: 'Amok de pollo o verduras', type: 'restaurant', notes: 'Versión más ligera del curry jemer, buena opción de cena en Phnom Penh.',
+            { name: 'Lap Khmer', type: 'restaurant', notes: 'Ceviche de ternera camboyano, marinado en cítricos.' },
+            { name: 'Amok', type: 'restaurant', notes: 'El plato nacional camboyano — curry de pescado al vapor en hoja de plátano. También hay versión de pollo o verduras.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Fish_Amok-_Khmer_specialty.jpg/500px-Fish_Amok-_Khmer_specialty.jpg' }
           ],
           transport: [],
           hotel: { name: 'Jungle Addition', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
           tasks: [],
-          notes: '⚠️ OJO: el Festival del Agua de Camboya (Bon Om Touk) — el evento más grande del año en el país, con regatas de barcos dragón, desfile lumínico y fuegos artificiales en el Riverside — cae el 25 de noviembre (luna llena), NO estas fechas. Con el itinerario actual os lo perdéis (el 25-nov estaréis en Tam Coc/Ninh Binh). Si en algún momento os planteáis reordenar el viaje, es un dato a tener en cuenta.'
+          notes: 'El Festival del Agua de Camboya (Bon Om Touk) cae el 25 de noviembre, cuando ya estaréis en Vietnam — decidido no reordenar el viaje por esto.'
         },
         {
           date: '2026-11-16', city: 'Phnom Penh → Chau Doc', country: '🇰🇭 Camboya → 🇻🇳 Vietnam', block: 'Delta del Mekong',
@@ -405,12 +426,12 @@ const DEFAULT_DATA = {
           places: [
             { name: 'Monumento a la Hamburguesa del Delta (Estatua del Pez Basa)', type: 'monument',
               notes: 'Escultura gigante de un pez basa a la entrada de Chau Doc, apodada así por su forma redondeada.',
-              photo: 'https://picsum.photos/seed/chau-doc-basa-fish-statue/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9e/T%C6%B0%E1%BB%A3ng_%C4%91%C3%A0i_c%C3%A1_Basa.jpg/500px-T%C6%B0%E1%BB%A3ng_%C4%91%C3%A0i_c%C3%A1_Basa.jpg',
               description: 'Una gran escultura circular de un pez basa (pangasius), el pez de piscifactoría que sostiene buena parte de la economía pesquera del Delta del Mekong y llena los mercados y menús de la zona. Vista desde ciertos ángulos su silueta redondeada y las "capas" del pez le han valido el apodo cariñoso de "la hamburguesa" entre los viajeros. Marca simbólicamente la entrada/salida de Chau Doc junto al río Hậu.',
               tips: 'Está de paso, junto a la carretera de acceso a la ciudad — parada rápida de 5 minutos para la foto, no hace falta planificarla aparte.' },
             { name: 'Chợ Châu Đốc (Mercado Central de Chau Doc)', type: 'market',
               notes: 'Mercado fronterizo famoso por sus puestos de pescado seco y mắm (pasta de pescado fermentado).',
-              photo: 'https://picsum.photos/seed/chau-doc-market-dried-fish/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Chau_Doc_Market_%2810344053384%29.jpg/500px-Chau_Doc_Market_%2810344053384%29.jpg',
               description: 'El mercado central de esta ciudad fronteriza del Delta, conocido en todo Vietnam por sus filas interminables de pescado seco colgado al sol y sus enormes tinajas de mắm (pasta/salsa de pescado fermentado), producto estrella de Chau Doc gracias a la abundancia de pesca del río Hậu. También hay puestos de fruta, especias y productos camboyanos, reflejo de la cercanía con la frontera.',
               tips: 'Mejor por la mañana, cuando hay más movimiento y los puestos de pescado seco están en pleno montaje. El olor a mắm es intenso — parte de la experiencia, pero aviso para quien sea sensible.' }
           ],
@@ -429,11 +450,16 @@ const DEFAULT_DATA = {
           date: '2026-11-17', city: 'Chau Doc → Can Tho', country: '🇻🇳 Vietnam', block: 'Delta del Mekong',
           summary: 'Plan de mañana: visitar algo en Chau Doc antes del bus. Autobús local hacia Can Tho. Por la tarde/noche, paseo por Ninh Kieu.',
           places: [
-            { name: 'El Río Hậu: Aldeas Flotantes y Comunidad Cham', type: 'nature', notes: '' },
-            { name: 'Chợ Châu Đốc en hora punta', type: 'market', notes: '' },
-            { name: 'Mausoleo de Thoại Ngọc Hầu (Tomb of Thoai Ngoc Hau)', type: 'monument', notes: '' },
+            { name: 'El Río Hậu: Aldeas Flotantes y Comunidad Cham', type: 'nature',
+              notes: 'Casas flotantes y comunidad musulmana Cham en el brazo del Mekong que pasa por Chau Doc.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Vietnam%2C_Chau_Doc%2C_Floating_village.jpg/500px-Vietnam%2C_Chau_Doc%2C_Floating_village.jpg' },
+            { name: 'Chợ Châu Đốc en hora punta', type: 'market', notes: 'El mismo mercado central, pero viéndolo en plena actividad matinal.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Chau_Doc_Market_%2810344053384%29.jpg/500px-Chau_Doc_Market_%2810344053384%29.jpg' },
+            { name: 'Mausoleo de Thoại Ngọc Hầu (Tomb of Thoai Ngoc Hau)', type: 'monument',
+              notes: 'Tumba de un mandarín de la dinastía Nguyễn, a los pies de la Montaña Sam, junto a sus dos esposas.' },
             { name: 'Montaña Sam (Nui Sam)', type: 'nature', notes: 'Misticismo y vistas panorámicas.' },
-            { name: 'Victoria Nui Sam Lodge (mirador de los arrozales)', type: 'nature', notes: '' },
+            { name: 'Victoria Nui Sam Lodge (mirador de los arrozales)', type: 'nature',
+              notes: 'Terraza/restaurante en la ladera de la Montaña Sam con vistas a los arrozales de la frontera con Camboya.' },
             { name: 'Bosque de Tra Su (Cajuput)', type: 'nature',
               notes: 'Reserva de aves en barca de remo entre un bosque inundado verde fluorescente. A 1h de Chau Doc.',
               photo: 'https://picsum.photos/seed/tra-su-cajuput-forest-boat/200/200',
@@ -451,7 +477,8 @@ const DEFAULT_DATA = {
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Thi%E1%BB%81n_Vi%E1%BB%87n_Tr%C3%BAc_L%C3%A2m_Ph%C6%B0%C6%A1ng_Nam.jpg/500px-Thi%E1%BB%81n_Vi%E1%BB%87n_Tr%C3%BAc_L%C3%A2m_Ph%C6%B0%C6%A1ng_Nam.jpg' }
           ],
           restaurants: [
-            { name: 'Pescado de agua dulce del Mekong', type: 'restaurant', notes: 'Chau Doc es la mayor región productora de pescado de agua dulce de Vietnam.' },
+            { name: 'Pescado de agua dulce del Mekong', type: 'restaurant', notes: 'Chau Doc es la mayor región productora de pescado de agua dulce de Vietnam.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/C%C3%A1_l%C3%B3c_n%C6%B0%E1%BB%9Bng_trui.JPG/500px-C%C3%A1_l%C3%B3c_n%C6%B0%E1%BB%9Bng_trui.JPG' },
             { name: 'Bún Cá Châu Đốc', type: 'restaurant', notes: 'Sopa de fideos con pescado, especialidad local de Chau Doc.' }
           ],
           transport: [
@@ -497,7 +524,8 @@ const DEFAULT_DATA = {
           date: '2026-11-19', city: 'Hoi An', country: '🇻🇳 Vietnam', block: 'El Centro',
           summary: 'Plan: Corazón histórico y espectáculo.',
           places: [
-            { name: 'Mercado central Chợ Hội An', type: 'market', notes: '',
+            { name: 'Mercado central Chợ Hội An', type: 'market',
+              notes: 'Abre a las 06:00. Entre las 5:00 y las 7:00 se ve llegar a los pescadores para la puja.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Central_Market_Hoi_An.JPG/500px-Central_Market_Hoi_An.JPG' },
             { name: 'Chùa Cầu (Puente Japonés)', type: 'monument',
               notes: 'El símbolo de Hoi An — sale en el billete de 20.000 VND. Construido por comerciantes japoneses en el s.XVII.',
@@ -538,7 +566,13 @@ const DEFAULT_DATA = {
           date: '2026-11-20', city: 'Hoi An', country: '🇻🇳 Vietnam', block: 'El Centro',
           summary: 'Plan: Bicicleta, rutas rurales y playas.',
           places: [
-            { name: 'Mercado de pescado de Thanh Ha', type: 'market', notes: '' },
+            { name: 'Santuario de My Son', type: 'monument',
+              notes: 'Ruinas hindúes Cham, Patrimonio UNESCO — la "hermana pequeña" de Angkor, en un valle a 1h de Hoi An.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/My_Son_Sanctuary_Vietnam_05.jpg/500px-My_Son_Sanctuary_Vietnam_05.jpg',
+              description: 'Conjunto de más de 70 templos y torres de ladrillo rojo construidos entre los siglos IV y XIV por los reyes del reino Cham, dedicados sobre todo a Shiva. Fue el centro religioso e intelectual más importante del reino de Champa, en un valle rodeado de montañas selváticas. Varios templos quedaron muy dañados por los bombardeos estadounidenses durante la guerra de Vietnam (todavía se ven cráteres), pero el conjunto sigue siendo Patrimonio Mundial UNESCO desde 1999.',
+              tips: 'A ~40 km / 1h en coche de Hoi An (también hay tours en barco por el río Thu Bon). Mejor a primera hora (6:30-8:00) para evitar calor y autobuses de grupo. Entrada ~150.000 VND. Necesita medio día contando el trayecto.' },
+            { name: 'Mercado de pescado de Thanh Ha', type: 'market',
+              notes: 'Subasta de pescado de madrugada (03:00-07:00), pegado a la aldea de cerámica.' },
             { name: 'Aldea de cerámica de Thanh Ha', type: 'monument',
               notes: 'A 3 km en bici. Demostración de alfarería y souvenir de arcilla incluido con la entrada.',
               photo: 'https://picsum.photos/seed/thanh-ha-pottery-village/200/200',
@@ -546,16 +580,24 @@ const DEFAULT_DATA = {
               tips: '8:00-17:30, 35.000 VND. Museo de Terracota aparte: 50.000 VND. En bici desde el casco antiguo: ~15 min.' },
             { name: 'Ruta en bici isla de Cam Kim (Vietnam rural)', type: 'nature',
               notes: 'Vietnam rural a 5 min del casco antiguo. Los artesanos que tallaron los palacios imperiales de Hue.',
-              photo: 'https://picsum.photos/seed/cam-kim-island-rural-vietnam/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Paddy_fields_on_Cam_Kim_Island.jpg/500px-Paddy_fields_on_Cam_Kim_Island.jpg',
               description: 'Justo enfrente del casco antiguo. Sus artesanos en madera tallaron los palacios de Hue y las casas de Hoi An. Ruta circular cruzando por el Puente Cầu Cẩm Kim y volviendo por Cầu sắt Cẩm Kim, que está junto a la aldea de cerámica.',
               tips: 'Cruzar en bici por el puente Cầu Cẩm Kim (junto al Old Town). Ruta circular de ~1,5h. Sin turistas.' },
-            { name: 'Mercado de Tan An (Tiger Market)', type: 'market', notes: '' },
-            { name: 'Mercado de Ba Le', type: 'market', notes: '' },
+            { name: 'Mercado de Tan An (Tiger Market)', type: 'market', notes: 'Abierto de 06:00 a 18:00.' },
+            { name: 'Mercado de Ba Le', type: 'market', notes: 'Abierto de 05:00 a 19:00.' },
             { name: 'Playa An Bang (ruta en bici)', type: 'beach',
               notes: '4-5 km en bici por Hai Bà Trưng. Pasando por la aldea de Trà Quế (hierbas aromáticas).',
               photo: 'https://picsum.photos/seed/an-bang-beach-hoi-an-bike/200/200',
               description: 'El paseo en bici más popular de Hoi An. Desde la calle Hai Bà Trưng hasta la playa de An Bang (4-5 km). De camino se pasa por la aldea de Trà Quế (desvío a la derecha), famosa por sus cultivos de hierbas aromáticas.',
-              tips: 'Punto de partida: calle Hai Bà Trưng. ~20-25 min en bici. Parar en la aldea de Trà Quế de camino.' }
+              tips: 'Punto de partida: calle Hai Bà Trưng. ~20-25 min en bici. Parar en la aldea de Trà Quế de camino.' },
+            { name: 'Clases de Cocina', type: 'activity',
+              notes: 'Dos opciones en islas rurales del río Thu Bon: mercado + barco + cocina (35€) o cocina tradicional con huertos (34€).',
+              description: 'Opción 1 (Isla de Thuan Tinh, 08:30-11:30, 35€): visita al mercado local, paseo en barco por el río Thu Bon hasta una zona rural de cocoteros de agua, y clase de cocina en una cocina abierta con vistas al río. Incluye paseo en barca tradicional por el bosque de cocoteros de Cam Thanh. Opción 2 (Cocina Tradicional, 09:30-13:00, 34€): en una isla rural del delta, con visita a huertos locales y técnicas como la elaboración de leche de arroz o papel de arroz para nems.',
+              tips: 'Reservar con antelación, son experiencias de medio día. La opción 1 combina mejor con el paseo en barca por Cam Thanh si no se hace aparte.' },
+            { name: 'Talleres Artesanales', type: 'activity',
+              notes: 'Farolillos de cera (~5€) o artesanía con impacto social en Reaching Out (calle Nguyễn Thái Học, 103).',
+              description: 'Taller de farolillos de cera de seda, el souvenir por excelencia de Hoi An (~5€). Alternativa con impacto social: Reaching Out Vietnam, un taller de artesanos locales con discapacidades, en el número 103 de la calle Nguyễn Thái Học.',
+              tips: 'Reaching Out es una buena parada de compras además de taller — venden directamente lo que se fabrica allí.' }
           ],
           restaurants: [
             { name: 'White Rose (Bánh Bao Vạc)', type: 'restaurant', notes: 'Empanadillas de gambas translúcidas, receta exclusiva de una familia de Hoi An.' },
@@ -564,7 +606,7 @@ const DEFAULT_DATA = {
           transport: [],
           hotel: { name: 'Volar', address: '', phone: '', checkIn: '', checkOut: '12:00', breakfast: false },
           tasks: [],
-          notes: 'Otras cosas por hacer en Hoi An: Clases de Cocina, Talleres Artesanales, Ba Na Hills, Santuario de My Son. Salida del hotel Volar hoy.'
+          notes: 'Otras cosas por hacer en Hoi An: Ba Na Hills (ver día 21, Da Nang). Salida del hotel Volar hoy.'
         },
         {
           date: '2026-11-21', city: 'Da Nang', country: '🇻🇳 Vietnam', block: 'El Centro',
@@ -575,13 +617,34 @@ const DEFAULT_DATA = {
               photo: 'https://picsum.photos/seed/marble-mountains-danang-cave/200/200',
               description: 'Cinco montañas de mármol llenas de senderos, santuarios y cuevas. Ruta recomendada: ascensor (pagar el extra), Torre Xa Loi, Pagoda Linh Ung, Cueva Tang Chon y la gran joya, la Cueva Huyen Khong — el techo colapsó naturalmente y los rayos de sol entran en vertical iluminando el Buda de piedra. Bajar a pie por 156 escalones de piedra. Extra: Cueva Am Phu (20.000 VND) recreando el infierno budista.',
               tips: '7:00-17:30, 40.000 VND. Ascensor: 60.000 VND extra (muy recomendable). Cueva Am Phu: 20.000 VND adicionales. En bus LK-02 desde Da Nang (~20 min). Se puede visitar de camino a Hoi An con las maletas y dejárselas a un tendero de souvenirs.' },
+            { name: 'Península de Son Tra (Montaña de los Monos)', type: 'nature',
+              notes: 'Reserva natural con la Pagoda Linh Ung y su Buda blanco de 67m, la "Dama de Son Tra". Vistas de toda la bahía de Da Nang.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dd/Son-Tra-Peninsula_Da-Nang_Vietnam_Statue-of-the-Bodhisattva-of-Mercy-01.jpg/500px-Son-Tra-Peninsula_Da-Nang_Vietnam_Statue-of-the-Bodhisattva-of-Mercy-01.jpg',
+              description: 'Montaña-península boscosa que cierra la bahía de Da Nang, apodada "Monkey Mountain" por sus colonias de monos y por ser hogar del langur de Douc de patas rojas, un primate en peligro de extinción que solo vive aquí y en pocos lugares más. En lo alto, la Pagoda Linh Ung (no confundir con la de Ba Na Hills) tiene la estatua de Buda/Avalokiteshvara más alta de Vietnam: 67 metros de altura blanca, visible desde gran parte de la ciudad.',
+              tips: 'A 10-15 km del centro de Da Nang, se visita en moto/taxi por la carretera que rodea la península (buenas vistas al mar). La pagoda es gratuita. Mejor por la mañana, antes de que llegue el calor y la neblina marina.' },
             { name: 'Puente del Dragón', type: 'monument',
               notes: 'Sábados y domingos a las 21:00: 15 min escupiendo fuego y luego agua. Ver desde el Muelle Bach Dang.',
               photo: 'https://picsum.photos/seed/dragon-bridge-danang-fire/200/200',
               description: 'El puente con forma de dragón dorado de Da Nang escupe fuego por la boca los sábados y domingos a las 21:00 durante 15 minutos (primero fuego, luego agua). Uno de los espectáculos nocturnos más vistosos de Vietnam.',
               tips: '⚠️ SOLO sábados y domingos a las 21:00. Duración: ~15 min. Mejor desde el paseo marítimo Muelle Bach Dang o las terrazas de las cafeterías cercanas. El Love Lock Bridge (faroles rojos y dragones-pez) está justo al lado.' },
-            { name: 'Mercado nocturno Son Tra', type: 'market', notes: '' },
-            { name: 'Love Lock Bridge', type: 'monument', notes: '' }
+            { name: 'Mercado nocturno Son Tra', type: 'market',
+              notes: 'Chợ Đêm Sơn Trà, 18:00-24:00. El mercado nocturno más grande de Da Nang, junto al Puente del Dragón.',
+              description: 'En la orilla este del río Han, a los pies del Puente del Dragón. Dividido en dos zonas: la de comida, con tanques de marisco fresco (langosta, cangrejo, almejas) que se elige, se pesa y se cocina al momento a la parrilla; y la de compras, con ropa, artesanía de madera y souvenirs de las Montañas de Mármol.',
+              tips: '18:00-24:00 (ambiente real desde 19:30). Los fines de semana se llena el doble por el show del puente. Regatear: pedir entre 30-40% menos del primer precio.' },
+            { name: 'Love Lock Bridge', type: 'monument',
+              notes: 'Pequeño muelle junto al Puente del Dragón, con faroles rojos y estatuas de dragones-pez.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Love_Lock_Bridge_Da_Nang_05.19.jpg/500px-Love_Lock_Bridge_Da_Nang_05.19.jpg',
+              description: 'Justo al lado del Puente del Dragón — un pequeño muelle decorado con faroles rojos en forma de corazón y estatuas de dragones-pez, donde las parejas cuelgan candados.',
+              tips: 'Combina bien con la espera del espectáculo de fuego del Puente del Dragón (sábados y domingos, 21:00).' },
+            { name: 'Aldea de Frescos de Da Nang', type: 'monument',
+              notes: 'Làng Bích Họa Đà Nẵng — callejón de murales a 2 min del hotel LaDa\'s House. Abierto 24h.',
+              description: 'Proyecto cultural comunitario de 2018 que transformó un callejón residencial gris en un museo urbano al aire libre, con más de 30 murales de gran tamaño pintados por artistas y estudiantes locales sobre la cultura y vida cotidiana vietnamitas. Al ser un callejón habitado, se convive con el día a día de los vecinos.',
+              tips: 'Escondido en el callejón Hẻm 75 Nguyễn Văn Linh. Abierto 24h, pero mejor 8:00-10:00 o desde las 16:00 para evitar el calor y tener mejor luz. A 2 min a pie del hotel LaDa\'s House. Hay pequeñas cafeterías locales dentro de los callejones.' },
+            { name: 'Ba Na Hills', type: 'monument',
+              notes: 'El "puente de las manos" — parque temático a 1.500m de altura, a 40km de Da Nang/Hoi An.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0c/Golden_Bridge_at_Ba_Na_Hills_20250718.jpg/500px-Golden_Bridge_at_Ba_Na_Hills_20250718.jpg',
+              description: 'Parque temático en la cima de una montaña, con el famoso Puente Dorado (Cầu Vàng) sostenido en el aire por dos manos gigantes de piedra. Se sube en uno de los teleféricos más largos y altos del mundo (>5km). Dentro también hay un Pueblo Francés a escala real (castillos, catedral gótica, de 1919), el Fantasy Park (parque de atracciones cubierto estilo Julio Verne) y la Pagoda Linh Ung con un Buda blanco de 27m.',
+              tips: '8:00-22:00, entrada ~35€ (incluye teleférico y atracciones). También se puede ir desde Da Nang. Día completo — valorar si encaja mejor en vez de la ruta rural en bici.' }
           ],
           restaurants: [
             { name: 'Mì Quảng', type: 'restaurant', notes: 'Fideos de cúrcuma con gambas y cerdo, plato bandera de la región de Da Nang.' },
@@ -606,8 +669,10 @@ const DEFAULT_DATA = {
               photo: 'https://picsum.photos/seed/thien-mu-pagoda-hue-tower/200/200',
               description: 'A 5 km al oeste, sobre una colina con vistas al Río Perfume. La Torre Phuoc Duyen (7 pisos, 21m, cada piso = una reencarnación de Buda) es la postal de Hue. En el garaje acristalado de los jardines traseros: el Austin de color azul claro en el que el monje Thich Quang Duc viajó a Saigón en 1963 para quemarse vivo en protesta — la fotografía dio la vuelta al mundo.',
               tips: '8:00-18:00. Entrada gratuita. Monasterio activo: descalzarse si se entra al templo. Los jardines traseros tienen un estanque de peces y el cementerio de los monjes.' },
-            { name: 'Mercado nocturno de Dong Ba', type: 'market', notes: '' },
-            { name: 'Paseo junto al río Perfume', type: 'nature', notes: '' }
+            { name: 'Mercado nocturno de Dong Ba', type: 'market',
+              notes: 'El mercado más grande y antiguo de Hue, en la orilla norte del río Perfume. Ropa, comida y los característicos sombreros cónicos "nón bài thơ" con poemas.' },
+            { name: 'Paseo junto al río Perfume', type: 'nature',
+              notes: 'El río que cruza Hue de oeste a este. Los barcos-dragón ofrecen paseos al atardecer, algunos con música tradicional ca Huế en directo.' }
           ],
           restaurants: [
             { name: 'Bánh Khoái', type: 'restaurant', notes: 'Crepe crujiente típico de Hue, hermano pequeño del bánh xèo.' },
@@ -646,7 +711,7 @@ const DEFAULT_DATA = {
               tips: '5 km al sur de Hue. Incluida en el ticket combinado con la Ciudadela (420.000 VND, 2 días). 7:00-17:30. La más tranquila y menos masificada de las tumbas grandes.' },
             { name: 'Tumba de Minh Mang', type: 'monument',
               notes: 'La más simétrica y solemne — arquitectura confuciana clásica entre lagos y jardines.',
-              photo: 'https://picsum.photos/seed/tomb-minh-mang-hue-symmetric/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/Hue_Vietnam_Tomb-of-Emperor-Minh-Mang-03a.jpg/500px-Hue_Vietnam_Tomb-of-Emperor-Minh-Mang-03a.jpg',
               description: 'Minh Mang (r. 1820-1841), el emperador que más reforzó el poder centralizado, encargó la tumba más ortodoxa y simétrica de todas: un eje central de 700m que atraviesa patios, el Templo Sung An (culto al emperador y su esposa) y termina en un túmulo circular rodeado por el lago Tan Nguyet, con forma de media luna. Representa el orden confuciano llevado a la arquitectura funeraria.',
               tips: 'A 12 km de Hue, la más alejada de las tres grandes. Incluida en el ticket combinado. Menos concurrida que Khai Dinh; ideal para combinar con la Calle del Incienso de Thuy Xuan, que queda de camino.' },
             { name: 'Calle del incienso de Thuy Xuan', type: 'monument',
@@ -908,7 +973,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 36;
+const DATA_VERSION = 47;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 
