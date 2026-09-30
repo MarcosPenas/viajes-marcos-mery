@@ -493,15 +493,17 @@ Ninguno de los dos se ha subido a GitHub todavía (ambos bloqueados por el token
 
 Marcos tiene 7 listas compartidas de Google Maps ("Mis mapas") con sitios que ha ido guardando, ya organizadas por región — coinciden casi exactamente con los `block` del itinerario. Son el sitio de referencia para ir decidiendo, día a día, qué añadir o cambiar en próximas sesiones (no se ha volcado el contenido completo de estas listas en la app todavía, solo una selección ya viene reflejada en el itinerario pegado por Marcos):
 
-| Lista | Enlace | Región / bloque | Nº de sitios (aprox.) |
-|---|---|---|---|
-| Vietnam Norte - Hanoi | https://maps.app.goo.gl/5sZjuX5shLeN23VQ9 | Hanói | 46 |
-| Vietnam Norte - Cat Ba | https://maps.app.goo.gl/HBaQJuX5u9x8hb1q8 | Cat Ba / Lan Ha Bay ("Vuelta al Norte") | 11 |
-| Vietnam Norte - Ninh Binh | https://maps.app.goo.gl/84XJTc24RdobJ8Wn9 | Tam Coc / Ninh Binh | 22 |
-| Vietnam Centro | https://maps.app.goo.gl/BHRPNBsw3Nzb6jhi6 | Hoi An / Da Nang / Hue | 62 |
-| Vietnam Sur | https://maps.app.goo.gl/BCnrKbroe42rNVXm9 | Chau Doc / Can Tho (Delta del Mekong) | 13 |
-| Camboya Norte | https://maps.app.goo.gl/Z9R3cBadG96yFpwRA | Siem Reap / Angkor | 26 |
-| Camboya Sur | https://maps.app.goo.gl/mU25Z4Pz5AvijrRQA | Phnom Penh | 10 |
+| Lista | Enlace | Región / bloque |
+|---|---|---|
+| Vietnam Norte - Hanoi | https://maps.app.goo.gl/KSPSeLS9bKX3ic3VA | Hanói |
+| Vietnam Norte - Cat Ba | https://maps.app.goo.gl/Queu2j7QVMcGRuJv8 | Cat Ba / Lan Ha Bay ("Vuelta al Norte") |
+| Vietnam Norte - Ninh Binh | https://maps.app.goo.gl/SArHkwMsSthejCfw7 | Tam Coc / Ninh Binh |
+| Vietnam Centro | https://maps.app.goo.gl/LqHfBKmo5HiVkr3g9 | Hoi An / Da Nang / Hue |
+| Vietnam Sur | https://maps.app.goo.gl/gJj2qZx4U8ufNCdS7 | Chau Doc / Can Tho (Delta del Mekong) |
+| Camboya Norte | https://maps.app.goo.gl/LFqn3pihLj3DEyTKA | Siem Reap / Angkor |
+| Camboya Sur | https://maps.app.goo.gl/j2n7eXi5NrVSqVmC6 | Phnom Penh |
+
+**Enlaces actualizados el 30-sep-2026** — Marcos mandó estos 7 de nuevo diciendo "son los enlaces buenos... editados por mi con todos mis sitios", reemplazando los anteriores (probablemente caducados o desactualizados tras seguir editando las listas). **No confundir con el documento "Vietnam" de My Maps** (`google.com/maps/d/edit?mid=...`) que la app tiene embebido en la pestaña "Mapa" — son dos cosas distintas: estas 7 son sus listas personales de "Guardados" de Google Maps (el origen/pool de sitios), el My Maps es el documento con capas donde se importó una selección de esos sitios para que la app lo muestre. Quitado el nº de sitios aproximado de la tabla porque ya no es fiable (las listas siguen creciendo).
 
 **Cómo abrirlas:** son enlaces cortos de Google Maps (`maps.app.goo.gl`); al abrirlos piden aceptar/rechazar cookies una vez (elegir "Rechazar todo") y luego muestran la lista completa con nombre, categoría y valoración de cada sitio. No se puede extraer el contenido con `curl`/`WebFetch` porque la página necesita JavaScript — hay que usar un navegador real (o el navegador integrado de Claude Code) y leer el texto de la página ya cargada.
 
