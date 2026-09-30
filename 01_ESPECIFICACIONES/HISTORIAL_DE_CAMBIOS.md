@@ -2,6 +2,36 @@
 
 ---
 
+## 2026-09-30 (continuación 2) — Mapa propio con Leaflet: se abandona el iframe de My Maps
+
+Marcos, después de varias idas y vueltas con el My Maps embebido ("no se corresponde con mis mapas", "ese mapa está incompleto"), aclaró el problema de raíz: **el documento "Vietnam" de My Maps no era ni siquiera su mapa real** — lo creó una sesión anterior como contenedor para importar los CSV de sus listas de Google Maps — y además, comprobado directamente en My Maps (tabla de datos de la capa "Hue": 18 filas reales), la mayoría de los puntos nunca llegaron a geolocalizarse durante esa importación: solo se plantaba un pin por capa (la ciudad), el resto se quedaba como texto sin coordenadas. Marcos propuso la solución correcta: mapa propio con Leaflet, sacando los puntos progresivamente, con categoría/descripción/día/favorito/visitado y "cerca de mí".
+
+**Lo que se ha construido:**
+- **125 de 128 sitios del itinerario geolocalizados** con coordenadas reales (`lat`/`lng` añadidos directamente a cada `place` de `js/data.js`). Fuente: Wikimedia/OSM vía el geocodificador **Photon** (komoot.io) — Nominatim (el habitual) devolvió **429 Too Many Requests** por el tráfico compartido del sandbox, no por nada nuestro; Photon no tiene ese límite tan estricto.
+- **Verificación de calidad de cada coordenada**, no solo "¿hay resultado?": cada punto se comprobó contra el centro real de su ciudad (o de las dos ciudades, en días de trayecto) — cualquier resultado a más de 60 km se descartaba como coincidencia de nombre equivocada (ej. "Old Quarter Hoi An" resolviendo a un hotel en Hanói, "Wat Phnom" resolviendo a un pueblo a 260 km) y se sustituía por el centro de la ciudad correcta. 17 casos corregidos así; 3 sitios sin ningún resultado se quedan sin coordenadas por ahora.
+- **`renderMap()` reescrito por completo**: ya no hay iframe de My Maps en ningún sitio de la app. Mapa Leaflet propio con:
+  - Pines coloreados por categoría (`PLACE_TYPE_META`: templo, monumento, museo, mercado, naturaleza, playa, café, actividad), con leyenda arriba
+  - Popup por sitio: día + ciudad, nombre, notas, y botones ★ (favorito) / ✓ (visitado) / "Ver día →"
+  - **Favorito y visitado persistentes** (`DB.placeState`, guardado en localStorage vía el mismo `save()` de siempre)
+  - **Botón "Cerca de mí"**: geolocalización del navegador + distancia real (fórmula de Haversine) a los sitios más cercanos, ordenados
+- **Mini-mapa del día** (pestaña "Mapa" dentro de cada día) también reescrito: antes usaba `trip.mapPoints`, que **ni siquiera existía en `data.js`** (bug real preexistente, la función habría fallado en cuanto se llamara) — ahora usa los mismos puntos reales del día, coloreados igual que el mapa general.
+
+**Bug encontrado y corregido de paso:** los mosaicos del mapa (CartoDB, `basemaps.cartocdn.com`) ya no cargan sin API key — esto **no lo rompí yo hoy**, el código viejo usaba la misma URL y habría fallado igual. Cambiado a los mosaicos estándar de OpenStreetMap (gratis, sin clave, confirmado con petición real). Para el modo oscuro, en vez de un segundo set de mosaicos (que también pediría clave), se invierte el mapa con CSS (`filter: invert(1) hue-rotate(180deg)`), truco estándar para mapas OSM en modo oscuro.
+
+**Bug propio encontrado durante la construcción:** al reemplazar el `renderMap()` viejo, quedó una copia duplicada de `switchMapTab`/`promptMyMapsUrl`/`initLeaflet` más abajo en el archivo que pisaba silenciosamente las funciones nuevas (en JS, la última declaración de una función gana). Detectado revisando el archivo tras el primer intento, eliminado.
+
+**Bug del script de fusión de coordenadas (detectado y corregido antes de aplicar nada):** el primer intento de insertar `lat`/`lng` en `data.js` con una expresión regular capturaba hasta el final de línea con `[^\n]*`, que en las fichas de una sola línea (`{ name: 'X', type: 'Y', notes: 'Z' }`) incluía el `}` de cierre — el resultado era sintaxis inválida. Revertido con `git checkout` y rehecho insertando justo después de `type: '...',`, verificado con `node -e "new Function(...)"` antes de dar nada por bueno.
+
+**Interrupción durante la sesión:** un fallo temporal del verificador de permisos de la plataforma (no relacionado con esto, ni con la conexión de Marcos) bloqueó todas las herramientas (comandos, navegador) durante varios minutos justo cuando tocaba verificar el mapa en directo — de ahí que Marcos viera la zona del mapa vacía en un momento dado. Resuelto solo; verificado en cuanto se recuperó el acceso.
+
+**Verificado en el navegador:** mapa cargando con mosaicos reales, marcadores agrupados correctamente por región (Hanói, Hue/Da Nang, Ninh Binh/Cat Ba, Siem Reap, Phnom Penh, Chau Doc/Can Tho), popup con datos correctos, favorito persistiendo en `DB.placeState`, y "cerca de mí" calculando distancias reales correctas (probado con una posición simulada en Hoan Kiem: Catedral de San José a 190 m, coincide con la realidad).
+
+**Pendiente:** los 3 sitios sin coordenadas; revisar visualmente si algún pin quedó mal posicionado que el filtro automático no pillara (el umbral de 60 km no detecta errores "dentro" del radio de la ciudad, solo los que caen fuera).
+
+**Archivos:** `js/data.js` (DATA_VERSION 48→49, 125 sitios con `lat`/`lng`, `placeState: {}` nuevo), `js/app.js` (`renderMap`, `initFullMap`, `initDayLeaflet`, `PLACE_TYPE_META`, favorito/visitado, cerca de mí — v→130), `css/styles.css` (leyenda, popup, panel de cerca de mí, filtro de mosaicos oscuros — v→72), `index.html`.
+
+---
+
 ## 2026-09-30 (continuación) — Tarjetas de info de aeropuerto (pedido explícito, investigado con cuidado)
 
 Primera de las tareas pendientes marcadas como 🔴 explícitas de Marcos: tarjetas de consejos/terminal para los días de aeropuerto, y una de "qué hacer al aterrizar" para el día de llegada a Hanói. Investigado con WebSearch antes de escribir nada de inmigración, tal y como pidió Marcos ("es delicado").

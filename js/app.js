@@ -2891,48 +2891,17 @@ function renderDay(date) {
       <div style="height:80px"></div>
     </div>`;
 
-  // ── TAB: Mapa ──
-  const DAY_MAP_COORDS = {
-    'Barcelona':      [41.3874, 2.1686, 12],
-    'Shenzhen':       [22.5431, 114.0579, 11],
-    'Hanói':          [21.0285, 105.8542, 14],
-    'Cat Ba':         [20.7291, 107.0475, 13],
-    'Lan Ha Bay':     [20.7500, 107.0800, 12],
-    'Tam Coc':        [20.2506, 105.9745, 13],
-    'Ninh Binh':      [20.2506, 105.9745, 13],
-    'Hue':            [16.4637, 107.5909, 13],
-    'Da Nang':        [16.0544, 108.2022, 13],
-    'Hoi An':         [15.8801, 108.3380, 14],
-    'Siem Reap':      [13.3671, 103.8448, 13],
-    'Angkor':         [13.4125, 103.8670, 13],
-    'Phnom Penh':     [11.5564, 104.9282, 13],
-    'Chau Doc':       [10.7010, 105.1258, 13],
-    'Can Tho':        [10.0452, 105.7469, 13],
-  };
-  const myMapsId = trip?.myMapsUrl?.match(/mid=([^&]+)/)?.[1];
-  const cityKey = Object.keys(DAY_MAP_COORDS).find(k => day.city?.includes(k)) || '';
-  const coords  = DAY_MAP_COORDS[cityKey];
-  const iframeSrc = myMapsId && coords
-    ? `https://www.google.com/maps/d/embed?mid=${myMapsId}&ll=${coords[0]},${coords[1]}&z=${coords[2]}`
-    : null;
-  const mapHeight = 'calc(100vh - var(--header-h) - var(--nav-h) - 96px - 56px)';
+  // ── TAB: Mapa (puntos reales del día con Leaflet, sin depender de My Maps) ──
+  const mapHeight = 'calc(100vh - var(--header-h) - var(--nav-h) - 96px)';
+  const dayPlacesWithCoords = (day.places || []).filter(p => typeof p.lat === 'number' && typeof p.lng === 'number');
   const tabMapa = `
     <div class="day-tab-panel hidden" id="dtab-mapa">
-      ${iframeSrc ? `
-        <div style="position:relative;height:${mapHeight};">
-          <div id="day-map-loading" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:#f0f4ff;z-index:1;pointer-events:none;">
-            <div style="width:32px;height:32px;border:3px solid #c8d8f0;border-top-color:#1a3a5c;border-radius:50%;animation:spin 1s linear infinite;"></div>
-            <span style="color:#1a3a5c;font-size:13px;font-weight:600;">Cargando mapa…</span>
-          </div>
-          <iframe src="${iframeSrc}" style="width:100%;height:100%;border:none;display:block;"
-            allowfullscreen onload="document.getElementById('day-map-loading').style.display='none'">
-          </iframe>
-        </div>
-        <a href="https://maps.google.com/?q=${encodeURIComponent(day.city)}" target="_blank"
-          style="display:flex;align-items:center;justify-content:center;gap:8px;height:56px;background:#1a3a5c;color:#fff;font-weight:600;font-size:14px;text-decoration:none;">
-          🗺️ Abrir en Google Maps
-        </a>` : `
-        <div id="day-leaflet-map" style="height:${mapHeight}"></div>`}
+      ${dayPlacesWithCoords.length ? `
+        <div id="day-leaflet-map" style="height:${mapHeight}"></div>` : `
+        <div class="empty-state" style="height:${mapHeight};display:flex;flex-direction:column;align-items:center;justify-content:center;">
+          <span class="empty-icon">🗺️</span>
+          <p>Todavía no hay coordenadas para los sitios de este día.</p>
+        </div>`}
     </div>`;
 
   // ── TAB: Notas ──
@@ -3061,19 +3030,29 @@ function initDayLeaflet() {
   const mapEl = document.getElementById('day-leaflet-map');
   if (!mapEl) return;
   if (_dayMapInstance) return; // ya iniciado
-  const city = window._dayCity || 'Vietnam';
   const trip = getTrip(currentTripId);
-  // Buscar coordenadas del punto del día
-  const pt = trip.mapPoints.find(p => p.name === city) || { lat: 16.0, lng: 108.0 };
+  const day = trip.days.find(d => d.date === window._dayDate);
+  const pts = (day?.places || [])
+    .filter(p => typeof p.lat === 'number' && typeof p.lng === 'number')
+    .map(p => ({ ...p, date: day.date, city: day.city }));
+  if (!pts.length) return;
+  const avgLat = pts.reduce((s, p) => s + p.lat, 0) / pts.length;
+  const avgLng = pts.reduce((s, p) => s + p.lng, 0) / pts.length;
+  const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   setTimeout(() => {
-    _dayMapInstance = L.map('day-leaflet-map').setView([pt.lat, pt.lng], 13);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-      attribution: '© CartoDB', maxZoom: 19
-    }).addTo(_dayMapInstance);
-    L.marker([pt.lat, pt.lng])
-      .addTo(_dayMapInstance)
-      .bindPopup(`<strong>${pt.name}</strong>${pt.notes ? '<br><small>' + pt.notes + '</small>' : ''}`)
-      .openPopup();
+    const mapEl2 = el('day-leaflet-map');
+    if (mapEl2) mapEl2.classList.toggle('leaflet-dark-tiles', isDark);
+    _dayMapInstance = L.map('day-leaflet-map').setView([avgLat, avgLng], 14);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap', maxZoom: 19 }).addTo(_dayMapInstance);
+    pts.forEach(pt => {
+      const meta = placeTypeMeta(pt.type);
+      const icon = L.divIcon({
+        html: `<div class="map-pin" style="background:${meta.color}"><span>${meta.icon}</span></div>`,
+        iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -34],
+        className: ''
+      });
+      L.marker([pt.lat, pt.lng], { icon }).addTo(_dayMapInstance).bindPopup(buildPlacePopup(pt));
+    });
   }, 100);
 }
 
@@ -3665,76 +3644,86 @@ function exitTimeTravel() {
 //  VIEW: MAPA
 // ══════════════════════════════════════════════════════════
 
+const PLACE_TYPE_META = {
+  temple:   { icon: '🛕', color: '#8b5cf6', label: 'Templos' },
+  monument: { icon: '🏛️', color: '#1a3a5c', label: 'Monumentos' },
+  museum:   { icon: '🖼️', color: '#5b4080', label: 'Museos' },
+  market:   { icon: '🛍️', color: '#e8a23d', label: 'Mercados' },
+  nature:   { icon: '🌿', color: '#22a07a', label: 'Naturaleza' },
+  beach:    { icon: '🏖️', color: '#22b0e8', label: 'Playas' },
+  cafe:     { icon: '☕', color: '#8b5e3c', label: 'Cafés' },
+  activity: { icon: '🎯', color: '#d94848', label: 'Actividades' },
+};
+function placeTypeMeta(type) { return PLACE_TYPE_META[type] || { icon: '📍', color: '#1a3a5c', label: 'Otros' }; }
+
+function placeKey(date, name) { return date + '|' + name; }
+function getPlaceState(date, name) {
+  return (DB.placeState && DB.placeState[placeKey(date, name)]) || { favorite: false, visited: false };
+}
+function togglePlaceFavorite(date, name) {
+  DB.placeState = DB.placeState || {};
+  const k = placeKey(date, name);
+  const cur = DB.placeState[k] || { favorite: false, visited: false };
+  cur.favorite = !cur.favorite;
+  DB.placeState[k] = cur;
+  save();
+  refreshFullMapMarker(date, name);
+}
+function togglePlaceVisited(date, name) {
+  DB.placeState = DB.placeState || {};
+  const k = placeKey(date, name);
+  const cur = DB.placeState[k] || { favorite: false, visited: false };
+  cur.visited = !cur.visited;
+  DB.placeState[k] = cur;
+  save();
+  refreshFullMapMarker(date, name);
+}
+
+// Distancia entre dos puntos lat/lng en metros (fórmula de Haversine)
+function haversineMeters(lat1, lng1, lat2, lng2) {
+  const R = 6371000;
+  const toRad = d => d * Math.PI / 180;
+  const dLat = toRad(lat2 - lat1), dLng = toRad(lng2 - lng1);
+  const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+function formatDistance(m) {
+  return m < 1000 ? `${Math.round(m / 10) * 10} m` : `${(m / 1000).toFixed(1)} km`;
+}
+
+function collectMapPlaces(trip) {
+  const out = [];
+  trip.days.forEach(day => {
+    (day.places || []).forEach(p => {
+      if (typeof p.lat === 'number' && typeof p.lng === 'number') {
+        out.push({ date: day.date, city: day.city, name: p.name, type: p.type, notes: p.notes, lat: p.lat, lng: p.lng });
+      }
+    });
+  });
+  return out;
+}
+
 function renderMap() {
   const trip = getTrip(currentTripId);
   setHeader('Mapa del viaje', false);
 
   const hasMyMaps = trip.myMapsUrl && trip.myMapsUrl.trim() !== '';
+  const legendHtml = Object.entries(PLACE_TYPE_META).map(([type, meta]) =>
+    `<span class="map-legend-chip" style="background:${meta.color}22;color:${meta.color}">${meta.icon} ${meta.label}</span>`
+  ).join('');
 
-  if (hasMyMaps) {
-    const viewerUrl = trip.myMapsUrl.replace('/embed?', '/viewer?');
-    el('view-content').innerHTML = `
-      <div id="maptab-mymaps" style="position:relative;">
-        <div id="map-loading" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#f0f4ff;z-index:1;pointer-events:none;">
-          <div style="width:36px;height:36px;border:3px solid #c8d8f0;border-top-color:#1a3a5c;border-radius:50%;animation:spin 1s linear infinite;"></div>
-          <span style="color:#1a3a5c;font-size:14px;font-weight:600;">Cargando mapa…</span>
-        </div>
-        <iframe
-          src="${trip.myMapsUrl}"
-          style="width:100%;height:calc(100vh - var(--header-h) - var(--nav-h) - 56px);border:none;display:block;"
-          allowfullscreen
-          onload="document.getElementById('map-loading').style.display='none'">
-        </iframe>
-        <a href="${viewerUrl}" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:8px;height:56px;background:#1a3a5c;color:#fff;font-weight:600;font-size:14px;text-decoration:none;">
-          🗺️ Abrir en Google Maps
-        </a>
-      </div>`;
-  } else {
-    // ── Empty state + Leaflet oculto ──
-    el('view-content').innerHTML = `
-      <div class="map-empty-state">
-        <div class="mes-illustration">
-          <svg width="160" height="120" viewBox="0 0 160 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- fondo mapa con cuadrícula -->
-            <rect width="160" height="120" rx="16" fill="#dce8ff"/>
-            <!-- líneas de cuadrícula -->
-            <line x1="0" y1="40" x2="160" y2="40" stroke="#b8ccf0" stroke-width="1"/>
-            <line x1="0" y1="80" x2="160" y2="80" stroke="#b8ccf0" stroke-width="1"/>
-            <line x1="53" y1="0" x2="53" y2="120" stroke="#b8ccf0" stroke-width="1"/>
-            <line x1="107" y1="0" x2="107" y2="120" stroke="#b8ccf0" stroke-width="1"/>
-            <!-- rutas -->
-            <path d="M20 95 Q50 70 80 60 Q110 50 140 25" stroke="#93b4e8" stroke-width="2.5" stroke-dasharray="5 3" fill="none" stroke-linecap="round"/>
-            <path d="M30 30 Q55 45 80 60" stroke="#a8c4f0" stroke-width="2" fill="none" stroke-linecap="round"/>
-            <!-- pines de ubicación -->
-            <circle cx="80" cy="60" r="10" fill="#1a3a5c" opacity=".9"/>
-            <circle cx="80" cy="60" r="4" fill="white"/>
-            <circle cx="30" cy="30" r="7" fill="#1a7b6b" opacity=".85"/>
-            <circle cx="30" cy="30" r="3" fill="white"/>
-            <circle cx="140" cy="25" r="7" fill="#D4581A" opacity=".85"/>
-            <circle cx="140" cy="25" r="3" fill="white"/>
-            <circle cx="20" cy="95" r="7" fill="#C1513A" opacity=".85"/>
-            <circle cx="20" cy="95" r="3" fill="white"/>
-            <!-- brújula esquina -->
-            <circle cx="135" cy="95" r="14" fill="white" opacity=".7"/>
-            <text x="135" y="101" text-anchor="middle" font-size="11" font-weight="700" fill="#1a3a5c" font-family="sans-serif">N</text>
-          </svg>
-        </div>
-        <h3 class="mes-title">Tu mapa de viaje</h3>
-        <p class="mes-sub">Crea tu mapa personalizado en <strong>Google My Maps</strong>, añade tus lugares favoritos y tenlo siempre disponible aquí.</p>
-        <button onclick="promptMyMapsUrl()" class="mes-btn">+ Añadir Google My Maps</button>
-      </div>
-      <div id="leaflet-map" style="display:none"></div>`;
-    initLeaflet(trip);
-  }
+  el('view-content').innerHTML = `
+    <div id="maptab-full" style="position:relative;">
+      <div class="map-legend">${legendHtml}</div>
+      <div id="full-leaflet-map" style="width:100%;height:calc(100vh - var(--header-h) - var(--nav-h) - 118px);"></div>
+      <button class="map-nearme-btn" onclick="showNearMe()">📍 Cerca de mí</button>
+      <div id="map-nearme-panel" class="map-nearme-panel" style="display:none"></div>
+    </div>`;
+  initFullMap(trip);
 }
 
 function switchMapTab(tab) {
-  document.querySelectorAll('.map-tab').forEach((b, i) => {
-    b.classList.toggle('active', (i === 0 && tab === 'mymaps') || (i === 1 && tab === 'route'));
-  });
-  el('maptab-mymaps').style.display = tab === 'mymaps' ? 'block' : 'none';
-  el('maptab-route').style.display  = tab === 'route'   ? 'block' : 'none';
-  if (tab === 'route') initLeaflet(getTrip(currentTripId));
+  // Compatibilidad: ya no hay pestañas separadas, el mapa propio es el único.
 }
 
 function promptMyMapsUrl() {
@@ -3746,59 +3735,99 @@ function promptMyMapsUrl() {
   renderMap();
 }
 
-const MAP_ZONE_COLORS = {
-  'Hanói':           { color: '#1A7B6B', label: 'Vietnam Norte' },
-  'Cat Ba':          { color: '#1A7B6B', label: 'Vietnam Norte' },
-  'Lan Ha Bay':      { color: '#1A7B6B', label: 'Vietnam Norte' },
-  'Ninh Binh':       { color: '#1A7B6B', label: 'Vietnam Norte' },
-  'Hue':             { color: '#D4581A', label: 'Vietnam Centro' },
-  'Da Nang':         { color: '#D4581A', label: 'Vietnam Centro' },
-  'Hoi An':          { color: '#D4581A', label: 'Vietnam Centro' },
-  'Siem Reap':       { color: '#C1513A', label: 'Angkor & Camboya' },
-  'Koh Rong Sanloem':{ color: '#0090C4', label: 'Islas' },
-  'Phnom Penh':      { color: '#6B4FAE', label: 'El Cierre' },
-};
+function buildPlacePopup(pt) {
+  const meta = placeTypeMeta(pt.type);
+  const state = getPlaceState(pt.date, pt.name);
+  const d = new Date(pt.date + 'T12:00:00');
+  const dateStr = d.getDate() + ' ' + d.toLocaleDateString('es-ES', { month: 'short' });
+  const cityShort = (pt.city || '').replace(/\s*→.*$/, '');
+  return `<div class="map-popup">
+    <span class="map-popup-zone" style="background:${meta.color}">${meta.icon} ${dateStr} · ${cityShort}</span>
+    <strong>${pt.name}</strong>
+    ${pt.notes ? `<small>${pt.notes}</small>` : ''}
+    <div class="mp-actions">
+      <button class="mp-btn ${state.favorite ? 'mp-btn-active' : ''}" onclick="togglePlaceFavorite('${pt.date}','${pt.name.replace(/'/g, "\\'")}')" title="Favorito">★</button>
+      <button class="mp-btn ${state.visited ? 'mp-btn-active' : ''}" onclick="togglePlaceVisited('${pt.date}','${pt.name.replace(/'/g, "\\'")}')" title="Visitado">✓</button>
+      <button class="mp-btn" onclick="navigate('day','${pt.date}')">Ver día →</button>
+    </div>
+  </div>`;
+}
 
-function initLeaflet(trip) {
-  const pts = trip.mapPoints;
+let _fullMapMarkers = {}; // key: date|name -> {marker, pt}
+
+function initFullMap(trip) {
+  const pts = collectMapPlaces(trip);
   if (!pts.length) return;
   const avgLat = pts.reduce((s, p) => s + p.lat, 0) / pts.length;
   const avgLng = pts.reduce((s, p) => s + p.lng, 0) / pts.length;
 
   const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  const tileUrl = isDark
-    ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
-    : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
 
   setTimeout(() => {
-    const mapEl = el('leaflet-map');
+    const mapEl = el('full-leaflet-map');
     if (!mapEl) return;
+    mapEl.classList.toggle('leaflet-dark-tiles', isDark);
     if (mapInstance) { mapInstance.remove(); mapInstance = null; }
-    mapInstance = L.map('leaflet-map').setView([avgLat, avgLng], 5);
-    L.tileLayer(tileUrl, { attribution: '© CartoDB', maxZoom: 19 }).addTo(mapInstance);
+    mapInstance = L.map('full-leaflet-map').setView([avgLat, avgLng], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap', maxZoom: 19 }).addTo(mapInstance);
 
-    // Ruta de línea discontinua entre puntos
-    if (pts.length > 1) {
-      L.polyline(pts.map(p => [p.lat, p.lng]), {
-        color: '#1a3a5c', weight: 2, opacity: .4, dashArray: '7,7'
-      }).addTo(mapInstance);
-    }
-
-    // Pins con color por zona + número de orden
-    pts.forEach((pt, idx) => {
-      const zone = MAP_ZONE_COLORS[pt.name] || { color: '#1a3a5c', label: '' };
-      const num = idx + 1;
+    _fullMapMarkers = {};
+    pts.forEach(pt => {
+      const meta = placeTypeMeta(pt.type);
+      const state = getPlaceState(pt.date, pt.name);
       const icon = L.divIcon({
-        html: `<div class="map-pin" style="background:${zone.color}"><span>${num}</span></div>`,
+        html: `<div class="map-pin" style="background:${meta.color}${state.visited ? ';opacity:.5' : ''}"><span>${state.favorite ? '★' : meta.icon}</span></div>`,
         iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -34],
         className: ''
       });
-      const zoneTag = zone.label ? `<span class="map-popup-zone" style="background:${zone.color}">${zone.label}</span>` : '';
-      L.marker([pt.lat, pt.lng], { icon })
-        .addTo(mapInstance)
-        .bindPopup(`<div class="map-popup">${zoneTag}<strong>${pt.name}</strong>${pt.notes ? '<br><small>' + pt.notes + '</small>' : ''}</div>`);
+      const marker = L.marker([pt.lat, pt.lng], { icon }).addTo(mapInstance).bindPopup(buildPlacePopup(pt));
+      _fullMapMarkers[placeKey(pt.date, pt.name)] = { marker, pt };
     });
   }, 120);
+}
+
+function refreshFullMapMarker(date, name) {
+  const entry = _fullMapMarkers[placeKey(date, name)];
+  if (!entry || !mapInstance) return;
+  const { marker, pt } = entry;
+  const meta = placeTypeMeta(pt.type);
+  const state = getPlaceState(date, name);
+  marker.setIcon(L.divIcon({
+    html: `<div class="map-pin" style="background:${meta.color}${state.visited ? ';opacity:.5' : ''}"><span>${state.favorite ? '★' : meta.icon}</span></div>`,
+    iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -34],
+    className: ''
+  }));
+  marker.setPopupContent(buildPlacePopup(pt));
+}
+
+function showNearMe() {
+  const panel = el('map-nearme-panel');
+  if (!panel) return;
+  if (panel.style.display !== 'none') { panel.style.display = 'none'; return; }
+  panel.style.display = 'block';
+  panel.innerHTML = `<div class="map-nearme-loading">📡 Buscando tu ubicación…</div>`;
+  if (!navigator.geolocation) {
+    panel.innerHTML = `<div class="map-nearme-loading">Geolocalización no disponible en este navegador.</div>`;
+    return;
+  }
+  navigator.geolocation.getCurrentPosition(pos => {
+    const { latitude, longitude } = pos.coords;
+    const trip = getTrip(currentTripId);
+    const pts = collectMapPlaces(trip)
+      .map(pt => ({ ...pt, dist: haversineMeters(latitude, longitude, pt.lat, pt.lng) }))
+      .sort((a, b) => a.dist - b.dist)
+      .slice(0, 8);
+    panel.innerHTML = pts.map(pt => {
+      const meta = placeTypeMeta(pt.type);
+      return `<div class="map-nearme-item" onclick="mapInstance.setView([${pt.lat},${pt.lng}],16); _fullMapMarkers['${placeKey(pt.date, pt.name).replace(/'/g, "\\'")}']?.marker.openPopup();">
+        <span>${meta.icon}</span>
+        <span class="mni-name">${pt.name}</span>
+        <span class="mni-dist">${formatDistance(pt.dist)}</span>
+      </div>`;
+    }).join('') || '<div class="map-nearme-loading">Sin sitios geolocalizados cerca.</div>';
+  }, err => {
+    panel.innerHTML = `<div class="map-nearme-loading">No se pudo obtener tu ubicación (${err.message}). Actívala en el navegador.</div>`;
+  }, { enableHighAccuracy: true, timeout: 10000 });
 }
 
 // ══════════════════════════════════════════════════════════

@@ -1971,6 +1971,53 @@ html, body {
   border-radius: 20px;
   margin-bottom: 3px;
 }
+.mp-actions { display: flex; gap: 6px; margin-top: 8px; }
+.mp-btn {
+  flex: 1; border: 1px solid #d8dee8; background: #fff; border-radius: 8px;
+  padding: 5px 6px; font-size: 12px; font-weight: 600; color: #4a5568;
+  cursor: pointer; transition: all .15s;
+}
+.mp-btn:hover { background: #f0f4f8; }
+.mp-btn-active { background: #1a3a5c; border-color: #1a3a5c; color: #fff; }
+
+/* ── MAPA propio: leyenda, "cerca de mí" ── */
+.map-legend {
+  display: flex; gap: 6px; padding: 10px 14px; overflow-x: auto;
+  white-space: nowrap; -webkit-overflow-scrolling: touch;
+}
+.map-legend-chip {
+  flex-shrink: 0; font-size: 11px; font-weight: 600;
+  padding: 5px 10px; border-radius: 20px;
+}
+.map-nearme-btn {
+  position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%);
+  z-index: 500; background: #1a3a5c; color: #fff; border: none;
+  padding: 12px 20px; border-radius: 24px; font-size: 14px; font-weight: 700;
+  box-shadow: 0 4px 16px rgba(0,0,0,.25); cursor: pointer;
+}
+.map-nearme-panel {
+  position: absolute; bottom: 68px; left: 12px; right: 12px;
+  z-index: 500; background: var(--card, #fff); border-radius: 14px;
+  box-shadow: 0 6px 24px rgba(0,0,0,.25); max-height: 260px; overflow-y: auto;
+}
+.map-nearme-loading { padding: 16px; text-align: center; font-size: 13px; color: var(--text-sm, #718096); }
+.map-nearme-item {
+  display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+  border-bottom: 1px solid rgba(0,0,0,.06); cursor: pointer; font-size: 13px;
+}
+.map-nearme-item:last-child { border-bottom: none; }
+.map-nearme-item:active { background: rgba(0,0,0,.04); }
+.mni-name { flex: 1; font-weight: 600; color: var(--text, #1a202c); }
+.mni-dist { font-size: 12px; font-weight: 700; color: #1a3a5c; }
+.map-mymaps-link {
+  position: absolute; top: 10px; right: 14px; z-index: 500;
+  background: rgba(255,255,255,.92); color: #1a3a5c; font-size: 11px; font-weight: 600;
+  padding: 6px 10px; border-radius: 8px; text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+}
+/* OSM no tiene mosaicos oscuros propios gratis sin API key — se invierte con CSS */
+.leaflet-dark-tiles .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(.95) contrast(.9); }
+.leaflet-dark-tiles .leaflet-marker-icon, .leaflet-dark-tiles .leaflet-popup { filter: none; }
 
 /* ══════════════════════════════════════════════════════════
    BOTÓN TEMA
