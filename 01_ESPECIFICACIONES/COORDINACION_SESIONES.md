@@ -38,7 +38,7 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 
 | PC | Rama | Último commit local | ¿Desciende del remoto real? |
 |---|---|---|---|
-| Trabajo (`C:\Users\mpe.HP2008\...`) | `main` | `6365479` (29-sep-2026) — 21 commits por encima de `origin/main`, incluye todo el trabajo del 28-sep del PC de casa | Sí (cadena completa hasta `c8d9eb5`) |
+| Trabajo (`C:\Users\mpe.HP2008\...`) | `main` | `299306f` (30-sep-2026) — incluye la reconciliación del contenido del PC de casa llegado por MEGA (ver arriba) | Sí (cadena completa hasta `c8d9eb5`) |
 | Casa (`C:\Users\marco\...`) | `main` | `be0aeb2` (29-sep-2026 tarde) — **desactualizado, ver nota arriba**; al menos 5 commits más encima de `cb9c4d1` (ver lista en "Nada en curso ahora mismo") | No — historial nuevo, `git init` desde cero |
 
 **Importante para la próxima sesión en el PC de casa:** el contenido de tus 5 commits (`4c5d322`…`cb9c4d1`) ya está integrado en el commit `cdff33c` del PC del trabajo (se copió el estado final de los archivos, no cada commit individual). Cuando este PC empiece a hacer push a GitHub, el PC de casa deberá resetear su rama contra `origin/main` en vez de intentar pushear sus propios commits — ver "Decisiones ya tomadas" abajo. Si quieres conservar tu historial de 5 commits como referencia, créate una rama antes de resetear (`git branch backup-28sep`).
