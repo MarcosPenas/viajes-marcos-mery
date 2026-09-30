@@ -869,6 +869,7 @@ function renderView(view, extra) {
   content.classList.add('fade-in');
 
   if (view !== 'map' && mapInstance) { mapInstance.remove(); mapInstance = null; }
+  if (view !== 'map') stopNearMeTracking();
 
   switch(view) {
     case 'home':      renderHome(); break;
@@ -3800,34 +3801,71 @@ function refreshFullMapMarker(date, name) {
   marker.setPopupContent(buildPlacePopup(pt));
 }
 
+let _geoWatchId = null;
+let _youAreHereMarker = null;
+let _nearMeFirstFix = false;
+
+function stopNearMeTracking() {
+  if (_geoWatchId != null) { navigator.geolocation.clearWatch(_geoWatchId); _geoWatchId = null; }
+  if (_youAreHereMarker && mapInstance) { mapInstance.removeLayer(_youAreHereMarker); }
+  _youAreHereMarker = null;
+  const btn = document.querySelector('.map-nearme-btn');
+  if (btn) { btn.classList.remove('map-nearme-btn-active'); btn.innerHTML = '📍 Cerca de mí'; }
+  const panel = el('map-nearme-panel');
+  if (panel) panel.style.display = 'none';
+}
+
+function updateNearMePanel(latitude, longitude) {
+  const panel = el('map-nearme-panel');
+  if (!panel) return;
+  const trip = getTrip(currentTripId);
+  const pts = collectMapPlaces(trip)
+    .map(pt => ({ ...pt, dist: haversineMeters(latitude, longitude, pt.lat, pt.lng) }))
+    .sort((a, b) => a.dist - b.dist)
+    .slice(0, 8);
+  panel.innerHTML = pts.map(pt => {
+    const meta = placeTypeMeta(pt.type);
+    return `<div class="map-nearme-item" onclick="mapInstance.setView([${pt.lat},${pt.lng}],16); _fullMapMarkers['${placeKey(pt.date, pt.name).replace(/'/g, "\\'")}']?.marker.openPopup();">
+      <span>${meta.icon}</span>
+      <span class="mni-name">${pt.name}</span>
+      <span class="mni-dist">${formatDistance(pt.dist)}</span>
+    </div>`;
+  }).join('') || '<div class="map-nearme-loading">Sin sitios geolocalizados cerca.</div>';
+}
+
 function showNearMe() {
   const panel = el('map-nearme-panel');
   if (!panel) return;
-  if (panel.style.display !== 'none') { panel.style.display = 'none'; return; }
-  panel.style.display = 'block';
-  panel.innerHTML = `<div class="map-nearme-loading">📡 Buscando tu ubicación…</div>`;
+  // Si ya está siguiendo en vivo, el botón lo detiene
+  if (_geoWatchId != null) { stopNearMeTracking(); return; }
   if (!navigator.geolocation) {
+    panel.style.display = 'block';
     panel.innerHTML = `<div class="map-nearme-loading">Geolocalización no disponible en este navegador.</div>`;
     return;
   }
-  navigator.geolocation.getCurrentPosition(pos => {
-    const { latitude, longitude } = pos.coords;
-    const trip = getTrip(currentTripId);
-    const pts = collectMapPlaces(trip)
-      .map(pt => ({ ...pt, dist: haversineMeters(latitude, longitude, pt.lat, pt.lng) }))
-      .sort((a, b) => a.dist - b.dist)
-      .slice(0, 8);
-    panel.innerHTML = pts.map(pt => {
-      const meta = placeTypeMeta(pt.type);
-      return `<div class="map-nearme-item" onclick="mapInstance.setView([${pt.lat},${pt.lng}],16); _fullMapMarkers['${placeKey(pt.date, pt.name).replace(/'/g, "\\'")}']?.marker.openPopup();">
-        <span>${meta.icon}</span>
-        <span class="mni-name">${pt.name}</span>
-        <span class="mni-dist">${formatDistance(pt.dist)}</span>
-      </div>`;
-    }).join('') || '<div class="map-nearme-loading">Sin sitios geolocalizados cerca.</div>';
+  panel.style.display = 'block';
+  panel.innerHTML = `<div class="map-nearme-loading">📡 Buscando tu ubicación…</div>`;
+  _nearMeFirstFix = true;
+  const btn = document.querySelector('.map-nearme-btn');
+  if (btn) { btn.classList.add('map-nearme-btn-active'); btn.innerHTML = '🔴 Siguiendo en vivo — toca para parar'; }
+
+  _geoWatchId = navigator.geolocation.watchPosition(pos => {
+    const { latitude, longitude, accuracy } = pos.coords;
+    updateNearMePanel(latitude, longitude);
+    if (mapInstance) {
+      if (_youAreHereMarker) {
+        _youAreHereMarker.setLatLng([latitude, longitude]);
+      } else {
+        _youAreHereMarker = L.circleMarker([latitude, longitude], {
+          radius: 9, color: '#fff', weight: 3, fillColor: '#2b7fff', fillOpacity: 1, className: 'you-are-here-dot'
+        }).addTo(mapInstance).bindPopup('📍 Estás aquí' + (accuracy ? ` (±${Math.round(accuracy)}m)` : ''));
+      }
+      if (_nearMeFirstFix) { mapInstance.setView([latitude, longitude], 15); _nearMeFirstFix = false; }
+    }
   }, err => {
     panel.innerHTML = `<div class="map-nearme-loading">No se pudo obtener tu ubicación (${err.message}). Actívala en el navegador.</div>`;
-  }, { enableHighAccuracy: true, timeout: 10000 });
+    stopNearMeTracking();
+  }, { enableHighAccuracy: true, timeout: 15000, maximumAge: 5000 });
 }
 
 // ══════════════════════════════════════════════════════════

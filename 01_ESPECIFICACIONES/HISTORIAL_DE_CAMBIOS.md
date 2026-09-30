@@ -2,6 +2,23 @@
 
 ---
 
+## 2026-09-30 (continuación 3) — "Cerca de mí" pasa de foto fija a seguimiento en vivo
+
+Marcos preguntó, tras ver el mapa nuevo: "¿si me voy moviendo me detecta ese mapa?" — la respuesta honesta era que no, `showNearMe()` solo hacía una lectura puntual (`getCurrentPosition`) al pulsar el botón, no seguía la posición.
+
+**Cambio:** `showNearMe()` ahora usa `navigator.geolocation.watchPosition()` en vez de una lectura única. Mientras está activo:
+- Un punto azul con pulso (`_youAreHereMarker`, `L.circleMarker`) se mueve en el mapa a cada actualización de posición del navegador, con la precisión (±metros) en el popup
+- La primera vez que llega la posición, el mapa centra y hace zoom ahí automáticamente
+- La lista de "sitios cercanos" del panel se recalcula en cada actualización, no solo al abrir
+- El botón cambia a "🔴 Siguiendo en vivo — toca para parar"; tocarlo de nuevo llama a `stopNearMeTracking()`, que limpia el `watchPosition`, quita el punto azul y oculta el panel
+- Si el usuario sale de la pestaña "Mapa" (a Días, Hoy, etc.) el seguimiento se para solo (`stopNearMeTracking()` añadido al limpiador de vista en `renderView`) — para no gastar batería de fondo sin que se note
+
+**Verificado sin GPS real** (el navegador de esta sesión no tiene ubicación física): se sustituyó `navigator.geolocation.watchPosition` por una función que simula 3 posiciones caminando cerca del Lago Hoan Kiem cada 800ms, confirmando que el punto azul se mueve, el panel de cercanía se recalcula, y que tocar el botón de nuevo para el seguimiento y limpia todo correctamente.
+
+**Archivos:** `js/app.js` (`showNearMe`, `stopNearMeTracking`, `updateNearMePanel`, `_geoWatchId`/`_youAreHereMarker` — v→131), `css/styles.css` (botón activo en rojo, animación de pulso del punto — v→73), `index.html`.
+
+---
+
 ## 2026-09-30 (continuación 2) — Mapa propio con Leaflet: se abandona el iframe de My Maps
 
 Marcos, después de varias idas y vueltas con el My Maps embebido ("no se corresponde con mis mapas", "ese mapa está incompleto"), aclaró el problema de raíz: **el documento "Vietnam" de My Maps no era ni siquiera su mapa real** — lo creó una sesión anterior como contenedor para importar los CSV de sus listas de Google Maps — y además, comprobado directamente en My Maps (tabla de datos de la capa "Hue": 18 filas reales), la mayoría de los puntos nunca llegaron a geolocalizarse durante esa importación: solo se plantaba un pin por capa (la ciudad), el resto se quedaba como texto sin coordenadas. Marcos propuso la solución correcta: mapa propio con Leaflet, sacando los puntos progresivamente, con categoría/descripción/día/favorito/visitado y "cerca de mí".
