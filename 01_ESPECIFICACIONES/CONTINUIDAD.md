@@ -1,15 +1,25 @@
 # Continuidad — App Viajes Marcos & Mery
 
-**Actualizado:** 29 de septiembre de 2026 (última pasada: PC de casa, noche)  
+**Actualizado:** 1 de octubre de 2026 (PC del trabajo)
 **Sesión:** Claude Sonnet 5 (Claude Code)
 
 ---
 
-## 👉 LEE ESTO PRIMERO
+## 👉 LEE ESTO PRIMERO (vigente — lo de abajo del 29-sep ya está superado, se deja como historial)
 
-**El hallazgo más importante de HOY (continuación 16):** la app tenía un **bug estructural de fotos duplicadas**, no casos sueltos. `WIKI_ARTICLES` en `app.js` (la tabla que dice qué artículo de Wikipedia mirar para la foto de cada sitio) tenía **72 artículos asignados a 2+ nombres de sitio distintos** — de esos, 15 grupos eran sitios reales y actuales del itinerario compartiendo la misma foto sin motivo (Catedral de San José mostraba el Lago Hoan Kiem, Montaña Sam y su lodge idénticas, Puente del Dragón/Love Lock Bridge/Mercado Son Tra los tres el mismo puente, etc.). Encontrado con un script que cruza `WIKI_ARTICLES` contra los nombres reales de `data.js`, y corregido eliminando 27 líneas de alias duplicadas + verificando y añadiendo 5 fotos reales nuevas + borrando 3 archivos locales con contenido erróneo (uno era literalmente el logo de un blog). **Ver `HISTORIAL_DE_CAMBIOS.md`, continuación 16, para la lista completa de qué se corrigió y el método — es reutilizable si vuelven a aparecer duplicados.**
+**1. El mapa de la app YA NO depende de Google My Maps — está descartado por completo.** El documento "Vietnam" de My Maps nunca fue el mapa real de Marcos (lo creó una sesión anterior como contenedor para importar CSVs) y la mayoría de sus puntos nunca se geolocalizaron bien al importar. Ahora la pestaña "Mapa" es un **mapa Leaflet propio** con coordenadas reales (125/128 sitios geolocalizados vía Photon/OSM), pines por categoría, favorito/visitado persistente, y un botón "Cerca de mí" con **seguimiento en vivo** (punto azul que se mueve, no una foto fija). Si ves cualquier mención a "My Maps" o "iframe" en código o en bloques de más abajo de este archivo, está obsoleto — no tocar esa dirección, ver `HISTORIAL_DE_CAMBIOS.md` del 30-sep en adelante para el detalle.
 
-**Importante — el mapa en blanco NO es un bug de la app:** el iframe de "Mapa" se ve en blanco porque el My Maps de Marcos está compartido en modo restringido (pide login de Google). **Marcos tiene que cambiar la visibilidad él mismo:** My Maps → mapa "Vietnam" → `⋮` → Compartir → Acceso general → "Cualquier usuario con el enlace". Sin esto, nadie sin su sesión de Google verá el mapa (ni la app, ni cualquier otra persona con quien lo comparta).
+**2. Auditoría formal de imágenes completada hoy (1-oct), a petición explícita de Marcos tras varios intentos previos insuficientes.** Las 167 fichas del itinerario (128 lugares + 39 restaurantes) están catalogadas y clasificadas en 6 estados. Resultado honesto: **solo 19 (11%) están verificadas visualmente de verdad** — el resto (`CHECK_MANUALLY`, 102) carga algo porque el nombre/alias "suena a" correcto, pero nadie ha mirado el píxel. Archivos: `01_ESPECIFICACIONES/AUDITORIA_IMAGENES.json` (datos crudos) y `AUDITORIA_IMAGENES_CLASIFICADA.json` (con estado + motivo). **No se ha tocado ninguna imagen todavía** — Marcos pidió explícitamente pararse aquí antes de corregir nada. Ver `HISTORIAL_DE_CAMBIOS.md`, entrada del 1-oct, para la tabla completa de criterios y conteos.
+
+**Siguiente paso de la auditoría (pedido pendiente, no empezar sin que Marcos lo confirme):** revisar visualmente, una por una, las 102 `CHECK_MANUALLY` + decidir qué hacer con las 27 `GENERIC_IMAGE` (fotos de ciudad/categoría usadas para un sitio concreto) y las 19 `DUPLICATE`. Una vez corregida una imagen, Marcos quiere que quede marcada como `verified` y que la resolución automática nunca vuelva a sustituirla — esto ya encaja con el mecanismo existente: cualquier ficha con un campo `photo:` directo (URL real, no `picsum`) en `data.js` tiene prioridad máxima en `loadWikiPhoto()` y nunca se recalcula, así que "verificada" = tiene su propio `photo:` directo.
+
+---
+
+## ⚠️ Bloque del 29-sep (histórico, ya resuelto o superado — no usar como estado actual)
+
+**El hallazgo del 29-sep (continuación 16):** la app tenía un **bug estructural de fotos duplicadas**, no casos sueltos. `WIKI_ARTICLES` en `app.js` (la tabla que dice qué artículo de Wikipedia mirar para la foto de cada sitio) tenía **72 artículos asignados a 2+ nombres de sitio distintos** — de esos, 15 grupos eran sitios reales y actuales del itinerario compartiendo la misma foto sin motivo. Corregido entonces; la auditoría de hoy (1-oct, ver arriba) es el seguimiento formal de ese mismo problema, hecho con rigor.
+
+**[OBSOLETO] El mapa en blanco por My Maps restringido:** ya no aplica, ver punto 1 de arriba — el My Maps se abandonó por completo el 30-sep.
 
 **Resto de lo hecho hoy (29-sep), cronológico — ver `HISTORIAL_DE_CAMBIOS.md` continuaciones 10 a 16 para el detalle completo de cada una:**
 1. **Mañana, PC del trabajo:** git/Mejoras al día, cruce de listas de Google Maps, auditoría de fotos con script + visual.
@@ -134,6 +144,7 @@ Ninguno de los dos se ha subido todavía — ni por el token pendiente de regene
 
 | Tarea | Acción |
 |---|---|
+| **Revisión visual una por una de la auditoría de imágenes** (pedido explícito, 1-oct-2026, sin empezar) | 102 fichas `CHECK_MANUALLY` + 27 `GENERIC_IMAGE` + 19 `DUPLICATE` en `01_ESPECIFICACIONES/AUDITORIA_IMAGENES_CLASIFICADA.json` — ver `HISTORIAL_DE_CAMBIOS.md` del 1-oct para los criterios. Marcos quiere ir "una por una", así que no corregir en bloque sin su confirmación de cada caso. Una vez corregida, queda "verificada" dándole un `photo:` directo con URL real en `data.js` (ya nunca se recalcula automáticamente, es el mecanismo existente) |
 | ~~Tarjetas de info de aeropuerto~~ | ✅ Hecho el 30-sep-2026 — investigado con WebSearch antes de escribir nada. Barcelona/Shenzhen (`CITY_INFO`) actualizados con terminal exacta y la política de tránsito de Shenzhen corregida (era 72-144h, ahora 240h desde dic-2024). Llegada a Hanói (notas del día 07-nov): proceso de inmigración, y **hallazgo importante** — desde junio 2026 hace falta la "Vietnam Digital Arrival Card" online (prearrival.immigration.gov.vn, dentro de 72h antes del vuelo, genera QR), no estaba contemplada en ningún sitio; añadida como tarea nueva también. Ver `HISTORIAL_DE_CAMBIOS.md` para el detalle y las fuentes |
 | **Ampliar "Qué comer" a 4-5 platos/día** (pedido explícito, 29-sep-2026, sin empezar) | Actualmente 2 por día en la mayoría. Investigar en internet además de lo ya puesto, con criterio (no meter platos de relleno) |
 | **Terminar el criterio de relevancia turística en las listas de Google Maps** (en curso, 29-sep-2026) | Hecho: Camboya Sur, Camboya Norte, Vietnam Centro (62 sitios — nada nuevo, ya cubierto). Falta: terminar Hanói (45 sitios, parcialmente revisado), Ninh Binh (22, sin empezar), y repasar Cat Ba/Vietnam Sur con este método más estricto (se hicieron antes con otro método menos sistemático). Método: abrir la lista pública de Google Maps en el navegador, extraer sitio+reseñas, filtrar por relevancia (≥150-300 reseñas ≈ real interés turístico), cruzar contra `data.js`, verificar foto antes de añadir — ver `HISTORIAL_DE_CAMBIOS.md` continuación 15 |

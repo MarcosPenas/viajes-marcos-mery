@@ -2,6 +2,31 @@
 
 ---
 
+## 2026-10-01 — Auditoría formal de imágenes: 167/167 catalogadas y clasificadas en 6 estados
+
+Marcos pidió explícitamente (tras varios intentos previos que no llegaron a este nivel de rigor) una auditoría formal de TODAS las imágenes del itinerario, en dos fases, **sin modificar ninguna imagen todavía**:
+
+**Fase 1 — Extracción completa.** Por cada lugar/restaurante del itinerario: ID (`fecha|nombre`), nombre, ciudad, imagen actual, URL original, origen (de qué mecanismo de `loadWikiPhoto()` viene: `photo:` directo / `IMAGE_MAP` / caché local / Wikipedia en vivo), y con qué otros sitios comparte la misma imagen exacta. Recogido **desde el propio navegador en vivo** (no una reimplementación en Node aparte — la lección de hoy mismo con el bug de `IMAGE_MAP` ya enseñó que reimplementar la lógica fuera del navegador real tiene puntos ciegos). Resultado: **167 de 167** (128 lugares + 39 restaurantes, coincide exactamente con el total real de `data.js` — condición que Marcos marcó como obligatoria antes de dar la tarea por terminada). Guardado en `01_ESPECIFICACIONES/AUDITORIA_IMAGENES.json`.
+
+**Fase 2 — Clasificación en 6 estados**, usando exclusivamente los datos ya recogidos en la fase 1 (sin volver a comprobar nada nuevo):
+
+| Estado | Nº | Criterio aplicado |
+|---|---|---|
+| `OK_VERIFIED` | 19 | Comprobado **visualmente, píxel a píxel**, en esta misma sesión (no solo por coincidencia de nombre) |
+| `DUPLICATE` | 19 | Comparte imagen exacta con otro sitio y no encaja en `GENERIC_IMAGE` |
+| `GENERIC_IMAGE` | 27 | La imagen viene de un alias genérico de ciudad/región/categoría de plato (`Hội_An`, `Da_Nang`, `An_Giang`, `Lan_Ha_Bay`, `Siem_Reap_province`, `Vietnamese_cuisine`, `Seafood`, `Goat_meat`, `Cambodian_cuisine`, `Hanoi`, `Perfume_River` en un caso, `Bánh_mì` en un caso), no de una fuente específica del lugar/plato concreto |
+| `CHECK_MANUALLY` | 102 | Resuelta por coincidencia de nombre/alias (Wikipedia o archivo local cacheado) pero **nunca comprobada visualmente** — es la mayoría honesta: la app funciona y casi todo "carga algo", pero no está verificado que esa foto sea realmente la correcta |
+| `WRONG_IMAGE` | 0 | Ninguna confirmada como incorrecta en esta pasada (requeriría comprobación visual fresca de las 102 `CHECK_MANUALLY`, que es el siguiente paso) |
+| `PENDING_IMAGE` | 0 | Ninguna sin resolver — las 167 cargan *algo* |
+
+**Hallazgo honesto más importante de esta auditoría:** de 167 sitios, solo 19 (11%) tienen la imagen verificada de verdad a ojo. El resto funciona porque el nombre/alias "suena a" lo correcto, que es exactamente el tipo de falso positivo que las auditorías anteriores (por script, por nombre de archivo) no podían pillar — y es la razón de que Marcos haya tenido que pedir esto varias veces.
+
+**Bug propio corregido durante la clasificación:** el primer script marcaba "Bánh Mì" (genérico, día 9) como `GENERIC_IMAGE` solo por compartir alias con "Bánh Mì Phượng" (que sí lo es, es una tienda específica) — corregido antes de guardar el resultado final.
+
+**Archivos nuevos (no se tocó ninguna imagen ni el algoritmo de resolución):** `01_ESPECIFICACIONES/AUDITORIA_IMAGENES.json` (extracción completa), `01_ESPECIFICACIONES/AUDITORIA_IMAGENES_CLASIFICADA.json` (con estado + motivo por entrada). **Siguiente paso, pendiente de que Marcos lo pida:** revisar visualmente las 102 `CHECK_MANUALLY` una por una y decidir sobre las 27 `GENERIC_IMAGE` / 19 `DUPLICATE`.
+
+---
+
 ## 2026-09-30 (continuación 3) — "Cerca de mí" pasa de foto fija a seguimiento en vivo
 
 Marcos preguntó, tras ver el mapa nuevo: "¿si me voy moviendo me detecta ese mapa?" — la respuesta honesta era que no, `showNearMe()` solo hacía una lectura puntual (`getCurrentPosition`) al pulsar el botón, no seguía la posición.
