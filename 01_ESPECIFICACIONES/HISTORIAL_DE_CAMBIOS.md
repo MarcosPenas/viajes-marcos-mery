@@ -2,6 +2,23 @@
 
 ---
 
+## 2026-10-02 (continuación 2) — Bancos de fotos libres (Pexels) para platos genéricos sin cobertura en Commons
+
+Marcos pidió explícitamente buscar solución para los sitios sin foto en Commons, aclarando que no le preocupa usar una foto "de Google" porque la app es de uso privado. **Aclarado antes de aplicar nada:** el repo de esta app es en realidad **público** en GitHub (`github.com/MarcosPenas/viajes-marcos-mery`, ver `CLAUDE.md`), así que una foto de Google Imágenes (normalmente de un tercero sin licencia clara de reuso) sí podría dar problemas de derechos si el repo gana visibilidad. En su lugar se usó **Pexels** (banco de fotos con licencia libre de uso y modificación, sin necesidad de atribución) para los casos donde el hueco es un **concepto genérico** (un plato, un paisaje) y no un lugar/marca concreto:
+
+- **Ốc (caracoles de río)** (25-nov): foto real de caracoles salteados con maíz y ajo frito.
+- **Dê nướng (cabra a la parrilla)** (24-nov) y **Dê (cabra) en distintas preparaciones** (25-nov): misma foto de brochetas de cabra a la brasa (mismo concepto genérico, aceptable compartir).
+- **Marisco de Da Nang** (21-nov), **Marisco de Cat Ba** (26-nov) y **Último marisco en Cat Ba** (28-nov): misma foto de marisco a la plancha recién servido (3 entradas genéricas de "marisco de la zona", sin plato específico identificable — compartir es aceptable, mismo criterio que Mì Quảng en 2 días).
+- **Pueblos rurales, arrozales y palmeras de azúcar** (12-nov, Siem Reap): foto aérea real de arrozales, palmeras y aldeas camboyanas.
+
+**Criterio para NO usar foto de stock en el resto de huecos (deliberado, no por falta de tiempo):** los ~24 casos restantes (Mercado Ruso, Phare Circus, Victoria Nui Sam Lodge, Ba Trai Dao, Viet Hai village, Talleres Artesanales, Murales de Phùng Hưng, etc.) son **lugares o espectáculos concretos y reconocibles**, no conceptos genéricos — una foto de stock de "un circo cualquiera" o "un mercado cualquiera" los representaría tan mal como el alias equivocado que motivó toda esta auditoría en primer lugar (ej. probado "circus acrobat performance" en Pexels para Phare: salió una acróbata occidental con malla de lentejuelas, nada que ver con el espectáculo real de narrativa jemer contemporánea de Phare — descartado). Para esos, sin foto sigue siendo mejor que una que induzca a error.
+
+Verificado en el navegador (localStorage limpiado, recarga, día 25-nov/Tam Coc-Ninh Binh, pestaña "Qué comer") que las fotos cargan a tamaño completo.
+
+**Archivos:** `js/data.js` (DATA_VERSION 56→57, 4 fotos directas nuevas cubriendo 7 fichas), `index.html` (`data.js?v=57`).
+
+---
+
 ## 2026-10-02 (continuación) — 8 fotos reales más para los `GENERIC_IMAGE`/`DUPLICATE` restantes
 
 Continuando el plan de corrección de imágenes (empezar por los grupos de menor número de imágenes distintas): tras comprobar que `AUDITORIA_IMAGENES_CLASIFICADA.json` estaba desactualizado (no se regeneró tras la última tanda sincronizada por MEGA — varios `GENERIC_IMAGE`/`DUPLICATE` del JSON ya tenían foto real en `data.js`), se recalculó el estado real contra `data.js` v55: de los 47 casos del JSON, **40 seguían realmente sin foto propia** (7 ya se habían arreglado sin que el JSON se actualizara). De esos 40, se buscaron en Wikimedia Commons, descargaron y verificaron a ojo antes de aplicar:

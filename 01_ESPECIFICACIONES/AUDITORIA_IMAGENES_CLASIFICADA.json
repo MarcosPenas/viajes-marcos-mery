@@ -743,14 +743,12 @@
   "date": "2026-11-12",
   "category": "place",
   "type": "nature",
-  "current_image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/D%27Angkor.jpg/500px-D%27Angkor.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-  "original_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/D%27Angkor.jpg/500px-D%27Angkor.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-  "source": "wiki-live (alias 'Siem_Reap_province')",
-  "shared_with": [
-   "2026-11-12|Lotus Silk Farm"
-  ],
-  "status": "GENERIC_IMAGE",
-  "reason": "La imagen proviene de un alias genérico (ciudad/región/categoría de plato: wiki-live (alias 'Siem_Reap_province')), no de una fuente específica de \"Pueblos rurales, arrozales y palmeras de azúcar\"."
+  "current_image": "https://images.pexels.com/photos/34754310/pexels-photo-34754310/free-photo-of-aerial-view-of-cambodian-countryside-at-sunset.png?cs=tinysrgb&w=500",
+  "original_url": "https://images.pexels.com/photos/34754310/pexels-photo-34754310/free-photo-of-aerial-view-of-cambodian-countryside-at-sunset.png?cs=tinysrgb&w=500",
+  "source": "direct-photo (Pexels, verificado a ojo, 2-oct-2026 - concepto generico, no lugar especifico)",
+  "shared_with": [],
+  "status": "OK_VERIFIED",
+  "reason": "Foto de banco libre (Pexels) verificada a ojo el 2-oct-2026 para un concepto generico (plato/paisaje, no un lugar o marca especifica). Ver HISTORIAL_DE_CAMBIOS.md."
  },
  {
   "id": "2026-11-12|Preah Khan",
@@ -1817,15 +1815,12 @@
   "date": "2026-11-21",
   "category": "restaurant",
   "type": "restaurant",
-  "current_image": "img/places/seafood.jpg",
-  "original_url": "(cache local de Wikipedia: Seafood)",
-  "source": "local-file (cache de wiki-alias 'Seafood')",
-  "shared_with": [
-   "2026-11-26|Marisco de Cat Ba",
-   "2026-11-28|Último marisco en Cat Ba"
-  ],
-  "status": "GENERIC_IMAGE",
-  "reason": "La imagen proviene de un alias genérico (ciudad/región/categoría de plato: local-file (cache de wiki-alias 'Seafood')), no de una fuente específica de \"Marisco de Da Nang\"."
+  "current_image": "https://images.pexels.com/photos/14786461/pexels-photo-14786461.jpeg?auto=compress&cs=tinysrgb&w=500",
+  "original_url": "https://images.pexels.com/photos/14786461/pexels-photo-14786461.jpeg?auto=compress&cs=tinysrgb&w=500",
+  "source": "direct-photo (Pexels, verificado a ojo, 2-oct-2026 - concepto generico, no lugar especifico)",
+  "shared_with": [],
+  "status": "OK_VERIFIED",
+  "reason": "Foto de banco libre (Pexels) verificada a ojo el 2-oct-2026 para un concepto generico (plato/paisaje, no un lugar o marca especifica). Ver HISTORIAL_DE_CAMBIOS.md."
  },
  {
   "id": "2026-11-22|Ciudad Imperial de Hue",
@@ -2074,14 +2069,12 @@
   "date": "2026-11-24",
   "category": "restaurant",
   "type": "restaurant",
-  "current_image": "img/places/goat_meat.jpg",
-  "original_url": "(cache local de Wikipedia: Goat_meat)",
-  "source": "local-file (cache de wiki-alias 'Goat_meat')",
-  "shared_with": [
-   "2026-11-25|Dê (cabra) en distintas preparaciones"
-  ],
-  "status": "GENERIC_IMAGE",
-  "reason": "La imagen proviene de un alias genérico (ciudad/región/categoría de plato: local-file (cache de wiki-alias 'Goat_meat')), no de una fuente específica de \"Dê nướng (cabra a la parrilla)\"."
+  "current_image": "https://images.pexels.com/photos/38346591/pexels-photo-38346591.jpeg?auto=compress&cs=tinysrgb&w=500",
+  "original_url": "https://images.pexels.com/photos/38346591/pexels-photo-38346591.jpeg?auto=compress&cs=tinysrgb&w=500",
+  "source": "direct-photo (Pexels, verificado a ojo, 2-oct-2026 - concepto generico, no lugar especifico)",
+  "shared_with": [],
+  "status": "OK_VERIFIED",
+  "reason": "Foto de banco libre (Pexels) verificada a ojo el 2-oct-2026 para un concepto generico (plato/paisaje, no un lugar o marca especifica). Ver HISTORIAL_DE_CAMBIOS.md."
  },
  {
   "id": "2026-11-25|Hang Mua (mejor al amanecer)",
@@ -2160,14 +2153,12 @@
   "date": "2026-11-25",
   "category": "restaurant",
   "type": "restaurant",
-  "current_image": "img/places/goat_meat.jpg",
-  "original_url": "(cache local de Wikipedia: Goat_meat)",
-  "source": "local-file (cache de wiki-alias 'Goat_meat')",
-  "shared_with": [
-   "2026-11-24|Dê nướng (cabra a la parrilla)"
-  ],
-  "status": "GENERIC_IMAGE",
-  "reason": "La imagen proviene de un alias genérico (ciudad/región/categoría de plato: local-file (cache de wiki-alias 'Goat_meat')), no de una fuente específica de \"Dê (cabra) en distintas preparaciones\"."
+  "current_image": "https://images.pexels.com/photos/38346591/pexels-photo-38346591.jpeg?auto=compress&cs=tinysrgb&w=500",
+  "original_url": "https://images.pexels.com/photos/38346591/pexels-photo-38346591.jpeg?auto=compress&cs=tinysrgb&w=500",
+  "source": "direct-photo (Pexels, verificado a ojo, 2-oct-2026 - concepto generico, no lugar especifico)",
+  "shared_with": [],
+  "status": "OK_VERIFIED",
+  "reason": "Foto de banco libre (Pexels) verificada a ojo el 2-oct-2026 para un concepto generico (plato/paisaje, no un lugar o marca especifica). Ver HISTORIAL_DE_CAMBIOS.md."
  },
  {
   "id": "2026-11-25|Ốc (caracoles de río)",
@@ -2176,15 +2167,12 @@
   "date": "2026-11-25",
   "category": "restaurant",
   "type": "restaurant",
-  "current_image": "img/places/vietnamese_cuisine.jpg",
-  "original_url": "(cache local de Wikipedia: Vietnamese_cuisine)",
-  "source": "local-file (cache de wiki-alias 'Vietnamese_cuisine')",
-  "shared_with": [
-   "2026-11-16|Bun Ca",
-   "2026-11-17|Bún Cá Châu Đốc"
-  ],
-  "status": "GENERIC_IMAGE",
-  "reason": "La imagen proviene de un alias genérico (ciudad/región/categoría de plato: local-file (cache de wiki-alias 'Vietnamese_cuisine')), no de una fuente específica de \"Ốc (caracoles de río)\"."
+  "current_image": "https://images.pexels.com/photos/13189279/pexels-photo-13189279.jpeg?auto=compress&cs=tinysrgb&w=500",
+  "original_url": "https://images.pexels.com/photos/13189279/pexels-photo-13189279.jpeg?auto=compress&cs=tinysrgb&w=500",
+  "source": "direct-photo (Pexels, verificado a ojo, 2-oct-2026 - concepto generico, no lugar especifico)",
+  "shared_with": [],
+  "status": "OK_VERIFIED",
+  "reason": "Foto de banco libre (Pexels) verificada a ojo el 2-oct-2026 para un concepto generico (plato/paisaje, no un lugar o marca especifica). Ver HISTORIAL_DE_CAMBIOS.md."
  },
  {
   "id": "2026-11-26|Ruta de playas Cat Co",
@@ -2249,15 +2237,12 @@
   "date": "2026-11-26",
   "category": "restaurant",
   "type": "restaurant",
-  "current_image": "img/places/seafood.jpg",
-  "original_url": "(cache local de Wikipedia: Seafood)",
-  "source": "local-file (cache de wiki-alias 'Seafood')",
-  "shared_with": [
-   "2026-11-21|Marisco de Da Nang",
-   "2026-11-28|Último marisco en Cat Ba"
-  ],
-  "status": "GENERIC_IMAGE",
-  "reason": "La imagen proviene de un alias genérico (ciudad/región/categoría de plato: local-file (cache de wiki-alias 'Seafood')), no de una fuente específica de \"Marisco de Cat Ba\"."
+  "current_image": "https://images.pexels.com/photos/14786461/pexels-photo-14786461.jpeg?auto=compress&cs=tinysrgb&w=500",
+  "original_url": "https://images.pexels.com/photos/14786461/pexels-photo-14786461.jpeg?auto=compress&cs=tinysrgb&w=500",
+  "source": "direct-photo (Pexels, verificado a ojo, 2-oct-2026 - concepto generico, no lugar especifico)",
+  "shared_with": [],
+  "status": "OK_VERIFIED",
+  "reason": "Foto de banco libre (Pexels) verificada a ojo el 2-oct-2026 para un concepto generico (plato/paisaje, no un lugar o marca especifica). Ver HISTORIAL_DE_CAMBIOS.md."
  },
  {
   "id": "2026-11-26|Chả Mực Cát Bà",
@@ -2372,15 +2357,12 @@
   "date": "2026-11-28",
   "category": "restaurant",
   "type": "restaurant",
-  "current_image": "img/places/seafood.jpg",
-  "original_url": "(cache local de Wikipedia: Seafood)",
-  "source": "local-file (cache de wiki-alias 'Seafood')",
-  "shared_with": [
-   "2026-11-21|Marisco de Da Nang",
-   "2026-11-26|Marisco de Cat Ba"
-  ],
-  "status": "GENERIC_IMAGE",
-  "reason": "La imagen proviene de un alias genérico (ciudad/región/categoría de plato: local-file (cache de wiki-alias 'Seafood')), no de una fuente específica de \"Último marisco en Cat Ba\"."
+  "current_image": "https://images.pexels.com/photos/14786461/pexels-photo-14786461.jpeg?auto=compress&cs=tinysrgb&w=500",
+  "original_url": "https://images.pexels.com/photos/14786461/pexels-photo-14786461.jpeg?auto=compress&cs=tinysrgb&w=500",
+  "source": "direct-photo (Pexels, verificado a ojo, 2-oct-2026 - concepto generico, no lugar especifico)",
+  "shared_with": [],
+  "status": "OK_VERIFIED",
+  "reason": "Foto de banco libre (Pexels) verificada a ojo el 2-oct-2026 para un concepto generico (plato/paisaje, no un lugar o marca especifica). Ver HISTORIAL_DE_CAMBIOS.md."
  },
  {
   "id": "2026-11-29|Sitios pendientes del Old Quarter",

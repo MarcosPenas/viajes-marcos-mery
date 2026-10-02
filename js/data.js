@@ -319,7 +319,8 @@ const DEFAULT_DATA = {
               notes: 'Extracción y tejido artesanal de "seda de loto", una fibra rarísima sacada del tallo de la flor.',
               description: 'Granja y taller donde se extrae a mano la fibra de los tallos de la flor de loto para tejer una tela muy rara y cara, alternativa vegetal a la seda de gusano. Se puede ver todo el proceso, desde el corte del tallo hasta el hilado y el telar tradicional.',
               tips: 'Visita guiada corta (20-30 min) que explica el proceso paso a paso. Tienda propia de bufandas y textiles de seda de loto a la salida.' },
-            { name: 'Pueblos rurales, arrozales y palmeras de azúcar', type: 'nature', lat: 13.355487, lng: 103.8608382, notes: 'Casas tradicionales Khmer, pequeñas pagodas/templos locales.' },
+            { name: 'Pueblos rurales, arrozales y palmeras de azúcar', type: 'nature', lat: 13.355487, lng: 103.8608382, notes: 'Casas tradicionales Khmer, pequeñas pagodas/templos locales.',
+              photo: 'https://images.pexels.com/photos/34754310/pexels-photo-34754310/free-photo-of-aerial-view-of-cambodian-countryside-at-sunset.png?cs=tinysrgb&w=500' },
             { name: 'Preah Khan', type: 'temple', lat: 13.4619307, lng: 103.8716297,
               notes: '"Espada Sagrada" — uno de los templos más grandes de Angkor, con higueras estranguladoras.',
               description: 'Diseño rectangular de galerías concéntricas hacia un santuario central (Monte Meru), con 4 gopuras talladas con el mito del Batido del Océano de Leche. Construido en el s.XII por Jayavarman VII en el lugar donde derrotó a los cham; fue templo budista, centro administrativo y universidad, con cientos de sacerdotes y estudiosos.',
@@ -692,7 +693,8 @@ const DEFAULT_DATA = {
           ],
           restaurants: [
             { name: 'Mì Quảng', type: 'restaurant', notes: 'Fideos de cúrcuma con gambas y cerdo, plato bandera de la región de Da Nang.' },
-            { name: 'Marisco de Da Nang', type: 'restaurant', notes: 'Ciudad costera con mucho mejor marisco y más barato que en las zonas turísticas.' },
+            { name: 'Marisco de Da Nang', type: 'restaurant', notes: 'Ciudad costera con mucho mejor marisco y más barato que en las zonas turísticas.',
+              photo: 'https://images.pexels.com/photos/14786461/pexels-photo-14786461.jpeg?auto=compress&cs=tinysrgb&w=500' },
             { name: 'Bánh Tráng Cuốn Thịt Heo', type: 'restaurant', notes: 'Panceta de cerdo cocida envuelta en papel de arroz junto con fideos, hierbas frescas y vegetales — plato emblemático de Da Nang, para montar tú mismo en la mesa.' },
             { name: 'Bún Mắm Nêm', type: 'restaurant', notes: 'Fideos con cerdo a la parrilla y una salsa intensa de pescado fermentado con piña — de sabor fuerte, muy querido por los locales de Da Nang.' }
           ],
@@ -802,7 +804,8 @@ const DEFAULT_DATA = {
           ],
           restaurants: [
             { name: 'Cơm Cháy', type: 'restaurant', notes: 'Arroz de corteza tostada y crujiente, especialidad de Ninh Binh.' },
-            { name: 'Dê nướng (cabra a la parrilla)', type: 'restaurant', notes: 'La carne de cabra en todas sus formas es la especialidad de la zona.' },
+            { name: 'Dê nướng (cabra a la parrilla)', type: 'restaurant', notes: 'La carne de cabra en todas sus formas es la especialidad de la zona.',
+              photo: 'https://images.pexels.com/photos/38346591/pexels-photo-38346591.jpeg?auto=compress&cs=tinysrgb&w=500' },
             { name: 'Nem Chua Yên Mạc', type: 'restaurant', notes: 'Embutido de cerdo fermentado envuelto en hoja de guayaba, especialidad de un pueblo de Ninh Binh — se come crudo, de sabor ácido y picante.' },
             { name: 'Rượu Kim Sơn', type: 'restaurant', notes: 'El licor de arroz destilado más famoso del norte de Vietnam, de la comarca costera de Kim Sơn — para acompañar la cabra a la parrilla.' }
           ],
@@ -842,8 +845,10 @@ const DEFAULT_DATA = {
               tips: 'A 45 km de Tam Coc. Conductor privado o excursión ~40€. 6:00-18:00, 60.000 VND. Negociar que el conductor entre hasta el 2º parking (Bong Station) — no quedarse en la entrada.' }
           ],
           restaurants: [
-            { name: 'Dê (cabra) en distintas preparaciones', type: 'restaurant', notes: 'Guiso, salteado o a la parrilla — Ninh Binh es la capital vietnamita de la cabra.' },
-            { name: 'Ốc (caracoles de río)', type: 'restaurant', notes: 'Tapa callejera muy popular en la zona rural de Ninh Binh.' },
+            { name: 'Dê (cabra) en distintas preparaciones', type: 'restaurant', notes: 'Guiso, salteado o a la parrilla — Ninh Binh es la capital vietnamita de la cabra.',
+              photo: 'https://images.pexels.com/photos/38346591/pexels-photo-38346591.jpeg?auto=compress&cs=tinysrgb&w=500' },
+            { name: 'Ốc (caracoles de río)', type: 'restaurant', notes: 'Tapa callejera muy popular en la zona rural de Ninh Binh.',
+              photo: 'https://images.pexels.com/photos/13189279/pexels-photo-13189279.jpeg?auto=compress&cs=tinysrgb&w=500' },
             { name: 'Cá Rô Tổng Trường', type: 'restaurant', notes: 'Perca de agua dulce de los arrozales inundados de Ninh Binh, frita o cocinada en caldo agridulce.' },
             { name: 'Miến Lươn', type: 'restaurant', notes: 'Fideos de celofán con anguila frita crujiente y caldo especiado — un plato muy apreciado en todo el norte de Vietnam.' }
           ],
@@ -877,7 +882,8 @@ const DEFAULT_DATA = {
               tips: '15-20 min a pie cuesta arriba desde el pueblo (o mototaxi). Entrada ~200.000 VND. Mejor al atardecer — hay un pequeño café-mirador arriba para esperar la puesta de sol con vistas a la bahía.' }
           ],
           restaurants: [
-            { name: 'Marisco de Cat Ba', type: 'restaurant', notes: 'Marisco recién sacado del agua en las balsas flotantes de la bahía.' },
+            { name: 'Marisco de Cat Ba', type: 'restaurant', notes: 'Marisco recién sacado del agua en las balsas flotantes de la bahía.',
+              photo: 'https://images.pexels.com/photos/14786461/pexels-photo-14786461.jpeg?auto=compress&cs=tinysrgb&w=500' },
             { name: 'Chả Mực Cát Bà', type: 'restaurant', notes: 'Hamburguesa de calamar a la plancha, especialidad reconocida de la isla.' },
             { name: 'Tu Hài Nướng', type: 'restaurant', notes: 'Almeja navaja gigante criada en las jaulas de Lan Ha Bay, a la parrilla con mantequilla y ajo — el marisco estrella de Cat Ba.' },
             { name: 'Bề Bề Rang Muối', type: 'restaurant', notes: 'Galeras (mantis shrimp) salteadas con sal y chile — muy populares en los restaurantes de la bahía.' }
@@ -938,7 +944,8 @@ const DEFAULT_DATA = {
               tips: '8:00-17:00, 40.000-80.000 VND. En Grab: 15 min desde el pueblo (app Xanh SM en Cat Ba, no Grab). También en bus local parada "Hang Quân Y".' }
           ],
           restaurants: [
-            { name: 'Último marisco en Cat Ba', type: 'restaurant', notes: 'Última comida en la isla antes del bus de vuelta a Hanói.' },
+            { name: 'Último marisco en Cat Ba', type: 'restaurant', notes: 'Última comida en la isla antes del bus de vuelta a Hanói.',
+              photo: 'https://images.pexels.com/photos/14786461/pexels-photo-14786461.jpeg?auto=compress&cs=tinysrgb&w=500' },
             { name: 'Bánh Mì de viaje en bus', type: 'restaurant', notes: 'Un bánh mì para llevar al bus — fácil de comer en el trayecto de 3h de vuelta a Hanói.' }
           ],
           transport: [
@@ -1045,7 +1052,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 56;
+const DATA_VERSION = 57;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 
