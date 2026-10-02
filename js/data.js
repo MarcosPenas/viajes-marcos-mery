@@ -71,7 +71,9 @@ const DEFAULT_DATA = {
           ],
           restaurants: [
             { name: 'Phở Bò', type: 'restaurant', notes: 'Desayuno clásico de reencuentro con Vietnam.' },
-            { name: 'Bia Hơi', type: 'restaurant', notes: 'Cerveza artesanal callejera a 0,30 USD el vaso, el ritual social de cualquier tarde en Hanói.' }
+            { name: 'Bia Hơi', type: 'restaurant', notes: 'Cerveza artesanal callejera a 0,30 USD el vaso, el ritual social de cualquier tarde en Hanói.' },
+            { name: 'Nem Rán (Chả Giò)', type: 'restaurant', notes: 'Rollitos de primavera fritos con cerdo, gambas y verdura — el acompañante clásico de cualquier comida vietnamita.' },
+            { name: 'Bún Đậu Mắm Tôm', type: 'restaurant', notes: 'Fideos de arroz, tofu frito y cerdo cocido mojados en pasta de gambas fermentada — un clásico de culto del Barrio Antiguo, no apto para todos los olfatos.' }
           ],
           transport: [
             { type: 'flight', icon: '✈️', details: 'Vuelo Shenzhen→Hanói', from: 'Shenzhen', to: 'Hanói (HAN)', time: '12:50–13:55 (2h 50min)' }
@@ -100,6 +102,7 @@ const DEFAULT_DATA = {
               tips: 'Mejor entre 7:00-9:30h, sobre todo en otoño (sept-nov) con las hojas caídas. Parada obligatoria de té helado (Trà Chanh) en los callejones laterales.' },
             { name: 'Lago B-52 (Hữu Tiệp Lake)', type: 'monument', lat: 21.0379603, lng: 105.8269943,
               notes: 'Restos de un B-52 derribado en 1972, hundidos en un estanque de barrio. Gratis, 24h.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/B52_WRECKAGE_AT_HUU_TIEP_LAKE_BA_DINH_DISTRICT_%28AKA_B52_LAKE%29HANOI_VIETNAM_FEB_2012_%286818002106%29.jpg/500px-B52_WRECKAGE_AT_HUU_TIEP_LAKE_BA_DINH_DISTRICT_%28AKA_B52_LAKE%29HANOI_VIETNAM_FEB_2012_%286818002106%29.jpg',
               description: 'En mitad de un pequeño estanque residencial del barrio de Ngọc Hà sobresalen los restos oxidados del tren de aterrizaje de un bombardero B-52 estadounidense, derribado la noche del 27 de diciembre de 1972. A 5 min andando, el Museo de la Victoria B-52 (157 Đội Cấn) tiene restos más grandes, misiles SAM y fotos de la época.',
               tips: 'Callejón 55, calle Hoàng Hoa Thám. Combínalo a pie con el Mausoleo (10-15 min andando). Mejor luz al amanecer o al atardecer, para el reflejo en el agua.' },
             { name: 'Templo de la Literatura', type: 'temple', lat: 21.0287903, lng: 105.8359533,
@@ -131,7 +134,10 @@ const DEFAULT_DATA = {
             { name: 'Café Giảng (Cà Phê Trứng)', type: 'restaurant',
               notes: 'Café de huevo, invento de 1946 cuando escaseaba la leche. Café Giảng es la cafetería original.',
               description: 'Nguyen Van Giang, antiguo barman del Sofitel Metropole, inventó el cà phê trứng en 1946 batiendo yema de huevo con azúcar y leche condensada hasta formar una espuma cremosa sobre café caliente, como sustituto de la leche fresca (escasa entonces en Hanói). Café Giảng, fundado por él, sigue siendo la referencia del plato, servido en un cuenco de barro con agua caliente debajo para mantenerlo templado.',
-              tips: '39 Nguyễn Hữu Huân, dist. Hoan Kiem — entrada discreta por un callejón, subir a la 2ª planta. Local pequeño y muy turístico a mediodía; mejor a media mañana. Pide también el cacao de huevo si no eres de café.' }
+              tips: '39 Nguyễn Hữu Huân, dist. Hoan Kiem — entrada discreta por un callejón, subir a la 2ª planta. Local pequeño y muy turístico a mediodía; mejor a media mañana. Pide también el cacao de huevo si no eres de café.' },
+            { name: 'Bún Riêu', type: 'restaurant', notes: 'Sopa de fideos con tomate y un pastel de cangrejo de río, uno de los desayunos más queridos de Hanói.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/B%C3%BAn_ri%C3%AAu_cua_n%C6%B0%E1%BB%9Bc.jpg/500px-B%C3%BAn_ri%C3%AAu_cua_n%C6%B0%E1%BB%9Bc.jpg' },
+            { name: 'Xôi Xéo', type: 'restaurant', notes: 'Arroz glutinoso amarillo con mung bean, cebolla frita y a veces pollo — el desayuno para llevar más clásico de la ciudad.' }
           ],
           transport: [],
           hotel: { name: 'Secret Garden Hanoi', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -188,7 +194,9 @@ const DEFAULT_DATA = {
           ],
           restaurants: [
             { name: 'Bánh Mì', type: 'restaurant', notes: 'Bocadillo callejero, del desayuno a la cena.' },
-            { name: 'Chả Cá Lã Vọng', type: 'restaurant', notes: 'Pescado a la parrilla con eneldo y cúrcuma, plato único de un restaurante centenario.' }
+            { name: 'Chả Cá Lã Vọng', type: 'restaurant', notes: 'Pescado a la parrilla con eneldo y cúrcuma, plato único de un restaurante centenario.' },
+            { name: 'Chè', type: 'restaurant', notes: 'Postre dulce de judías, coco, gelatina de arroz y hielo picado — la merienda callejera por excelencia, con decenas de variantes.' },
+            { name: 'Bánh Cuốn', type: 'restaurant', notes: 'Crepes finísimas de arroz al vapor rellenas de carne y champiñón, servidas con salsa de pescado y chalota frita.' }
           ],
           transport: [],
           hotel: { name: 'Secret Garden Hanoi', address: '', phone: '', checkIn: '', checkOut: '12:00', breakfast: false },
@@ -222,7 +230,9 @@ const DEFAULT_DATA = {
           ],
           restaurants: [
             { name: 'Cena de comida Khmer', type: 'restaurant', notes: '',
-              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Fish_Amok-_Khmer_specialty.jpg/500px-Fish_Amok-_Khmer_specialty.jpg' }
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Fish_Amok-_Khmer_specialty.jpg/500px-Fish_Amok-_Khmer_specialty.jpg' },
+            { name: 'Nom Kroeung', type: 'restaurant', notes: 'Ensalada de pomelo o mango verde con cacahuetes, hierbas y chile — el plato fresco y ácido típico para empezar una cena jemer.' },
+            { name: 'Num Pang', type: 'restaurant', notes: 'El bocadillo camboyano, primo del bánh mì vietnamita, con pollo o cerdo a la parrilla y verduras encurtidas.' }
           ],
           transport: [
             { type: 'flight', icon: '✈️', details: 'Vuelo Hanói→Siem Reap — Vietnam Airlines, localizador ZCSDYH. María: 23 kg facturado + cabina 8 kg. Marcos: 23 kg facturado + cabina 8 kg.', from: 'Hanói (HAN)', to: 'Siem Reap', time: '15:10–16:55 (1h 40min)' }
@@ -274,7 +284,9 @@ const DEFAULT_DATA = {
           ],
           restaurants: [
             { name: 'Amok', type: 'restaurant', notes: 'Curry jemer de pescado al vapor en hoja de plátano, el plato nacional camboyano.' },
-            { name: 'Kuy Teav', type: 'restaurant', notes: 'Sopa de fideos de arroz con cerdo, desayuno popular en Camboya.' }
+            { name: 'Kuy Teav', type: 'restaurant', notes: 'Sopa de fideos de arroz con cerdo, desayuno popular en Camboya.' },
+            { name: 'Trey Aing', type: 'restaurant', notes: 'Pescado entero a la brasa, servido con salsa de lima, pimienta y hierbas — sencillo y muy popular junto a los lagos y ríos de Camboya.' },
+            { name: 'Khmer Red Curry (Kari Sach Moan)', type: 'restaurant', notes: 'Curry de pollo con leche de coco, patata y berenjena, más suave y menos picante que sus primos tailandeses.' }
           ],
           transport: [],
           hotel: { name: 'The Nest', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -324,7 +336,9 @@ const DEFAULT_DATA = {
           restaurants: [
             { name: 'Lok Lak', type: 'restaurant', notes: 'Ternera salteada camboyana con arroz y huevo frito.' },
             { name: 'Khmer BBQ', type: 'restaurant', notes: 'Parrilla camboyana para compartir, típica de las salidas rurales de un día completo.',
-              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Cambodian_BBQ_%2811468613985%29.jpg/500px-Cambodian_BBQ_%2811468613985%29.jpg' }
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Cambodian_BBQ_%2811468613985%29.jpg/500px-Cambodian_BBQ_%2811468613985%29.jpg' },
+            { name: 'Prahok Ktis', type: 'restaurant', notes: 'Dip de cerdo picado con pasta de pescado fermentado (prahok) y leche de coco, para mojar verduras crudas — el sabor más "de verdad" de la cocina jemer.' },
+            { name: 'Nom Banh Chok Samlor Khmer', type: 'restaurant', notes: 'Versión rural de los fideos de arroz jemer, con un caldo verde de pescado y hierbas machacadas a mano.' }
           ],
           transport: [],
           hotel: { name: 'The Nest', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -337,7 +351,8 @@ const DEFAULT_DATA = {
           places: [
             { name: 'West Baray (Plan A)', type: 'nature', lat: 13.4126499, lng: 103.7906771,
               notes: 'El embalse artificial más grande del mundo antiguo (8km x 2km), hecho a mano por los jemeres.',
-              description: 'Diques transitables llanos, ideales para bici eléctrica. Lado sur: "playa" con restaurantes y hamacas sobre el agua. Lado norte: rural y virgen, entre arrozales y palmeras de azúcar. De camino se pasa cerca de las ruinas de Ak Yum (templo del s.VIII, sepultado al construir el dique) y del West Mebon, un templo en isla en el centro del lago.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/West_Mebon_0005.jpg/500px-West_Mebon_0005.jpg',
+              description: 'Diques transitables llanos, ideales para bici eléctrica. Lado sur: "playa" con restaurantes y hamacas sobre el agua. Lado norte: rural y virgen, entre arrozales y palmeras de azúcar. De camino se pasa cerca de las ruinas de Ak Yum (templo del s.VIII, sepultado al construir el dique) y del West Mebon, un templo en isla en el centro del lago (en la foto).',
               tips: '12km desde Siem Reap, ~30-35km si rodeas el perímetro en bici eléctrica — noviembre es buen mes, el agua está alta y los arrozales muy verdes. Hamaca + coco por <$1 en el dique sur.' },
             { name: 'Beng Mealea ⭐⭐⭐⭐⭐ (Plan B)', type: 'monument', lat: 13.4684285, lng: 104.2287539,
               notes: 'A 40 km. El templo más selvático de Angkor. La selva lo devora sin restauración. $10 fuera del pase.',
@@ -345,7 +360,10 @@ const DEFAULT_DATA = {
               description: 'A 40 km del núcleo principal. A diferencia de los templos del circuito principal, Beng Mealea ha sido prácticamente dejado a la selva: raíces gigantescas, piedras derrumbadas y pasillos que se hunden bajo la vegetación crean una atmósfera de exploración auténtica.',
               tips: 'A 40 km: en tuk-tuk ~1,5h, en coche 45 min. Entrada: $10 (no incluida en el pase). Combinar con los Roluos de camino de vuelta.' }
           ],
-          restaurants: [],
+          restaurants: [
+            { name: 'Cena ligera antes del bus nocturno', type: 'restaurant', notes: 'Algo sencillo antes de 6 horas de autobús — nada demasiado copioso ni picante.' },
+            { name: 'Loc Lac de despedida de Siem Reap', type: 'restaurant', notes: 'Última oportunidad de probar los clásicos camboyanos antes de dejar Angkor atrás.' }
+          ],
           transport: [
             { type: 'bus', icon: '🚌', details: 'Sleeper Bus Siem Reap→Phnom Penh — Giant Ibis', from: 'Siem Reap', to: 'Phnom Penh', time: '22:30–04:30' }
           ],
@@ -371,6 +389,7 @@ const DEFAULT_DATA = {
               tips: '08:00-17:00, $10. Audioguía en español $5 extra, muy recomendable (los carteles son breves y solo en inglés/francés/jemer).' },
             { name: 'Palacio Real de Phnom Penh', type: 'monument', lat: 11.5637725, lng: 104.9301471,
               notes: '5.329 baldosas de plata pura. Buda de oro macizo de 90 kg con 9.584 diamantes. Sala del Trono.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a6/2016_Phnom_Penh%2C_Pa%C5%82ac_Kr%C3%B3lewski%2C_Srebrna_Pagoda_%2802%29.jpg/500px-2016_Phnom_Penh%2C_Pa%C5%82ac_Kr%C3%B3lewski%2C_Srebrna_Pagoda_%2802%29.jpg',
               description: 'Complejo de 1866, residencia oficial del monarca. La Pagoda de Plata (Wat Preah Keo Morakot) tiene 5.329 baldosas de plata de ~1kg cada una, un Buda de oro macizo de 90kg con 9.584 diamantes, un Buda de esmeralda de cristal de Baccarat del s.XVII y murales del Reamker (versión camboyana del Ramayana).',
               tips: 'Mañana 8:00-11:00, tarde 14:00-17:00. $10, solo efectivo. Guía oficial en español: $10 extra por grupo (muy recomendable, apenas hay carteles). Entrar a las 8:00 para evitar el calor. Hombros y rodillas cubiertos.' },
             { name: 'Riverside (Sisowath Quay)', type: 'nature', lat: 11.5616584, lng: 104.9350962,
@@ -382,7 +401,9 @@ const DEFAULT_DATA = {
             { name: 'Nom Banh Chok', type: 'restaurant', notes: 'Fideos de arroz con salsa de pescado y hierbas, desayuno típico camboyano.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/6/61/Num_Banh_Chok.jpg/500px-Num_Banh_Chok.jpg' },
             { name: 'Bai Sach Chrouk', type: 'restaurant', notes: 'Cerdo a la parrilla sobre arroz partido, clásico desayuno-almuerzo de Phnom Penh.',
-              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/Bay_sach_chrouk.jpg/500px-Bay_sach_chrouk.jpg' }
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/Bay_sach_chrouk.jpg/500px-Bay_sach_chrouk.jpg' },
+            { name: 'Samlor Kor Ko', type: 'restaurant', notes: 'Sopa espesa de verduras de temporada con pasta de pescado fermentado — considerado el plato camboyano más tradicional de todos.' },
+            { name: 'Cerveza Angkor junto al Tonlé Sap', type: 'restaurant', notes: 'Una Angkor Beer bien fría en una terraza de Sisowath Quay, viendo el atardecer sobre el río.' }
           ],
           transport: [],
           hotel: { name: 'Jungle Addition', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -413,7 +434,9 @@ const DEFAULT_DATA = {
           restaurants: [
             { name: 'Lap Khmer', type: 'restaurant', notes: 'Ceviche de ternera camboyano, marinado en cítricos.' },
             { name: 'Amok', type: 'restaurant', notes: 'El plato nacional camboyano — curry de pescado al vapor en hoja de plátano. También hay versión de pollo o verduras.',
-              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Fish_Amok-_Khmer_specialty.jpg/500px-Fish_Amok-_Khmer_specialty.jpg' }
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Fish_Amok-_Khmer_specialty.jpg/500px-Fish_Amok-_Khmer_specialty.jpg' },
+            { name: 'Bobor', type: 'restaurant', notes: 'Congee de arroz camboyano, a veces con pescado o cerdo — comida reconfortante para una noche más tranquila en la capital.' },
+            { name: 'Nom Ansom Chek', type: 'restaurant', notes: 'Pastel de arroz glutinoso y plátano envuelto en hoja de plátano y cocido al vapor — dulce de calle muy popular.' }
           ],
           transport: [],
           hotel: { name: 'Jungle Addition', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -437,7 +460,9 @@ const DEFAULT_DATA = {
           ],
           restaurants: [
             { name: 'Bun Ca', type: 'restaurant', notes: 'Sopa de pescado del Delta del Mekong, con fuerte influencia jemer.' },
-            { name: 'Chao Ca', type: 'restaurant', notes: 'Congee de pescado, desayuno reconfortante típico de la zona fronteriza.' }
+            { name: 'Chao Ca', type: 'restaurant', notes: 'Congee de pescado, desayuno reconfortante típico de la zona fronteriza.' },
+            { name: 'Lẩu Mắm', type: 'restaurant', notes: 'El hotpot con más carácter del Delta: caldo de pasta de pescado fermentado con berenjena, verduras de río y marisco.' },
+            { name: 'Cá Lóc Nướng Trui', type: 'restaurant', notes: 'Pez cabeza de serpiente asado entero sobre paja ardiendo, envuelto en hoja de loto con fideos de arroz.' }
           ],
           transport: [
             { type: 'ferry', icon: '⛴️', details: 'Ferry rápido Phnom Penh→Chau Doc por el río Mekong — Hang Chau Tourist, reservado y pagado, localizador HC105830. Salida: International Floating Port, 103 Sisowath Quay 1 (llegar 30 min antes). Llegada: muelle Victoria Chau Doc Hotel, 01 Le Loi, Chau Doc Ward.', from: 'Phnom Penh', to: 'Chau Doc', time: '12:30–18:30 (6h, parada en frontera ~2h)' }
@@ -468,7 +493,7 @@ const DEFAULT_DATA = {
             { name: 'Bến Ninh Kiều (Muelle de Ninh Kieu)', type: 'nature', notes: 'Paseo marítimo y parque costero de Can Tho, de tus mapas guardados.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Ninh_Kieu_Quay.jpg/500px-Ninh_Kieu_Quay.jpg' },
             { name: 'Ninh Kieu Footbridge', type: 'monument', lat: 10.0362046, lng: 105.7872656, notes: 'Puente peatonal iluminado por la noche.',
-              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Ninh_Kieu_Quay.jpg/500px-Ninh_Kieu_Quay.jpg' },
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/Ninh_Ki%E1%BB%81u_walking_bridge.jpg/500px-Ninh_Ki%E1%BB%81u_walking_bridge.jpg' },
             { name: 'Chùa Ông Cần Thơ', type: 'temple', lat: 10.0362046, lng: 105.7872656, notes: 'Templo taoísta chino, uno de los más antiguos de Can Tho.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/4/42/Le_temple_d%C3%94ng_%28Can_Tho%2C_Vietnam%29_%286642900621%29.jpg/500px-Le_temple_d%C3%94ng_%28Can_Tho%2C_Vietnam%29_%286642900621%29.jpg' },
             { name: 'Nhà cổ Bình Thủy', type: 'monument', lat: 10.0362046, lng: 105.7872656, notes: 'Casa antigua colonial, mezcla de arquitectura vietnamita y francesa.',
@@ -479,7 +504,10 @@ const DEFAULT_DATA = {
           restaurants: [
             { name: 'Pescado de agua dulce del Mekong', type: 'restaurant', notes: 'Chau Doc es la mayor región productora de pescado de agua dulce de Vietnam.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/C%C3%A1_l%C3%B3c_n%C6%B0%E1%BB%9Bng_trui.JPG/500px-C%C3%A1_l%C3%B3c_n%C6%B0%E1%BB%9Bng_trui.JPG' },
-            { name: 'Bún Cá Châu Đốc', type: 'restaurant', notes: 'Sopa de fideos con pescado, especialidad local de Chau Doc.' }
+            { name: 'Bún Cá Châu Đốc', type: 'restaurant', notes: 'Sopa de fideos con pescado, especialidad local de Chau Doc.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Ninh_Dong_fish_noodle_soup.jpg/500px-Ninh_Dong_fish_noodle_soup.jpg' },
+            { name: 'Mắm Châu Đốc', type: 'restaurant', notes: 'La pasta/salsa de pescado fermentado por la que es famosa Chau Doc en todo Vietnam — se vende en el mercado y se usa en guisos y hotpots.' },
+            { name: 'Khô Cá Lóc', type: 'restaurant', notes: 'Pescado seco al sol típico del Delta, frito o a la parrilla, muy salado — el souvenir gastronómico más llevado de Chau Doc.' }
           ],
           transport: [
             { type: 'bus', icon: '🚌', details: 'Autobús local Chau Doc→Can Tho', from: 'Chau Doc', to: 'Can Tho', time: '~13:00 o 14:00 (3h)' }
@@ -510,7 +538,10 @@ const DEFAULT_DATA = {
           ],
           restaurants: [
             { name: 'Fruta y café flotante en Cai Rang', type: 'restaurant', notes: 'Los barcos del mercado flotante venden fruta y sirven café/fideos sin bajarse de la barca.' },
-            { name: 'Hủ Tiếu', type: 'restaurant', notes: 'Sopa de fideos suave, plato bandera de Can Tho y todo el Delta.' }
+            { name: 'Hủ Tiếu', type: 'restaurant', notes: 'Sopa de fideos suave, plato bandera de Can Tho y todo el Delta.' },
+            { name: 'Bánh Xèo', type: 'restaurant', notes: 'Crepe de arroz crujiente con gambas, cerdo y brotes de soja, para envolver en hoja de lechuga — gigante en su versión sureña del Delta.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Crispy_yellow_vietnamese_savory_crepes%2C_banh_xeo.jpg/500px-Crispy_yellow_vietnamese_savory_crepes%2C_banh_xeo.jpg' },
+            { name: 'Nem Nướng Cái Răng', type: 'restaurant', notes: 'Brochetas de cerdo a la parrilla, típicas de los puestos junto al mercado flotante de Cai Rang, para comer con fideos de arroz y hierbas.' }
           ],
           transport: [
             { type: 'flight', icon: '✈️', details: 'Vuelo Can Tho→Da Nang — Via Jet, localizador R6JUT5. María: 20 kg facturado + cabina 7 kg. Marcos: 20 kg facturado + cabina 7 kg.', from: 'Can Tho', to: 'Da Nang', time: '12:40–14:10 (1h 30min)' },
@@ -534,7 +565,7 @@ const DEFAULT_DATA = {
               tips: 'Incluido en el bono de entradas del Old Quarter. Recién restaurado — mejor luz al atardecer, cuando se encienden los farolillos alrededor. Suele haber cola para cruzarlo en las horas centrales del día.' },
             { name: 'Old Quarter (bono, 5 monumentos)', type: 'monument', lat: 15.8801, lng: 108.338,
               notes: 'Casco antiguo UNESCO. Farolillos, casas tubo centenarias, canales. Elige 5 monumentos del bono de entrada.',
-              photo: 'https://picsum.photos/seed/hoi-an-ancient-town-lanterns/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/H%E1%BB%99i_An%2C_Ancient_Town%2C_2020-01_CN-05.jpg/500px-H%E1%BB%99i_An%2C_Ancient_Town%2C_2020-01_CN-05.jpg',
               description: 'El casco antiguo de Hoi An es Patrimonio Mundial UNESCO desde 1999: un puerto comercial del s.XV-XIX que se conservó casi intacto al perder importancia frente a otros puertos vietnamitas. Sus calles peatonales de casas-tubo amarillas, farolillos de seda de colores y canales tranquilos se recorren mejor a pie o en bici. La entrada única (120.000 VND) da acceso a elegir 5 de entre ~20 monumentos (casas antiguas, salones de asambleas chinos, museos, templos).',
               tips: 'Los farolillos se encienden al anochecer — mucho más bonito de noche que de día. Los días 14 del calendario lunar hay "Noche de los Farolillos": se apaga la luz eléctrica del casco antiguo entero.' },
             { name: 'Casas Antiguas y Capillas Familiares', type: 'monument', lat: 15.8795863, lng: 108.3319406, notes: '6 sitios posibles dentro del bono.',
@@ -555,7 +586,9 @@ const DEFAULT_DATA = {
           ],
           restaurants: [
             { name: 'Cao Lầu', type: 'restaurant', notes: 'Fideos gruesos típicos de Hoi An — dicen que solo saben igual con el agua de un pozo concreto de la ciudad.' },
-            { name: 'Mì Quảng', type: 'restaurant', notes: 'Fideos de cúrcuma con gambas y cerdo, el otro gran plato de fideos del centro de Vietnam.' }
+            { name: 'Mì Quảng', type: 'restaurant', notes: 'Fideos de cúrcuma con gambas y cerdo, el otro gran plato de fideos del centro de Vietnam.' },
+            { name: 'Cơm Gà Hội An', type: 'restaurant', notes: 'Arroz cocido en caldo de pollo y cúrcuma, con pollo desmenuzado, cebolla encurtida y hierbas — el plato de pollo más famoso de la ciudad.' },
+            { name: 'Hoành Thánh Chiên', type: 'restaurant', notes: 'Wontons fritos crujientes cubiertos de salsa de tomate con gambas y verdura — herencia de la antigua comunidad china de Hoi An.' }
           ],
           transport: [],
           hotel: { name: 'Volar', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -572,10 +605,11 @@ const DEFAULT_DATA = {
               description: 'Conjunto de más de 70 templos y torres de ladrillo rojo construidos entre los siglos IV y XIV por los reyes del reino Cham, dedicados sobre todo a Shiva. Fue el centro religioso e intelectual más importante del reino de Champa, en un valle rodeado de montañas selváticas. Varios templos quedaron muy dañados por los bombardeos estadounidenses durante la guerra de Vietnam (todavía se ven cráteres), pero el conjunto sigue siendo Patrimonio Mundial UNESCO desde 1999.',
               tips: 'A ~40 km / 1h en coche de Hoi An (también hay tours en barco por el río Thu Bon). Mejor a primera hora (6:30-8:00) para evitar calor y autobuses de grupo. Entrada ~150.000 VND. Necesita medio día contando el trayecto.' },
             { name: 'Mercado de pescado de Thanh Ha', type: 'market', lat: 15.8795863, lng: 108.3319406,
-              notes: 'Subasta de pescado de madrugada (03:00-07:00), pegado a la aldea de cerámica.' },
+              notes: 'Subasta de pescado de madrugada (03:00-07:00), pegado a la aldea de cerámica.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/H%E1%BB%99i_An_morning_market_%2831663589968%29.jpg/500px-H%E1%BB%99i_An_morning_market_%2831663589968%29.jpg' },
             { name: 'Aldea de cerámica de Thanh Ha', type: 'monument', lat: 15.8801, lng: 108.338,
               notes: 'A 3 km en bici. Demostración de alfarería y souvenir de arcilla incluido con la entrada.',
-              photo: 'https://picsum.photos/seed/thanh-ha-pottery-village/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/Ngh%E1%BB%87_nh%C3%A2n_l%C3%A0ng_g%E1%BB%91m_Thanh_H%C3%A0.JPG/500px-Ngh%E1%BB%87_nh%C3%A2n_l%C3%A0ng_g%E1%BB%91m_Thanh_H%C3%A0.JPG',
               description: 'Aldea artesanal a 3 km del casco antiguo en bici. La entrada (35.000 VND) incluye acceso a las calles de la aldea, ver las demostraciones de alfarería en torno y un souvenir de arcilla. Pegada a la aldea está el mercado de pescado de Thanh Ha (si se va de madrugada).',
               tips: '8:00-17:30, 35.000 VND. Museo de Terracota aparte: 50.000 VND. En bici desde el casco antiguo: ~15 min.' },
             { name: 'Ruta en bici isla de Cam Kim (Vietnam rural)', type: 'nature', lat: 15.9156674, lng: 108.3368743,
@@ -601,7 +635,9 @@ const DEFAULT_DATA = {
           ],
           restaurants: [
             { name: 'White Rose (Bánh Bao Vạc)', type: 'restaurant', notes: 'Empanadillas de gambas translúcidas, receta exclusiva de una familia de Hoi An.' },
-            { name: 'Bánh Mì Phượng', type: 'restaurant', notes: 'Considerado por muchos el mejor bánh mì del mundo, siempre con cola en la puerta.' }
+            { name: 'Bánh Mì Phượng', type: 'restaurant', notes: 'Considerado por muchos el mejor bánh mì del mundo, siempre con cola en la puerta.' },
+            { name: 'Bánh Đập', type: 'restaurant', notes: '"Pan roto" — un bánh tráng crujiente y otro blando prensados juntos, para mojar en salsa de gambas fermentada (mắm nêm).' },
+            { name: 'Chè Bắp', type: 'restaurant', notes: 'Postre dulce de maíz tierno de la isla de Cẩm Nam, con leche de coco — un clásico de las noches de Hoi An.' }
           ],
           transport: [],
           hotel: { name: 'Volar', address: '', phone: '', checkIn: '', checkOut: '12:00', breakfast: false },
@@ -614,7 +650,7 @@ const DEFAULT_DATA = {
           places: [
             { name: 'Marble Mountains', type: 'nature', lat: 16.00402, lng: 108.2627745,
               notes: '5 montañas de mármol con cuevas, santuarios y miradores. La Cueva Huyen Khong tiene un rayo de sol vertical sobre el Buda.',
-              photo: 'https://picsum.photos/seed/marble-mountains-danang-cave/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1d/Da_Nang_Marble_Mountains_2020_IMG_4008.jpg/500px-Da_Nang_Marble_Mountains_2020_IMG_4008.jpg',
               description: 'Cinco montañas de mármol llenas de senderos, santuarios y cuevas. Ruta recomendada: ascensor (pagar el extra), Torre Xa Loi, Pagoda Linh Ung, Cueva Tang Chon y la gran joya, la Cueva Huyen Khong — el techo colapsó naturalmente y los rayos de sol entran en vertical iluminando el Buda de piedra. Bajar a pie por 156 escalones de piedra. Extra: Cueva Am Phu (20.000 VND) recreando el infierno budista.',
               tips: '7:00-17:30, 40.000 VND. Ascensor: 60.000 VND extra (muy recomendable). Cueva Am Phu: 20.000 VND adicionales. En bus LK-02 desde Da Nang (~20 min). Se puede visitar de camino a Hoi An con las maletas y dejárselas a un tendero de souvenirs.' },
             { name: 'Península de Son Tra (Montaña de los Monos)', type: 'nature', lat: 16.1210876, lng: 108.3061358,
@@ -624,7 +660,7 @@ const DEFAULT_DATA = {
               tips: 'A 10-15 km del centro de Da Nang, se visita en moto/taxi por la carretera que rodea la península (buenas vistas al mar). La pagoda es gratuita. Mejor por la mañana, antes de que llegue el calor y la neblina marina.' },
             { name: 'Puente del Dragón', type: 'monument', lat: 16.0611682, lng: 108.2278968,
               notes: 'Sábados y domingos a las 21:00: 15 min escupiendo fuego y luego agua. Ver desde el Muelle Bach Dang.',
-              photo: 'https://picsum.photos/seed/dragon-bridge-danang-fire/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/0/07/Da_Nang_-_Dragon_Bridge.jpg/500px-Da_Nang_-_Dragon_Bridge.jpg',
               description: 'El puente con forma de dragón dorado de Da Nang escupe fuego por la boca los sábados y domingos a las 21:00 durante 15 minutos (primero fuego, luego agua). Uno de los espectáculos nocturnos más vistosos de Vietnam.',
               tips: '⚠️ SOLO sábados y domingos a las 21:00. Duración: ~15 min. Mejor desde el paseo marítimo Muelle Bach Dang o las terrazas de las cafeterías cercanas. El Love Lock Bridge (faroles rojos y dragones-pez) está justo al lado.' },
             { name: 'Mercado nocturno Son Tra', type: 'market', lat: 16.0425792, lng: 108.1971613,
@@ -648,7 +684,9 @@ const DEFAULT_DATA = {
           ],
           restaurants: [
             { name: 'Mì Quảng', type: 'restaurant', notes: 'Fideos de cúrcuma con gambas y cerdo, plato bandera de la región de Da Nang.' },
-            { name: 'Marisco de Da Nang', type: 'restaurant', notes: 'Ciudad costera con mucho mejor marisco y más barato que en las zonas turísticas.' }
+            { name: 'Marisco de Da Nang', type: 'restaurant', notes: 'Ciudad costera con mucho mejor marisco y más barato que en las zonas turísticas.' },
+            { name: 'Bánh Tráng Cuốn Thịt Heo', type: 'restaurant', notes: 'Panceta de cerdo cocida envuelta en papel de arroz junto con fideos, hierbas frescas y vegetales — plato emblemático de Da Nang, para montar tú mismo en la mesa.' },
+            { name: 'Bún Mắm Nêm', type: 'restaurant', notes: 'Fideos con cerdo a la parrilla y una salsa intensa de pescado fermentado con piña — de sabor fuerte, muy querido por los locales de Da Nang.' }
           ],
           transport: [],
           hotel: { name: 'LaDa\'s House Da Nang', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -676,7 +714,9 @@ const DEFAULT_DATA = {
           ],
           restaurants: [
             { name: 'Bánh Khoái', type: 'restaurant', notes: 'Crepe crujiente típico de Hue, hermano pequeño del bánh xèo.' },
-            { name: 'Bánh Bèo, Nậm y Lọc', type: 'restaurant', notes: 'El trío imperial de Hue: tres tipos de pastelitos de arroz al vapor en miniatura.' }
+            { name: 'Bánh Bèo, Nậm y Lọc', type: 'restaurant', notes: 'El trío imperial de Hue: tres tipos de pastelitos de arroz al vapor en miniatura.' },
+            { name: 'Nem Lụi Huế', type: 'restaurant', notes: 'Brochetas de cerdo a la parrilla con hierba limón, para envolver en papel de arroz con hierbas y mojar en una salsa de cacahuete espesa.' },
+            { name: 'Chè Huế', type: 'restaurant', notes: 'La ciudad imperial tiene su propia tradición de más de 30 tipos de chè — de judía mungo, loto, maíz o plátano — herencia de los postres de la corte real.' }
           ],
           transport: [
             { type: 'train', icon: '🚂', details: 'Tren panorámico Da Nang→Hue bordeando la costa (Hai Van Pass)', from: 'Da Nang', to: 'Hue', time: '' }
@@ -696,7 +736,7 @@ const DEFAULT_DATA = {
               tips: 'Al sur de la ciudad, en los alrededores de la zona de tumbas imperiales. Se puede recorrer en bici desde el centro (~8 km). Sin entrada. No hay carteles turísticos — es un cementerio activo. Respetar el espacio. Mejor al atardecer para la luz dorada sobre las cerámicas de colores.' },
             { name: 'Puente Thanh Toan', type: 'monument', lat: 16.4667729, lng: 107.6427024,
               notes: 'Puente cubierto del s.XVIII menos conocido que el de Hoi An. Aldea de Thanh Toan a 8 km.',
-              photo: 'https://picsum.photos/seed/thanh-toan-bridge-hue-covered/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/C%E1%BA%A7u_ng%C3%B3i_Thanh_To%C3%A0n1.jpg/500px-C%E1%BA%A7u_ng%C3%B3i_Thanh_To%C3%A0n1.jpg',
               description: 'Construido en 1776 por la nieta de un mandarín imperial, este puente cubierto de estilo japonés sobre el canal de la aldea de Thanh Toan es el primo más tranquilo del Puente Japonés de Hoi An. En el interior del puente hay un pequeño altar y bancos de madera donde los aldeanos se sientan a charlar. La aldea alrededor mantiene el ritmo de vida rural vietnamita intacto.',
               tips: 'A 8 km al este del centro de Hue. En bici: 30-40 min por carretera rural entre arrozales. En Grab: 10 min. Entrada: 20.000 VND. Si vas a Hue 2 días, es una excursión perfecta para la tarde del segundo día.' },
             { name: 'Ho Thuy Tien (parque acuático abandonado)', type: 'monument', lat: 16.4098334, lng: 107.5767096,
@@ -722,7 +762,9 @@ const DEFAULT_DATA = {
           ],
           restaurants: [
             { name: 'Bún bò Huế', type: 'restaurant', notes: 'La sopa picante con limoncillo más famosa de Vietnam, nacida en Hue.' },
-            { name: 'Cơm hến', type: 'restaurant', notes: 'Arroz con almejas diminutas del río Perfume, plato humilde y muy local de Hue.' }
+            { name: 'Cơm hến', type: 'restaurant', notes: 'Arroz con almejas diminutas del río Perfume, plato humilde y muy local de Hue.' },
+            { name: 'Bánh Ép', type: 'restaurant', notes: 'Masa de tapioca prensada con huevo y panceta, típica de merienda callejera en Hue — más fina y crujiente que el bánh xèo.' },
+            { name: 'Vả Trộn', type: 'restaurant', notes: 'Ensalada de higos verdes vietnamitas con cacahuetes, cerdo y gambas — un contraste fresco y ácido en medio de tanto plato especiado.' }
           ],
           transport: [
             { type: 'bus', icon: '🚌', details: 'Sleeper Bus Hue→Tam Coc — HK Buslines. Salida: 35 Nguyen Cong Tru, Hue. Llegada: Tam Coc Agency, Ninh Binh.', from: 'Hue', to: 'Tam Coc', time: '22:00–07:15 (9h 15min)' }
@@ -742,13 +784,15 @@ const DEFAULT_DATA = {
               tips: 'El hotel Tam Coc Serenity tiene bicicletas disponibles. El embarcadero de Tam Coc (Van Lam Wharf) está a pocos metros.' },
             { name: 'Pagoda Bich Dong', type: 'temple', lat: 20.2506, lng: 105.9745,
               notes: 'Pagoda de 3 niveles construida dentro de un acantilado. A 2 km en bici de Tam Coc.',
-              photo: 'https://picsum.photos/seed/bich-dong-pagoda-cliff/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Bich_Dong_Pagoda%2C_Ninh_Binh%2C_Vietnam%2C_20240203_1132_5632.jpg/500px-Bich_Dong_Pagoda%2C_Ninh_Binh%2C_Vietnam%2C_20240203_1132_5632.jpg',
               description: 'Pagoda de tres niveles construida literalmente dentro del acantilado de una montaña. La entrada tiene un fotogénico puente de piedra sobre un estanque.',
               tips: 'A 2 km en bici desde Tam Coc. Visitar temprano, antes de las excursiones del día.' }
           ],
           restaurants: [
             { name: 'Cơm Cháy', type: 'restaurant', notes: 'Arroz de corteza tostada y crujiente, especialidad de Ninh Binh.' },
-            { name: 'Dê nướng (cabra a la parrilla)', type: 'restaurant', notes: 'La carne de cabra en todas sus formas es la especialidad de la zona.' }
+            { name: 'Dê nướng (cabra a la parrilla)', type: 'restaurant', notes: 'La carne de cabra en todas sus formas es la especialidad de la zona.' },
+            { name: 'Nem Chua Yên Mạc', type: 'restaurant', notes: 'Embutido de cerdo fermentado envuelto en hoja de guayaba, especialidad de un pueblo de Ninh Binh — se come crudo, de sabor ácido y picante.' },
+            { name: 'Rượu Kim Sơn', type: 'restaurant', notes: 'El licor de arroz destilado más famoso del norte de Vietnam, de la comarca costera de Kim Sơn — para acompañar la cabra a la parrilla.' }
           ],
           transport: [],
           hotel: { name: 'Tam coc Serenity', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -787,7 +831,9 @@ const DEFAULT_DATA = {
           ],
           restaurants: [
             { name: 'Dê (cabra) en distintas preparaciones', type: 'restaurant', notes: 'Guiso, salteado o a la parrilla — Ninh Binh es la capital vietnamita de la cabra.' },
-            { name: 'Ốc (caracoles de río)', type: 'restaurant', notes: 'Tapa callejera muy popular en la zona rural de Ninh Binh.' }
+            { name: 'Ốc (caracoles de río)', type: 'restaurant', notes: 'Tapa callejera muy popular en la zona rural de Ninh Binh.' },
+            { name: 'Cá Rô Tổng Trường', type: 'restaurant', notes: 'Perca de agua dulce de los arrozales inundados de Ninh Binh, frita o cocinada en caldo agridulce.' },
+            { name: 'Miến Lươn', type: 'restaurant', notes: 'Fideos de celofán con anguila frita crujiente y caldo especiado — un plato muy apreciado en todo el norte de Vietnam.' }
           ],
           transport: [],
           hotel: { name: 'Tam coc Serenity', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -808,7 +854,8 @@ const DEFAULT_DATA = {
               photo: 'https://picsum.photos/seed/cat-ba-wild-beach-hidden/200/200',
               description: 'A 1,5 km del paseo marítimo principal (¼ Road). Mucho menos concurrida que las Cat Co. Paseo plano y agradable.',
               tips: 'Desde el puerto: caminar por la calle Hung Vuong hacia el interior (sube al mercado de Cat Ba), girar a la izquierda en calle Tung Thu y seguir hasta que se abra la bahía. 20 min andando.' },
-            { name: 'Atardecer en Flamingo Cat Ba Resort', type: 'nature', lat: 20.7321609, lng: 107.0587067, notes: 'Chiringuito/resort en la ruta de las playas Cat Co, buen sitio para parar a tomar algo viendo el atardecer sobre la bahía.' },
+            { name: 'Atardecer en Flamingo Cat Ba Resort', type: 'nature', lat: 20.7321609, lng: 107.0587067, notes: 'Chiringuito/resort en la ruta de las playas Cat Co, buen sitio para parar a tomar algo viendo el atardecer sobre la bahía.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d4/Swimming_Pool_at_Flamingo_Cat_Ba_Resort.jpg/500px-Swimming_Pool_at_Flamingo_Cat_Ba_Resort.jpg' },
             { name: 'Cannon Fort (Pháo Đài Thần Công)', type: 'monument', lat: 20.7254614, lng: 107.0483578,
               notes: 'El mejor mirador 360° de la isla. Cañones franceses de la IIGM y túneles excavados a mano.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/View_of_the_sea_from_Cannon_Fort_Park_on_Cat_Ba_Island%2C_Vietnam%2C_20240130_1601_4441.jpg/500px-View_of_the_sea_from_Cannon_Fort_Park_on_Cat_Ba_Island%2C_Vietnam%2C_20240130_1601_4441.jpg',
@@ -817,7 +864,9 @@ const DEFAULT_DATA = {
           ],
           restaurants: [
             { name: 'Marisco de Cat Ba', type: 'restaurant', notes: 'Marisco recién sacado del agua en las balsas flotantes de la bahía.' },
-            { name: 'Chả Mực Cát Bà', type: 'restaurant', notes: 'Hamburguesa de calamar a la plancha, especialidad reconocida de la isla.' }
+            { name: 'Chả Mực Cát Bà', type: 'restaurant', notes: 'Hamburguesa de calamar a la plancha, especialidad reconocida de la isla.' },
+            { name: 'Tu Hài Nướng', type: 'restaurant', notes: 'Almeja navaja gigante criada en las jaulas de Lan Ha Bay, a la parrilla con mantequilla y ajo — el marisco estrella de Cat Ba.' },
+            { name: 'Bề Bề Rang Muối', type: 'restaurant', notes: 'Galeras (mantis shrimp) salteadas con sal y chile — muy populares en los restaurantes de la bahía.' }
           ],
           transport: [
             { type: 'bus', icon: '🚌', details: 'Bus Tam Coc→Cat Ba — Cat Ba Discovery. Salida: Tam Coc Queen Travel Office. Llegada: 6 Tung Dinh, Hai Phong.', from: 'Tam Coc', to: 'Cat Ba', time: '09:00–13:00 (4h)' }
@@ -842,7 +891,11 @@ const DEFAULT_DATA = {
               tips: 'Suele venir incluido en los tours de kayak/Lan Ha Bay como parada de medio día. Se puede alquilar bici en el pueblo para el tramo final. Buena opción de comida casera vietnamita en alguna de las pocas casas-restaurante locales.' },
             { name: 'Ba Trai Dao (Isla de los 3 melocotones)', type: 'beach', lat: 20.7321609, lng: 107.0587067, notes: 'Parada clásica de los cruceros por Lan Ha Bay para nadar — de tus mapas guardados.' }
           ],
-          restaurants: [],
+          restaurants: [
+            { name: 'Banquete de marisco a bordo', type: 'restaurant', notes: 'Los cruceros por Lan Ha Bay suelen incluir una comida de varios platos de marisco recién pescado, servida en cubierta.' },
+            { name: 'Comida casera en Viet Hai', type: 'restaurant', notes: 'Alguna de las pocas casas-restaurante del pueblo sirve cocina vietnamita rural sencilla — pollo de corral, verduras del huerto y arroz.' },
+            { name: 'Coco fresco en la playa', type: 'restaurant', notes: 'Un coco recién abierto en cualquier parada de playa o islote del crucero — el refresco de toda la bahía.' }
+          ],
           transport: [],
           hotel: { name: 'The Oversleep Catba Hostel & Pool', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
           tasks: [],
@@ -859,7 +912,7 @@ const DEFAULT_DATA = {
               tips: 'Entrada al Parque Nacional: 85.000 VND. Subida: 1-2 horas por sendero marcado. Llevar agua y calzado cerrado. El parque cierra a las 16:00. Guía local recomendado para no perderse en la selva.' },
             { name: 'Cueva Trung Trang', type: 'nature', lat: 20.8063272, lng: 107.0383362,
               notes: 'La mayor cueva del Parque Nacional de Cat Ba. Estalactitas gigantes y formaciones kársticas.',
-              photo: 'https://picsum.photos/seed/trung-trang-cave-cat-ba-stalactites/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/9/96/Trung_Trang_Cave%2C_C%C3%A1t_B%C3%A0_Island%2C_Vietnam%2C_20240130_1142_4243.jpg/500px-Trung_Trang_Cave%2C_C%C3%A1t_B%C3%A0_Island%2C_Vietnam%2C_20240130_1142_4243.jpg',
               description: 'La cueva más grande del Parque Nacional de Cat Ba, con más de 300 metros de recorrido accesible. Su interior alberga formaciones kársticas de estalactitas y estalagmitas de millones de años. Durante la guerra de Vietnam sirvió también como refugio para la población local.',
               tips: 'En el interior del Parque Nacional de Cat Ba. Acceso en taxi o Xanh SM desde el pueblo (~20 min). Llevar linterna propia para explorar mejor los rincones. Combinar con la visita al Hospital Cave en el mismo trayecto.' },
             { name: 'Hospital Cave', type: 'museum', lat: 20.8063272, lng: 107.0383362,
@@ -869,7 +922,8 @@ const DEFAULT_DATA = {
               tips: '8:00-17:00, 40.000-80.000 VND. En Grab: 15 min desde el pueblo (app Xanh SM en Cat Ba, no Grab). También en bus local parada "Hang Quân Y".' }
           ],
           restaurants: [
-            { name: 'Último marisco en Cat Ba', type: 'restaurant', notes: 'Última comida en la isla antes del bus de vuelta a Hanói.' }
+            { name: 'Último marisco en Cat Ba', type: 'restaurant', notes: 'Última comida en la isla antes del bus de vuelta a Hanói.' },
+            { name: 'Bánh Mì de viaje en bus', type: 'restaurant', notes: 'Un bánh mì para llevar al bus — fácil de comer en el trayecto de 3h de vuelta a Hanói.' }
           ],
           transport: [
             { type: 'bus', icon: '🚌', details: 'Bus Cat Ba→Hanói — Cat Ba Discovery. Salida: Good Morning Cat Ba Office, Dao Cat Ba. Llegada: 128 Tran Nhat Duat, Old Quarter, Hanoi.', from: 'Cat Ba', to: 'Hanói', time: '~3h' }
@@ -885,7 +939,8 @@ const DEFAULT_DATA = {
             { name: 'Sitios pendientes del Old Quarter', type: 'monument', lat: 21.0372109, lng: 105.8508312, notes: 'Visitar lo que haya quedado pendiente de días anteriores.' }
           ],
           restaurants: [
-            { name: 'Último Phở o Bánh Mì antes del vuelo', type: 'restaurant', notes: 'Despedida de Vietnam con un último plato callejero en el Old Quarter.' }
+            { name: 'Último Phở o Bánh Mì antes del vuelo', type: 'restaurant', notes: 'Despedida de Vietnam con un último plato callejero en el Old Quarter.' },
+            { name: 'Café de despedida en el Old Quarter', type: 'restaurant', notes: 'Un último cà phê sữa đá (café con leche condensada y hielo) o cà phê trứng antes de ir al aeropuerto.' }
           ],
           transport: [],
           hotel: { name: '', address: '', phone: '', checkIn: '', checkOut: '12:00', breakfast: false },
@@ -974,7 +1029,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 49;
+const DATA_VERSION = 54;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 

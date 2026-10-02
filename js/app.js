@@ -67,7 +67,7 @@ const WIKI_ARTICLES = {
   'Prisión Hoa Lo (Hanoi Hilton)': 'Hỏa_Lò_Prison',
   'Hanoi Train Street': 'Train_Street,_Hanoi',
   'Tren callejero de Hanói': 'Train_Street,_Hanoi',
-  'Murales de Phùng Hưng (Street Art)': 'Street_art',
+  // 'Murales de Phùng Hưng (Street Art)' sin alias a propósito — 'Street_art' (genérico) mostraba una foto de un barril de cerveza sin relación, y no se encontró ninguna foto real de los murales en Commons (1-oct-2026)
   'Isla de los Plátanos (Bãi Giữa)': 'Red_River_(Asia)',
   'Ciudadela Imperial de Thang Long': 'Imperial_Citadel_of_Thăng_Long',
   'Lago B-52 (Hữu Tiệp Lake)': 'Hữu_Tiệp_Lake',
@@ -145,7 +145,7 @@ const WIKI_ARTICLES = {
   'Puente Cubierto Japonés (Chua Cau)': 'Japanese_Covered_Bridge',
   'Calle Trần Phú — azoteas y Mot Hoi An': 'Hội_An',
   'Hoi An Memories Show': 'Hội_An',
-  'Aldea de cerámica de Thanh Ha': 'Mỹ_Sơn',
+  // 'Aldea de cerámica de Thanh Ha' tiene photo: directo (1-oct-2026) — antes apuntaba por error a Mỹ_Sơn
   'Ruta en bici a la playa An Bang': 'An_Bàng_Beach',
   'Playa An Bang': 'An_Bàng_Beach',
   'Ruta en bici isla de Cam Kim': 'An_Bàng_Beach',
@@ -197,7 +197,7 @@ const WIKI_ARTICLES = {
   'Tuol Sleng S-21 (Museo del Genocidio)': 'Tuol_Sleng_Genocide_Museum',
   'Choeung Ek (The Killing Fields)': 'Choeung_Ek',
   'Palacio Real y Pagoda de Plata': 'Royal_Palace,_Phnom_Penh',
-  'Mercado Ruso (Tuol Tom Poung)': 'Russian_Market',
+  // 'Mercado Ruso (Tuol Tom Poung)' sin alias a propósito — 'Russian_Market' en Wikipedia mostraba una foto de skyline sin relación, y no se encontró ninguna foto real del mercado en Commons (1-oct-2026)
   'Wat Phnom': 'Wat_Phnom',
   'Museo Nacional de Camboya': 'National_Museum_of_Cambodia',
   'Monumento a la Independencia': 'Independence_Monument_(Phnom_Penh)',
@@ -298,17 +298,16 @@ const WIKI_ARTICLES = {
   // (que no hace merge, solo sustituye archivos) el data.js de este PC se quedó con los
   // nombres cortos originales — sin alias exacto, esas fichas se quedaban sin foto.
   // Se añaden aquí los alias que faltaban con el nombre EXACTO que hay ahora en data.js.
-  'Café Phố Cổ (azotea secreta sobre el lago)': 'Hoàn_Kiếm_Lake', // IMAGE_MAP apuntaba a un archivo local ya borrado
-  'Victoria Nui Sam Lodge (mirador de los arrozales)': 'An_Giang',
+  // 'Café Phố Cổ' y 'Victoria Nui Sam Lodge' sin alias a propósito — duplicaban la foto de
+  // Lago Hoan Kiem y de Montaña Sam respectivamente (sitios distintos); mejor sin foto (1-oct-2026)
+  // 'Old Quarter (bono, 5 monumentos)' y 'Mercado de pescado de Thanh Ha' ya tienen photo: directo (1-oct-2026)
   'Bún Cá Châu Đốc': 'Vietnamese_cuisine',
   'Calle Trần Phú': 'Hội_An',
   'Chợ đêm Hội An (Mercado Nocturno de los Farolillos)': 'Hoi_An_Old_Town',
   'Fruta y café flotante en Cai Rang': 'Cai_Rang',
-  'Old Quarter (bono, 5 monumentos)': 'Old_Quarter,_Hanoi',
-  'Mercado de pescado de Thanh Ha': 'Hội_An',
   'Mercado de Tan An (Tiger Market)': 'Hội_An',
   'Mercado de Ba Le': 'Hội_An',
-  'Talleres Artesanales': 'Talleres artesanales hoi an', // coincide con el archivo local ya descargado img/places/talleres_artesanales_hoi_an.jpg
+  // 'Talleres Artesanales' sin alias a propósito — el archivo local talleres_artesanales_hoi_an.jpg resultó ser (verificado a ojo) el Puente Japonés otra vez, borrado (1-oct-2026)
   'Bánh Mì Phượng': 'Bánh_mì',
   'Paseo junto al río Perfume': 'Perfume_River',
   'Dê (cabra) en distintas preparaciones': 'Goat_meat',
@@ -323,10 +322,9 @@ const WIKI_ARTICLES = {
   'Sitios pendientes del Old Quarter': 'Old_Quarter,_Hanoi',
   // Contenido nuevo del PC de casa (Angkor extras, Da Nang) que llegó sin alias:
   // 'Banteay Srey Butterfly Centre' usa photo: directo en data.js (foto BSRC real de Commons), no alias
-  'Lotus Silk Farm': 'Siem_Reap_province',
+  // 'Lotus Silk Farm', 'Mercado nocturno Son Tra', 'Aldea de Frescos de Da Nang': sin alias a propósito —
+  // comprobado en Commons que no hay ninguna foto real del sitio exacto; mejor sin foto que una genérica/compartida (ver HISTORIAL_DE_CAMBIOS.md)
   'Clases de Cocina': 'Hội_An',
-  'Mercado nocturno Son Tra': 'Da_Nang',
-  'Aldea de Frescos de Da Nang': 'Da_Nang',
   // ── HUECOS DE CONTENIDO (29-sep-2026): Tra Su, Café Giảng ──
   'Bosque de Tra Su (Cajuput)': 'Melaleuca_cajuputi', // árbol cajuput real; no hay artículo dedicado a Tra Su con foto
   // ── AUDITORÍA FOTO↔SITIO (29-sep-2026): 4 huecos reales encontrados con un script de verificación (existe alias + tiene foto) ──
@@ -374,9 +372,9 @@ const WIKI_ARTICLES = {
   'Ta Nei': 'Ta_Nei',
   'Baphuon': 'Baphuon',
   'Terraza de los Elefantes (templo Tep Pranam)': 'Terrace_of_the_Elephants',
-  'Phare, The Cambodian Circus': 'Phare_Ponleu_Selpak', // "Phare,_the_Cambodian_Circus" no existe (comprobado 29-sep-2026); usa la escuela que lo fundó
+  // 'Phare, The Cambodian Circus' sin alias a propósito — 'Phare_Ponleu_Selpak' (la escuela que lo fundó) mostraba gente sin relación aparente con el circo, y no se encontró ninguna foto real de una actuación en Commons (1-oct-2026)
   'Pueblos rurales, arrozales y palmeras de azúcar': 'Siem_Reap_province',
-  'West Baray (Plan A)': 'West_Baray',
+  // 'West Baray (Plan A)' sin alias a propósito — 'West_Baray' en Wikipedia era una imagen satelital/mapa, no una foto real del embalse (1-oct-2026)
   // Delta del Mekong (Chau Doc / Can Tho) — sin artículo propio: foto representativa de la ciudad
   // Nota: "Châu_Đốc" existe en Wikipedia pero SIN foto (comprobado 29-sep-2026) —
   // se usan en su lugar artículos vecinos que sí tienen imagen real

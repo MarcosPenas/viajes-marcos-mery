@@ -2,6 +2,79 @@
 
 ---
 
+## 2026-10-01 (continuación 3) — Método de "hojas de contacto" para revisar las 102 `CHECK_MANUALLY`: 15 fichas procesadas, 12 fotos erróneas encontradas y corregidas
+
+**Problema de escala:** revisar 102 imágenes una por una (navegar + mirar + decidir) habría costado demasiado. **Solución:** un script descarga las 102 imágenes actuales (las que ya carga la app hoy) y las monta en "hojas de contacto" — collages de 12 fotos en miniatura con su nombre y fecha debajo — para poder comparar muchas imágenes de un vistazo real, no solo por nombre de archivo. 9 hojas cubrieron las 102 fichas.
+
+**Resultado de la primera pasada visual (9 hojas, 102 fichas):**
+- **~84 correctas a simple vista** (coinciden claramente con lo que describen)
+- **12 confirmadas incorrectas** tras ver la miniatura con claridad
+- **3 marcadas "sospechosas" en la hoja de contacto, verificadas a resolución completa y resultaron SÍ ser correctas** (Museo del Genocidio Tuol Sleng mostraba el monumento del propio recinto, no la prisión — correcto; Ho Thuy Tien mostraba el cartel de entrada real; Ciudadela de Hoa Lu mostraba un jardín de un templo del propio recinto)
+
+**Las 12 fotos confirmadas incorrectas y su corrección:**
+
+| Sitio | Mostraba (incorrecto) | Corregido a |
+|---|---|---|
+| Lago B-52 (Hữu Tiệp Lake) | Un monumento genérico | Foto real de los restos del B-52 hundidos en el lago |
+| Palacio Real de Phnom Penh | Un skyline urbano genérico | La Pagoda de Plata real, dentro del recinto del Palacio |
+| Marble Mountains | Una montaña volcánica negra (¡nada que ver!) | Las montañas de mármol reales vistas desde la ciudad |
+| Puente del Dragón (Da Nang) | Un parque genérico | La cabeza del dragón dorado real |
+| Puente Thanh Toan (Hue) | Una vista aérea de ciudad genérica | El puente cubierto real sobre el estanque de lotos |
+| Pagoda Bich Dong | Una foto histórica de personas (¡nada que ver!) | La pagoda real encajada en el acantilado |
+| Cueva Trung Trang (Cat Ba) | Una vista aérea de campos de cultivo | El interior real de la cueva con estalactitas |
+| Aldea de cerámica de Thanh Ha | Las ruinas de My Son (alias mal puesto desde el 29-sep) | Un alfarero real trabajando en el torno |
+| Murales de Phùng Hưng | Una mujer con un barril de cerveza (¡nada que ver!) | Sin foto — no hay ninguna real en Commons |
+| Mercado Ruso (Tuol Tom Poung) | Un skyline urbano genérico | Sin foto — no hay ninguna real en Commons |
+| Talleres Artesanales (Hoi An) | El Puente Japonés otra vez (archivo local mal etiquetado) | Sin foto — borrado el archivo local erróneo |
+| Phare, The Cambodian Circus | Gente charlando en un parque sin relación | Sin foto — no hay ninguna foto real de una actuación en Commons |
+| West Baray (Plan A) | Una imagen satelital/mapa, no una foto real | Sin foto — no hay ninguna foto real del embalse en Commons |
+
+**Todas las fotos nuevas descargadas y miradas a resolución completa antes de aplicar** — mismo método de siempre, nunca por nombre de archivo o coincidencia de alias.
+
+**Las 9 hojas de contacto cubrían las 102 `CHECK_MANUALLY` completas** (no solo la primera) — se miraron las 9 de un tirón. Los 87 casos restantes que no mostraban ningún problema visible en la miniatura se reclasificaron a un estado nuevo, **`OK_VERIFIED_THUMB`**, distinto de `OK_VERIFIED`: significa "visto de verdad, coincide con lo que describe", pero en miniatura 260×260 dentro de una hoja de contacto, no a resolución completa de forma individual como los `OK_VERIFIED` originales. Es un nivel de confianza intermedio — mucho más fiable que "el nombre del alias suena bien" (el problema original que motivó toda la auditoría), pero no tan exhaustivo como mirar cada imagen a tamaño completo una por una.
+
+**Estado final de la auditoría de las 167 fichas:** `OK_VERIFIED` 33 (resolución completa) + `OK_VERIFIED_THUMB` 87 (miniatura, hoja de contacto) + `GENERIC_IMAGE` 20 + `DUPLICATE` 17 + `PENDING_IMAGE` 10 = 167. **Las 102 `CHECK_MANUALLY` originales ya no existen como categoría — todas revisadas.** Si Marcos navegando la app ve algo que no encaje en un `OK_VERIFIED_THUMB`, decir el sitio concreto para mirarlo a resolución completa (el método de las últimas semanas: reportar en vivo + corregir al momento sigue funcionando bien).
+
+**Archivos:** `js/data.js` (DATA_VERSION 51→52, 8 fotos directas nuevas/corregidas), `js/app.js` (6 alias eliminados — ya no apuntan a artículos equivocados —, v→133), `index.html`, `01_ESPECIFICACIONES/AUDITORIA_IMAGENES_CLASIFICADA.json` (actualizado: 15 fichas reclasificadas), `img/places/talleres_artesanales_hoi_an.jpg` (borrado, contenido erróneo).
+
+---
+
+## 2026-10-01 (continuación 2) — Primera tanda de correcciones de la auditoría: 9 casos de los 46 `GENERIC_IMAGE`/`DUPLICATE`
+
+Siguiendo el plan documentado en `CONTINUIDAD.md` (empezar por `GENERIC_IMAGE`+`DUPLICATE`, mayor impacto con menos imágenes distintas que buscar), se procesaron los grupos más claros:
+
+**4 fotos reales encontradas, verificadas a ojo y aplicadas (pasan a `OK_VERIFIED`):**
+- Mercado de pescado de Thanh Ha → foto real de mercado matutino de Hoi An (antes: foto genérica de calle sin relación con un mercado)
+- Atardecer en Flamingo Cat Ba Resort → foto real de la piscina infinita del resort con vistas a la bahía (antes: compartía la foto genérica de Lan Ha Bay con otros 3 sitios)
+- **Old Quarter (bono, 5 monumentos), día 19-nov en Hoi An** → foto real del casco antiguo de Hoi An. **Este no era solo un duplicado, era contenido erróneo**: el alias apuntaba a `Old_Quarter,_Hanoi` (¡Hanói, no Hoi An!), heredado de cuando ambas ciudades usan la expresión "Old Quarter" para cosas distintas
+- Bún Cá Châu Đốc → foto real de un puesto callejero preparando sopa de fideos con pescado (antes: foto genérica "Vietnamese_cuisine")
+
+**5 casos que la reconciliación del 30-sep (PC del trabajo) había vuelto a introducir sin saberlo** — ya se habían corregido el 29-sep por la noche (quitarles el alias genérico, dejarlas sin foto en vez de una compartida/equivocada), pero al sincronizar por MEGA los archivos del PC de casa sobrescribieron esa corrección sin que el PC del trabajo lo supiera (`.git` no viaja por MEGA, ver Parte 19). Vueltos a quitar hoy:
+- Café Phố Cổ (duplicaba con Lago Hoan Kiem)
+- Victoria Nui Sam Lodge (duplicaba con Montaña Sam)
+- Mercado nocturno Son Tra y Aldea de Frescos de Da Nang (ambas con la foto genérica de Da Nang/Puente del Dragón)
+- Lotus Silk Farm (duplicaba con "Pueblos rurales...")
+
+**Archivos:** `js/data.js` (DATA_VERSION 50→51, 4 fotos directas nuevas), `js/app.js` (5 alias genéricos quitados, v→132), `index.html`, `01_ESPECIFICACIONES/AUDITORIA_IMAGENES_CLASIFICADA.json` (actualizado a mano: 23 `OK_VERIFIED`, 20 `GENERIC_IMAGE`, 17 `DUPLICATE`, 102 `CHECK_MANUALLY`, 5 `PENDING_IMAGE` nuevos — los 5 que se quedaron sin foto a propósito).
+
+**Pendiente de esta misma tanda (quedan ~11 grupos `GENERIC_IMAGE`/`DUPLICATE` sin procesar, sin fotos reales encontradas en Commons tras buscar):** Calle Trần Phú y Mercado de Tan An/Ba Le (Hoi An, siguen con la foto genérica de la ciudad), Clases de Cocina, Ốc/Dê cabra (platos sin foto específica en Commons), Lap Khmer. Los que SÍ se consideran aceptables por ser el mismo sitio/plato real (no se tocan): Chợ Châu Đốc en dos días distintos, Cai Rang mercado+fruta flotante, Mì Quảng en Hoi An y Da Nang (mismo plato, dos días), Old Quarter Hanói en 2 fichas de Hanói.
+
+**Después de esto, sigue pendiente lo más grande:** las 102 fichas `CHECK_MANUALLY` — ninguna comprobada visualmente todavía, es la mayoría del itinerario.
+
+---
+
+## 2026-10-01 (continuación) — 2 fotos duplicadas más corregidas (quedaron a medias el 29-sep)
+
+Al retomar la sesión, dos fixes de fotos quedaron a medio hacer el 29-sep cuando la sesión se cortó a mitad de búsqueda (ver nota de continuidad):
+- **"Pescado de agua dulce del Mekong"** (restaurante, día 16-nov): el alias genérico `Mekong_Delta` resolvía a una foto de un puente, no de comida. Sustituido por una foto directa verificada de Cá Lóc Nướng Trui (pescado de río a la brasa, plato típico del Delta).
+- **"Ninh Kieu Footbridge"** (día 17-nov): compartía foto exacta con "Bến Ninh Kiều (Muelle de Ninh Kieu)" — mismo caso que el user reportó con captura el 29-sep. Sustituida por una foto directa verificada del puente peatonal real (con su pabellón en forma de loto).
+
+Ambas verificadas a ojo (descargadas y miradas) antes de aplicar, mismo método de siempre.
+
+**Archivos:** `js/data.js` (DATA_VERSION 49→50), `index.html` (`data.js?v=50`).
+
+---
+
 ## 2026-10-01 — Auditoría formal de imágenes: 167/167 catalogadas y clasificadas en 6 estados
 
 Marcos pidió explícitamente (tras varios intentos previos que no llegaron a este nivel de rigor) una auditoría formal de TODAS las imágenes del itinerario, en dos fases, **sin modificar ninguna imagen todavía**:
