@@ -4,11 +4,9 @@
 
 ## ⚠️ TAREAS PENDIENTES — HAZ ESTO PRIMERO
 
-### 1. Revocar el token de GitHub antiguo (URGENTE, todavía sin confirmar)
+### 1. ~~Revocar el token de GitHub antiguo~~ — ✅ HECHO (2-oct-2026, confirmado por Marcos)
 
-El token classic que se usó para los primeros intentos de push (y que estuvo expuesto en texto plano en `CLAUDE.md`/`MEMORIA_MAESTRA.md` durante semanas) **sigue sin revocar**. El 2-oct-2026 bloqueó un push real (GitHub push protection lo detectó en 3 commits antiguos) — se limpió del historial local con `git filter-branch`, pero el token en sí sigue siendo una credencial viva hasta que se revoque a mano.
-
-Pasos: ir a https://github.com/settings/tokens → localizar el token classic (empieza por `ghp_`) → revocarlo. Si hace falta uno nuevo para un futuro push, crearlo ahí mismo (scope `repo`) y usarlo solo en el momento del push, sin guardarlo en ningún archivo del repo.
+El token classic ("viajes", scope `repo`, sin caducidad) que estuvo expuesto en texto plano en `CLAUDE.md`/`MEMORIA_MAESTRA.md` durante semanas y que el 2-oct-2026 bloqueó un push real (GitHub push protection) ya está **revocado** — Marcos lo borró a mano en https://github.com/settings/tokens tras confirmarlo en pantalla. El historial local también se limpió con `git filter-branch` antes del push. Si hace falta un token nuevo para un futuro push, crearlo ahí mismo (scope `repo`) y usarlo solo en el momento del push, sin guardarlo en ningún archivo del repo.
 
 ### 2. Git local — cada PC tiene el suyo, no se sincroniza por MEGA (IMPORTANTE)
 

@@ -22,7 +22,7 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 
 **Para el PC de casa, la próxima vez que se abra una sesión ahí:** no intentar hacer push ni merge con el historial local de casa — resetear directamente contra `origin/main` (`git fetch origin && git reset --hard origin/main`), como ya decían las "Decisiones ya tomadas" de más abajo. Si se quiere conservar el historial local de casa por si acaso, crear una rama de respaldo antes (`git branch backup-2oct`).
 
-**Pendiente urgente, todavía sin confirmar:** el token de GitHub que causó el bloqueo sigue sin revocar en https://github.com/settings/tokens — nunca se regeneró, solo se quitó del texto de los archivos. Revisar y revocarlo cuanto antes si no se ha hecho ya (no afecta a lo ya publicado, pero sigue siendo una credencial viva expuesta).
+~~**Pendiente urgente, todavía sin confirmar:** el token de GitHub que causó el bloqueo sigue sin revocar~~ → **✅ Revocado el 2-oct-2026**, confirmado por Marcos en pantalla (token "viajes", scope `repo`, borrado en https://github.com/settings/tokens). No queda ninguna credencial viva expuesta de este incidente.
 
 ---
 

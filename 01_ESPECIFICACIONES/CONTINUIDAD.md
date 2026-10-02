@@ -203,8 +203,8 @@ Mandadas explícitamente como "apunta esto, primero arreglamos lo pendiente" —
 |---|---|
 | ~~Contenido rico de Hue, Tam Coc/Ninh Binh y Cat Ba~~ | ✅ Hecho el 2-oct-2026 — resultó que la mayoría del bloque (días 21-29) ya tenía contenido de sesiones anteriores (29-sep a 1-oct); solo quedaban 4 huecos reales. Investigados con WebSearch y rellenados: Mercado nocturno de Dong Ba, Paseo junto al río Perfume (Hue, día 22-nov), Atardecer en Flamingo Cat Ba Resort (día 26-nov), Ba Trai Dao (día 27-nov, con aviso de que la playa solo es visible 2-4h/día en marea baja). "Sitios pendientes del Old Quarter" (día 29-nov) se dejó sin description/tips a propósito — es un cajón de sastre genérico, no un sitio concreto. Ver `HISTORIAL_DE_CAMBIOS.md`, entrada 2-oct |
 | Descargar/verificar imágenes reales | Los sitios nuevos dependen del fallback en vivo (Wikipedia/Commons) para la foto — funciona pero no está verificado uno a uno. Cuando el contenido esté más maduro, hacer una pasada de descarga a `img/places/` como se hizo en la auditoría del 7-sep-2026 (ahora obsoleta, era sobre la ruta vieja) |
-| Regenerar token de GitHub | Solo cuando Marcos quiera publicar (dijo: dentro de ~1 semana). Ir a https://github.com/settings/tokens → eliminar el antiguo → generar uno nuevo → usarlo solo en el momento del push, sin guardarlo en ningún archivo |
-| Subir a GitHub desde el PC del trabajo primero | `git push -u origin main` con el token nuevo (commit `e67e14c`, desciende del remoto, no hace falta `--force`). Luego, en el PC de casa: `git fetch origin && git reset --hard origin/main` (el commit local de casa parte de un historial no relacionado) |
+| ~~Regenerar/revocar token de GitHub~~ | ✅ Hecho el 2-oct-2026 — token "viajes" (scope `repo`) revocado por Marcos en https://github.com/settings/tokens, confirmado en pantalla |
+| ~~Subir a GitHub desde el PC del trabajo primero~~ | ✅ Hecho el 2-oct-2026 — `origin/main` en `81c5a1d` y commits posteriores, itinerario de 25 días publicado en https://marcospenas.github.io/viajes-marcos-mery. **Pendiente del PC de casa**: resetear contra `origin/main` en su próxima sesión (ver `COORDINACION_SESIONES.md`) |
 
 ### 🟡 MEDIA prioridad (antes del viaje — noviembre 2026)
 
@@ -227,7 +227,7 @@ Mandadas explícitamente como "apunta esto, primero arreglamos lo pendiente" —
 - Si se modifica `DEFAULT_DATA` en `js/data.js`, incrementar TAMBIÉN la constante interna `DATA_VERSION` del propio archivo (no solo el `?v=N`), o los navegadores que ya visitaron la app seguirán viendo los datos viejos guardados en `localStorage`
 - Entregar siempre archivos completos, nunca fragmentos
 - `.git` NO se sincroniza entre el PC del trabajo y el de casa vía MEGA (`.megaignore` excluye archivos ocultos) — cada PC tiene su propio repo y commit local. Comprobar `git log --oneline -5` en la máquina en la que estés antes de hacer push o asumir el estado del repo (ver Parte 19 de la Memoria Maestra)
-- El token de GitHub expuesto ya se quitó de `CLAUDE.md` (8-sep-2026) — pero sigue sin regenerarse; no hacer push sin regenerarlo primero
+- El token de GitHub expuesto ya se quitó de `CLAUDE.md` (8-sep-2026), se limpió del historial git (2-oct-2026) y **ya está revocado** (confirmado por Marcos, 2-oct-2026) — este incidente está cerrado del todo
 - Documentar cada cambio en `HISTORIAL_DE_CAMBIOS.md` y `CONTINUIDAD.md` a medida que se hace, no solo al cerrar la sesión
 - Si hay un `Mejoras.txt` en la raíz con entradas pendientes: al aplicar una, moverla a `HECHAS` con `[COMPLETADO <fecha>]` y una línea `->` explicando qué se hizo — nunca borrarla, eso lo hace Marcos a mano
 
