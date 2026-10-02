@@ -196,7 +196,8 @@ const DEFAULT_DATA = {
               tips: 'A 2,5km del Old Quarter, ~10 min en Grab. Mejor luz a partir de 16:30-17:00h.' }
           ],
           restaurants: [
-            { name: 'Bánh Mì', type: 'restaurant', notes: 'Bocadillo callejero, del desayuno a la cena.' },
+            { name: 'Bánh Mì', type: 'restaurant', notes: 'Bocadillo callejero, del desayuno a la cena.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/B%C3%A1nh_m%C3%AC.jpg/500px-B%C3%A1nh_m%C3%AC.jpg' },
             { name: 'Chả Cá Lã Vọng', type: 'restaurant', notes: 'Pescado a la parrilla con eneldo y cúrcuma, plato único de un restaurante centenario.' },
             { name: 'Chè', type: 'restaurant', notes: 'Postre dulce de judías, coco, gelatina de arroz y hielo picado — la merienda callejera por excelencia, con decenas de variantes.' },
             { name: 'Bánh Cuốn', type: 'restaurant', notes: 'Crepes finísimas de arroz al vapor rellenas de carne y champiñón, servidas con salsa de pescado y chalota frita.',
@@ -342,7 +343,8 @@ const DEFAULT_DATA = {
               tips: '30-45 min. Vistas espectaculares desde la cima, mejores al amanecer o atardecer.' }
           ],
           restaurants: [
-            { name: 'Lok Lak', type: 'restaurant', notes: 'Ternera salteada camboyana con arroz y huevo frito.' },
+            { name: 'Lok Lak', type: 'restaurant', notes: 'Ternera salteada camboyana con arroz y huevo frito.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Beef_Lok_Lak.jpg/500px-Beef_Lok_Lak.jpg' },
             { name: 'Khmer BBQ', type: 'restaurant', notes: 'Parrilla camboyana para compartir, típica de las salidas rurales de un día completo.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Cambodian_BBQ_%2811468613985%29.jpg/500px-Cambodian_BBQ_%2811468613985%29.jpg' },
             { name: 'Prahok Ktis', type: 'restaurant', notes: 'Dip de cerdo picado con pasta de pescado fermentado (prahok) y leche de coco, para mojar verduras crudas — el sabor más "de verdad" de la cocina jemer.',
@@ -372,7 +374,8 @@ const DEFAULT_DATA = {
           ],
           restaurants: [
             { name: 'Cena ligera antes del bus nocturno', type: 'restaurant', notes: 'Algo sencillo antes de 6 horas de autobús — nada demasiado copioso ni picante.' },
-            { name: 'Loc Lac de despedida de Siem Reap', type: 'restaurant', notes: 'Última oportunidad de probar los clásicos camboyanos antes de dejar Angkor atrás.' }
+            { name: 'Loc Lac de despedida de Siem Reap', type: 'restaurant', notes: 'Última oportunidad de probar los clásicos camboyanos antes de dejar Angkor atrás.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/Beef_Lok_Lak.jpg/500px-Beef_Lok_Lak.jpg' }
           ],
           transport: [
             { type: 'bus', icon: '🚌', details: 'Sleeper Bus Siem Reap→Phnom Penh — Giant Ibis', from: 'Siem Reap', to: 'Phnom Penh', time: '22:30–04:30' }
@@ -412,8 +415,10 @@ const DEFAULT_DATA = {
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/6/61/Num_Banh_Chok.jpg/500px-Num_Banh_Chok.jpg' },
             { name: 'Bai Sach Chrouk', type: 'restaurant', notes: 'Cerdo a la parrilla sobre arroz partido, clásico desayuno-almuerzo de Phnom Penh.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/Bay_sach_chrouk.jpg/500px-Bay_sach_chrouk.jpg' },
-            { name: 'Samlor Kor Ko', type: 'restaurant', notes: 'Sopa espesa de verduras de temporada con pasta de pescado fermentado — considerado el plato camboyano más tradicional de todos.' },
-            { name: 'Cerveza Angkor junto al Tonlé Sap', type: 'restaurant', notes: 'Una Angkor Beer bien fría en una terraza de Sisowath Quay, viendo el atardecer sobre el río.' }
+            { name: 'Samlor Kor Ko', type: 'restaurant', notes: 'Sopa espesa de verduras de temporada con pasta de pescado fermentado — considerado el plato camboyano más tradicional de todos.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Samlor_Korko_Khmer_at_Peace_Cafe.jpg/500px-Samlor_Korko_Khmer_at_Peace_Cafe.jpg' },
+            { name: 'Cerveza Angkor junto al Tonlé Sap', type: 'restaurant', notes: 'Una Angkor Beer bien fría en una terraza de Sisowath Quay, viendo el atardecer sobre el río.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/85/Angkor_beer_bottles.jpg/500px-Angkor_beer_bottles.jpg' }
           ],
           transport: [],
           hotel: { name: 'Jungle Addition', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -445,7 +450,8 @@ const DEFAULT_DATA = {
             { name: 'Lap Khmer', type: 'restaurant', notes: 'Ceviche de ternera camboyano, marinado en cítricos.' },
             { name: 'Amok', type: 'restaurant', notes: 'El plato nacional camboyano — curry de pescado al vapor en hoja de plátano. También hay versión de pollo o verduras.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Fish_Amok-_Khmer_specialty.jpg/500px-Fish_Amok-_Khmer_specialty.jpg' },
-            { name: 'Bobor', type: 'restaurant', notes: 'Congee de arroz camboyano, a veces con pescado o cerdo — comida reconfortante para una noche más tranquila en la capital.' },
+            { name: 'Bobor', type: 'restaurant', notes: 'Congee de arroz camboyano, a veces con pescado o cerdo — comida reconfortante para una noche más tranquila en la capital.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/Chicken_congee_at_Psar_Chaa_Market_in_Siem_Reap%2C_Cambodia.jpg/500px-Chicken_congee_at_Psar_Chaa_Market_in_Siem_Reap%2C_Cambodia.jpg' },
             { name: 'Nom Ansom Chek', type: 'restaurant', notes: 'Pastel de arroz glutinoso y plátano envuelto en hoja de plátano y cocido al vapor — dulce de calle muy popular.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/Num_ansom_chek_banana_leaves_Khmer_Cambodian_dessert_cake.jpg/500px-Num_ansom_chek_banana_leaves_Khmer_Cambodian_dessert_cake.jpg' }
           ],
@@ -580,7 +586,8 @@ const DEFAULT_DATA = {
             { name: 'Hủ Tiếu', type: 'restaurant', notes: 'Sopa de fideos suave, plato bandera de Can Tho y todo el Delta.' },
             { name: 'Bánh Xèo', type: 'restaurant', notes: 'Crepe de arroz crujiente con gambas, cerdo y brotes de soja, para envolver en hoja de lechuga — gigante en su versión sureña del Delta.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Crispy_yellow_vietnamese_savory_crepes%2C_banh_xeo.jpg/500px-Crispy_yellow_vietnamese_savory_crepes%2C_banh_xeo.jpg' },
-            { name: 'Nem Nướng Cái Răng', type: 'restaurant', notes: 'Brochetas de cerdo a la parrilla, típicas de los puestos junto al mercado flotante de Cai Rang, para comer con fideos de arroz y hierbas.' }
+            { name: 'Nem Nướng Cái Răng', type: 'restaurant', notes: 'Brochetas de cerdo a la parrilla, típicas de los puestos junto al mercado flotante de Cai Rang, para comer con fideos de arroz y hierbas.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Nem_n%C6%B0%E1%BB%9Bng.jpg/500px-Nem_n%C6%B0%E1%BB%9Bng.jpg' }
           ],
           transport: [
             { type: 'flight', icon: '✈️', details: 'Vuelo Can Tho→Da Nang — Via Jet, localizador R6JUT5. María: 20 kg facturado + cabina 7 kg. Marcos: 20 kg facturado + cabina 7 kg.', from: 'Can Tho', to: 'Da Nang', time: '12:40–14:10 (1h 30min)' },
@@ -737,7 +744,8 @@ const DEFAULT_DATA = {
             { name: 'Mì Quảng', type: 'restaurant', notes: 'Fideos de cúrcuma con gambas y cerdo, plato bandera de la región de Da Nang.' },
             { name: 'Marisco de Da Nang', type: 'restaurant', notes: 'Ciudad costera con mucho mejor marisco y más barato que en las zonas turísticas.',
               photo: 'https://images.pexels.com/photos/14786461/pexels-photo-14786461.jpeg?auto=compress&cs=tinysrgb&w=500' },
-            { name: 'Bánh Tráng Cuốn Thịt Heo', type: 'restaurant', notes: 'Panceta de cerdo cocida envuelta en papel de arroz junto con fideos, hierbas frescas y vegetales — plato emblemático de Da Nang, para montar tú mismo en la mesa.' },
+            { name: 'Bánh Tráng Cuốn Thịt Heo', type: 'restaurant', notes: 'Panceta de cerdo cocida envuelta en papel de arroz junto con fideos, hierbas frescas y vegetales — plato emblemático de Da Nang, para montar tú mismo en la mesa.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/B%C3%A1nh_tr%C3%A1ng_cu%E1%BB%91n_th%E1%BB%8Bt_heo.jpg/500px-B%C3%A1nh_tr%C3%A1ng_cu%E1%BB%91n_th%E1%BB%8Bt_heo.jpg' },
             { name: 'Bún Mắm Nêm', type: 'restaurant', notes: 'Fideos con cerdo a la parrilla y una salsa intensa de pescado fermentado con piña — de sabor fuerte, muy querido por los locales de Da Nang.' }
           ],
           transport: [],
@@ -893,7 +901,8 @@ const DEFAULT_DATA = {
             { name: 'Ốc (caracoles de río)', type: 'restaurant', notes: 'Tapa callejera muy popular en la zona rural de Ninh Binh.',
               photo: 'https://images.pexels.com/photos/13189279/pexels-photo-13189279.jpeg?auto=compress&cs=tinysrgb&w=500' },
             { name: 'Cá Rô Tổng Trường', type: 'restaurant', notes: 'Perca de agua dulce de los arrozales inundados de Ninh Binh, frita o cocinada en caldo agridulce.' },
-            { name: 'Miến Lươn', type: 'restaurant', notes: 'Fideos de celofán con anguila frita crujiente y caldo especiado — un plato muy apreciado en todo el norte de Vietnam.' }
+            { name: 'Miến Lươn', type: 'restaurant', notes: 'Fideos de celofán con anguila frita crujiente y caldo especiado — un plato muy apreciado en todo el norte de Vietnam.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/Mien_luon_Hang_Dieu.JPG/500px-Mien_luon_Hang_Dieu.JPG' }
           ],
           transport: [],
           hotel: { name: 'Tam coc Serenity', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -957,9 +966,11 @@ const DEFAULT_DATA = {
               tips: 'Solo accesible en barco/kayak, no por tierra. Ventana de baño real de apenas 2-4h al día (coincidiendo con marea baja) — si el tour para aquí fuera de esa ventana, puede que no quede arena visible. Buena para kayak y snorkel ligero además de nadar.' }
           ],
           restaurants: [
-            { name: 'Banquete de marisco a bordo', type: 'restaurant', notes: 'Los cruceros por Lan Ha Bay suelen incluir una comida de varios platos de marisco recién pescado, servida en cubierta.' },
+            { name: 'Banquete de marisco a bordo', type: 'restaurant', notes: 'Los cruceros por Lan Ha Bay suelen incluir una comida de varios platos de marisco recién pescado, servida en cubierta.',
+              photo: 'https://images.pexels.com/photos/14786461/pexels-photo-14786461.jpeg?auto=compress&cs=tinysrgb&w=500' },
             { name: 'Comida casera en Viet Hai', type: 'restaurant', notes: 'Alguna de las pocas casas-restaurante del pueblo sirve cocina vietnamita rural sencilla — pollo de corral, verduras del huerto y arroz.' },
-            { name: 'Coco fresco en la playa', type: 'restaurant', notes: 'Un coco recién abierto en cualquier parada de playa o islote del crucero — el refresco de toda la bahía.' }
+            { name: 'Coco fresco en la playa', type: 'restaurant', notes: 'Un coco recién abierto en cualquier parada de playa o islote del crucero — el refresco de toda la bahía.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/Coconut_drink_with_straws.jpg/500px-Coconut_drink_with_straws.jpg' }
           ],
           transport: [],
           hotel: { name: 'The Oversleep Catba Hostel & Pool', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -989,7 +1000,8 @@ const DEFAULT_DATA = {
           restaurants: [
             { name: 'Último marisco en Cat Ba', type: 'restaurant', notes: 'Última comida en la isla antes del bus de vuelta a Hanói.',
               photo: 'https://images.pexels.com/photos/14786461/pexels-photo-14786461.jpeg?auto=compress&cs=tinysrgb&w=500' },
-            { name: 'Bánh Mì de viaje en bus', type: 'restaurant', notes: 'Un bánh mì para llevar al bus — fácil de comer en el trayecto de 3h de vuelta a Hanói.' }
+            { name: 'Bánh Mì de viaje en bus', type: 'restaurant', notes: 'Un bánh mì para llevar al bus — fácil de comer en el trayecto de 3h de vuelta a Hanói.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/B%C3%A1nh_m%C3%AC.jpg/500px-B%C3%A1nh_m%C3%AC.jpg' }
           ],
           transport: [
             { type: 'bus', icon: '🚌', details: 'Bus Cat Ba→Hanói — Cat Ba Discovery. Salida: Good Morning Cat Ba Office, Dao Cat Ba. Llegada: 128 Tran Nhat Duat, Old Quarter, Hanoi.', from: 'Cat Ba', to: 'Hanói', time: '~3h' }
@@ -1006,7 +1018,8 @@ const DEFAULT_DATA = {
           ],
           restaurants: [
             { name: 'Último Phở o Bánh Mì antes del vuelo', type: 'restaurant', notes: 'Despedida de Vietnam con un último plato callejero en el Old Quarter.' },
-            { name: 'Café de despedida en el Old Quarter', type: 'restaurant', notes: 'Un último cà phê sữa đá (café con leche condensada y hielo) o cà phê trứng antes de ir al aeropuerto.' }
+            { name: 'Café de despedida en el Old Quarter', type: 'restaurant', notes: 'Un último cà phê sữa đá (café con leche condensada y hielo) o cà phê trứng antes de ir al aeropuerto.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Vietnamese_iced_coffee_-_Jan_31%2C_2018.jpg/500px-Vietnamese_iced_coffee_-_Jan_31%2C_2018.jpg' }
           ],
           transport: [],
           hotel: { name: '', address: '', phone: '', checkIn: '', checkOut: '12:00', breakfast: false },
@@ -1095,7 +1108,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 61;
+const DATA_VERSION = 62;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 

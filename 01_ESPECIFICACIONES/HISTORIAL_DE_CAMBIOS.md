@@ -2,6 +2,28 @@
 
 ---
 
+## 2026-10-02 (continuación 7) — Revisión plato por plato de "Qué comer": 13 fotos más, 16 sin encontrar tras búsqueda exhaustiva
+
+Marcos pidió explícitamente revisar uno por uno TODOS los platos nuevos y asegurarse de que cada uno tiene su imagen, con "múltiples comprobaciones" antes de dar algo por imposible. Partiendo de los 27 restaurantes que no resolvían ninguna imagen (ver continuación 5), se intentó cada uno con 2-4 variantes de términos de búsqueda en Wikimedia Commons:
+
+**13 fotos nuevas encontradas y verificadas a ojo:**
+- Bánh Mì, Bánh Mì de viaje en bus (mismo bocadillo, foto real genuina del plato — antes dependían de resolución implícita por alias, ahora verificadas y con `photo:` directo)
+- Lok Lak, Loc Lac de despedida de Siem Reap (mismo plato, reutilizada la misma foto real)
+- Cerveza Angkor junto al Tonlé Sap (botellas de Angkor Beer reales)
+- Café de despedida en el Old Quarter (cà phê sữa đá preparándose con el filtro phin)
+- Samlor Kor Ko, Bobor (congee de pollo, foto tomada en Psar Chaa Market — la misma ciudad, Siem Reap)
+- Coco fresco en la playa (coco entero con pajita, foto real — la primera encontrada mostraba la pulpa raspada, no el coco bebido, se descartó y se buscó otra)
+- Nem Nướng Cái Răng, Bánh Tráng Cuốn Thịt Heo, Miến Lươn (fotos específicas del plato exacto)
+- Banquete de marisco a bordo (reutilizada la foto de marisco ya verificada para otras entradas genéricas de "marisco de la zona")
+
+**Un caso rechazado explícitamente:** para "Bánh Đập" se encontró un archivo en Commons titulado igual, pero resultó ser una **ilustración dibujada a mano, no una fotografía real** — descartada por no cumplir el criterio de "foto real verificada", queda sin imagen en vez de usar un dibujo.
+
+**16 platos sin ninguna foto real encontrada en Commons, tras búsqueda exhaustiva con variantes (confirmado, no por falta de intentos):** Khmer Red Curry (Kari Sach Moan), Lẩu Mắm, Khô Cá Lóc, Cơm Gà Hội An, Hoành Thánh Chiên, Bánh Đập (ver nota de la ilustración), Bún Mắm Nêm, Chè Huế, Bánh Ép, Vả Trộn, Nem Chua Yên Mạc, Rượu Kim Sơn, Cá Rô Tổng Trường, Tu Hài Nướng, Bề Bề Rang Muối, Comida casera en Viet Hai. Son en su mayoría platos muy regionales/hiperlocales (especialidades de un solo pueblo o puesto) sin presencia en bancos de imágenes libres — ni Commons ni Pexels tienen cobertura. Quedan con el icono de categoría neutro en vez de sin foto en blanco (ver continuación 6).
+
+**Archivos:** `js/data.js` (DATA_VERSION 61→62, 13 fotos directas nuevas), `index.html`, `01_ESPECIFICACIONES/AUDITORIA_IMAGENES_CLASIFICADA.json` (192 fichas en total ahora, incluyendo platos añadidos después de la auditoría original de 167).
+
+---
+
 ## 2026-10-02 (continuación 6) — 2 bugs más del mismo patrón: botón "Ver restaurantes" y miniaturas de "Lugares"
 
 Mismo barrido: Marcos reportó que el botón "Ver restaurantes →" no llevaba a ningún sitio. Causa: llamaba a `showDayTab('lugares')` en vez de `showDayTab('comer')` (copy-paste del botón de arriba, "Ver todos los lugares"). Corregido. De paso, los círculos individuales (`makeCircle`) tenían el mismo problema — tanto los de "Qué ver" como los de "Qué comer" navegaban siempre a "Lugares" al hacer clic, nunca a "Qué comer" — se añadió un parámetro `targetTab` para que cada círculo sepa a qué pestaña pertenece.
