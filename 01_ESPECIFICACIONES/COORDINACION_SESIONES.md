@@ -14,9 +14,25 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 
 ---
 
+## 🔴 IMPORTANTE — Push hecho el 2-oct-2026, hashes de commit CAMBIADOS, PC de casa debe resetear
+
+**El PC del trabajo publicó a GitHub el 2-oct-2026.** `origin/main` ya NO está en `c8d9eb5` (29-jun) — ahora está en `81c5a1d`. La app en producción (https://marcospenas.github.io/viajes-marcos-mery) debería reflejar el itinerario de 25 días con el mapa Leaflet y la auditoría de imágenes en los próximos minutos (GitHub Pages tarda un poco en reconstruir tras el push).
+
+**Antes de pushear hubo que reescribir el historial local (`git filter-branch`)** porque GitHub bloqueó el push (push protection) al detectar un token real de GitHub expuesto en 3 commits antiguos (`MEMORIA_MAESTRA.md`/`CLAUDE.md`) — token que llevaba semanas documentado como "pendiente de regenerar" sin haberlo hecho nunca. Se redactó el token de todos los commits (sin necesidad de verlo, solo con un patrón `ghp_...`) y se purgaron los blobs antiguos del repo local. **Esto significa que TODOS los hashes de commit de este PC cambiaron** respecto a lo que decía este archivo antes (`05d59e7`, `c028ae8`, etc. ya no existen con esos hashes) — el nuevo historial es equivalente en contenido pero con hashes nuevos desde el principio.
+
+**Para el PC de casa, la próxima vez que se abra una sesión ahí:** no intentar hacer push ni merge con el historial local de casa — resetear directamente contra `origin/main` (`git fetch origin && git reset --hard origin/main`), como ya decían las "Decisiones ya tomadas" de más abajo. Si se quiere conservar el historial local de casa por si acaso, crear una rama de respaldo antes (`git branch backup-2oct`).
+
+**Pendiente urgente, todavía sin confirmar:** el token de GitHub que causó el bloqueo sigue sin revocar en https://github.com/settings/tokens — nunca se regeneró, solo se quitó del texto de los archivos. Revisar y revocarlo cuanto antes si no se ha hecho ya (no afecta a lo ya publicado, pero sigue siendo una credencial viva expuesta).
+
+---
+
 ## 🟢 Nada en curso ahora mismo
 
-Última sesión activa: **PC del trabajo, 1-oct-2026** — dos cosas grandes:
+Última sesión activa: **PC del trabajo, 2-oct-2026** — además del push de arriba:
+
+0. **Bug sistémico de fotos en blanco encontrado y corregido** (`makeCircle()` en app.js no pasaba `data-photo` al `<img>` de los círculos de vista previa) — ver `CONTINUIDAD.md` punto 0 de "LEE ESTO PRIMERO" y `HISTORIAL_DE_CAMBIOS.md` continuaciones 5-6 del 2-oct. Si el PC de casa ve círculos en blanco que no cuadran con esto, comprobar primero si ya se sincronizó este fix antes de investigar desde cero.
+
+Lo de **1-oct** sigue vigente:
 
 1. **Mapa propio con Leaflet, My Maps abandonado del todo** (ver `CONTINUIDAD.md` punto 1 de "LEE ESTO PRIMERO" y `HISTORIAL_DE_CAMBIOS.md` del 30-sep en adelante). Si el PC de casa tiene algo relacionado con `trip.myMapsUrl` o el iframe de My Maps en curso, está obsoleto — avisar a Marcos antes de seguir por ahí.
 2. **Auditoría formal de imágenes completada** (167/167 fichas catalogadas y clasificadas en 6 estados — `01_ESPECIFICACIONES/AUDITORIA_IMAGENES.json` y `AUDITORIA_IMAGENES_CLASIFICADA.json`, nuevos). **No se ha corregido ninguna imagen todavía** — es el paso previo, pendiente de que Marcos confirme ir revisando una por una. **Si el PC de casa va a tocar fotos de sitios, leer primero `AUDITORIA_IMAGENES_CLASIFICADA.json`** para no pisar este trabajo ni duplicar esfuerzo — contiene el estado real (verificado/genérico/duplicado/sin comprobar) de cada una de las 167 fichas.
@@ -35,7 +51,7 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 
 | Fecha | PC | Commit subido | Notas |
 |---|---|---|---|
-| _(ninguno todavía)_ | | | El repo remoto sigue en `c8d9eb5` (29-jun-2026) |
+| 2-oct-2026 | Trabajo | `81c5a1d` | Primer push real del itinerario de 25 días — mapa Leaflet, auditoría de imágenes, bug de data-photo corregido. Historial local reescrito antes del push para quitar un token expuesto (ver aviso 🔴 arriba) |
 
 ---
 
@@ -43,10 +59,8 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 
 | PC | Rama | Último commit local | ¿Desciende del remoto real? |
 |---|---|---|---|
-| Trabajo (`C:\Users\mpe.HP2008\...`) | `main` | `05d59e7` (1-oct-2026) — mapa propio con Leaflet + auditoría formal de imágenes (167/167, ver arriba) | Sí (cadena completa hasta `c8d9eb5`) |
-| Casa (`C:\Users\marco\...`) | `main` | `be0aeb2` (29-sep-2026 tarde) — **desactualizado, ver nota arriba**; al menos 5 commits más encima de `cb9c4d1` (ver lista en "Nada en curso ahora mismo") | No — historial nuevo, `git init` desde cero |
-
-**Importante para la próxima sesión en el PC de casa:** el contenido de tus 5 commits (`4c5d322`…`cb9c4d1`) ya está integrado en el commit `cdff33c` del PC del trabajo (se copió el estado final de los archivos, no cada commit individual). Cuando este PC empiece a hacer push a GitHub, el PC de casa deberá resetear su rama contra `origin/main` en vez de intentar pushear sus propios commits — ver "Decisiones ya tomadas" abajo. Si quieres conservar tu historial de 5 commits como referencia, créate una rama antes de resetear (`git branch backup-28sep`).
+| Trabajo (`C:\Users\mpe.HP2008\...`) | `main` | `81c5a1d` (2-oct-2026) — == `origin/main`, ya publicado | Sí, es el remoto |
+| Casa (`C:\Users\marco\...`) | `main` | Desconocido en este momento, probablemente desactualizado | No — historial propio independiente. **Debe resetear contra `origin/main` en la próxima sesión, ver aviso 🔴 arriba** |
 
 ---
 
@@ -55,5 +69,5 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 - El PC del trabajo sube primero a GitHub (su historial no necesita `--force`)
 - El PC de casa resetea su repo local contra `origin/main` después, en vez de fusionar los dos historiales
 - El token de GitHub no se guarda en ningún archivo del repo (ni `.md`, ni `.claude/`) — se usa solo en el momento del push
-- **(28-sep-2026)** No hay prisa por publicar — Marcos quiere acumular cambios ~1 semana en local primero. No iniciar un push sin que él lo pida explícitamente
+- ~~(28-sep-2026) No hay prisa por publicar — acumular ~1 semana en local primero~~ → **Superado el 2-oct-2026**: Marcos pidió explícitamente publicar, y se hizo (`81c5a1d`). A partir de ahora, cada sesión decide si pushear según lo que diga Marcos en esa sesión, no según esta nota antigua
 - **(29-sep-2026)** El sistema de Mejoras es la app centralizada en `00_Guía Apps/Sistema_Mejoras/` — `MEJORAS.lnk` y `01_ESPECIFICACIONES/MEJORAS.json` de este proyecto están en `.gitignore` (herramienta personal, no va al repo público). El PC de casa necesita su propio `MEJORAS.lnk` (el de aquí no es portable, ver `CONTINUIDAD.md`)

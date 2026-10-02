@@ -4,40 +4,28 @@
 
 ## ⚠️ TAREAS PENDIENTES — HAZ ESTO PRIMERO
 
-### 1. Git local — cada PC tiene el suyo, no se sincroniza por MEGA (IMPORTANTE)
+### 1. Revocar el token de GitHub antiguo (URGENTE, todavía sin confirmar)
 
-**Causa raíz encontrada (8-sep-2026):** `.megaignore` en la raíz de MEGA excluye todo lo que empiece por punto (`-:.*`), así que `.git` (y `.claude/`) nunca se sincronizan entre el PC del trabajo y el de casa — solo el resto de archivos (código, docs, imágenes) se sincroniza. Cada PC tuvo que inicializar su propio repo git local el 7/8-sep-2026, cada uno con un commit distinto y sin relación entre sí. **GitHub es el único punto de sincronización real entre los dos equipos para el historial de versiones — MEGA no sirve para eso.**
+El token classic que se usó para los primeros intentos de push (y que estuvo expuesto en texto plano en `CLAUDE.md`/`MEMORIA_MAESTRA.md` durante semanas) **sigue sin revocar**. El 2-oct-2026 bloqueó un push real (GitHub push protection lo detectó en 3 commits antiguos) — se limpió del historial local con `git filter-branch`, pero el token en sí sigue siendo una credencial viva hasta que se revoque a mano.
 
-Antes de hacer push desde cualquiera de los dos PCs, comprobar en qué commit está el otro (o preguntar a Marcos) para no pisar trabajo. Una vez que uno de los dos haga push, el otro debe descartar su commit local y sincronizar desde GitHub (`git fetch origin && git reset --hard origin/main`), no intentar mezclar los dos historiales. Detalle completo en `01_ESPECIFICACIONES/MEMORIA_MAESTRA.md` → Parte 19.
+Pasos: ir a https://github.com/settings/tokens → localizar el token classic (empieza por `ghp_`) → revocarlo. Si hace falta uno nuevo para un futuro push, crearlo ahí mismo (scope `repo`) y usarlo solo en el momento del push, sin guardarlo en ningún archivo del repo.
 
-### 2. Regenerar token de GitHub (URGENTE — el anterior fue expuesto)
+### 2. Git local — cada PC tiene el suyo, no se sincroniza por MEGA (IMPORTANTE)
 
-Había un token de GitHub en texto plano en este archivo desde hace tiempo, visible en el historial del chat. **Se ha quitado de aquí el 8-sep-2026** porque este archivo ya está trackeado en git y a punto de subirse a un repo público — dejarlo habría metido el secreto en el historial de git para siempre. El token en sí sigue sin regenerar.
+`.megaignore` en la raíz de MEGA excluye todo lo que empiece por punto (`-:.*`), así que `.git` nunca se sincroniza entre el PC del trabajo y el de casa — solo el resto de archivos (código, docs, imágenes). **GitHub es el único punto de sincronización real para el historial de versiones.**
 
-Pasos:
-1. Ir a https://github.com/settings/tokens
-2. Eliminar el token classic existente asociado a este repo (buscar por nombre/fecha, empieza por `ghp_`)
-3. Crear uno nuevo (scope: `repo`)
-4. Usarlo solo en el momento del push, sin guardarlo en ningún archivo del repo — por ejemplo `git push https://MarcosPenas:[NUEVO_TOKEN]@github.com/MarcosPenas/viajes-marcos-mery.git main`, o configurarlo en el credential manager de Windows en vez de en la URL del remote
+**Estado actual (2-oct-2026): el PC del trabajo ya hizo el primer push real** (`81c5a1d`, itinerario de 25 días completo). El historial local de ese PC fue reescrito antes del push (ver punto 1) — los hashes de commit son nuevos desde el principio. **El PC de casa debe resetear contra `origin/main` en su próxima sesión** (`git fetch origin && git reset --hard origin/main`), no intentar mezclar su historial local. Detalle completo y actualizado en `01_ESPECIFICACIONES/COORDINACION_SESIONES.md` — **léelo siempre antes de tocar git**.
 
-### 3. Subir los fixes del 7-sep-2026 en cuanto se resuelvan los puntos 1 y 2
+### 3. Revisar datos personales en repo público — ✅ HECHO (7-sep-2026, repo ya público)
 
-`index.html`, `js/app.js`, `js/data.js` tienen corregidos en local el mapa (Leaflet) y las fotos de cabecera de día/portada — ver `01_ESPECIFICACIONES/HISTORIAL_DE_CAMBIOS.md`. No están subidos a GitHub todavía.
-
-### 4. Auditoría visual de imágenes (en curso)
-
-Ya revisado 7-sep-2026: Home, Dashboard, Días, Día 1 (Hanói), Día 3 (Cat Ba), Hoy, Mapa, Docs. Falta pasar por el resto de los 23 días uno a uno.
-
-### 5. Revisar datos personales en repo público — ✅ HECHO (7-sep-2026)
-
-Se revisó `js/data.js` (la clave real es `localEmergency`, no `EMERGENCY_DATA`): solo contiene teléfonos públicos de emergencia y la embajada de España. No hay pasaportes ni datos de seguro médico.
+Se revisó `js/data.js` (la clave real es `localEmergency`): solo contiene teléfonos públicos de emergencia y la embajada de España. No hay pasaportes ni datos de seguro médico. El repo ya está publicado, esto sigue vigente — cualquier dato nuevo que se añada debe pasar el mismo criterio.
 
 ---
 
 ## Qué es este proyecto
 
 PWA (Progressive Web App) de guía de viaje personal para Marcos y Mery.  
-Viaje: Vietnam & Camboya, 23 días, 7–29 noviembre 2026.  
+Viaje: Vietnam & Camboya, 25 días, 5–29 noviembre 2026 (incluye 2 días de vuelos España→Barcelona→Shenzhen→Hanói).  
 Sin servidor, sin login, sin base de datos. Todo es HTML/CSS/JS vanilla.
 
 ## Documentación principal
@@ -53,15 +41,15 @@ Lee estos archivos antes de hacer cualquier cambio:
 El código de la app está en la **raíz del repositorio**:
 
 ```
-index.html          ← entrada única de la SPA
+index.html          ← entrada única de la SPA (mirar aquí los ?v=N actuales de cada archivo)
 manifest.json       ← configuración PWA
 sw.js               ← Service Worker offline
-css/styles.css      ← todos los estilos (v=64)
-js/app.js           ← toda la lógica (v=103, 3935 líneas)
-js/data.js          ← datos del itinerario (v=22, 1222 líneas; DATA_VERSION interno también en 22)
-js/imageMap.js      ← mapa nombre→imagen local (v=12)
+css/styles.css      ← todos los estilos
+js/app.js           ← toda la lógica
+js/data.js          ← datos del itinerario (DATA_VERSION interno — comprobar con grep, no asumir el número)
+js/imageMap.js      ← mapa nombre→imagen local
 img/icon-*.png      ← iconos de la app
-img/places/         ← ~200 imágenes de lugares
+img/places/         ← imágenes de lugares cacheadas localmente
 ```
 
 ## Cómo arrancar en local
