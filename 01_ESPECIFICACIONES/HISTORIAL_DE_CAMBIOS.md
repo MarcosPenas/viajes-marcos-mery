@@ -2,6 +2,16 @@
 
 ---
 
+## 2026-10-02 (continuación 3) — 7 platos de la ampliación de "Qué comer" se quedaron sin foto: corregido
+
+Marcos mandó capturas navegando la app en vivo mostrando varios círculos en blanco en "Qué comer". Causa: los platos añadidos en la tanda de ampliación "Qué comer" (sincronizada por MEGA, ver commit `c028ae8`) se escribieron solo con `notes`, sin `photo` ni alias en `WIKI_ARTICLES` — nunca pasaron por el pipeline de resolución de imágenes. Afectaba a: **Nem Rán (Chả Giò), Bún Đậu Mắm Tôm, Xôi Xéo, Nom Kroeung, Num Pang, Prahok Ktis, Nom Banh Chok Samlor Khmer**. Buscadas en Wikimedia Commons, descargadas y verificadas a ojo antes de aplicar (misma rigurosidad que el resto de la auditoría) — las 7 fotos son específicas del plato exacto, ninguna genérica.
+
+**Nota para la próxima vez que se añada contenido nuevo en bloque:** después de escribir fichas nuevas (sitios o platos), comprobar que cada una resuelve una foto real antes de darlo por terminado — no basta con el texto. `AUDITORIA_IMAGENES_CLASIFICADA.json` solo cubría las 167 fichas que existían el 1-oct; estas 7 son nuevas y se han añadido al JSON (ahora 174 fichas en total).
+
+**Archivos:** `js/data.js` (DATA_VERSION 57→58, 7 fotos directas nuevas), `index.html` (`data.js?v=58`), `01_ESPECIFICACIONES/AUDITORIA_IMAGENES_CLASIFICADA.json` (7 fichas nuevas añadidas).
+
+---
+
 ## 2026-10-02 (continuación 2) — Bancos de fotos libres (Pexels) para platos genéricos sin cobertura en Commons
 
 Marcos pidió explícitamente buscar solución para los sitios sin foto en Commons, aclarando que no le preocupa usar una foto "de Google" porque la app es de uso privado. **Aclarado antes de aplicar nada:** el repo de esta app es en realidad **público** en GitHub (`github.com/MarcosPenas/viajes-marcos-mery`, ver `CLAUDE.md`), así que una foto de Google Imágenes (normalmente de un tercero sin licencia clara de reuso) sí podría dar problemas de derechos si el repo gana visibilidad. En su lugar se usó **Pexels** (banco de fotos con licencia libre de uso y modificación, sin necesidad de atribución) para los casos donde el hueco es un **concepto genérico** (un plato, un paisaje) y no un lugar/marca concreto:

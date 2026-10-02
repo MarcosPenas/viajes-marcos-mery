@@ -72,8 +72,10 @@ const DEFAULT_DATA = {
           restaurants: [
             { name: 'Phở Bò', type: 'restaurant', notes: 'Desayuno clásico de reencuentro con Vietnam.' },
             { name: 'Bia Hơi', type: 'restaurant', notes: 'Cerveza artesanal callejera a 0,30 USD el vaso, el ritual social de cualquier tarde en Hanói.' },
-            { name: 'Nem Rán (Chả Giò)', type: 'restaurant', notes: 'Rollitos de primavera fritos con cerdo, gambas y verdura — el acompañante clásico de cualquier comida vietnamita.' },
-            { name: 'Bún Đậu Mắm Tôm', type: 'restaurant', notes: 'Fideos de arroz, tofu frito y cerdo cocido mojados en pasta de gambas fermentada — un clásico de culto del Barrio Antiguo, no apto para todos los olfatos.' }
+            { name: 'Nem Rán (Chả Giò)', type: 'restaurant', notes: 'Rollitos de primavera fritos con cerdo, gambas y verdura — el acompañante clásico de cualquier comida vietnamita.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3a/Cha_gio_%28vitnamese_spring_roll%29.jpg/500px-Cha_gio_%28vitnamese_spring_roll%29.jpg' },
+            { name: 'Bún Đậu Mắm Tôm', type: 'restaurant', notes: 'Fideos de arroz, tofu frito y cerdo cocido mojados en pasta de gambas fermentada — un clásico de culto del Barrio Antiguo, no apto para todos los olfatos.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5a/B%C3%BAn_%C4%91%E1%BA%ADu_m%E1%BA%AFm_t%C3%B4m.jpg/500px-B%C3%BAn_%C4%91%E1%BA%ADu_m%E1%BA%AFm_t%C3%B4m.jpg' }
           ],
           transport: [
             { type: 'flight', icon: '✈️', details: 'Vuelo Shenzhen→Hanói', from: 'Shenzhen', to: 'Hanói (HAN)', time: '12:50–13:55 (2h 50min)' }
@@ -137,7 +139,8 @@ const DEFAULT_DATA = {
               tips: '39 Nguyễn Hữu Huân, dist. Hoan Kiem — entrada discreta por un callejón, subir a la 2ª planta. Local pequeño y muy turístico a mediodía; mejor a media mañana. Pide también el cacao de huevo si no eres de café.' },
             { name: 'Bún Riêu', type: 'restaurant', notes: 'Sopa de fideos con tomate y un pastel de cangrejo de río, uno de los desayunos más queridos de Hanói.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2a/B%C3%BAn_ri%C3%AAu_cua_n%C6%B0%E1%BB%9Bc.jpg/500px-B%C3%BAn_ri%C3%AAu_cua_n%C6%B0%E1%BB%9Bc.jpg' },
-            { name: 'Xôi Xéo', type: 'restaurant', notes: 'Arroz glutinoso amarillo con mung bean, cebolla frita y a veces pollo — el desayuno para llevar más clásico de la ciudad.' }
+            { name: 'Xôi Xéo', type: 'restaurant', notes: 'Arroz glutinoso amarillo con mung bean, cebolla frita y a veces pollo — el desayuno para llevar más clásico de la ciudad.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/X%C3%B4i_x%C3%A9o.jpg/500px-X%C3%B4i_x%C3%A9o.jpg' }
           ],
           transport: [],
           hotel: { name: 'Secret Garden Hanoi', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -231,8 +234,10 @@ const DEFAULT_DATA = {
           restaurants: [
             { name: 'Cena de comida Khmer', type: 'restaurant', notes: '',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Fish_Amok-_Khmer_specialty.jpg/500px-Fish_Amok-_Khmer_specialty.jpg' },
-            { name: 'Nom Kroeung', type: 'restaurant', notes: 'Ensalada de pomelo o mango verde con cacahuetes, hierbas y chile — el plato fresco y ácido típico para empezar una cena jemer.' },
-            { name: 'Num Pang', type: 'restaurant', notes: 'El bocadillo camboyano, primo del bánh mì vietnamita, con pollo o cerdo a la parrilla y verduras encurtidas.' }
+            { name: 'Nom Kroeung', type: 'restaurant', notes: 'Ensalada de pomelo o mango verde con cacahuetes, hierbas y chile — el plato fresco y ácido típico para empezar una cena jemer.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/af/Green_Mango_Salad_%2815968774099%29.jpg/500px-Green_Mango_Salad_%2815968774099%29.jpg' },
+            { name: 'Num Pang', type: 'restaurant', notes: 'El bocadillo camboyano, primo del bánh mì vietnamita, con pollo o cerdo a la parrilla y verduras encurtidas.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Num_Pang_Cambodian_Sandwich_Pork_Belly%2C_grilled_corn%2C_pickles.jpg/500px-Num_Pang_Cambodian_Sandwich_Pork_Belly%2C_grilled_corn%2C_pickles.jpg' }
           ],
           transport: [
             { type: 'flight', icon: '✈️', details: 'Vuelo Hanói→Siem Reap — Vietnam Airlines, localizador ZCSDYH. María: 23 kg facturado + cabina 8 kg. Marcos: 23 kg facturado + cabina 8 kg.', from: 'Hanói (HAN)', to: 'Siem Reap', time: '15:10–16:55 (1h 40min)' }
@@ -338,8 +343,10 @@ const DEFAULT_DATA = {
             { name: 'Lok Lak', type: 'restaurant', notes: 'Ternera salteada camboyana con arroz y huevo frito.' },
             { name: 'Khmer BBQ', type: 'restaurant', notes: 'Parrilla camboyana para compartir, típica de las salidas rurales de un día completo.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Cambodian_BBQ_%2811468613985%29.jpg/500px-Cambodian_BBQ_%2811468613985%29.jpg' },
-            { name: 'Prahok Ktis', type: 'restaurant', notes: 'Dip de cerdo picado con pasta de pescado fermentado (prahok) y leche de coco, para mojar verduras crudas — el sabor más "de verdad" de la cocina jemer.' },
-            { name: 'Nom Banh Chok Samlor Khmer', type: 'restaurant', notes: 'Versión rural de los fideos de arroz jemer, con un caldo verde de pescado y hierbas machacadas a mano.' }
+            { name: 'Prahok Ktis', type: 'restaurant', notes: 'Dip de cerdo picado con pasta de pescado fermentado (prahok) y leche de coco, para mojar verduras crudas — el sabor más "de verdad" de la cocina jemer.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Prahok_ktis.jpg/500px-Prahok_ktis.jpg' },
+            { name: 'Nom Banh Chok Samlor Khmer', type: 'restaurant', notes: 'Versión rural de los fideos de arroz jemer, con un caldo verde de pescado y hierbas machacadas a mano.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/6/61/Num_Banh_Chok.jpg/500px-Num_Banh_Chok.jpg' }
           ],
           transport: [],
           hotel: { name: 'The Nest', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -1052,7 +1059,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 57;
+const DATA_VERSION = 58;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 
