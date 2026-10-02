@@ -2735,11 +2735,13 @@ function renderDay(date) {
       <circle cx="18" cy="18" r="3" fill="rgba(255,220,100,1)"/>
     </svg>` },
   };
-  function makeCircle(item, fallbackEmoji) {
+  function makeCircle(item, targetTab) {
     const shortName = item.name.replace(/\s*\(.*\)/, '').split(' ').slice(0,2).join(' ');
-    return `<div class="photo-circle-wrap" onclick="event.stopPropagation();showDayTab('lugares')">
+    const icon = CIRCLE_ICONS[item.type] || CIRCLE_ICONS.default;
+    return `<div class="photo-circle-wrap" onclick="event.stopPropagation();showDayTab('${targetTab}')">
       <div class="photo-circle-img-wrap">
-        <img class="photo-circle-img" data-wiki="${escHtml(item.name)}" alt="${escHtml(shortName)}" src="">
+        <span class="photo-circle-fallback">${icon.svg}</span>
+        <img class="photo-circle-img" data-wiki="${escHtml(item.name)}" data-photo="${escHtml(item.photo || '')}" alt="${escHtml(shortName)}" src="">
       </div>
       <div class="photo-circle-label">${shortName}</div>
     </div>`;
@@ -2754,7 +2756,7 @@ function renderDay(date) {
         <span class="dsc-count">${day.places.length}</span>
       </div>
       <div class="photo-circles-row">
-        ${day.places.map(p => makeCircle(p, placeIcon(p.type))).join('')}
+        ${day.places.map(p => makeCircle(p, 'lugares')).join('')}
       </div>
       <button class="dsc-see-all" onclick="showDayTab('lugares')">Ver todos los lugares →</button>
     </div>` : '';
@@ -2795,9 +2797,9 @@ function renderDay(date) {
         <span class="dsc-count">${day.restaurants.length}</span>
       </div>
       <div class="photo-circles-row">
-        ${day.restaurants.map(r => makeCircle(r, r.type === 'cafe' ? '☕' : '🍜')).join('')}
+        ${day.restaurants.map(r => makeCircle(r, 'comer')).join('')}
       </div>
-      <button class="dsc-see-all" onclick="showDayTab('lugares')">Ver restaurantes →</button>
+      <button class="dsc-see-all" onclick="showDayTab('comer')">Ver restaurantes →</button>
     </div>` : '';
 
   const tabResumen = `
@@ -2815,17 +2817,19 @@ function renderDay(date) {
     </div>`;
 
   // ── TAB: Lugares — acordeón ──
-  function lugarCardHtml(item, idx, type, fallbackEmoji) {
+  function lugarCardHtml(item, idx, type) {
+    const icon = CIRCLE_ICONS[item.type] || CIRCLE_ICONS.default;
     return `
       <div class="lugar-card" id="lc-${type}-${idx}" onclick="toggleLugar('${type}',${idx})">
         <!-- Cabecera colapsada -->
         <div class="lugar-card-header">
           <div class="lugar-thumb-wrap">
+            <span class="lugar-thumb-fallback-icon">${icon.svg}</span>
             <img class="lugar-thumb-img" data-wiki="${escHtml(item.name)}"
                  data-photo="${escHtml(item.photo || '')}"
                  alt="${escHtml(item.name)}"
+                 src=""
                  onerror="this.style.display='none'">
-            <span class="lugar-thumb-emoji">${fallbackEmoji}</span>
           </div>
           <div class="lugar-body">
             <div class="lugar-name">${item.name}</div>
@@ -2851,10 +2855,10 @@ function renderDay(date) {
     <div class="day-tab-panel hidden" id="dtab-lugares">
       ${day.places.length ? `
         <div class="section-title">📍 Lugares a visitar</div>
-        ${day.places.map((p, i) => lugarCardHtml(p, i, 'place', placeIcon(p.type))).join('')}` : ''}
+        ${day.places.map((p, i) => lugarCardHtml(p, i, 'place')).join('')}` : ''}
       ${day.restaurants.length ? `
         <div class="section-title">🍜 Qué comer</div>
-        ${day.restaurants.map((r, i) => lugarCardHtml(r, i, 'rest', r.type === 'cafe' ? '☕' : '🍜')).join('')}` : ''}
+        ${day.restaurants.map((r, i) => lugarCardHtml(r, i, 'rest')).join('')}` : ''}
       ${!day.places.length && !day.restaurants.length
         ? `<div class="empty-state"><span class="empty-icon">📍</span><p>No hay lugares registrados para este día.</p></div>` : ''}
       <div style="height:80px"></div>

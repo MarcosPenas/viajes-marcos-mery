@@ -1,11 +1,13 @@
 # Continuidad — App Viajes Marcos & Mery
 
-**Actualizado:** 1 de octubre de 2026 (PC del trabajo)
+**Actualizado:** 2 de octubre de 2026 (PC del trabajo)
 **Sesión:** Claude Sonnet 5 (Claude Code)
 
 ---
 
-## 👉 LEE ESTO PRIMERO (vigente — lo de abajo del 29-sep ya está superado, se deja como historial)
+## 👉 LEE ESTO PRIMERO (vigente)
+
+**0. Bug sistémico de fotos encontrado y corregido el 2-oct — si algo sigue viéndose en blanco, ya no debería ser este motivo.** La mayoría de "fotos que no cargan" que Marcos llevaba reportando NO eran huecos de contenido — eran un bug real en `makeCircle()` (app.js): los círculos de vista previa de "Qué ver"/"Qué comer" nunca pasaban el atributo `data-photo` al `<img>`, así que cualquier ficha con foto verificada directa (`photo:` en data.js) se veía en blanco ahí, aunque la misma foto cargara bien en la pestaña "Lugares" completa. Corregido, más 2 bugs del mismo patrón (botón "Ver restaurantes" no navegaba a ningún sitio; miniaturas de "Lugares" mostraban el icono nativo de "imagen rota" en vez de ocultarse). Además, ahora **cuando de verdad no hay foto disponible se muestra un icono de categoría gris neutro y apagado** (pedido explícito de Marcos: "que no llame la atención, que pase desapercibido"), nunca un círculo en blanco ni el icono de imagen rota del navegador. Ver `HISTORIAL_DE_CAMBIOS.md`, continuaciones 5 y 6 del 2-oct, para el detalle técnico completo. **Si Marcos reporta algo que sigue en blanco de verdad: probablemente es un hueco de contenido real (ya quedan ~35 catalogados, ver más abajo), no este bug — pero confirmar primero con un barrido en el navegador real antes de asumir nada, como se hizo aquí.**
 
 **1. El mapa de la app YA NO depende de Google My Maps — está descartado por completo.** El documento "Vietnam" de My Maps nunca fue el mapa real de Marcos (lo creó una sesión anterior como contenedor para importar CSVs) y la mayoría de sus puntos nunca se geolocalizaron bien al importar. Ahora la pestaña "Mapa" es un **mapa Leaflet propio** con coordenadas reales (125/128 sitios geolocalizados vía Photon/OSM), pines por categoría, favorito/visitado persistente, y un botón "Cerca de mí" con **seguimiento en vivo** (punto azul que se mueve, no una foto fija). Si ves cualquier mención a "My Maps" o "iframe" en código o en bloques de más abajo de este archivo, está obsoleto — no tocar esa dirección, ver `HISTORIAL_DE_CAMBIOS.md` del 30-sep en adelante para el detalle.
 

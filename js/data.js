@@ -199,7 +199,8 @@ const DEFAULT_DATA = {
             { name: 'Bánh Mì', type: 'restaurant', notes: 'Bocadillo callejero, del desayuno a la cena.' },
             { name: 'Chả Cá Lã Vọng', type: 'restaurant', notes: 'Pescado a la parrilla con eneldo y cúrcuma, plato único de un restaurante centenario.' },
             { name: 'Chè', type: 'restaurant', notes: 'Postre dulce de judías, coco, gelatina de arroz y hielo picado — la merienda callejera por excelencia, con decenas de variantes.' },
-            { name: 'Bánh Cuốn', type: 'restaurant', notes: 'Crepes finísimas de arroz al vapor rellenas de carne y champiñón, servidas con salsa de pescado y chalota frita.' }
+            { name: 'Bánh Cuốn', type: 'restaurant', notes: 'Crepes finísimas de arroz al vapor rellenas de carne y champiñón, servidas con salsa de pescado y chalota frita.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/B%C3%A1nh_cu%E1%BB%91n_nh%C3%A2n_th%E1%BB%8Bt.JPG/500px-B%C3%A1nh_cu%E1%BB%91n_nh%C3%A2n_th%E1%BB%8Bt.JPG' }
           ],
           transport: [],
           hotel: { name: 'Secret Garden Hanoi', address: '', phone: '', checkIn: '', checkOut: '12:00', breakfast: false },
@@ -290,7 +291,8 @@ const DEFAULT_DATA = {
           restaurants: [
             { name: 'Amok', type: 'restaurant', notes: 'Curry jemer de pescado al vapor en hoja de plátano, el plato nacional camboyano.' },
             { name: 'Kuy Teav', type: 'restaurant', notes: 'Sopa de fideos de arroz con cerdo, desayuno popular en Camboya.' },
-            { name: 'Trey Aing', type: 'restaurant', notes: 'Pescado entero a la brasa, servido con salsa de lima, pimienta y hierbas — sencillo y muy popular junto a los lagos y ríos de Camboya.' },
+            { name: 'Trey Aing', type: 'restaurant', notes: 'Pescado entero a la brasa, servido con salsa de lima, pimienta y hierbas — sencillo y muy popular junto a los lagos y ríos de Camboya.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/Elephant_Walk_Trey_Ang.jpg/500px-Elephant_Walk_Trey_Ang.jpg' },
             { name: 'Khmer Red Curry (Kari Sach Moan)', type: 'restaurant', notes: 'Curry de pollo con leche de coco, patata y berenjena, más suave y menos picante que sus primos tailandeses.' }
           ],
           transport: [],
@@ -444,7 +446,8 @@ const DEFAULT_DATA = {
             { name: 'Amok', type: 'restaurant', notes: 'El plato nacional camboyano — curry de pescado al vapor en hoja de plátano. También hay versión de pollo o verduras.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Fish_Amok-_Khmer_specialty.jpg/500px-Fish_Amok-_Khmer_specialty.jpg' },
             { name: 'Bobor', type: 'restaurant', notes: 'Congee de arroz camboyano, a veces con pescado o cerdo — comida reconfortante para una noche más tranquila en la capital.' },
-            { name: 'Nom Ansom Chek', type: 'restaurant', notes: 'Pastel de arroz glutinoso y plátano envuelto en hoja de plátano y cocido al vapor — dulce de calle muy popular.' }
+            { name: 'Nom Ansom Chek', type: 'restaurant', notes: 'Pastel de arroz glutinoso y plátano envuelto en hoja de plátano y cocido al vapor — dulce de calle muy popular.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/0/06/Num_ansom_chek_banana_leaves_Khmer_Cambodian_dessert_cake.jpg/500px-Num_ansom_chek_banana_leaves_Khmer_Cambodian_dessert_cake.jpg' }
           ],
           transport: [],
           hotel: { name: 'Jungle Addition', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -471,7 +474,8 @@ const DEFAULT_DATA = {
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Ninh_Dong_fish_noodle_soup.jpg/500px-Ninh_Dong_fish_noodle_soup.jpg' },
             { name: 'Chao Ca', type: 'restaurant', notes: 'Congee de pescado, desayuno reconfortante típico de la zona fronteriza.' },
             { name: 'Lẩu Mắm', type: 'restaurant', notes: 'El hotpot con más carácter del Delta: caldo de pasta de pescado fermentado con berenjena, verduras de río y marisco.' },
-            { name: 'Cá Lóc Nướng Trui', type: 'restaurant', notes: 'Pez cabeza de serpiente asado entero sobre paja ardiendo, envuelto en hoja de loto con fideos de arroz.' }
+            { name: 'Cá Lóc Nướng Trui', type: 'restaurant', notes: 'Pez cabeza de serpiente asado entero sobre paja ardiendo, envuelto en hoja de loto con fideos de arroz.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/C%C3%A1_l%C3%B3c_n%C6%B0%E1%BB%9Bng_trui.JPG/500px-C%C3%A1_l%C3%B3c_n%C6%B0%E1%BB%9Bng_trui.JPG' }
           ],
           transport: [
             { type: 'ferry', icon: '⛴️', details: 'Ferry rápido Phnom Penh→Chau Doc por el río Mekong — Hang Chau Tourist, reservado y pagado, localizador HC105830. Salida: International Floating Port, 103 Sisowath Quay 1 (llegar 30 min antes). Llegada: muelle Victoria Chau Doc Hotel, 01 Le Loi, Chau Doc Ward.', from: 'Phnom Penh', to: 'Chau Doc', time: '12:30–18:30 (6h, parada en frontera ~2h)' }
@@ -486,39 +490,59 @@ const DEFAULT_DATA = {
           places: [
             { name: 'El Río Hậu: Aldeas Flotantes y Comunidad Cham', type: 'nature', lat: 10.0485585, lng: 105.7706286,
               notes: 'Casas flotantes y comunidad musulmana Cham en el brazo del Mekong que pasa por Chau Doc.',
-              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Vietnam%2C_Chau_Doc%2C_Floating_village.jpg/500px-Vietnam%2C_Chau_Doc%2C_Floating_village.jpg' },
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Vietnam%2C_Chau_Doc%2C_Floating_village.jpg/500px-Vietnam%2C_Chau_Doc%2C_Floating_village.jpg',
+              description: 'El brazo del Mekong (río Hậu) frente a Chau Doc está lleno de casas flotantes de aluminio que son a la vez vivienda y piscifactoría — debajo de cada una, una red gigante cría pescado (sobre todo bagre y "cá vồ đém") para vender. Al otro lado del río, en la isla de Con Tien, está Da Phuoc, uno de los mayores pueblos de la etnia musulmana Cham de Vietnam: casas sobre pilotes y mujeres tejiendo telas con turbantes tradicionales Cham, sobre todo en temporada seca.',
+              tips: 'Se visita en barco (tour de ~3h que suele incluir mercado flotante + aldea flotante + pueblo Cham + canal Vinh Te). Mejor por la mañana. Respetar las normas de vestimenta conservadora si se entra a la mezquita del pueblo Cham.' },
             { name: 'Chợ Châu Đốc en hora punta', type: 'market', lat: 10.701, lng: 105.1258, notes: 'El mismo mercado central, pero viéndolo en plena actividad matinal.',
-              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Chau_Doc_Market_%2810344053384%29.jpg/500px-Chau_Doc_Market_%2810344053384%29.jpg' },
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Chau_Doc_Market_%2810344053384%29.jpg/500px-Chau_Doc_Market_%2810344053384%29.jpg',
+              description: 'Chau Doc es la capital vietnamita del pescado y la pasta de pescado fermentado (mắm) — su mercado central, además de fruta y verdura, tiene pasillos enteros dedicados a mắm de todos los colores y pescado seco colgado al sol. Verlo en plena hora punta de la mañana (no al mediodía ya de vuelta) es lo que lo diferencia de una visita de paso.',
+              tips: 'Mejor entre 6:30 y 8:30h, antes de que apriete el calor. Llevar algo de cambio pequeño si se quiere probar fruta o un café de puesto.' },
             { name: 'Mausoleo de Thoại Ngọc Hầu (Tomb of Thoai Ngoc Hau)', type: 'monument', lat: 10.0452, lng: 105.7469,
-              notes: 'Tumba de un mandarín de la dinastía Nguyễn, a los pies de la Montaña Sam, junto a sus dos esposas.' },
+              notes: 'Tumba de un mandarín de la dinastía Nguyễn, a los pies de la Montaña Sam, junto a sus dos esposas.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c5/Le_mausol%C3%A9e_de_Thoai_Ngoc_Hau_%28Vinh_T%C3%AA%2C_Vietnam%29_%286614182471%29.jpg/500px-Le_mausol%C3%A9e_de_Thoai_Ngoc_Hau_%28Vinh_T%C3%AA%2C_Vietnam%29_%286614182471%29.jpg',
+              description: 'Thoại Ngọc Hầu (1761-1829) fue el general y mandarín de la dinastía Nguyễn que dirigió la construcción del canal Vĩnh Tế (1819-1824), la obra de ingeniería que conecta Chau Doc con el golfo de Tailandia. Él mismo diseñó y mandó construir su propio mausoleo a los pies de la Montaña Sam en los años 1820, con laterita traída desde la provincia de Dong Nai. En el centro está su tumba, con la de su primera esposa a la derecha y la de la segunda a la izquierda.',
+              tips: 'Entrada gratuita, a los pies de la Montaña Sam — fácil de combinar con la subida a la montaña o con el templo de Ba Chua Xu, justo enfrente. Cada sexto mes lunar hay una gran peregrinación conmemorativa.' },
             { name: 'Montaña Sam (Nui Sam)', type: 'nature', lat: 10.3188672, lng: 105.0432488, notes: 'Misticismo y vistas panorámicas.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Le_Mont_Sam_%28Vietnam%29_%286589335173%29.jpg/500px-Le_Mont_Sam_%28Vietnam%29_%286589335173%29.jpg',
               description: 'Montaña sagrada de 284m a las afueras de Chau Doc, con varios templos y pagodas en sus laderas — el más famoso es el templo de Ba Chua Xu, destino de peregrinación de todo el sur de Vietnam. Desde la cima, vistas panorámicas de los arrozales de la frontera con Camboya.',
               tips: 'Se puede subir en moto-taxi hasta cerca de la cima (hay una carretera) o caminar por el sendero de peregrinos, más lento pero con más templos de camino. Mejor luz al atardecer para las vistas sobre los arrozales.' },
             { name: 'Victoria Nui Sam Lodge (mirador de los arrozales)', type: 'nature', lat: 10.3188672, lng: 105.0432488,
-              notes: 'Terraza/restaurante en la ladera de la Montaña Sam con vistas a los arrozales de la frontera con Camboya.' },
+              notes: 'Terraza/restaurante en la ladera de la Montaña Sam con vistas a los arrozales de la frontera con Camboya.',
+              description: 'Hotel-boutique en plena ladera de la Montaña Sam, con una terraza/restaurante abierta al público que mira directamente a los arrozales que se extienden hasta la frontera con Camboya — uno de los miradores más cómodos de la zona sin tener que seguir subiendo a pie.',
+              tips: 'Se puede entrar a tomar algo en la terraza sin ser huésped del hotel. Mejor luz a media tarde, cuando el sol ya no pega de frente sobre los arrozales.' },
             { name: 'Bosque de Tra Su (Cajuput)', type: 'nature', lat: 10.7101604, lng: 105.1174982,
               notes: 'Reserva de aves en barca de remo entre un bosque inundado verde fluorescente. A 1h de Chau Doc.',
               photo: 'https://picsum.photos/seed/tra-su-cajuput-forest-boat/200/200',
               description: 'Un bosque de melaleuca (cajuput) permanentemente inundado, con el agua cubierta de una capa de lentejas de agua de un verde casi fosforescente. Se recorre en dos tramos: primero en barca a motor por el canal principal hasta una torre-mirador de 4 pisos con vistas a todo el humedal, y luego el tramo bueno en barca de remo silenciosa entre los árboles, ideal para ver garzas, cigüeñas y otras aves acuáticas — mejor de noviembre a abril, temporada alta de aves.',
               tips: 'A ~30 km / 1h en coche de Chau Doc. Entrada + barca motor ~100.000 VND, tramo en barca de remo aparte (~150.000 VND, negociable). Necesita medio día — compite con el resto del plan de la mañana en Chau Doc, elegir según el tiempo disponible antes del bus a Can Tho.' },
             { name: 'Bến Ninh Kiều (Muelle de Ninh Kieu)', type: 'nature', notes: 'Paseo marítimo y parque costero de Can Tho, de tus mapas guardados.',
-              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Ninh_Kieu_Quay.jpg/500px-Ninh_Kieu_Quay.jpg' },
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Ninh_Kieu_Quay.jpg/500px-Ninh_Kieu_Quay.jpg',
+              description: 'El paseo marítimo histórico de Can Tho, junto a la confluencia del río Can Tho con el Hậu — desde aquí salen los barcos hacia los mercados flotantes de Cai Rang. De día es el embarcadero de siempre; de noche se llena de luces, puestos y gente paseando, con el perfil del puente Can Tho iluminado al fondo.',
+              tips: 'Mejor al atardecer/noche para el ambiente. Punto de partida habitual para contratar un barco a Cai Rang de madrugada (mejor reservar la noche anterior aquí mismo).' },
             { name: 'Ninh Kieu Footbridge', type: 'monument', lat: 10.0362046, lng: 105.7872656, notes: 'Puente peatonal iluminado por la noche.',
-              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/Ninh_Ki%E1%BB%81u_walking_bridge.jpg/500px-Ninh_Ki%E1%BB%81u_walking_bridge.jpg' },
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/Ninh_Ki%E1%BB%81u_walking_bridge.jpg/500px-Ninh_Ki%E1%BB%81u_walking_bridge.jpg',
+              description: 'Puente peatonal con un pabellón central en forma de flor de loto que cruza un brazo del río junto al muelle de Ninh Kieu. Iluminado de noche con cientos de luces de colores, es uno de los puntos más fotografiados de Can Tho después de oscurecer.',
+              tips: 'Gratis, abierto toda la noche. Mejor justo después de la puesta de sol, cuando el cielo todavía tiene algo de luz y contrasta con las luces del puente.' },
             { name: 'Chùa Ông Cần Thơ', type: 'temple', lat: 10.0362046, lng: 105.7872656, notes: 'Templo taoísta chino, uno de los más antiguos de Can Tho.',
-              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/4/42/Le_temple_d%C3%94ng_%28Can_Tho%2C_Vietnam%29_%286642900621%29.jpg/500px-Le_temple_d%C3%94ng_%28Can_Tho%2C_Vietnam%29_%286642900621%29.jpg' },
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/4/42/Le_temple_d%C3%94ng_%28Can_Tho%2C_Vietnam%29_%286642900621%29.jpg/500px-Le_temple_d%C3%94ng_%28Can_Tho%2C_Vietnam%29_%286642900621%29.jpg',
+              description: 'Construido entre 1894 y 1896 por la comunidad china de Cantón (Guangdong) asentada en Can Tho desde el siglo XVII, originalmente como "Quảng Triệu Hội Quán" — sede de la comunidad y lugar de ayuda mutua entre comerciantes, además de templo. Dedicado a Quan Công (el general chino venerado por su lealtad e integridad), y también a la diosa del mar Thiên Hậu y al dios de la fortuna. Reconocido como monumento histórico-cultural nacional en 1993.',
+              tips: 'La mayoría de los materiales de construcción se trajeron directamente de Guangdong. Entrada libre; respetar como templo activo (descalzarse si se pide, no interrumpir a quien esté orando).' },
             { name: 'Nhà cổ Bình Thủy', type: 'monument', lat: 10.0362046, lng: 105.7872656, notes: 'Casa antigua colonial, mezcla de arquitectura vietnamita y francesa.',
-              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Nha_co_Binh_Thuy_1.jpg/500px-Nha_co_Binh_Thuy_1.jpg' },
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/Nha_co_Binh_Thuy_1.jpg/500px-Nha_co_Binh_Thuy_1.jpg',
+              description: 'Casa familiar de 1870 construida por la familia Dương, terminada en 1911 por la generación siguiente — fusión poco común de estilo colonial francés con motivos tradicionales vietnamitas y una orientación feng shui muy marcada. Declarada "reliquia artística nacional" en 2009; ha servido de set de rodaje para varias películas, entre ellas "El amante" (The Lover) de Jean-Jacques Annaud.',
+              tips: 'Sigue habitada por la familia Dương, que cobra una pequeña entrada. Las columnas de mármol de Italia y las baldosas originales francesas son de los detalles más llamativos.' },
             { name: 'Thiền viện Trúc Lâm Phương Nam', type: 'temple', lat: 10.0362046, lng: 105.7872656, notes: 'El monasterio zen más grande del Delta del Mekong.',
-              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Thi%E1%BB%81n_Vi%E1%BB%87n_Tr%C3%BAc_L%C3%A2m_Ph%C6%B0%C6%A1ng_Nam.jpg/500px-Thi%E1%BB%81n_Vi%E1%BB%87n_Tr%C3%BAc_L%C3%A2m_Ph%C6%B0%C6%A1ng_Nam.jpg' }
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Thi%E1%BB%81n_Vi%E1%BB%87n_Tr%C3%BAc_L%C3%A2m_Ph%C6%B0%C6%A1ng_Nam.jpg/500px-Thi%E1%BB%81n_Vi%E1%BB%87n_Tr%C3%BAc_L%C3%A2m_Ph%C6%B0%C6%A1ng_Nam.jpg',
+              description: 'El monasterio budista zen más grande del Delta del Mekong (más de 38.000 m²), construido en apenas 10 meses (2013-2014) para continuar la tradición Truc Lam Yen Tu fundada por el rey Trần Nhân Tông. Arquitectura inspirada en las dinastías Lý y Trần, con más de 20 construcciones: casa del patriarca, salón principal, pabellón sobre el agua, estupa de 9 pisos, torres de tambor y campana.',
+              tips: 'Entrada gratuita, dawn a dusk. Se visita en unos 30 min. Hay un gran restaurante vegetariano dentro del recinto.' }
           ],
           restaurants: [
             { name: 'Pescado de agua dulce del Mekong', type: 'restaurant', notes: 'Chau Doc es la mayor región productora de pescado de agua dulce de Vietnam.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/C%C3%A1_l%C3%B3c_n%C6%B0%E1%BB%9Bng_trui.JPG/500px-C%C3%A1_l%C3%B3c_n%C6%B0%E1%BB%9Bng_trui.JPG' },
             { name: 'Bún Cá Châu Đốc', type: 'restaurant', notes: 'Sopa de fideos con pescado, especialidad local de Chau Doc.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Ninh_Dong_fish_noodle_soup.jpg/500px-Ninh_Dong_fish_noodle_soup.jpg' },
-            { name: 'Mắm Châu Đốc', type: 'restaurant', notes: 'La pasta/salsa de pescado fermentado por la que es famosa Chau Doc en todo Vietnam — se vende en el mercado y se usa en guisos y hotpots.' },
+            { name: 'Mắm Châu Đốc', type: 'restaurant', notes: 'La pasta/salsa de pescado fermentado por la que es famosa Chau Doc en todo Vietnam — se vende en el mercado y se usa en guisos y hotpots.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/M%E1%BA%AFm_c%C3%A1_l%C3%B3c.JPG/500px-M%E1%BA%AFm_c%C3%A1_l%C3%B3c.JPG' },
             { name: 'Khô Cá Lóc', type: 'restaurant', notes: 'Pescado seco al sol típico del Delta, frito o a la parrilla, muy salado — el souvenir gastronómico más llevado de Chau Doc.' }
           ],
           transport: [
@@ -584,15 +608,25 @@ const DEFAULT_DATA = {
               description: 'El casco antiguo de Hoi An es Patrimonio Mundial UNESCO desde 1999: un puerto comercial del s.XV-XIX que se conservó casi intacto al perder importancia frente a otros puertos vietnamitas. Sus calles peatonales de casas-tubo amarillas, farolillos de seda de colores y canales tranquilos se recorren mejor a pie o en bici. La entrada única (120.000 VND) da acceso a elegir 5 de entre ~20 monumentos (casas antiguas, salones de asambleas chinos, museos, templos).',
               tips: 'Los farolillos se encienden al anochecer — mucho más bonito de noche que de día. Los días 14 del calendario lunar hay "Noche de los Farolillos": se apaga la luz eléctrica del casco antiguo entero.' },
             { name: 'Casas Antiguas y Capillas Familiares', type: 'monument', lat: 15.8795863, lng: 108.3319406, notes: '6 sitios posibles dentro del bono.',
-              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Hoi_An_-_Tan_Ky_Old_House.jpg/500px-Hoi_An_-_Tan_Ky_Old_House.jpg' },
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Hoi_An_-_Tan_Ky_Old_House.jpg/500px-Hoi_An_-_Tan_Ky_Old_House.jpg',
+              description: 'Una de las 5 categorías del bono de entrada: casas-tubo de comerciantes del s.XVIII-XIX que han pasado de generación en generación en la misma familia, con su mobiliario y altares originales. Las más visitadas: Casa Tan Ky (la más completa, con influencia japonesa/china/vietnamita), Casa Phung Hung, Casa Quan Thang y la Capilla familiar Tran.',
+              tips: 'Tan Ky es la más recomendada si solo se puede elegir una — un miembro de la familia suele hacer de guía improvisado y explica la mezcla de estilos arquitectónicos.' },
             { name: 'Salones de Asambleas Chinos', type: 'monument', lat: 15.8795863, lng: 108.3319406, notes: '5 sitios posibles dentro del bono.',
-              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Phuc_Kien_Assembly_Hall%2C_Hoi_An%2C_Vietnam_%2846132773251%29.jpg/500px-Phuc_Kien_Assembly_Hall%2C_Hoi_An%2C_Vietnam_%2846132773251%29.jpg' },
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/Phuc_Kien_Assembly_Hall%2C_Hoi_An%2C_Vietnam_%2846132773251%29.jpg/500px-Phuc_Kien_Assembly_Hall%2C_Hoi_An%2C_Vietnam_%2846132773251%29.jpg',
+              description: 'Salones construidos por las distintas comunidades de comerciantes chinos (Fujian, Cantón, Hainan, Teochew/Trieu Chau) que se asentaron en Hoi An entre los siglos XVII-XIX — mitad templo, mitad sede social para hacer negocios y ayudarse entre paisanos. El más vistoso con diferencia es el de Fujian (Phuc Kien), con una entrada monumental roja y dorada y un patio con fuente de dragones.',
+              tips: 'Si solo se visita uno, que sea el de Fujian. El de Cantón (Quang Dong) tiene un patio con jardín más tranquilo si se busca escapar de los grupos.' },
             { name: 'Museos Históricos', type: 'museum', lat: 15.880315, lng: 108.3304896, notes: '5 sitios posibles dentro del bono.',
-              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Hoi_An_Museum_main_building.jpg/500px-Hoi_An_Museum_main_building.jpg' },
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Hoi_An_Museum_main_building.jpg/500px-Hoi_An_Museum_main_building.jpg',
+              description: 'Categoría del bono con varios museos pequeños y rápidos de ver: el Museo de Cerámica Comercial (piezas recuperadas de pecios y del puerto antiguo), el Museo de Hoi An (historia general de la ciudad), el Museo de la Cultura Sa Huynh (civilización prehistórica anterior a los Cham) y el Museo de Folklore (artesanía y vida tradicional).',
+              tips: 'El de Cerámica Comercial es el más interesante para entender por qué Hoi An fue un puerto internacional tan importante entre los siglos XV-XIX.' },
             { name: 'Puentes, Templos y Casas Comunales', type: 'monument', lat: 15.8795863, lng: 108.3319406, notes: '3 sitios posibles dentro del bono.',
-              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/Hoi_An_-_Quan_Cong_Temple.jpg/500px-Hoi_An_-_Quan_Cong_Temple.jpg' },
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/Hoi_An_-_Quan_Cong_Temple.jpg/500px-Hoi_An_-_Quan_Cong_Temple.jpg',
+              description: 'Categoría del bono centrada en el Templo de Quan Cong (dedicado al mismo general chino venerado que el templo de Can Tho, con una estatua dorada muy fotografiada) y en casas comunales/templos de culto a los fundadores de gremios locales — un contrapunto más religioso a las casas de comerciantes y los salones de asambleas.',
+              tips: 'El Puente Japonés (Chùa Cầu) va aparte, ya incluido siempre en el bono base — no hace falta elegirlo de esta categoría.' },
             { name: 'Espectáculos, Demostraciones y Tumbas', type: 'monument', lat: 15.8880397, lng: 108.3367883, notes: '3 sitios posibles dentro del bono.',
-              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/Traditional_Vietnamese_Music.jpg/500px-Traditional_Vietnamese_Music.jpg' },
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/Traditional_Vietnamese_Music.jpg/500px-Traditional_Vietnamese_Music.jpg',
+              description: 'La categoría más "en vivo" del bono: la Casa de Artes Tradicionales (mini-espectáculo de música y danza vietnamita tradicional, varios pases al día), demostraciones de artesanía local (bordado, carpintería) y las tumbas históricas de comerciantes japoneses del s.XVII que se quedaron en Hoi An.',
+              tips: 'Consultar el horario de los pases de música/danza al comprar el bono — son a horas fijas, no continuos, y suelen durar 15-20 min.' },
             { name: 'Hoi An Memories Show', type: 'monument', lat: 15.8795863, lng: 108.3319406,
               notes: 'Gran espectáculo en la isla Hen. 500 actores. 20:00-21:00. Eco 22€ / HI 28€ / VIP 45€.',
               photo: 'https://picsum.photos/seed/hoi-an-memories-show/200/200',
@@ -653,7 +687,8 @@ const DEFAULT_DATA = {
             { name: 'Bánh Mì Phượng', type: 'restaurant', notes: 'Considerado por muchos el mejor bánh mì del mundo, siempre con cola en la puerta.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/B%C3%A1nh_M%C3%AC_Ph%C6%B0%E1%BB%A3ng_%282024%29_-_img_01.jpg/500px-B%C3%A1nh_M%C3%AC_Ph%C6%B0%E1%BB%A3ng_%282024%29_-_img_01.jpg' },
             { name: 'Bánh Đập', type: 'restaurant', notes: '"Pan roto" — un bánh tráng crujiente y otro blando prensados juntos, para mojar en salsa de gambas fermentada (mắm nêm).' },
-            { name: 'Chè Bắp', type: 'restaurant', notes: 'Postre dulce de maíz tierno de la isla de Cẩm Nam, con leche de coco — un clásico de las noches de Hoi An.' }
+            { name: 'Chè Bắp', type: 'restaurant', notes: 'Postre dulce de maíz tierno de la isla de Cẩm Nam, con leche de coco — un clásico de las noches de Hoi An.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Ch%C3%A8_B%E1%BA%AFp.jpg/500px-Ch%C3%A8_B%E1%BA%AFp.jpg' }
           ],
           transport: [],
           hotel: { name: 'Volar', address: '', phone: '', checkIn: '', checkOut: '12:00', breakfast: false },
@@ -736,7 +771,8 @@ const DEFAULT_DATA = {
           restaurants: [
             { name: 'Bánh Khoái', type: 'restaurant', notes: 'Crepe crujiente típico de Hue, hermano pequeño del bánh xèo.' },
             { name: 'Bánh Bèo, Nậm y Lọc', type: 'restaurant', notes: 'El trío imperial de Hue: tres tipos de pastelitos de arroz al vapor en miniatura.' },
-            { name: 'Nem Lụi Huế', type: 'restaurant', notes: 'Brochetas de cerdo a la parrilla con hierba limón, para envolver en papel de arroz con hierbas y mojar en una salsa de cacahuete espesa.' },
+            { name: 'Nem Lụi Huế', type: 'restaurant', notes: 'Brochetas de cerdo a la parrilla con hierba limón, para envolver en papel de arroz con hierbas y mojar en una salsa de cacahuete espesa.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f6/Nem_l%E1%BB%A5i.jpg/500px-Nem_l%E1%BB%A5i.jpg' },
             { name: 'Chè Huế', type: 'restaurant', notes: 'La ciudad imperial tiene su propia tradición de más de 30 tipos de chè — de judía mungo, loto, maíz o plátano — herencia de los postres de la corte real.' }
           ],
           transport: [
@@ -1059,7 +1095,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 58;
+const DATA_VERSION = 61;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 

@@ -2,6 +2,30 @@
 
 ---
 
+## 2026-10-02 (continuación 6) — 2 bugs más del mismo patrón: botón "Ver restaurantes" y miniaturas de "Lugares"
+
+Mismo barrido: Marcos reportó que el botón "Ver restaurantes →" no llevaba a ningún sitio. Causa: llamaba a `showDayTab('lugares')` en vez de `showDayTab('comer')` (copy-paste del botón de arriba, "Ver todos los lugares"). Corregido. De paso, los círculos individuales (`makeCircle`) tenían el mismo problema — tanto los de "Qué ver" como los de "Qué comer" navegaban siempre a "Lugares" al hacer clic, nunca a "Qué comer" — se añadió un parámetro `targetTab` para que cada círculo sepa a qué pestaña pertenece.
+
+**Segundo hallazgo, incienso del mismo bug raíz:** la vista "Lugares" (acordeón) tenía el mismo problema que ya se arregló en los círculos — el `<img>` de la miniatura no llevaba `src=""` explícito, así que cuando no había foto el navegador mostraba el icono nativo de "imagen rota" en vez de ocultarse (la regla CSS `[src=""] { display:none }` nunca llegaba a aplicar). Se corrigió añadiendo `src=""` y, a petición de Marcos ("pondría una imagen neutra... que no llame la atención"), se sustituyó el emoji de colores por el mismo icono `CIRCLE_ICONS` gris apagado ya usado en los círculos — consistente en toda la app.
+
+**Archivos:** `js/app.js` (botón "Ver restaurantes" corregido, `makeCircle`/`lugarCardHtml` con tab/icono correctos, v→137), `css/styles.css` (`.lugar-thumb-fallback-icon` gris neutro, v→76).
+
+---
+
+## 2026-10-02 (continuación 5) — Bug sistémico encontrado: `data-photo` nunca se pasaba a los círculos de vista previa
+
+Marcos pidió revisar sistemáticamente que todo el contenido nuevo tuviera foto, señalando (con razón) que tener que repetirlo caso por caso no debería hacer falta para algo tan básico. Al hacer un barrido real en el navegador (simulando la resolución de imagen de las 212 fichas del itinerario, no solo mirando el código) se encontró la causa raíz real:
+
+**El bug:** `makeCircle()` en `app.js` — la función que pinta los círculos de "Qué ver"/"Qué comer" en el resumen del día — nunca incluía el atributo `data-photo` en el `<img>`, a diferencia de `lugarCardHtml()` (la vista de "Lugares" completa), que sí lo hacía. Resultado: **cualquier ficha que dependiera de su `photo:` directo (la fuente "verificada", máxima prioridad) para mostrar imagen se veía en blanco en el resumen del día**, aunque esa misma foto sí se viera perfectamente al entrar en la pestaña "Lugares". Esto explica la gran mayoría de círculos en blanco que Marcos llevaba reportando — no eran huecos de contenido, era un bug de renderizado que ocultaba fotos que sí existían.
+
+**Segundo hallazgo, relacionado:** cuando de verdad no hay ninguna foto disponible (ni directa, ni por alias, ni local), el `<img>` se quedaba con `src=""` para siempre — un círculo liso del color de fondo, indistinguible de "roto" o "cargando". Se añadió un fallback real: cada círculo ahora muestra de fondo el icono de categoría (ya existía un objeto `CIRCLE_ICONS` con iconos SVG currados por tipo — monumento, templo, mercado, playa, naturaleza, restaurante, café — pero nunca se había conectado a ningún sitio del código). A petición de Marcos, el fallback se dejó con fondo gris neutro y el icono apagado (`opacity:.45; filter:grayscale(1)`), para que no llame la atención ni parezca un elemento de diseño — pasa desapercibido.
+
+**Barrido completo de las 212 fichas (resolviendo en el navegador real, no por inspección de código):** 78 ya tenían foto directa — las 78 cargan bien, 0 rotas. De las 134 que dependían de alias/caché local/Wikipedia en vivo, 42 no resolvían nada. Se buscaron en Commons y se añadieron fotos reales verificadas a ojo para: Bánh Cuốn, Trey Aing, Nom Ansom Chek, Cá Lóc Nướng Trui (reuso), Nem Lụi Huế, Chè Bắp, Mắm Châu Đốc — quedan 35 sin foto real disponible tras varias búsquedas, la mayoría platos muy regionales sin cobertura en Commons o momentos de experiencia sin un plato/lugar concreto que fotografiar (p.ej. "Banquete de marisco a bordo", "Coco fresco en la playa") — correctamente sin foto, ahora con el icono neutro en vez de blanco.
+
+**Archivos:** `js/app.js` (`makeCircle()` ahora pasa `data-photo` y pinta el fallback de `CIRCLE_ICONS`, v→136), `css/styles.css` (`.photo-circle-fallback` con fondo gris neutro, v→75), `js/data.js` (7 fotos directas nuevas, DATA_VERSION→61), `index.html`.
+
+---
+
 ## 2026-10-02 (continuación 3) — 7 platos de la ampliación de "Qué comer" se quedaron sin foto: corregido
 
 Marcos mandó capturas navegando la app en vivo mostrando varios círculos en blanco en "Qué comer". Causa: los platos añadidos en la tanda de ampliación "Qué comer" (sincronizada por MEGA, ver commit `c028ae8`) se escribieron solo con `notes`, sin `photo` ni alias en `WIKI_ARTICLES` — nunca pasaron por el pipeline de resolución de imágenes. Afectaba a: **Nem Rán (Chả Giò), Bún Đậu Mắm Tôm, Xôi Xéo, Nom Kroeung, Num Pang, Prahok Ktis, Nom Banh Chok Samlor Khmer**. Buscadas en Wikimedia Commons, descargadas y verificadas a ojo antes de aplicar (misma rigurosidad que el resto de la auditoría) — las 7 fotos son específicas del plato exacto, ninguna genérica.
