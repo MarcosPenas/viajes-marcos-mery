@@ -2,6 +2,21 @@
 
 ---
 
+## 2026-10-02 — Contenido rico (description/tips) para 4 huecos reales de Hue y Cat Ba
+
+Dentro de la tarea ALTA prioridad "Contenido rico de Hue, Tam Coc/Ninh Binh y Cat Ba" (pendiente desde el 28-sep): al revisar `data.js` con un script, resultó que la mayoría de ese bloque YA tenía contenido (añadido en sesiones del 29-sep al 1-oct) — solo quedaban 4 sitios reales sin `description`/`tips` en todo el rango 21-29 nov, más una ficha "Sitios pendientes del Old Quarter" que es intencionalmente un cajón de sastre genérico (no un sitio concreto, se deja tal cual). Investigado con WebSearch y escrito contenido real para:
+
+- **Mercado nocturno de Dong Ba** (día 22-nov, Hue): horario real (5:00-19:00, no es un mercado nocturno propiamente dicho pese al nombre — eso se explica en la descripción), qué hay en cada planta, mejores horas para comprar/fotografiar, consejo de regateo.
+- **Paseo junto al río Perfume** (día 22-nov, Hue): qué son los paseos en barco-dragón con música ca Huế (Patrimonio Inmaterial UNESCO), precios reales (100.000-250.000 VND el cruce de 1h, desde 300.000 VND/h alquiler de barco entero), alternativa gratis del paseo peatonal.
+- **Atardecer en Flamingo Cat Ba Resort** (día 26-nov, Cat Ba): qué es el resort (arquitectura "bosque vertical", 3 torres), la piscina infinita como mirador de atardecer accesible sin ser cliente, cercanía a las playas Cat Co 1/2.
+- **Ba Trai Dao (Isla de los 3 melocotones)** (día 27-nov, Cat Ba): aviso importante no documentado antes — la playa solo es visible 2-4h al día en marea baja, el resto del tiempo la marea la cubre por completo.
+
+Verificado en el navegador (localStorage limpiado, recarga, tarjeta de Mercado de Dong Ba abierta) que el contenido nuevo se renderiza correctamente.
+
+**Archivos:** `js/data.js` (DATA_VERSION 54→55), `index.html` (`data.js?v=55`).
+
+---
+
 ## 2026-10-01 (continuación 3) — Método de "hojas de contacto" para revisar las 102 `CHECK_MANUALLY`: 15 fichas procesadas, 12 fotos erróneas encontradas y corregidas
 
 **Problema de escala:** revisar 102 imágenes una por una (navegar + mirar + decidir) habría costado demasiado. **Solución:** un script descarga las 102 imágenes actuales (las que ya carga la app hoy) y las monta en "hojas de contacto" — collages de 12 fotos en miniatura con su nombre y fecha debajo — para poder comparar muchas imágenes de un vistazo real, no solo por nombre de archivo. 9 hojas cubrieron las 102 fichas.

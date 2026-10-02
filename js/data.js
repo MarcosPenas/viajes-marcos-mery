@@ -708,9 +708,13 @@ const DEFAULT_DATA = {
               description: 'A 5 km al oeste, sobre una colina con vistas al Río Perfume. La Torre Phuoc Duyen (7 pisos, 21m, cada piso = una reencarnación de Buda) es la postal de Hue. En el garaje acristalado de los jardines traseros: el Austin de color azul claro en el que el monje Thich Quang Duc viajó a Saigón en 1963 para quemarse vivo en protesta — la fotografía dio la vuelta al mundo.',
               tips: '8:00-18:00. Entrada gratuita. Monasterio activo: descalzarse si se entra al templo. Los jardines traseros tienen un estanque de peces y el cementerio de los monjes.' },
             { name: 'Mercado nocturno de Dong Ba', type: 'market', lat: 16.4724474, lng: 107.5886452,
-              notes: 'El mercado más grande y antiguo de Hue, en la orilla norte del río Perfume. Ropa, comida y los característicos sombreros cónicos "nón bài thơ" con poemas.' },
+              notes: 'El mercado más grande y antiguo de Hue, en la orilla norte del río Perfume. Ropa, comida y los característicos sombreros cónicos "nón bài thơ" con poemas.',
+              description: 'Mercado cubierto de 3 plantas junto al río, el centro comercial tradicional de Hue desde 1899. Planta baja: productos secos, pescado seco, pastas de gambas y salsas. Planta 2: artesanía (incienso, cerámica, madera tallada). Planta 3: telas y ropa. Es más un mercado diurno que nocturno pese al nombre — por la tarde-noche lo que queda activo son los puestos de comida callejera de los alrededores, no el mercado cubierto en sí.',
+              tips: 'Abierto 5:00-19:00. Mejor para comprar ingredientes frescos 6:30-9:00h, para artesanía y souvenirs 15:00-17:00h, para fotos (luz en la torre del reloj) 7:00-8:00h. Regatear siempre, los vendedores suelen pedir hasta el doble. Solo efectivo. Curiosidad local: evitar "mirar sin comprar" muy temprano — hay quien lo considera mala suerte para el primer cliente del día.' },
             { name: 'Paseo junto al río Perfume', type: 'nature', lat: 16.4277921, lng: 107.5637682,
-              notes: 'El río que cruza Hue de oeste a este. Los barcos-dragón ofrecen paseos al atardecer, algunos con música tradicional ca Huế en directo.' }
+              notes: 'El río que cruza Hue de oeste a este. Los barcos-dragón ofrecen paseos al atardecer, algunos con música tradicional ca Huế en directo.',
+              description: 'El Sông Hương cruza Hue de oeste a este bajo el puente Trường Tiền, iluminado de noche con un juego de luces que cambia de color. Los barcos-dragón de madera (dragón tallado en la proa) salen cada tarde-noche con música ca Huế en directo — canto tradicional de cámara declarado Patrimonio Inmaterial UNESCO, con instrumentos de cuerda y percusión — y en algunas rutas se sueltan farolillos de flor de loto al agua.',
+              tips: 'El cruce de ca Huế más popular dura ~1h con 3 salidas (19:00, 20:00, 21:00), 100.000-250.000 VND según el operador. Alternativa más barata: alquilar un barco entero por tu cuenta desde 300.000 VND/hora. El paseo peatonal de la orilla (Công viên Tứ Tượng) es gratis y agradable al atardecer sin necesidad de subir a ningún barco.' }
           ],
           restaurants: [
             { name: 'Bánh Khoái', type: 'restaurant', notes: 'Crepe crujiente típico de Hue, hermano pequeño del bánh xèo.' },
@@ -855,7 +859,9 @@ const DEFAULT_DATA = {
               description: 'A 1,5 km del paseo marítimo principal (¼ Road). Mucho menos concurrida que las Cat Co. Paseo plano y agradable.',
               tips: 'Desde el puerto: caminar por la calle Hung Vuong hacia el interior (sube al mercado de Cat Ba), girar a la izquierda en calle Tung Thu y seguir hasta que se abra la bahía. 20 min andando.' },
             { name: 'Atardecer en Flamingo Cat Ba Resort', type: 'nature', lat: 20.7321609, lng: 107.0587067, notes: 'Chiringuito/resort en la ruta de las playas Cat Co, buen sitio para parar a tomar algo viendo el atardecer sobre la bahía.',
-              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d4/Swimming_Pool_at_Flamingo_Cat_Ba_Resort.jpg/500px-Swimming_Pool_at_Flamingo_Cat_Ba_Resort.jpg' },
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d4/Swimming_Pool_at_Flamingo_Cat_Ba_Resort.jpg/500px-Swimming_Pool_at_Flamingo_Cat_Ba_Resort.jpg',
+              description: 'Resort de diseño "bosque vertical" (plantas en cada balcón de sus 3 torres) a pie de las playas Cat Co 1 y 2, a 5 min andando del pueblo de Cat Ba. La piscina infinita de la azotea mira directamente a la bahía — se puede entrar a tomar algo sin ser cliente del hotel, es el mirador de atardecer más cómodo de la zona.',
+              tips: 'Mejor ir 30-40 min antes de la puesta de sol para coger sitio en la piscina/terraza. Las playas Cat Co 1 y 2, justo al lado, están entre las de mejor arena y agua de la isla si apetece un baño antes del atardecer.' },
             { name: 'Cannon Fort (Pháo Đài Thần Công)', type: 'monument', lat: 20.7254614, lng: 107.0483578,
               notes: 'El mejor mirador 360° de la isla. Cañones franceses de la IIGM y túneles excavados a mano.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/View_of_the_sea_from_Cannon_Fort_Park_on_Cat_Ba_Island%2C_Vietnam%2C_20240130_1601_4441.jpg/500px-View_of_the_sea_from_Cannon_Fort_Park_on_Cat_Ba_Island%2C_Vietnam%2C_20240130_1601_4441.jpg',
@@ -889,7 +895,9 @@ const DEFAULT_DATA = {
               photo: 'https://picsum.photos/seed/viet-hai-village-cat-ba-trek/200/200',
               description: 'Viet Hai es un pequeño pueblo agrícola escondido en un valle dentro del Parque Nacional de Cat Ba, sin carretera de acceso directo — solo se llega en barco hasta un embarcadero y luego a pie o en bici por un sendero entre arrozales y selva (unos 45-60 min caminando). Vida rural tradicional, casas de adobe y mucha tranquilidad, en fuerte contraste con el ambiente turístico del pueblo de Cat Ba.',
               tips: 'Suele venir incluido en los tours de kayak/Lan Ha Bay como parada de medio día. Se puede alquilar bici en el pueblo para el tramo final. Buena opción de comida casera vietnamita en alguna de las pocas casas-restaurante locales.' },
-            { name: 'Ba Trai Dao (Isla de los 3 melocotones)', type: 'beach', lat: 20.7321609, lng: 107.0587067, notes: 'Parada clásica de los cruceros por Lan Ha Bay para nadar — de tus mapas guardados.' }
+            { name: 'Ba Trai Dao (Isla de los 3 melocotones)', type: 'beach', lat: 20.7321609, lng: 107.0587067, notes: 'Parada clásica de los cruceros por Lan Ha Bay para nadar — de tus mapas guardados.',
+              description: 'Tres islotes kársticos con forma de melocotón que encierran una cala diminuta de arena blanca y agua turquesa muy tranquila, protegida del oleaje. Es de las playas más fotogénicas de Lan Ha Bay, pero tiene truco: la marea se la traga por completo varias horas al día — solo es una playa de verdad durante la bajamar.',
+              tips: 'Solo accesible en barco/kayak, no por tierra. Ventana de baño real de apenas 2-4h al día (coincidiendo con marea baja) — si el tour para aquí fuera de esa ventana, puede que no quede arena visible. Buena para kayak y snorkel ligero además de nadar.' }
           ],
           restaurants: [
             { name: 'Banquete de marisco a bordo', type: 'restaurant', notes: 'Los cruceros por Lan Ha Bay suelen incluir una comida de varios platos de marisco recién pescado, servida en cubierta.' },
@@ -1029,7 +1037,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 54;
+const DATA_VERSION = 55;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 
