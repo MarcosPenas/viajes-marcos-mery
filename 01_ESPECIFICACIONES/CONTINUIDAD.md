@@ -70,17 +70,15 @@ Además, siguen ~24 fichas de LUGARES (no platos) en `GENERIC_IMAGE`/`DUPLICATE`
 
 ## Estado actual
 
-App **funcionando en producción** en GitHub Pages (versión antigua, 23 días) — el **itinerario de 25 días** vive solo en local todavía, en ambos PCs, **por decisión explícita de Marcos** (28-sep-2026: "acumular cambios en local ~1 semana antes de publicar", ver Tareas pendientes). No hay prisa por el push.
+App **publicada y al día en producción** desde el 2-oct-2026 — el itinerario de 25 días completo, el mapa Leaflet, la auditoría de imágenes y el bug de `data-photo` corregido ya están en GitHub Pages. El token de GitHub que bloqueaba el push está revocado y confirmado.
 
-`.git` NO se sincroniza entre los dos PCs vía MEGA (ver Parte 19 de `MEMORIA_MAESTRA.md`) — cada PC tiene su propio repo y commits locales, independientes:
+`.git` NO se sincroniza entre los dos PCs vía MEGA (ver Parte 19 de `MEMORIA_MAESTRA.md`) — cada PC tiene su propio repo local:
 
-- **PC del trabajo** (`C:\Users\mpe.HP2008\...`): rama `main`, último commit ver `git log --oneline -3` (incluye todo el trabajo del 28-sep del PC de casa, comprometido aquí el 29-sep tras revisar que la app funciona bien) — desciende del historial real de GitHub (`c8d9eb5`), no necesita `--force` para el push
-- **PC de casa** (`C:\Users\marco\...`): 5 commits propios (`4c5d322`…`cb9c4d1`) encima de `75ce58c` — historial sin relación con GitHub, necesitaría `--force`/`--allow-unrelated-histories`
-
-Ninguno de los dos se ha subido todavía — ni por el token pendiente de regenerar, ni porque Marcos decidió esperar. Cuando llegue el momento: subir primero desde el PC del trabajo, luego resetear el de casa contra `origin/main` (ver `COORDINACION_SESIONES.md` para el estado más al día de esto).
+- **PC del trabajo** (`C:\Users\mpe.HP2008\...`): rama `main` == `origin/main` (comprobar con `git log --oneline -3`, debería coincidir con el remoto salvo commits muy recientes de esta misma sesión)
+- **PC de casa** (`C:\Users\marco\...`): historial propio desactualizado, independiente del remoto. **Pendiente**: en su próxima sesión, resetear contra `origin/main` (`git fetch origin && git reset --hard origin/main`) en vez de intentar mezclar o pushear su historial local — ver `COORDINACION_SESIONES.md` para el detalle completo
 
 - URL: https://marcospenas.github.io/viajes-marcos-mery
-- Repo: https://github.com/MarcosPenas/viajes-marcos-mery
+- Repo: https://github.com/MarcosPenas/viajes-marcos-mery (público)
 - Ruta local: `...\MEGA\08_Scripts\App Viajes Marcos Mery` (distinta según el PC, ver arriba)
 
 ---
@@ -235,10 +233,14 @@ Mandadas explícitamente como "apunta esto, primero arreglamos lo pendiente" —
 
 ## Cómo arrancar el trabajo en la nueva sesión
 
-1. Leer **`COORDINACION_SESIONES.md` primero** (estado activo entre los dos PCs — hoy se dejó muy detallado porque Marcos avisó que sigue mañana desde otro PC), luego este archivo y `MEMORIA_MAESTRA.md`
-2. Comprobar que la app sigue funcionando: http://localhost:3000 (arrancar servidor) o https://marcospenas.github.io/viajes-marcos-mery (la de producción sigue en la versión vieja, nada de esta sesión se ha publicado)
-3. Pedir al usuario que confirme qué tarea quiere abordar primero
-4. Lo más probable: retomar el documento .odt de María y las 4 listas grandes de Google Maps — ver la sección 🔴 de "Tareas pendientes" arriba, tiene el detalle exacto de por dónde se quedó cada cosa
+1. Leer **`COORDINACION_SESIONES.md` primero** (estado activo entre los dos PCs), luego este archivo (sobre todo el bloque "LEE ESTO PRIMERO" de arriba) y `MEMORIA_MAESTRA.md` si hace falta más contexto
+2. Comprobar que la app sigue funcionando: http://localhost:3000 (arrancar servidor) — la de producción (https://marcospenas.github.io/viajes-marcos-mery) **ya está publicada y al día** desde el 2-oct-2026 (itinerario de 25 días, mapa Leaflet, auditoría de imágenes, bug de data-photo corregido). Si algo no coincide entre local y producción, GitHub Pages puede tardar unos minutos en reconstruir tras el último push — refrescar con caché vacía antes de investigar un bug
+3. Pedir a Marcos que confirme qué tarea quiere abordar primero
+4. Lo más probable, por orden de lo que quedó pendiente el 2-oct-2026 (ver tabla de "Tareas pendientes" más abajo):
+   - Las **16 fotos de platos sin encontrar** (tarea 🔲 marcada arriba en "LEE ESTO PRIMERO") — ya se intentó a fondo en Commons/Pexels, el siguiente paso sería Google Images/Instagram con licencia reutilizable o una foto propia de Marcos
+   - **Ampliar "Qué comer" a 4-5 platos/día** donde todavía falte
+   - Contrastar el contenido cuando María termine su documento .odt (sigue sin terminar, no era la versión definitiva)
+   - Si Marcos trabaja desde el PC de casa: lo primero de todo, **resetear ese repo contra `origin/main`** (ver aviso 🔴 en `COORDINACION_SESIONES.md`) antes de tocar nada más
 
 ---
 
