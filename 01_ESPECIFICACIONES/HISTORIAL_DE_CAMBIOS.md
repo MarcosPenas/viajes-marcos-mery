@@ -2,6 +2,29 @@
 
 ---
 
+## 2026-10-02 (continuación) — 8 fotos reales más para los `GENERIC_IMAGE`/`DUPLICATE` restantes
+
+Continuando el plan de corrección de imágenes (empezar por los grupos de menor número de imágenes distintas): tras comprobar que `AUDITORIA_IMAGENES_CLASIFICADA.json` estaba desactualizado (no se regeneró tras la última tanda sincronizada por MEGA — varios `GENERIC_IMAGE`/`DUPLICATE` del JSON ya tenían foto real en `data.js`), se recalculó el estado real contra `data.js` v55: de los 47 casos del JSON, **40 seguían realmente sin foto propia** (7 ya se habían arreglado sin que el JSON se actualizara). De esos 40, se buscaron en Wikimedia Commons, descargaron y verificaron a ojo antes de aplicar:
+
+- **Chợ nổi Cái Răng (Mercado Flotante de Cai Rang)** (17-nov): antes picsum genérico → foto real de una barca vendiendo fruta a turistas en el mercado flotante.
+- **Chợ đêm Hội An (Mercado Nocturno de los Farolillos)** (18-nov): sin foto → foto real nocturna de barcas cargadas de farolillos de colores en el río Thu Bon.
+- **Old Quarter Hoi An (paseo introductorio)** (18-nov): sin foto → reutilizada la misma foto real del casco antiguo que ya tiene "Old Quarter (bono, 5 monumentos)" (19-nov) — es literalmente el mismo sitio real, duplicado aceptable por convención del proyecto.
+- **Bánh Mì Phượng** (20-nov): compartía alias genérico `Bánh_mì` con la ficha genérica del bocadillo → foto real del interior/cartel de la tienda específica.
+- **Montaña Sam (Nui Sam)** (17-nov): alias genérico `An_Giang` → foto real de la montaña vista desde la calle de Chau Doc.
+- **Calle del incienso de Thuy Xuan** (22-nov, Hue): compartía alias `Perfume_River` indebidamente → foto real de los manojos de varillas de incienso de colores secándose (la estampa icónica de Thuy Xuan), categorizada en Commons como "2007 in Huế".
+- **Ngu Lam Peak** (28-nov, Cat Ba): picsum genérico → foto real de las vistas kársticas desde el mirador.
+- **Bun Ca** (16-nov, restaurante): alias genérico `Vietnamese_cuisine` → reutilizada la foto real ya verificada de "Bún Cá Châu Đốc" (mismo plato, misma región, un día después) — duplicado aceptable, mismo criterio que Mì Quảng en 2 días.
+
+**No se encontró foto real específica en Commons** (búsqueda nueva, confirmando/ampliando hallazgos de sesiones anteriores): Ốc (caracoles de río), Victoria Nui Sam Lodge, Phare Circus, Lotus Silk Farm, Mercado Ruso, Talleres Artesanales, Mercado nocturno Son Tra, Aldea de Frescos de Da Nang, Viet Hai village, Ba Trai Dao, Marisco (Da Nang/Cat Ba), Dê (cabra). Quedan sin foto a propósito — mejor eso que una equivocada o forzada a compartir sin sentido.
+
+Verificado en el navegador (localStorage limpiado, recarga, día 18-nov/Can Tho→Hoi An abierto) que las 4 fotos de ese día cargan correctamente.
+
+**Archivos:** `js/data.js` (DATA_VERSION 55→56, 8 fotos directas nuevas), `index.html` (`data.js?v=56`).
+
+**Pendiente:** regenerar `AUDITORIA_IMAGENES_CLASIFICADA.json` con el estado real tras esta tanda (y la anterior sincronizada por MEGA) — se quedó desactualizado dos veces seguidas por no regenerarse inmediatamente después de cada tanda de correcciones, como indica el propio plan en `CONTINUIDAD.md`. Quedan ~24 casos reales sin foto (los listados arriba como "no encontrada" + los que compartían exclusivamente entre sí, p.ej. Dê/Marisco).
+
+---
+
 ## 2026-10-02 — Contenido rico (description/tips) para 4 huecos reales de Hue y Cat Ba
 
 Dentro de la tarea ALTA prioridad "Contenido rico de Hue, Tam Coc/Ninh Binh y Cat Ba" (pendiente desde el 28-sep): al revisar `data.js` con un script, resultó que la mayoría de ese bloque YA tenía contenido (añadido en sesiones del 29-sep al 1-oct) — solo quedaban 4 sitios reales sin `description`/`tips` en todo el rango 21-29 nov, más una ficha "Sitios pendientes del Old Quarter" que es intencionalmente un cajón de sastre genérico (no un sitio concreto, se deja tal cual). Investigado con WebSearch y escrito contenido real para:

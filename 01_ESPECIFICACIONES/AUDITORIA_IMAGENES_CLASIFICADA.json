@@ -1071,15 +1071,12 @@
   "date": "2026-11-16",
   "category": "restaurant",
   "type": "restaurant",
-  "current_image": "img/places/vietnamese_cuisine.jpg",
-  "original_url": "(cache local de Wikipedia: Vietnamese_cuisine)",
-  "source": "local-file (cache de wiki-alias 'Vietnamese_cuisine')",
-  "shared_with": [
-   "2026-11-17|Bún Cá Châu Đốc",
-   "2026-11-25|Ốc (caracoles de río)"
-  ],
-  "status": "GENERIC_IMAGE",
-  "reason": "La imagen proviene de un alias genérico (ciudad/región/categoría de plato: local-file (cache de wiki-alias 'Vietnamese_cuisine')), no de una fuente específica de \"Bun Ca\"."
+  "current_image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Ninh_Dong_fish_noodle_soup.jpg/500px-Ninh_Dong_fish_noodle_soup.jpg",
+  "original_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Ninh_Dong_fish_noodle_soup.jpg/500px-Ninh_Dong_fish_noodle_soup.jpg",
+  "source": "direct-photo (verificado a ojo, 2-oct-2026, continuacion correccion de imagenes)",
+  "shared_with": [],
+  "status": "OK_VERIFIED",
+  "reason": "Foto directa verificada a ojo el 2-oct-2026 (busqueda Commons, descargada y mirada antes de aplicar). Ver HISTORIAL_DE_CAMBIOS.md."
  },
  {
   "id": "2026-11-16|Chao Ca",
@@ -1146,14 +1143,12 @@
   "date": "2026-11-17",
   "category": "place",
   "type": "nature",
-  "current_image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Mi%E1%BA%BFu_B%C3%A0_Ch%C3%BAa_X%E1%BB%A9_N%C3%BAi_Sam.jpg/500px-Mi%E1%BA%BFu_B%C3%A0_Ch%C3%BAa_X%E1%BB%A9_N%C3%BAi_Sam.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-  "original_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Mi%E1%BA%BFu_B%C3%A0_Ch%C3%BAa_X%E1%BB%A9_N%C3%BAi_Sam.jpg/500px-Mi%E1%BA%BFu_B%C3%A0_Ch%C3%BAa_X%E1%BB%A9_N%C3%BAi_Sam.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-  "source": "wiki-live (alias 'An_Giang')",
-  "shared_with": [
-   "2026-11-17|Victoria Nui Sam Lodge (mirador de los arrozales)"
-  ],
-  "status": "GENERIC_IMAGE",
-  "reason": "La imagen proviene de un alias genérico (ciudad/región/categoría de plato: wiki-live (alias 'An_Giang')), no de una fuente específica de \"Montaña Sam (Nui Sam)\"."
+  "current_image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Le_Mont_Sam_%28Vietnam%29_%286589335173%29.jpg/500px-Le_Mont_Sam_%28Vietnam%29_%286589335173%29.jpg",
+  "original_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Le_Mont_Sam_%28Vietnam%29_%286589335173%29.jpg/500px-Le_Mont_Sam_%28Vietnam%29_%286589335173%29.jpg",
+  "source": "direct-photo (verificado a ojo, 2-oct-2026, continuacion correccion de imagenes)",
+  "shared_with": [],
+  "status": "OK_VERIFIED",
+  "reason": "Foto directa verificada a ojo el 2-oct-2026 (busqueda Commons, descargada y mirada antes de aplicar). Ver HISTORIAL_DE_CAMBIOS.md."
  },
  {
   "id": "2026-11-17|Victoria Nui Sam Lodge (mirador de los arrozales)",
@@ -1292,14 +1287,12 @@
   "date": "2026-11-18",
   "category": "place",
   "type": "market",
-  "current_image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c5/M%E1%BB%99t_d%C3%A3y_ph%E1%BB%91_%E1%BB%9F_ch%E1%BB%A3_C%C3%A1i_R%C4%83ng.jpg/500px-M%E1%BB%99t_d%C3%A3y_ph%E1%BB%91_%E1%BB%9F_ch%E1%BB%A3_C%C3%A1i_R%C4%83ng.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-  "original_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c5/M%E1%BB%99t_d%C3%A3y_ph%E1%BB%91_%E1%BB%9F_ch%E1%BB%A3_C%C3%A1i_R%C4%83ng.jpg/500px-M%E1%BB%99t_d%C3%A3y_ph%E1%BB%91_%E1%BB%9F_ch%E1%BB%A3_C%C3%A1i_R%C4%83ng.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-  "source": "wiki-live (alias 'Cai_Rang')",
-  "shared_with": [
-   "2026-11-18|Fruta y café flotante en Cai Rang"
-  ],
-  "status": "DUPLICATE",
-  "reason": "Comparte imagen exacta con: 2026-11-18|Fruta y café flotante en Cai Rang."
+  "current_image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/Cai_Rang_Floating_Market_1.jpg/500px-Cai_Rang_Floating_Market_1.jpg",
+  "original_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/Cai_Rang_Floating_Market_1.jpg/500px-Cai_Rang_Floating_Market_1.jpg",
+  "source": "direct-photo (verificado a ojo, 2-oct-2026, continuacion correccion de imagenes)",
+  "shared_with": [],
+  "status": "OK_VERIFIED",
+  "reason": "Foto directa verificada a ojo el 2-oct-2026 (busqueda Commons, descargada y mirada antes de aplicar). Ver HISTORIAL_DE_CAMBIOS.md."
  },
  {
   "id": "2026-11-18|Old Quarter Hoi An (paseo introductorio)",
@@ -1308,14 +1301,12 @@
   "date": "2026-11-18",
   "category": "place",
   "type": "monument",
-  "current_image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/10549-Hoi-An_%2837621348460%29.jpg/500px-10549-Hoi-An_%2837621348460%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-  "original_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/10549-Hoi-An_%2837621348460%29.jpg/500px-10549-Hoi-An_%2837621348460%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-  "source": "wiki-live (alias 'Hoi_An_Old_Town')",
-  "shared_with": [
-   "2026-11-18|Chợ đêm Hội An (Mercado Nocturno de los Farolillos)"
-  ],
-  "status": "DUPLICATE",
-  "reason": "Comparte imagen exacta con: 2026-11-18|Chợ đêm Hội An (Mercado Nocturno de los Farolillos)."
+  "current_image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/H%E1%BB%99i_An%2C_Ancient_Town%2C_2020-01_CN-05.jpg/500px-H%E1%BB%99i_An%2C_Ancient_Town%2C_2020-01_CN-05.jpg",
+  "original_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/H%E1%BB%99i_An%2C_Ancient_Town%2C_2020-01_CN-05.jpg/500px-H%E1%BB%99i_An%2C_Ancient_Town%2C_2020-01_CN-05.jpg",
+  "source": "direct-photo (verificado a ojo, 2-oct-2026, continuacion correccion de imagenes)",
+  "shared_with": [],
+  "status": "OK_VERIFIED",
+  "reason": "Foto directa verificada a ojo el 2-oct-2026 (busqueda Commons, descargada y mirada antes de aplicar). Ver HISTORIAL_DE_CAMBIOS.md."
  },
  {
   "id": "2026-11-18|Calle Trần Phú",
@@ -1343,14 +1334,12 @@
   "date": "2026-11-18",
   "category": "place",
   "type": "market",
-  "current_image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/10549-Hoi-An_%2837621348460%29.jpg/500px-10549-Hoi-An_%2837621348460%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-  "original_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/10549-Hoi-An_%2837621348460%29.jpg/500px-10549-Hoi-An_%2837621348460%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
-  "source": "wiki-live (alias 'Hoi_An_Old_Town')",
-  "shared_with": [
-   "2026-11-18|Old Quarter Hoi An (paseo introductorio)"
-  ],
-  "status": "DUPLICATE",
-  "reason": "Comparte imagen exacta con: 2026-11-18|Old Quarter Hoi An (paseo introductorio)."
+  "current_image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/Boats_with_lanterns_on_the_Thu_Bon_river_IMG_3864.jpg/500px-Boats_with_lanterns_on_the_Thu_Bon_river_IMG_3864.jpg",
+  "original_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/Boats_with_lanterns_on_the_Thu_Bon_river_IMG_3864.jpg/500px-Boats_with_lanterns_on_the_Thu_Bon_river_IMG_3864.jpg",
+  "source": "direct-photo (verificado a ojo, 2-oct-2026, continuacion correccion de imagenes)",
+  "shared_with": [],
+  "status": "OK_VERIFIED",
+  "reason": "Foto directa verificada a ojo el 2-oct-2026 (busqueda Commons, descargada y mirada antes de aplicar). Ver HISTORIAL_DE_CAMBIOS.md."
  },
  {
   "id": "2026-11-18|Fruta y café flotante en Cai Rang",
@@ -1700,14 +1689,12 @@
   "date": "2026-11-20",
   "category": "restaurant",
   "type": "restaurant",
-  "current_image": "img/places/bánh_mì.jpg",
-  "original_url": "(cache local de Wikipedia: Bánh_mì)",
-  "source": "local-file (cache de wiki-alias 'Bánh_mì')",
-  "shared_with": [
-   "2026-11-09|Bánh Mì"
-  ],
-  "status": "GENERIC_IMAGE",
-  "reason": "La imagen proviene de un alias genérico (ciudad/región/categoría de plato: local-file (cache de wiki-alias 'Bánh_mì')), no de una fuente específica de \"Bánh Mì Phượng\"."
+  "current_image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/B%C3%A1nh_M%C3%AC_Ph%C6%B0%E1%BB%A3ng_%282024%29_-_img_01.jpg/500px-B%C3%A1nh_M%C3%AC_Ph%C6%B0%E1%BB%A3ng_%282024%29_-_img_01.jpg",
+  "original_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/B%C3%A1nh_M%C3%AC_Ph%C6%B0%E1%BB%A3ng_%282024%29_-_img_01.jpg/500px-B%C3%A1nh_M%C3%AC_Ph%C6%B0%E1%BB%A3ng_%282024%29_-_img_01.jpg",
+  "source": "direct-photo (verificado a ojo, 2-oct-2026, continuacion correccion de imagenes)",
+  "shared_with": [],
+  "status": "OK_VERIFIED",
+  "reason": "Foto directa verificada a ojo el 2-oct-2026 (busqueda Commons, descargada y mirada antes de aplicar). Ver HISTORIAL_DE_CAMBIOS.md."
  },
  {
   "id": "2026-11-21|Marble Mountains",
@@ -2003,14 +1990,12 @@
   "date": "2026-11-23",
   "category": "place",
   "type": "monument",
-  "current_image": "img/places/perfume_river.jpg",
-  "original_url": "(cache local de Wikipedia: Perfume_River)",
-  "source": "local-file (cache de wiki-alias 'Perfume_River')",
-  "shared_with": [
-   "2026-11-22|Paseo junto al río Perfume"
-  ],
-  "status": "GENERIC_IMAGE",
-  "reason": "La imagen proviene de un alias genérico (ciudad/región/categoría de plato: local-file (cache de wiki-alias 'Perfume_River')), no de una fuente específica de \"Calle del incienso de Thuy Xuan\"."
+  "current_image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/Incense_village_%281346180875%29.jpg/500px-Incense_village_%281346180875%29.jpg",
+  "original_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/Incense_village_%281346180875%29.jpg/500px-Incense_village_%281346180875%29.jpg",
+  "source": "direct-photo (verificado a ojo, 2-oct-2026, continuacion correccion de imagenes)",
+  "shared_with": [],
+  "status": "OK_VERIFIED",
+  "reason": "Foto directa verificada a ojo el 2-oct-2026 (busqueda Commons, descargada y mirada antes de aplicar). Ver HISTORIAL_DE_CAMBIOS.md."
  },
  {
   "id": "2026-11-23|Bún bò Huế",
@@ -2345,16 +2330,12 @@
   "date": "2026-11-28",
   "category": "place",
   "type": "nature",
-  "current_image": "img/places/lan_ha_bay.jpg",
-  "original_url": "(cache local de Wikipedia: Lan_Ha_Bay)",
-  "source": "local-file (cache de wiki-alias 'Lan_Ha_Bay')",
-  "shared_with": [
-   "2026-11-26|Atardecer en Flamingo Cat Ba Resort",
-   "2026-11-27|Trekking al pueblo de Viet Hai",
-   "2026-11-27|Ba Trai Dao (Isla de los 3 melocotones)"
-  ],
-  "status": "GENERIC_IMAGE",
-  "reason": "La imagen proviene de un alias genérico (ciudad/región/categoría de plato: local-file (cache de wiki-alias 'Lan_Ha_Bay')), no de una fuente específica de \"Ngu Lam Peak\"."
+  "current_image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/View_from_Ngu_Lam_Peak%2C_Cat_Ba_Island%2C_Vietnam.jpg/500px-View_from_Ngu_Lam_Peak%2C_Cat_Ba_Island%2C_Vietnam.jpg",
+  "original_url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/View_from_Ngu_Lam_Peak%2C_Cat_Ba_Island%2C_Vietnam.jpg/500px-View_from_Ngu_Lam_Peak%2C_Cat_Ba_Island%2C_Vietnam.jpg",
+  "source": "direct-photo (verificado a ojo, 2-oct-2026, continuacion correccion de imagenes)",
+  "shared_with": [],
+  "status": "OK_VERIFIED",
+  "reason": "Foto directa verificada a ojo el 2-oct-2026 (busqueda Commons, descargada y mirada antes de aplicar). Ver HISTORIAL_DE_CAMBIOS.md."
  },
  {
   "id": "2026-11-28|Cueva Trung Trang",

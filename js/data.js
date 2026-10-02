@@ -459,7 +459,8 @@ const DEFAULT_DATA = {
               tips: 'Mejor por la mañana, cuando hay más movimiento y los puestos de pescado seco están en pleno montaje. El olor a mắm es intenso — parte de la experiencia, pero aviso para quien sea sensible.' }
           ],
           restaurants: [
-            { name: 'Bun Ca', type: 'restaurant', notes: 'Sopa de pescado del Delta del Mekong, con fuerte influencia jemer.' },
+            { name: 'Bun Ca', type: 'restaurant', notes: 'Sopa de pescado del Delta del Mekong, con fuerte influencia jemer.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Ninh_Dong_fish_noodle_soup.jpg/500px-Ninh_Dong_fish_noodle_soup.jpg' },
             { name: 'Chao Ca', type: 'restaurant', notes: 'Congee de pescado, desayuno reconfortante típico de la zona fronteriza.' },
             { name: 'Lẩu Mắm', type: 'restaurant', notes: 'El hotpot con más carácter del Delta: caldo de pasta de pescado fermentado con berenjena, verduras de río y marisco.' },
             { name: 'Cá Lóc Nướng Trui', type: 'restaurant', notes: 'Pez cabeza de serpiente asado entero sobre paja ardiendo, envuelto en hoja de loto con fideos de arroz.' }
@@ -482,7 +483,10 @@ const DEFAULT_DATA = {
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d9/Chau_Doc_Market_%2810344053384%29.jpg/500px-Chau_Doc_Market_%2810344053384%29.jpg' },
             { name: 'Mausoleo de Thoại Ngọc Hầu (Tomb of Thoai Ngoc Hau)', type: 'monument', lat: 10.0452, lng: 105.7469,
               notes: 'Tumba de un mandarín de la dinastía Nguyễn, a los pies de la Montaña Sam, junto a sus dos esposas.' },
-            { name: 'Montaña Sam (Nui Sam)', type: 'nature', lat: 10.3188672, lng: 105.0432488, notes: 'Misticismo y vistas panorámicas.' },
+            { name: 'Montaña Sam (Nui Sam)', type: 'nature', lat: 10.3188672, lng: 105.0432488, notes: 'Misticismo y vistas panorámicas.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Le_Mont_Sam_%28Vietnam%29_%286589335173%29.jpg/500px-Le_Mont_Sam_%28Vietnam%29_%286589335173%29.jpg',
+              description: 'Montaña sagrada de 284m a las afueras de Chau Doc, con varios templos y pagodas en sus laderas — el más famoso es el templo de Ba Chua Xu, destino de peregrinación de todo el sur de Vietnam. Desde la cima, vistas panorámicas de los arrozales de la frontera con Camboya.',
+              tips: 'Se puede subir en moto-taxi hasta cerca de la cima (hay una carretera) o caminar por el sendero de peregrinos, más lento pero con más templos de camino. Mejor luz al atardecer para las vistas sobre los arrozales.' },
             { name: 'Victoria Nui Sam Lodge (mirador de los arrozales)', type: 'nature', lat: 10.3188672, lng: 105.0432488,
               notes: 'Terraza/restaurante en la ladera de la Montaña Sam con vistas a los arrozales de la frontera con Camboya.' },
             { name: 'Bosque de Tra Su (Cajuput)', type: 'nature', lat: 10.7101604, lng: 105.1174982,
@@ -522,10 +526,12 @@ const DEFAULT_DATA = {
           places: [
             { name: 'Chợ nổi Cái Răng (Mercado Flotante de Cai Rang)', type: 'market', lat: 9.998907, lng: 105.787806,
               notes: 'El mercado flotante más grande del Delta del Mekong. Decenas de barcas cargadas de fruta y verdura al amanecer.',
-              photo: 'https://picsum.photos/seed/cai-rang-floating-market-boats/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/Cai_Rang_Floating_Market_1.jpg/500px-Cai_Rang_Floating_Market_1.jpg',
               description: 'El mayor y más auténtico de los mercados flotantes del Delta del Mekong: decenas de barcas de mayoristas cargadas hasta arriba de piñas, sandías, coles y demás producto, cada una con un "bẹo" (palo vertical) del que cuelga una muestra de lo que vende, para no tener que gritar por encima del ruido de los motores. Los barqueros más pequeños venden fruta, café y fideos directamente a otras barcas y a los turistas, sin bajarse nunca del agua.',
               tips: 'Hay que ir muy temprano — el ambiente real es entre 5:30 y 7:30, después empieza a vaciarse. Se contrata una barca pequeña desde el muelle de Ninh Kieu (~45 min de trayecto) o más cerca desde el propio Cai Rang. Llevar efectivo pequeño para comprar fruta o un café flotante.' },
-            { name: 'Old Quarter Hoi An (paseo introductorio)', type: 'monument', lat: 15.8801, lng: 108.338, notes: 'Comprar bono y escoger 5 monumentos.' },
+            { name: 'Old Quarter Hoi An (paseo introductorio)', type: 'monument', lat: 15.8801, lng: 108.338, notes: 'Comprar bono y escoger 5 monumentos.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/H%E1%BB%99i_An%2C_Ancient_Town%2C_2020-01_CN-05.jpg/500px-H%E1%BB%99i_An%2C_Ancient_Town%2C_2020-01_CN-05.jpg',
+              tips: 'Primer vistazo general al casco antiguo antes de dedicarle el bono de 5 monumentos otro día — buen momento para orientarse y decidir qué 5 elegir.' },
             { name: 'Calle Trần Phú', type: 'cafe', lat: 15.8795863, lng: 108.3319406,
               notes: 'Corazón del Old Quarter. Azoteas de Faifo Coffee. Mot Hoi An: té helado en vaso de bambú con pétalo de loto.',
               photo: 'https://picsum.photos/seed/hoi-an-tran-phu-rooftop/200/200',
@@ -533,6 +539,7 @@ const DEFAULT_DATA = {
               tips: 'Faifo Coffee y 92 Station: azoteas con vistas al casco antiguo. Mot Hoi An: calle Trần Phú, famoso por el té de bambú.' },
             { name: 'Chợ đêm Hội An (Mercado Nocturno de los Farolillos)', type: 'market', lat: 10.0315282, lng: 105.7875681,
               notes: 'Puestos y farolillos de seda a lo largo del río Thu Bon, al cruzar el puente hacia An Hội.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cc/Boats_with_lanterns_on_the_Thu_Bon_river_IMG_3864.jpg/500px-Boats_with_lanterns_on_the_Thu_Bon_river_IMG_3864.jpg',
               description: 'Al anochecer, la orilla del río en la isleta de An Hội (al otro lado del puente desde el casco antiguo) se llena de puestos de ropa, artesanía y comida callejera bajo cientos de farolillos de seda de colores. La estampa más fotografiada es la de las barcas con velas de colores remando por el río, y los vendedores de farolillos de papel flotantes que se sueltan al agua con un deseo.',
               tips: 'Cruza el puente An Hội desde el casco antiguo, orilla sur del río Thu Bon. Mejor justo después de la puesta de sol, cuando se encienden los farolillos. Un paseo en barca con farolillo flotante cuesta unos 50.000-100.000 VND, negociable.' }
           ],
@@ -635,7 +642,8 @@ const DEFAULT_DATA = {
           ],
           restaurants: [
             { name: 'White Rose (Bánh Bao Vạc)', type: 'restaurant', notes: 'Empanadillas de gambas translúcidas, receta exclusiva de una familia de Hoi An.' },
-            { name: 'Bánh Mì Phượng', type: 'restaurant', notes: 'Considerado por muchos el mejor bánh mì del mundo, siempre con cola en la puerta.' },
+            { name: 'Bánh Mì Phượng', type: 'restaurant', notes: 'Considerado por muchos el mejor bánh mì del mundo, siempre con cola en la puerta.',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fb/B%C3%A1nh_M%C3%AC_Ph%C6%B0%E1%BB%A3ng_%282024%29_-_img_01.jpg/500px-B%C3%A1nh_M%C3%AC_Ph%C6%B0%E1%BB%A3ng_%282024%29_-_img_01.jpg' },
             { name: 'Bánh Đập', type: 'restaurant', notes: '"Pan roto" — un bánh tráng crujiente y otro blando prensados juntos, para mojar en salsa de gambas fermentada (mắm nêm).' },
             { name: 'Chè Bắp', type: 'restaurant', notes: 'Postre dulce de maíz tierno de la isla de Cẩm Nam, con leche de coco — un clásico de las noches de Hoi An.' }
           ],
@@ -760,7 +768,7 @@ const DEFAULT_DATA = {
               tips: 'A 12 km de Hue, la más alejada de las tres grandes. Incluida en el ticket combinado. Menos concurrida que Khai Dinh; ideal para combinar con la Calle del Incienso de Thuy Xuan, que queda de camino.' },
             { name: 'Calle del incienso de Thuy Xuan', type: 'monument', lat: 16.4277921, lng: 107.5637682,
               notes: 'Puestos fabricando varillas de incienso de colores artesanales. Entre la Tumba Tu Duc y Khai Dinh.',
-              photo: 'https://picsum.photos/seed/thuy-xuan-incense-street-hue/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/Incense_village_%281346180875%29.jpg/500px-Incense_village_%281346180875%29.jpg',
               description: 'Calle llena de puestos artesanales donde fabrican varillas de incienso de todos los colores. Las flores de incienso extendidas en aros de bambú son la foto más característica de Hue.',
               tips: '7:00-18:00. Entre la Tumba Tu Duc (5 min en taxi) y la Tumba Khai Dinh. ⚠️ Evitar si llueve — no sacan el incienso a la calle.' }
           ],
@@ -915,7 +923,7 @@ const DEFAULT_DATA = {
           places: [
             { name: 'Ngu Lam Peak', type: 'nature', lat: 20.7321609, lng: 107.0587067,
               notes: 'Mirador del Parque Nacional. Vistas al archipiélago. Sin las masas del Canon Fort.',
-              photo: 'https://picsum.photos/seed/ngu-lam-peak-cat-ba-jungle/200/200',
+              photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b5/View_from_Ngu_Lam_Peak%2C_Cat_Ba_Island%2C_Vietnam.jpg/500px-View_from_Ngu_Lam_Peak%2C_Cat_Ba_Island%2C_Vietnam.jpg',
               description: 'El pico Ngu Lam dentro del Parque Nacional de Cat Ba ofrece vistas panorámicas al archipiélago kárstico similares al Canon Fort pero sin la afluencia turística. El sendero sube entre vegetación subtropical densa con avistamiento de monos langur dorados — el mamífero más amenazado del mundo, con menos de 70 individuos en libertad, exclusivo de Cat Ba.',
               tips: 'Entrada al Parque Nacional: 85.000 VND. Subida: 1-2 horas por sendero marcado. Llevar agua y calzado cerrado. El parque cierra a las 16:00. Guía local recomendado para no perderse en la selva.' },
             { name: 'Cueva Trung Trang', type: 'nature', lat: 20.8063272, lng: 107.0383362,
@@ -1037,7 +1045,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 55;
+const DATA_VERSION = 56;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 
