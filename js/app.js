@@ -2157,7 +2157,7 @@ function renderItinerary(tab) {
     const zone = BLOCK_ZONE[blockName] || BLOCK_ZONE['General'];
     daysHtml += `
       <div class="block-section" style="border-left:3px solid ${zone.color}66">
-        <div class="block-section-header" style="color:${zone.color}">
+        <div class="block-section-header" style="--zc:${zone.color};color:var(--zc)">
           <span class="bsh-label">${zone.label}</span>
           <span class="bsh-count">${days.length} días</span>
         </div>
@@ -2206,7 +2206,7 @@ function renderItinerary(tab) {
     const zone = BLOCK_ZONE[blockName] || BLOCK_ZONE['General'];
     transportsHtml += `
       <div class="block-section" style="border-left:3px solid ${zone.color}66">
-        <div class="block-section-header" style="color:${zone.color}">
+        <div class="block-section-header" style="--zc:${zone.color};color:var(--zc)">
           <span class="bsh-label">${zone.label}</span>
           <span class="bsh-count">${bDays.length} días</span>
         </div>
@@ -2464,7 +2464,7 @@ function renderItinerary(tab) {
 
     hotelsHtml +=
       '<div class="htl2-zone">'
-      + '<div class="block-section-header" style="color:' + zone.color + '">'
+      + '<div class="block-section-header" style="--zc:' + zone.color + ';color:var(--zc)">'
       +   '<span class="bsh-label">' + zone.label + '</span>'
       +   '<span class="bsh-count">' + zoneNights + ' noches</span>'
       + '</div>'
@@ -3679,7 +3679,7 @@ function renderMap() {
 
   const hasMyMaps = trip.myMapsUrl && trip.myMapsUrl.trim() !== '';
   const legendHtml = Object.entries(PLACE_TYPE_META).map(([type, meta]) =>
-    `<span class="map-legend-chip" style="background:${meta.color}22;color:${meta.color}">${meta.icon} ${meta.label}</span>`
+    `<span class="map-legend-chip" style="--mc:${meta.color};background:${meta.color}22;color:${meta.color}">${meta.icon} ${meta.label}</span>`
   ).join('');
 
   el('view-content').innerHTML = `

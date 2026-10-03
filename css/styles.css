@@ -2071,8 +2071,8 @@ html:not([data-theme])   .theme-toggle-btn::before { content: '🌓'; }
     --surface:    #1a2535;
     --border:     #2d3f55;
     --text:       #e8edf2;
-    --text-sm:    #a0b0c0;
-    --text-xs:    #6b8099;
+    --text-sm:    #b8c6d6;
+    --text-xs:    #8fa4bb;
     --shadow:     0 2px 12px rgba(0,0,0,0.40);
     --shadow-lg:  0 8px 32px rgba(0,0,0,0.55);
 
@@ -2175,7 +2175,7 @@ html[data-theme="dark"] {
   --bg:         #0f1923; --surface:    #1a2535;
   --card:       #1a2535;
   --border:     #2d3f55; --text:       #e8edf2;
-  --text-sm:    #a0b0c0; --text-xs:    #6b8099;
+  --text-sm:    #b8c6d6; --text-xs:    #8fa4bb;
   --shadow:     0 2px 12px rgba(0,0,0,0.40);
   --shadow-lg:  0 8px 32px rgba(0,0,0,0.55);
   --zone-norte-lt:#1a3028; --zone-centro-lt:#2e1a0e;
@@ -2322,7 +2322,7 @@ html[data-theme="light"] .sticky-btn:active { background: #e8ecf0; }
 .dc-flag { font-size: 18px; line-height: 1; margin-bottom: 2px; }
 .dc-city { font-size: 10px; font-weight: 700; color: rgba(255,255,255,.65); text-transform: uppercase; letter-spacing: .5px; }
 .dc-time { font-size: 34px; font-weight: 900; color: #fff; line-height: 1; letter-spacing: -1px; }
-.dc-tz   { font-size: 9px; color: rgba(255,255,255,.45); margin-top: 2px; }
+.dc-tz   { font-size: 9px; color: rgba(255,255,255,.72); margin-top: 2px; }
 
 /* ══════════════════════════════════════════════════════════
    CONVERSOR DE DIVISAS
@@ -2910,4 +2910,32 @@ html[data-theme="dark"] .food-card-img-placeholder { background: linear-gradient
   }
   html:not([data-theme="light"]) .lugar-thumb-fallback-icon, html:not([data-theme="light"]) .photo-circle-fallback { opacity: .78; }
   html:not([data-theme="light"]) .food-card-img-placeholder { background: linear-gradient(135deg, #2a3a54, #233045); }
+}
+
+/* ── Tarjetas de visado en modo oscuro: fondo oscuro teñido (antes pastel claro con texto gris claro, ilegible) ── */
+html[data-theme="dark"] .visa-vn { background: linear-gradient(135deg, rgba(248,113,113,.16), rgba(248,113,113,.07)), #233045; border-color: rgba(248,113,113,.5); }
+html[data-theme="dark"] .visa-kh { background: linear-gradient(135deg, rgba(251,191,36,.16), rgba(251,191,36,.07)), #233045; border-color: rgba(251,191,36,.5); }
+html[data-theme="dark"] .visa-country { color: #b4c2d6; }
+html[data-theme="dark"] .visa-name { color: #f4f7fb; }
+html[data-theme="dark"] .visa-detail { color: #8cc4ff; }
+html[data-theme="dark"] .visa-step { color: #d3deec; }
+html[data-theme="dark"] .visa-warning { color: #fcc56b; background: rgba(245,158,11,.18); }
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .visa-vn { background: linear-gradient(135deg, rgba(248,113,113,.16), rgba(248,113,113,.07)), #233045; border-color: rgba(248,113,113,.5); }
+  html:not([data-theme="light"]) .visa-kh { background: linear-gradient(135deg, rgba(251,191,36,.16), rgba(251,191,36,.07)), #233045; border-color: rgba(251,191,36,.5); }
+  html:not([data-theme="light"]) .visa-country { color: #b4c2d6; }
+  html:not([data-theme="light"]) .visa-name { color: #f4f7fb; }
+  html:not([data-theme="light"]) .visa-detail { color: #8cc4ff; }
+  html:not([data-theme="light"]) .visa-step { color: #d3deec; }
+  html:not([data-theme="light"]) .visa-warning { color: #fcc56b; background: rgba(245,158,11,.18); }
+}
+
+/* ── Contraste en modo oscuro: colores de zona/categoría (pensados para fondo claro) aclarados; aviso previo al viaje ── */
+html[data-theme="dark"] [style*="--zc"] { color: color-mix(in srgb, var(--zc) 38%, #fff) !important; }
+html[data-theme="dark"] .map-legend-chip[style*="--mc"] { color: color-mix(in srgb, var(--mc) 38%, #fff) !important; }
+html[data-theme="dark"] .stats-pretrip-note { background: linear-gradient(135deg, rgba(96,130,255,.16), rgba(160,110,255,.12)), #233045; }
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) [style*="--zc"] { color: color-mix(in srgb, var(--zc) 38%, #fff) !important; }
+  html:not([data-theme="light"]) .map-legend-chip[style*="--mc"] { color: color-mix(in srgb, var(--mc) 38%, #fff) !important; }
+  html:not([data-theme="light"]) .stats-pretrip-note { background: linear-gradient(135deg, rgba(96,130,255,.16), rgba(160,110,255,.12)), #233045; }
 }
