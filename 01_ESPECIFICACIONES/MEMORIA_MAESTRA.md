@@ -558,13 +558,15 @@ py -3 -m http.server 3000 --directory "...\MEGA\08_Scripts\App Viajes Marcos Mer
 
 ---
 
-## ANEXO B — LISTA DE IMÁGENES (img/places/)
+## ANEXO B — FOTOS DE LAS FICHAS (img/fotos/) — vigente desde el 3-oct-2026
 
-Ver array ASSETS en `sw.js` para la lista completa de ~200 imágenes cacheadas.
+Cada ficha de lugar/plato de `js/data.js` lleva `photo: 'img/fotos/<archivo>.jpg'` (foto local fija, revisada a ojo, máx. 800 px) o ninguna (icono neutro de categoría; regla: mejor sin foto que una equivocada). Las fichas NO resuelven foto por nombre, alias ni Wikipedia (`data-fixed="1"` en app.js). Créditos/origen de cada archivo: `CREDITOS_FOTOS.md`. Test previo a publicar: `py -3 tools/check_imagenes.py` (listas `tools/sin_foto.txt` y `tools/fotos_compartidas.txt`). Para añadir una foto: guardar el JPEG en `img/fotos/`, poner `photo:` en la ficha, quitarla de `sin_foto.txt`, añadir su fila a `CREDITOS_FOTOS.md`, subir `?v=` y `DATA_VERSION`. `img/places/`, `IMAGE_MAP` y `WIKI_ARTICLES` solo siguen sirviendo a lo que no son fichas (zonas, rutas, fondo del tiempo, portadas de ciudad).
 
-## ANEXO C — ARTÍCULOS WIKIPEDIA MAPEADOS
+## ANEXO C — ARTÍCULOS WIKIPEDIA MAPEADOS (solo para no-fichas desde el 3-oct-2026)
 
-Ver constante `WIKI_ARTICLES` en `js/app.js` líneas 40–274 (~275 entradas).
+Ver constante `WIKI_ARTICLES` en `js/app.js`.
+
+---
 
 ## ANEXO D — GLOSARIO
 

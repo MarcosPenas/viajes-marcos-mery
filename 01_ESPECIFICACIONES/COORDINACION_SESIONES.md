@@ -14,6 +14,12 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 
 ---
 
+## 🟡 3-oct-2026 (tarde) — PC de casa trabaja en la rama `fotos-congeladas` (NO fusionada, NO publicada)
+
+Estrategia de fotos nueva: cada ficha lleva una foto local fija (`img/fotos/`) o ninguna; se acabó la adivinanza por alias/Wikipedia para fichas. Toca `js/data.js` (campo `photo` de las 212 fichas, DATA_VERSION 64), `js/app.js` (v141, `data-fixed`), `index.html`, `img/fotos/` (163 JPEG), `CREDITOS_FOTOS.md`, `tools/check_imagenes.py`. **Si el PC del trabajo va a tocar fotos de fichas, `WIKI_ARTICLES`, `IMAGE_MAP` o `precacheCuratedPhotos`, avisar antes**: esos caminos quedan obsoletos para fichas. Antes de publicar: `py -3 tools/check_imagenes.py` debe dar OK. La rama vive solo en el `.git` de casa; el resto de archivos llega por MEGA. Marcos decide cuándo fusionar con `main` y hacer push. Detalle: `HISTORIAL_DE_CAMBIOS.md` (3-oct, 2ª parte).
+
+---
+
 ## ✅ 3-oct-2026 — PC de casa YA reconciliado con `origin/main` (no repetir el reset)
 
 Sesión del PC de casa del 3-oct: el repo local de casa no tenía remoto configurado y su historial era independiente. Pasos hechos (sin perder nada): instantánea local de los archivos tal y como llegaron por MEGA (rama de respaldo `backup-3oct` en el repo de casa), `git remote add origin` + `git fetch`, comprobado que el árbol de trabajo era **idéntico a `origin/main`** (`599f20a`) salvo `.claude/*`, y `git reset --mixed origin/main` (mueve el historial, no toca archivos). Resultado: `main` de casa sigue ahora a `origin/main` y los siguientes pushes serán normales (sin `--force`). **No hay que volver a hacer el reset en casa.** `.claude/launch.json` de casa apunta a `C:\Users\marco\...` y `.claude/settings*.json` son locales — no commitear. El `.gitignore` se dejó el del repo publicado.

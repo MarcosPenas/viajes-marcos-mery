@@ -18,3 +18,6 @@ Mejoras.bat
 _app_mejoras/
 MEJORAS.lnk
 01_ESPECIFICACIONES/MEJORAS.json
+
+# Excepción: test previo a publicar
+!tools/check_imagenes.py

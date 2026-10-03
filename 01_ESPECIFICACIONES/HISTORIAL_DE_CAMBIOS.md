@@ -2,6 +2,25 @@
 
 ---
 
+## 2026-10-03 (PC de casa, 2ª parte) — Fotos CONGELADAS: cada ficha lleva una foto fija revisada o ninguna (rama `fotos-congeladas`)
+
+**Problema de fondo:** la app elegía la foto de cada ficha "a posteriori" (`photo:` → `IMAGE_MAP` → archivo local por nombre/alias → resumen de Wikipedia en vivo). Esa adivinanza era la causa de casi todas las fotos que no salían o no correspondían, y cambiaba sola según lo que devolviera Wikipedia.
+
+**Cambios (sin push, en la rama `fotos-congeladas`):**
+- **Extraído lo que mostraba cada una de las 212 fichas** (84 de ellas dependían de la adivinanza), todas las imágenes **descargadas, redimensionadas (≤800 px) y guardadas en `img/fotos/`** (163 JPEG, ~14 MB) y **revisadas a ojo en hojas de contacto** (todas, una a una).
+- `js/data.js` (DATA_VERSION 64): 178 fichas con `photo: 'img/fotos/<archivo>.jpg'` local fijo; 34 sin foto a propósito (icono neutro de su categoría, regla de Marcos "mejor sin foto que una equivocada"). **Quitadas 11 fotos erróneas o genéricas** que antes se mostraban: El Callejón Colectivo Cũ, Cena ligera antes del bus nocturno, Mercado Ruso (Tuol Tom Poung), Lap Khmer, Bosque de Tra Su, Fruta y café flotante en Cai Rang, Mercado de Tan An, Mercado de Ba Le, Clases de Cocina (las tres mostraban una calle de Hoi An), Trekking al pueblo de Viet Hai, y **Murales de Phùng Hưng** (era una foto aleatoria de `picsum`: rocas en una playa). **Amok del día 11** mostraba un grabado antiguo → ahora la foto real de Fish Amok. 0 referencias a `picsum` en `data.js`.
+- `js/app.js` (v141): las fichas (círculos de resumen, miniatura de la lista, tarjeta de "Qué comer", carrusel de la ficha abierta) usan **solo** su `photo` fijo (`data-fixed="1"`); sin foto → icono, y el carrusel se oculta. Ya no se consulta `IMAGE_MAP`, alias ni Wikipedia para fichas. Lo que no son fichas (círculos de zona, iconos de ruta, fondo del tiempo, portada de ciudad) sigue como antes. `precacheCuratedPhotos` ahora solo precarga las fotos locales de las fichas (~163).
+- **`CREDITOS_FOTOS.md`** (raíz, el repo es público): archivo → ficha → origen (Wikimedia Commons con enlace a la página del archivo, Pexels, o imagen principal de artículo de Wikipedia).
+- **`tools/check_imagenes.py`** (test previo a publicar; `py -3 tools/check_imagenes.py`, código 1 si falla): foto inexistente/corrupta/pequeña/pesada, foto remota o `picsum`, ficha sin foto no declarada en `tools/sin_foto.txt`, **foto compartida entre fichas distintas no autorizada en `tools/fotos_compartidas.txt`** (12 grupos autorizados: el mismo plato o lugar repetido otro día), archivos huérfanos, hashes duplicados, lugares sin lat/lng. Estado: **OK** (212 fichas, 178 con foto, 34 sin). `.gitignore` tiene excepción para ese `.py`.
+
+**Verificado en el navegador local:** recorridas las 25 jornadas (pestañas Lugares y Qué comer): 508 imágenes de ficha, 0 rotas, 0 remotas, 87 correctamente ocultas por no tener foto; el SW precarga las fotos locales (175 entradas en la caché de medios).
+
+**Pendiente (no hecho):** (a) decidir con Marcos si se fusiona `fotos-congeladas` en `main` y se publica (no se ha hecho push); (b) podar `img/places/` (~148 MB, ya casi sin uso en fichas) en un commit aparte tras confirmar qué usan aún portadas/zonas/IMAGE_MAP; (c) paso 4 de la estrategia: página de revisión visual para Marcos (si la pide); (d) 34 fichas sin foto (16 platos hiperlocales + 18 lugares): si Marcos/María tienen fotos propias, basta con meterlas en `img/fotos/`, ponerlas en `photo:` y quitar la ficha de `tools/sin_foto.txt`.
+
+**Archivos:** `js/data.js`, `js/app.js`, `index.html` (`data.js?v=64`, `app.js?v=141`), `img/fotos/*`, `CREDITOS_FOTOS.md`, `tools/*`, `.gitignore`.
+
+---
+
 ## 2026-10-03 (PC de casa) — Git reconciliado con `origin/main` + modo offline real (el service worker NUNCA había funcionado en producción)
 
 **1. Git del PC de casa.** Ver `COORDINACION_SESIONES.md` (bloque ✅ 3-oct). Resumen: instantánea local + rama `backup-3oct`, remoto añadido, árbol de trabajo comprobado idéntico a `origin/main` (`599f20a`), `reset --mixed` sin tocar archivos. Los archivos que llegaron por MEGA ya incluían todo el trabajo del PC del trabajo del 2-oct (fix de `makeCircle`, 13+7+8 fotos, platos, tarjetas de aeropuerto, mapa Leaflet) — no hubo que fusionar nada.

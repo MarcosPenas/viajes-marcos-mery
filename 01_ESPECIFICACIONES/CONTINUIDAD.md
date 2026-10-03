@@ -1,11 +1,13 @@
 # Continuidad — App Viajes Marcos & Mery
 
-**Actualizado:** 3 de octubre de 2026 (PC de casa)
+**Actualizado:** 3 de octubre de 2026, tarde (PC de casa)
 **Sesión:** Claude Sonnet 5.5 (Claude Code)
 
 ---
 
 ## 👉 LEE ESTO PRIMERO (vigente)
+
+**000. (3-oct tarde, PC de casa) FOTOS CONGELADAS en la rama `fotos-congeladas` (sin fusionar ni publicar).** Cada ficha usa solo su `photo` local fijo de `img/fotos/` (163 JPEG revisados a ojo uno a uno) o muestra el icono neutro si no hay foto fiable (34 fichas); se quitó la adivinanza por alias/IMAGE_MAP/Wikipedia para fichas y 11 fotos erróneas (una era aleatoria de picsum). Créditos en `CREDITOS_FOTOS.md`; test previo a publicar `py -3 tools/check_imagenes.py` (debe dar OK; listas en `tools/sin_foto.txt` y `tools/fotos_compartidas.txt`). Pendiente: que Marcos decida fusionar y publicar, podar `img/places/` (~148 MB) en commit aparte, y (si lo pide) página de revisión visual. Detalle en `HISTORIAL_DE_CAMBIOS.md` y `COORDINACION_SESIONES.md`.
 
 **00. (3-oct, PC de casa) Git reconciliado y OFFLINE REAL arreglado.** (a) El repo de casa ya sigue a `origin/main` — no repetir el reset (ver `COORDINACION_SESIONES.md`). (b) **El service worker nunca había funcionado en producción** (`register('/sw.js')` daba 404 en GitHub Pages): reescrito `sw.js` + registro relativo + precarga diaria de fotos (`precacheCuratedPhotos` en `app.js`). Probado parando el servidor: app, datos, Leaflet y ~85% de fotos cargan offline (el resto son fichas sin foto real catalogadas). Los mosaicos del mapa solo offline donde se hayan visto antes con cobertura. **Todo esto está SIN PUSH** — para que llegue a los móviles hay que publicar, y los móviles necesitan abrir la app con wifi 1-2 veces. Detalle: `HISTORIAL_DE_CAMBIOS.md` 3-oct. También: el mapa ya tiene los 128/128 pines (3 coordenadas añadidas). Las tareas de "Qué comer 4-5 platos" y "Mapa offline" de la tabla de abajo están hechas (ver filas tachadas).
 

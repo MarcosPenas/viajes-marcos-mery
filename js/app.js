@@ -564,62 +564,16 @@ async function _searchCommonsImage(query) {
   return _wikiCache[key];
 }
 
-// Trae hasta N imágenes de Commons para un carrusel
-async function _searchCommonsImages(query, limit = 8) {
-  const key = '__carousel__' + query;
-  if (_wikiCache[key]) return _wikiCache[key];
-  try {
-    const url = `https://commons.wikimedia.org/w/api.php?action=query&generator=search`
-      + `&gsrsearch=${encodeURIComponent(query)}&gsrnamespace=6&gsrlimit=${limit}`
-      + `&prop=imageinfo&iiprop=url&iiurlwidth=1200&format=json&origin=*`;
-    const res = await fetch(url);
-    const data = await res.json();
-    const pages = Object.values(data.query?.pages || {});
-    const urls = pages
-      .map(p => p.imageinfo?.[0]?.url)
-      .filter(u => u && u.match(/\.(jpg|jpeg)/i));
-    _wikiCache[key] = urls;
-  } catch(e) { _wikiCache[key] = []; }
-  return _wikiCache[key];
-}
-
-// Rellena un contenedor con un carrusel de fotos reales
-async function loadCarousel(carouselEl, dotsEl, placeName) {
+// Foto grande de la ficha desplegada: SOLO la foto fija verificada (`photo` de data.js).
+// Antes se completaba con imágenes buscadas por nombre en Commons, que era otra fuente de fotos que no cuadraban.
+function loadCarousel(carouselEl, dotsEl, placeName, photoUrl) {
   if (!carouselEl.isConnected) return;
-
-  // 1. Mostrar imagen local inmediatamente si existe
-  const article = WIKI_ARTICLES[placeName];
-  const localUrls = [];
-  // IMAGE_MAP tiene prioridad: imagen única por lugar
-  const mappedUrl = window.IMAGE_MAP && window.IMAGE_MAP[placeName];
-  if (mappedUrl) {
-    const ok = await new Promise(res => { const p = new Image(); p.onload = () => res(true); p.onerror = () => res(false); p.src = mappedUrl; });
-    if (ok) localUrls.push(mappedUrl);
+  if (!photoUrl) {
+    carouselEl.style.display = 'none';
+    if (dotsEl) dotsEl.style.display = 'none';
+    return;
   }
-  if (!localUrls.length && article) {
-    const localSlug = _localImgSlug(article);
-    const localUrl = `img/places/${localSlug}.jpg`;
-    const ok = await new Promise(res => {
-      const p = new Image(); p.onload = () => res(true); p.onerror = () => res(false); p.src = localUrl;
-    });
-    if (ok) localUrls.push(localUrl);
-  }
-
-  // Mostrar local de inmediato sin esperar red
-  if (localUrls.length && carouselEl.isConnected) {
-    _renderCarousel(carouselEl, dotsEl, localUrls, placeName);
-  }
-
-  // 2. Ampliar con imágenes de Commons en segundo plano (usar el artículo Wikipedia, no el nombre español)
-  const thumbBase = localUrls[0]?.split('/').pop() || '';
-  const searchTerm = article ? article.replace(/_/g, ' ') : placeName;
-  const extras = await _searchCommonsImages(searchTerm, 10);
-  const onlineUrls = extras.filter(u => u.split('/').pop().split('?')[0] !== thumbBase).slice(0, 7);
-
-  const urls = [...localUrls, ...onlineUrls];
-  if (urls.length > localUrls.length && carouselEl.isConnected) {
-    _renderCarousel(carouselEl, dotsEl, urls, placeName);
-  }
+  _renderCarousel(carouselEl, dotsEl, [photoUrl], placeName);
 }
 
 function _renderCarousel(carouselEl, dotsEl, urls, placeName) {
@@ -677,6 +631,9 @@ async function loadWikiPhoto(imgEl, placeName) {
     imgEl.onload = () => imgEl.classList.add('loaded');
     return;
   }
+  // Fichas de lugares/platos (data-fixed): solo foto fija verificada. Sin ella se queda el icono
+  // de categoría — nunca se adivina por alias, caché antigua ni búsqueda en Wikipedia.
+  if (imgEl.dataset.fixed) return;
   // 1b. IMAGE_MAP — imagen única por nombre de lugar (mayor prioridad que artículo Wikipedia)
   const mappedUrl = window.IMAGE_MAP && window.IMAGE_MAP[placeName];
   if (mappedUrl) {
@@ -2741,7 +2698,7 @@ function renderDay(date) {
     return `<div class="photo-circle-wrap" onclick="event.stopPropagation();showDayTab('${targetTab}')">
       <div class="photo-circle-img-wrap">
         <span class="photo-circle-fallback">${icon.svg}</span>
-        <img class="photo-circle-img" data-wiki="${escHtml(item.name)}" data-photo="${escHtml(item.photo || '')}" alt="${escHtml(shortName)}" src="">
+        <img class="photo-circle-img" data-wiki="${escHtml(item.name)}" data-photo="${escHtml(item.photo || '')}" data-fixed="1" alt="${escHtml(shortName)}" src="" onerror="this.style.display='none'">
       </div>
       <div class="photo-circle-label">${shortName}</div>
     </div>`;
@@ -2827,6 +2784,7 @@ function renderDay(date) {
             <span class="lugar-thumb-fallback-icon">${icon.svg}</span>
             <img class="lugar-thumb-img" data-wiki="${escHtml(item.name)}"
                  data-photo="${escHtml(item.photo || '')}"
+                 data-fixed="1"
                  alt="${escHtml(item.name)}"
                  src=""
                  onerror="this.style.display='none'">
@@ -2878,9 +2836,9 @@ function renderDay(date) {
                 <div class="food-card-img-wrap">
                   <div class="food-card-img-placeholder">${emoji}</div>
                   <img class="food-card-img" id="fci-${slug}"
-                       data-wiki="${escHtml(r.name)}" data-photo="${escHtml(r.photo || '')}"
+                       data-wiki="${escHtml(r.name)}" data-photo="${escHtml(r.photo || '')}" data-fixed="1"
                        alt="${escHtml(r.name)}" src=""
-                       onload="this.classList.add('loaded')">
+                       onload="this.classList.add('loaded')" onerror="this.style.display='none'">
                   ${isSpecial ? `<div style="position:absolute;top:10px;left:10px;background:#e8b800;color:#1a2a40;font-size:11px;font-weight:800;padding:3px 10px;border-radius:20px">⭐ Especialidad</div>` : ''}
                 </div>
                 <div class="food-card-body">
@@ -2989,7 +2947,9 @@ function toggleLugar(type, idx) {
       carouselEl.dataset.loaded = '1';
       const nameEl = card.querySelector('.lugar-name');
       const placeName = nameEl ? nameEl.textContent.trim() : '';
-      if (placeName) loadCarousel(carouselEl, dotsEl, placeName);
+      const thumb = card.querySelector('.lugar-thumb-img');
+      const photoUrl = thumb ? thumb.dataset.photo : '';
+      if (placeName) loadCarousel(carouselEl, dotsEl, placeName, photoUrl && !photoUrl.includes('picsum') ? photoUrl : '');
     }
     // Mini mapa
     const mapEl = document.getElementById('lmap-' + type + '-' + idx);
@@ -4300,29 +4260,14 @@ function precacheCuratedPhotos() {
   navigator.serviceWorker.ready.then(async reg => {
     // Primera visita: el SW aún no controla la página, sus peticiones no se cachearían → esperar a la siguiente.
     if (!reg.active || !navigator.serviceWorker.controller) return;
-    const direct = new Set();
-    const wikiNames = new Map();
+    // Todas las fotos de fichas son ya archivos del propio sitio (img/fotos/*.jpg).
+    const urls = new Set();
     const abs = rel => new URL(rel, location.href).href;
     DB.trips.forEach(t => (t.days || []).forEach(d =>
       [...(d.places || []), ...(d.restaurants || [])].forEach(p => {
-        if (p.photo && /^https?:/.test(p.photo) && !p.photo.includes('picsum')) { direct.add(p.photo); return; }
-        const mapped = window.IMAGE_MAP && window.IMAGE_MAP[p.name];
-        if (mapped) direct.add(/^https?:/.test(mapped) ? mapped : abs(mapped));
-        const article = WIKI_ARTICLES[p.name] || p.name;
-        direct.add(abs('img/places/' + _localImgSlug(article) + '.jpg'));
-        wikiNames.set(article, true);
+        if (p.photo && !p.photo.includes('picsum')) urls.add(abs(p.photo));
       })));
-    reg.active.postMessage({ type: 'precache', urls: [...direct] });
-    // Fotos "en vivo" de Wikipedia: pedir el resumen (el SW lo guarda) y precargar su miniatura.
-    const wikiThumbs = [];
-    const queue = [...wikiNames.keys()];
-    await Promise.all(Array.from({ length: 4 }, async () => {
-      while (queue.length) {
-        const art = queue.pop();
-        try { const e = await _fetchWikiEntry(art); if (e && e.small) wikiThumbs.push(e.small); } catch (_) {}
-      }
-    }));
-    if (wikiThumbs.length) reg.active.postMessage({ type: 'precache', urls: wikiThumbs });
+    reg.active.postMessage({ type: 'precache', urls: [...urls] });
     try { localStorage.setItem('precache-stamp', stamp); } catch (_) {}
   }).catch(() => {});
 }

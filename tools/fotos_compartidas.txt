@@ -1,0 +1,13 @@
+# Fotos que sirven a varias fichas a propósito (revisado). Formato: archivo :: ficha ## ficha
+img/fotos/banh-mi.jpg :: 2026-11-09|Bánh Mì ## 2026-11-28|Bánh Mì de viaje en bus
+img/fotos/bun-ca.jpg :: 2026-11-16|Bun Ca ## 2026-11-17|Bún Cá Châu Đốc
+img/fotos/ca-loc-nuong-trui.jpg :: 2026-11-16|Cá Lóc Nướng Trui ## 2026-11-17|Pescado de agua dulce del Mekong
+img/fotos/cena-de-comida-khmer.jpg :: 2026-11-10|Cena de comida Khmer ## 2026-11-11|Amok ## 2026-11-15|Amok
+img/fotos/cho-chau-doc.jpg :: 2026-11-16|Chợ Châu Đốc (Mercado Central de Chau Doc) ## 2026-11-17|Chợ Châu Đốc en hora punta
+img/fotos/de-nuong.jpg :: 2026-11-24|Dê nướng (cabra a la parrilla) ## 2026-11-25|Dê (cabra) en distintas preparaciones
+img/fotos/lok-lak.jpg :: 2026-11-12|Lok Lak ## 2026-11-13|Loc Lac de despedida de Siem Reap
+img/fotos/marisco-de-da-nang.jpg :: 2026-11-21|Marisco de Da Nang ## 2026-11-26|Marisco de Cat Ba ## 2026-11-27|Banquete de marisco a bordo ## 2026-11-28|Último marisco en Cat Ba
+img/fotos/mi-quang.jpg :: 2026-11-19|Mì Quảng ## 2026-11-21|Mì Quảng
+img/fotos/nom-banh-chok-samlor-khmer.jpg :: 2026-11-12|Nom Banh Chok Samlor Khmer ## 2026-11-14|Nom Banh Chok
+img/fotos/old-quarter-hoi-an.jpg :: 2026-11-18|Old Quarter Hoi An (paseo introductorio) ## 2026-11-19|Old Quarter (bono, 5 monumentos)
+img/fotos/old-quarter.jpg :: 2026-11-07|Old Quarter (Barrio Antiguo) ## 2026-11-29|Sitios pendientes del Old Quarter
