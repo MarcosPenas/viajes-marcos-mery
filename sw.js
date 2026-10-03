@@ -1,242 +1,158 @@
-const CACHE = "viajes-v2";
-const ASSETS = [
-  "/viajes-marcos-mery/",
-  "/viajes-marcos-mery/index.html",
-  "/viajes-marcos-mery/css/styles.css",
-  "/viajes-marcos-mery/js/app.js",
-  "/viajes-marcos-mery/js/data.js",
-  "/viajes-marcos-mery/js/imageMap.js",
-  "/viajes-marcos-mery/manifest.json",
-  "/viajes-marcos-mery/img/places/aldea_de_viet_hai_día_2.jpg",
-  "/viajes-marcos-mery/img/places/aldea_viet_hai.jpg",
-  "/viajes-marcos-mery/img/places/amanecer_en_angkor_wat_2º_día.jpg",
-  "/viajes-marcos-mery/img/places/amok.jpg",
-  "/viajes-marcos-mery/img/places/an_bàng_beach.jpg",
-  "/viajes-marcos-mery/img/places/angkor_thom.jpg",
-  "/viajes-marcos-mery/img/places/angkor_wat.jpg",
-  "/viajes-marcos-mery/img/places/bahía_de_lan_ha.jpg",
-  "/viajes-marcos-mery/img/places/bahía_de_lan_ha_crucero_2d_1n.jpg",
-  "/viajes-marcos-mery/img/places/bai_sach_chrouk.jpg",
-  "/viajes-marcos-mery/img/places/banh_khoai_crepe_hue.jpg",
-  "/viajes-marcos-mery/img/places/banh_mi_viaje_tren.jpg",
-  "/viajes-marcos-mery/img/places/banteay_kdei.jpg",
-  "/viajes-marcos-mery/img/places/banteay_samré.jpg",
-  "/viajes-marcos-mery/img/places/banteay_srei.jpg",
-  "/viajes-marcos-mery/img/places/beng_mealea.jpg",
-  "/viajes-marcos-mery/img/places/bioluminescence.jpg",
-  "/viajes-marcos-mery/img/places/bà_nà_hills.jpg",
-  "/viajes-marcos-mery/img/places/bái_đính_pagoda.jpg",
-  "/viajes-marcos-mery/img/places/bánh_bèo.jpg",
-  "/viajes-marcos-mery/img/places/bánh_mì.jpg",
-  "/viajes-marcos-mery/img/places/bánh_mì_de_viaje_en_tren.jpg",
-  "/viajes-marcos-mery/img/places/bánh_mì_phượng_el_mejor_bánh_mì_del_mundo_en_hoi_an.jpg",
-  "/viajes-marcos-mery/img/places/bánh_mì_phượng_para_el_camino_a_la_playa.jpg",
-  "/viajes-marcos-mery/img/places/bánh_xèo.jpg",
-  "/viajes-marcos-mery/img/places/bánh_xèo_crepe_crocante_vietnamita.jpg",
-  "/viajes-marcos-mery/img/places/bích_động_pagoda.jpg",
-  "/viajes-marcos-mery/img/places/bún_bò_huế.jpg",
-  "/viajes-marcos-mery/img/places/bún_bò_huế_sopa_picante_de_hue.jpg",
-  "/viajes-marcos-mery/img/places/bún_bò_nam_bộ.jpg",
-  "/viajes-marcos-mery/img/places/bún_chả.jpg",
-  "/viajes-marcos-mery/img/places/bún_chả_hương_liên.jpg",
-  "/viajes-marcos-mery/img/places/cafe_azotea_hoan_kiem.jpg",
-  "/viajes-marcos-mery/img/places/café_de_azotea_sobre_el_lago_hoan_kiem.jpg",
-  "/viajes-marcos-mery/img/places/café_giang_café_de_huevo.jpg",
-  "/viajes-marcos-mery/img/places/café_phố_cổ_azotea_secreta_sobre_el_lago.jpg",
-  "/viajes-marcos-mery/img/places/calle_del_incienso_de_thuy_xuan.jpg",
-  "/viajes-marcos-mery/img/places/calle_tran_phu_hoi_an.jpg",
-  "/viajes-marcos-mery/img/places/calle_trần_phú_azoteas_y_mot_hoi_an.jpg",
-  "/viajes-marcos-mery/img/places/cambodian_cuisine.jpg",
-  "/viajes-marcos-mery/img/places/cao_lau.jpg",
-  "/viajes-marcos-mery/img/places/cao_lau_hoi_an.jpg",
-  "/viajes-marcos-mery/img/places/cao_lầu.jpg",
-  "/viajes-marcos-mery/img/places/casco_antiguo_bono_old_quarter.jpg",
-  "/viajes-marcos-mery/img/places/casco_antiguo_hoi_an.jpg",
-  "/viajes-marcos-mery/img/places/catedral_san_jose_hanoi.jpg",
-  "/viajes-marcos-mery/img/places/cementerio_city_of_ghosts_đàn_nam_giao.jpg",
-  "/viajes-marcos-mery/img/places/cena_a_la_luz_de_las_velas_en_la_playa.jpg",
-  "/viajes-marcos-mery/img/places/cena_jemer_mekong.jpg",
-  "/viajes-marcos-mery/img/places/cena_ligera_antes_del_bus_nocturno.jpg",
-  "/viajes-marcos-mery/img/places/cena_ligera_bus_nocturno.jpg",
-  "/viajes-marcos-mery/img/places/cena_velas_playa_koh_rong.jpg",
-  "/viajes-marcos-mery/img/places/central_market_phnom_penh.jpg",
-  "/viajes-marcos-mery/img/places/choeung_ek.jpg",
-  "/viajes-marcos-mery/img/places/chả_cá_lã_vọng.jpg",
-  "/viajes-marcos-mery/img/places/chả_cá_lã_vọng_el_único_plato_del_restaurante_más_antiguo_de_hanói.jpg",
-  "/viajes-marcos-mery/img/places/clase_cocina_thuan_tinh.jpg",
-  "/viajes-marcos-mery/img/places/clase_de_cocina_en_isla_thuan_tinh.jpg",
-  "/viajes-marcos-mery/img/places/com_ga_ba_buoi.jpg",
-  "/viajes-marcos-mery/img/places/comida_post_trekking_bar_playa.jpg",
-  "/viajes-marcos-mery/img/places/compras_en_el_old_quarter.jpg",
-  "/viajes-marcos-mery/img/places/compras_old_quarter_hanoi.jpg",
-  "/viajes-marcos-mery/img/places/cueva_trung_trang.jpg",
-  "/viajes-marcos-mery/img/places/cuevas_de_lan_ha.jpg",
-  "/viajes-marcos-mery/img/places/cà_phê_trứng.jpg",
-  "/viajes-marcos-mery/img/places/cát_bà_island.jpg",
-  "/viajes-marcos-mery/img/places/cát_bà_national_park.jpg",
-  "/viajes-marcos-mery/img/places/cơm_gà_bà_buội_arroz_con_pollo.jpg",
-  "/viajes-marcos-mery/img/places/cơm_hến.jpg",
-  "/viajes-marcos-mery/img/places/cơm_hến_arroz_con_almejas_de_hue.jpg",
-  "/viajes-marcos-mery/img/places/dragon_bridge_đà_nẵng.jpg",
-  "/viajes-marcos-mery/img/places/east_mebon.jpg",
-  "/viajes-marcos-mery/img/places/fish_amok.jpg",
-  "/viajes-marcos-mery/img/places/goat_meat.jpg",
-  "/viajes-marcos-mery/img/places/hang_mua.jpg",
-  "/viajes-marcos-mery/img/places/hanoi.jpg",
-  "/viajes-marcos-mery/img/places/hanoi_opera_house.jpg",
-  "/viajes-marcos-mery/img/places/ho_chi_minh_mausoleum.jpg",
-  "/viajes-marcos-mery/img/places/ho_thuy_tien_parque_abandonado.jpg",
-  "/viajes-marcos-mery/img/places/hoa_lư.jpg",
-  "/viajes-marcos-mery/img/places/hoi_an_memories_show.jpg",
-  "/viajes-marcos-mery/img/places/hoàn_kiếm_lake.jpg",
-  "/viajes-marcos-mery/img/places/huế.jpg",
-  "/viajes-marcos-mery/img/places/hỏa_lò_prison.jpg",
-  "/viajes-marcos-mery/img/places/hồ_thủy_tiên.jpg",
-  "/viajes-marcos-mery/img/places/hội_an.jpg",
-  "/viajes-marcos-mery/img/places/hữu_tiệp_lake.jpg",
-  "/viajes-marcos-mery/img/places/imperial_citadel_of_thăng_long.jpg",
-  "/viajes-marcos-mery/img/places/imperial_city_huế.jpg",
-  "/viajes-marcos-mery/img/places/independence_monument_phnom_penh.jpg",
-  "/viajes-marcos-mery/img/places/japanese_covered_bridge.jpg",
-  "/viajes-marcos-mery/img/places/kayak_cuevas_lan_ha.jpg",
-  "/viajes-marcos-mery/img/places/kayak_en_cuevas_de_lan_ha.jpg",
-  "/viajes-marcos-mery/img/places/khmer_bbq.jpg",
-  "/viajes-marcos-mery/img/places/killing_fields_de_choeung_ek.jpg",
-  "/viajes-marcos-mery/img/places/koh_rong.jpg",
-  "/viajes-marcos-mery/img/places/koh_rong_saloem.jpg",
-  "/viajes-marcos-mery/img/places/koh_rong_sanloem.jpg",
-  "/viajes-marcos-mery/img/places/kuy_teav.jpg",
-  "/viajes-marcos-mery/img/places/lago_hoan_kiem.jpg",
-  "/viajes-marcos-mery/img/places/lago_hoan_kiem_despedida.jpg",
-  "/viajes-marcos-mery/img/places/lan_ha_bay.jpg",
-  "/viajes-marcos-mery/img/places/lan_ha_sky_bar_flamingo_resort.jpg",
-  "/viajes-marcos-mery/img/places/lap_khmer_ceviche_camboyano_de_ternera.jpg",
-  "/viajes-marcos-mery/img/places/lazy_beach.jpg",
-  "/viajes-marcos-mery/img/places/le_pain_du_coeur.jpg",
-  "/viajes-marcos-mery/img/places/loc_lac.jpg",
-  "/viajes-marcos-mery/img/places/lok_lak_ternera_salteada_camboyana.jpg",
-  "/viajes-marcos-mery/img/places/long_biên_bridge.jpg",
-  "/viajes-marcos-mery/img/places/marble_mountains.jpg",
-  "/viajes-marcos-mery/img/places/marble_mountains_vietnam.jpg",
-  "/viajes-marcos-mery/img/places/mariscos_frescos_a_la_brasa_saracen_bay.jpg",
-  "/viajes-marcos-mery/img/places/mariscos_frescos_cat_ba.jpg",
-  "/viajes-marcos-mery/img/places/mercado_de_angkor_night_market.jpg",
-  "/viajes-marcos-mery/img/places/mercados_de_hoi_an.jpg",
-  "/viajes-marcos-mery/img/places/mpai_bay_koh_rong.jpg",
-  "/viajes-marcos-mery/img/places/mua_cave.jpg",
-  "/viajes-marcos-mery/img/places/museo_del_genocidio_tuol_sleng_s_21.jpg",
-  "/viajes-marcos-mery/img/places/mì_quảng.jpg",
-  "/viajes-marcos-mery/img/places/mì_quảng_fideos_de_cúrcuma_plato_del_centro.jpg",
-  "/viajes-marcos-mery/img/places/mì_quảng_o_cao_lầu_primer_plato_de_hoi_an.jpg",
-  "/viajes-marcos-mery/img/places/mỹ_sơn.jpg",
-  "/viajes-marcos-mery/img/places/national_museum_of_cambodia.jpg",
-  "/viajes-marcos-mery/img/places/neak_poan.jpg",
-  "/viajes-marcos-mery/img/places/ngu_lam_peak.jpg",
-  "/viajes-marcos-mery/img/places/ngu_lam_peak_mirador_alternativo.jpg",
-  "/viajes-marcos-mery/img/places/nom_banh_chok.jpg",
-  "/viajes-marcos-mery/img/places/nom_banh_chok_desayuno_ligero_antes_del_s_21.jpg",
-  "/viajes-marcos-mery/img/places/num_banh_chok_fideos_jemer_al_amanecer.jpg",
-  "/viajes-marcos-mery/img/places/old_quarter.jpg",
-  "/viajes-marcos-mery/img/places/old_quarter_amanecer.jpg",
-  "/viajes-marcos-mery/img/places/old_quarter_hanoi.jpg",
-  "/viajes-marcos-mery/img/places/old_town_hoi_an.jpg",
-  "/viajes-marcos-mery/img/places/orillas_del_mekong.jpg",
-  "/viajes-marcos-mery/img/places/pagodas_de_hue.jpg",
-  "/viajes-marcos-mery/img/places/pai_bay_pueblo_local.jpg",
-  "/viajes-marcos-mery/img/places/parque_nacional_cat_ba.jpg",
-  "/viajes-marcos-mery/img/places/parque_nacional_cuc_phuong.jpg",
-  "/viajes-marcos-mery/img/places/perfume_river.jpg",
-  "/viajes-marcos-mery/img/places/phnom_penh.jpg",
-  "/viajes-marcos-mery/img/places/pho_ga_pho_bo_desayuno_vietnam.jpg",
-  "/viajes-marcos-mery/img/places/pho_thin.jpg",
-  "/viajes-marcos-mery/img/places/phở.jpg",
-  "/viajes-marcos-mery/img/places/phở_bò.jpg",
-  "/viajes-marcos-mery/img/places/phở_gà_o_phở_bò_desayuno_de_reencuentro_con_vietnam.jpg",
-  "/viajes-marcos-mery/img/places/phở_o_bún_bò_nam_bộ_cocina_vietnamita_del_norte.jpg",
-  "/viajes-marcos-mery/img/places/playa_an_bang.jpg",
-  "/viajes-marcos-mery/img/places/playa_principal.jpg",
-  "/viajes-marcos-mery/img/places/playa_salvaje_de_tung_thu.jpg",
-  "/viajes-marcos-mery/img/places/playa_salvaje_tung_thu.jpg",
-  "/viajes-marcos-mery/img/places/pre_rup.jpg",
-  "/viajes-marcos-mery/img/places/preah_khan.jpg",
-  "/viajes-marcos-mery/img/places/prision_hoa_lo.jpg",
-  "/viajes-marcos-mery/img/places/pub_street.jpg",
-  "/viajes-marcos-mery/img/places/pub_street_y_old_market.jpg",
-  "/viajes-marcos-mery/img/places/puente_cubierto_japonés_chua_cau.jpg",
-  "/viajes-marcos-mery/img/places/puente_del_dragón.jpg",
-  "/viajes-marcos-mery/img/places/red_river_asia.jpg",
-  "/viajes-marcos-mery/img/places/restaurante_junto_al_mekong.jpg",
-  "/viajes-marcos-mery/img/places/rice_crust.jpg",
-  "/viajes-marcos-mery/img/places/roluos.jpg",
-  "/viajes-marcos-mery/img/places/royal_palace_phnom_penh.jpg",
-  "/viajes-marcos-mery/img/places/russian_market.jpg",
-  "/viajes-marcos-mery/img/places/ruta_en_bici_isla_de_cam_kim.jpg",
-  "/viajes-marcos-mery/img/places/ruta_playas_cat_co.jpg",
-  "/viajes-marcos-mery/img/places/río_perfume.jpg",
-  "/viajes-marcos-mery/img/places/saint_joseph_s_cathedral_hanoi.jpg",
-  "/viajes-marcos-mery/img/places/sampán_por_tam_coc_3_cuevas.jpg",
-  "/viajes-marcos-mery/img/places/santuario_de_my_son.jpg",
-  "/viajes-marcos-mery/img/places/seafood.jpg",
-  "/viajes-marcos-mery/img/places/siem_reap.jpg",
-  "/viajes-marcos-mery/img/places/sisowath_quay.jpg",
-  "/viajes-marcos-mery/img/places/squid_as_food.jpg",
-  "/viajes-marcos-mery/img/places/srah_srang.jpg",
-  "/viajes-marcos-mery/img/places/street_art.jpg",
-  "/viajes-marcos-mery/img/places/ta_prohm.jpg",
-  "/viajes-marcos-mery/img/places/ta_som.jpg",
-  "/viajes-marcos-mery/img/places/talleres_artesanales_hoi_an.jpg",
-  "/viajes-marcos-mery/img/places/tam_coc.jpg",
-  "/viajes-marcos-mery/img/places/tam_coc_bích_động.jpg",
-  "/viajes-marcos-mery/img/places/temple_of_literature_hanoi.jpg",
-  "/viajes-marcos-mery/img/places/templo_de_la_literatura.jpg",
-  "/viajes-marcos-mery/img/places/templos_a_elegir.jpg",
-  "/viajes-marcos-mery/img/places/thanh_toàn_bridge.jpg",
-  "/viajes-marcos-mery/img/places/the_note_coffee.jpg",
-  "/viajes-marcos-mery/img/places/thiên_mụ_pagoda.jpg",
-  "/viajes-marcos-mery/img/places/thăng_long_water_puppet_theatre.jpg",
-  "/viajes-marcos-mery/img/places/tomb_of_khải_định.jpg",
-  "/viajes-marcos-mery/img/places/tomb_of_minh_mạng.jpg",
-  "/viajes-marcos-mery/img/places/tomb_of_tự_đức.jpg",
-  "/viajes-marcos-mery/img/places/train_street_hanoi.jpg",
-  "/viajes-marcos-mery/img/places/trang_an.jpg",
-  "/viajes-marcos-mery/img/places/trekking_al_faro_militar_la_más_épica.jpg",
-  "/viajes-marcos-mery/img/places/trekking_faro_militar_koh_rong.jpg",
-  "/viajes-marcos-mery/img/places/tren_callejero_de_hanói.jpg",
-  "/viajes-marcos-mery/img/places/tren_callejero_train_street.jpg",
-  "/viajes-marcos-mery/img/places/tràng_an.jpg",
-  "/viajes-marcos-mery/img/places/tuol_sleng_genocide_museum.jpg",
-  "/viajes-marcos-mery/img/places/ultima_manana_hoi_an.jpg",
-  "/viajes-marcos-mery/img/places/ultima_ruta_street_food_hanoi.jpg",
-  "/viajes-marcos-mery/img/places/vietnamese_cuisine.jpg",
-  "/viajes-marcos-mery/img/places/wat_phnom.jpg",
-  "/viajes-marcos-mery/img/places/west_lake_hanoi.jpg",
-  "/viajes-marcos-mery/img/places/white_rose_banh_bao_vac.jpg",
-  "/viajes-marcos-mery/img/places/white_rose_restaurant.jpg",
-  "/viajes-marcos-mery/img/places/ópera_de_hanói.jpg",
-  "/viajes-marcos-mery/img/places/última_mañana_en_el_old_town.jpg",
-  "/viajes-marcos-mery/img/places/última_ruta_de_street_food.jpg",
-  "/viajes-marcos-mery/img/places/último_desayuno_vietnamita_hoi_an.jpg",
-  "/viajes-marcos-mery/img/places/último_paseo_old_quarter_al_amanecer.jpg",
-  "/viajes-marcos-mery/img/places/último_phở_o_bánh_mì_antes_del_vuelo.jpg",
-  "/viajes-marcos-mery/img/places/đông_ba_market.jpg"
+// Service Worker — Viajes Marcos & Mery
+// - Shell (HTML/CSS/JS/datos): red primero, caché como respaldo → las actualizaciones llegan solas
+//   cuando hay cobertura y la app sigue abriendo sin ella.
+// - Fotos y mosaicos del mapa: caché primero, se guardan al verlos (y las fotos curadas del
+//   itinerario se pre-descargan en segundo plano cuando la app se abre con cobertura).
+const SHELL_CACHE = 'viajes-shell-v3';
+const MEDIA_CACHE = 'viajes-media-v1';
+const MEDIA_MAX_ENTRIES = 900;
+const BASE = '/viajes-marcos-mery/';
+
+const SHELL = [
+  BASE,
+  BASE + 'index.html',
+  BASE + 'css/styles.css',
+  BASE + 'js/app.js',
+  BASE + 'js/data.js',
+  BASE + 'js/imageMap.js',
+  BASE + 'manifest.json',
+  BASE + 'img/icon-192.png',
+  BASE + 'img/icon-512.png'
 ];
+const LEAFLET = [
+  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
+  'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
+];
+const CORS_HOSTS = ['upload.wikimedia.org', 'thumb.wikimedia.org', 'images.pexels.com', 'tile.openstreetmap.org', 'unpkg.com'];
 
-self.addEventListener("install", e => {
-  e.waitUntil(
-    caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting())
-  );
+self.addEventListener('install', e => {
+  e.waitUntil((async () => {
+    const shell = await caches.open(SHELL_CACHE);
+    // Uno a uno y tolerando fallos: un 404 suelto no debe impedir que el SW se instale.
+    await Promise.allSettled(SHELL.map(u => shell.add(u)));
+    await Promise.allSettled(LEAFLET.map(async u => {
+      const r = await fetch(new Request(u, { mode: 'cors', credentials: 'omit' }));
+      if (r.ok) await shell.put(u, r);
+    }));
+    await self.skipWaiting();
+  })());
 });
 
-self.addEventListener("activate", e => {
-  e.waitUntil(
-    caches.keys().then(keys =>
-      Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
-    ).then(() => self.clients.claim())
-  );
+self.addEventListener('activate', e => {
+  e.waitUntil((async () => {
+    const keep = [SHELL_CACHE, MEDIA_CACHE];
+    const keys = await caches.keys();
+    await Promise.all(keys.filter(k => !keep.includes(k)).map(k => caches.delete(k)));
+    await self.clients.claim();
+  })());
 });
 
-self.addEventListener("fetch", e => {
-  e.respondWith(
-    caches.match(e.request).then(cached => cached || fetch(e.request).catch(() => caches.match("/viajes-marcos-mery/index.html")))
-  );
+function isMedia(url, req) {
+  return req.destination === 'image' || CORS_HOSTS.includes(url.hostname) && url.hostname !== 'unpkg.com';
+}
+
+async function trimMedia(cache) {
+  const keys = await cache.keys();
+  if (keys.length > MEDIA_MAX_ENTRIES) {
+    await Promise.all(keys.slice(0, keys.length - MEDIA_MAX_ENTRIES).map(k => cache.delete(k)));
+  }
+}
+
+async function fetchCors(req) {
+  const url = new URL(req.url);
+  if (CORS_HOSTS.includes(url.hostname)) {
+    try {
+      const r = await fetch(new Request(req.url, { mode: 'cors', credentials: 'omit' }));
+      if (r.ok) return r;
+    } catch (_) { /* cae al fetch normal */ }
+  }
+  return fetch(req);
+}
+
+async function mediaFirst(req) {
+  const cache = await caches.open(MEDIA_CACHE);
+  const hit = await cache.match(req.url);
+  if (hit) return hit;
+  try {
+    const res = await fetchCors(req);
+    if (res && (res.ok || res.type === 'opaque')) {
+      cache.put(req.url, res.clone()).then(() => trimMedia(cache));
+    }
+    return res;
+  } catch (err) {
+    const local = await caches.match(req.url, { ignoreSearch: true });
+    if (local) return local;
+    throw err;
+  }
+}
+
+async function networkFirst(req) {
+  const cache = await caches.open(SHELL_CACHE);
+  try {
+    const res = await fetch(req);
+    if (res && res.ok) cache.put(req, res.clone());
+    return res;
+  } catch (err) {
+    const hit = (await cache.match(req)) || (await cache.match(req, { ignoreSearch: true }));
+    if (hit) return hit;
+    if (req.mode === 'navigate') {
+      const shell = (await cache.match(BASE + 'index.html')) || (await cache.match(BASE));
+      if (shell) return shell;
+    }
+    throw err;
+  }
+}
+
+// Resúmenes de Wikipedia (de ahí salen las fotos "en vivo"): respuesta de caché al instante
+// y se refresca en segundo plano; sin cobertura sirve lo último guardado.
+async function wikiApi(req) {
+  const cache = await caches.open(MEDIA_CACHE);
+  const hit = await cache.match(req.url);
+  const refresh = fetch(req).then(res => { if (res && res.ok) cache.put(req.url, res.clone()); return res; });
+  if (hit) { refresh.catch(() => {}); return hit; }
+  return refresh;
+}
+
+self.addEventListener('fetch', e => {
+  const req = e.request;
+  if (req.method !== 'GET') return;
+  const url = new URL(req.url);
+  if (url.protocol !== 'http:' && url.protocol !== 'https:') return;
+
+  if (/(^|\.)wikipedia\.org$/.test(url.hostname) && url.pathname.includes('/api/rest_v1/')) {
+    e.respondWith(wikiApi(req));
+    return;
+  }
+
+  if (url.hostname === 'unpkg.com') {
+    e.respondWith(caches.match(req.url).then(hit => hit || fetch(req)));
+    return;
+  }
+  if (url.origin === self.location.origin && req.destination !== 'image') {
+    e.respondWith(networkFirst(req));
+    return;
+  }
+  if (isMedia(url, req)) {
+    e.respondWith(mediaFirst(req));
+  }
+});
+
+// La app pide pre-descargar las fotos curadas del itinerario (solo con cobertura).
+self.addEventListener('message', e => {
+  const msg = e.data || {};
+  if (msg.type !== 'precache' || !Array.isArray(msg.urls)) return;
+  e.waitUntil((async () => {
+    const cache = await caches.open(MEDIA_CACHE);
+    let done = 0;
+    for (const u of msg.urls) {
+      try {
+        if (await cache.match(u)) { done++; continue; }
+        const r = await fetch(new Request(u, { mode: 'cors', credentials: 'omit' }));
+        if (r.ok) { await cache.put(u, r); done++; }
+      } catch (_) { /* sin cobertura o foto caída: se intentará otra vez más adelante */ }
+    }
+    const clients = await self.clients.matchAll();
+    clients.forEach(c => c.postMessage({ type: 'precache-done', done, total: msg.urls.length }));
+    await trimMedia(cache);
+  })());
 });

@@ -313,7 +313,7 @@ const DEFAULT_DATA = {
               notes: 'Muy parecido a Angkor Wat en estilo, pero casi sin turistas.',
               description: 'Templo hinduista del s.XII dedicado a Vishnú, en piedra arenisca con bajorrelieves intrincados. Su nombre honra a los samré, una etnia local de la región.',
               tips: '30 min. Algo apartado de los circuitos principales — eso es justo lo que lo hace tranquilo. Fácil en tuk-tuk, bici o moto.' },
-            { name: 'Museo de Minas Terrestres de Camboya', type: 'museum',
+            { name: 'Museo de Minas Terrestres de Camboya', type: 'museum', lat: 13.53957, lng: 103.9458,
               notes: 'Fundado por Aki Ra, ex-niño soldado convertido en desminador. De camino a Banteay Srei.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Artilleries_at_Cambodia_Landmine_Museum.jpg/500px-Artilleries_at_Cambodia_Landmine_Museum.jpg',
               description: 'Museo fundado por Aki Ra, antiguo niño soldado de los Jemeres Rojos que de adulto se dedicó a desactivar minas a mano y hoy dirige una ONG de desminado. Expone miles de minas y artefactos explosivos ya inertes recuperados por todo el país, y explica con crudeza el legado de las guerras de Camboya (se calcula que aún quedan millones de minas sin detonar en el país). Parte de la entrada financia directamente el desminado real.',
@@ -521,7 +521,7 @@ const DEFAULT_DATA = {
               photo: 'https://picsum.photos/seed/tra-su-cajuput-forest-boat/200/200',
               description: 'Un bosque de melaleuca (cajuput) permanentemente inundado, con el agua cubierta de una capa de lentejas de agua de un verde casi fosforescente. Se recorre en dos tramos: primero en barca a motor por el canal principal hasta una torre-mirador de 4 pisos con vistas a todo el humedal, y luego el tramo bueno en barca de remo silenciosa entre los árboles, ideal para ver garzas, cigüeñas y otras aves acuáticas — mejor de noviembre a abril, temporada alta de aves.',
               tips: 'A ~30 km / 1h en coche de Chau Doc. Entrada + barca motor ~100.000 VND, tramo en barca de remo aparte (~150.000 VND, negociable). Necesita medio día — compite con el resto del plan de la mañana en Chau Doc, elegir según el tiempo disponible antes del bus a Can Tho.' },
-            { name: 'Bến Ninh Kiều (Muelle de Ninh Kieu)', type: 'nature', notes: 'Paseo marítimo y parque costero de Can Tho, de tus mapas guardados.',
+            { name: 'Bến Ninh Kiều (Muelle de Ninh Kieu)', type: 'nature', lat: 10.0342, lng: 105.7875, notes: 'Paseo marítimo y parque costero de Can Tho, de tus mapas guardados.',
               photo: 'https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Ninh_Kieu_Quay.jpg/500px-Ninh_Kieu_Quay.jpg',
               description: 'El paseo marítimo histórico de Can Tho, junto a la confluencia del río Can Tho con el Hậu — desde aquí salen los barcos hacia los mercados flotantes de Cai Rang. De día es el embarcadero de siempre; de noche se llena de luces, puestos y gente paseando, con el perfil del puente Can Tho iluminado al fondo.',
               tips: 'Mejor al atardecer/noche para el ambiente. Punto de partida habitual para contratar un barco a Cai Rang de madrugada (mejor reservar la noche anterior aquí mismo).' },
@@ -684,7 +684,7 @@ const DEFAULT_DATA = {
               notes: 'Dos opciones en islas rurales del río Thu Bon: mercado + barco + cocina (35€) o cocina tradicional con huertos (34€).',
               description: 'Opción 1 (Isla de Thuan Tinh, 08:30-11:30, 35€): visita al mercado local, paseo en barco por el río Thu Bon hasta una zona rural de cocoteros de agua, y clase de cocina en una cocina abierta con vistas al río. Incluye paseo en barca tradicional por el bosque de cocoteros de Cam Thanh. Opción 2 (Cocina Tradicional, 09:30-13:00, 34€): en una isla rural del delta, con visita a huertos locales y técnicas como la elaboración de leche de arroz o papel de arroz para nems.',
               tips: 'Reservar con antelación, son experiencias de medio día. La opción 1 combina mejor con el paseo en barca por Cam Thanh si no se hace aparte.' },
-            { name: 'Talleres Artesanales', type: 'activity',
+            { name: 'Talleres Artesanales', type: 'activity', lat: 15.87662, lng: 108.32735,
               notes: 'Farolillos de cera (~5€) o artesanía con impacto social en Reaching Out (calle Nguyễn Thái Học, 103).',
               description: 'Taller de farolillos de cera de seda, el souvenir por excelencia de Hoi An (~5€). Alternativa con impacto social: Reaching Out Vietnam, un taller de artesanos locales con discapacidades, en el número 103 de la calle Nguyễn Thái Học.',
               tips: 'Reaching Out es una buena parada de compras además de taller — venden directamente lo que se fabrica allí.' }
@@ -1108,7 +1108,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 62;
+const DATA_VERSION = 63;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 

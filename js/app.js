@@ -4290,6 +4290,43 @@ function addNewDoc() {
 //  INIT
 // ══════════════════════════════════════════════════════════
 
+// Pide al Service Worker que guarde para uso offline todas las fotos curadas del itinerario
+// (solo si hay cobertura; las demás se guardan solas al verlas).
+function precacheCuratedPhotos() {
+  if (!('serviceWorker' in navigator) || !navigator.onLine) return;
+  // Una vez al día por versión de datos: no repetir ~200 peticiones en cada apertura.
+  const stamp = DATA_VERSION + ':' + new Date().toISOString().slice(0, 10);
+  try { if (localStorage.getItem('precache-stamp') === stamp) return; } catch (_) {}
+  navigator.serviceWorker.ready.then(async reg => {
+    // Primera visita: el SW aún no controla la página, sus peticiones no se cachearían → esperar a la siguiente.
+    if (!reg.active || !navigator.serviceWorker.controller) return;
+    const direct = new Set();
+    const wikiNames = new Map();
+    const abs = rel => new URL(rel, location.href).href;
+    DB.trips.forEach(t => (t.days || []).forEach(d =>
+      [...(d.places || []), ...(d.restaurants || [])].forEach(p => {
+        if (p.photo && /^https?:/.test(p.photo) && !p.photo.includes('picsum')) { direct.add(p.photo); return; }
+        const mapped = window.IMAGE_MAP && window.IMAGE_MAP[p.name];
+        if (mapped) direct.add(/^https?:/.test(mapped) ? mapped : abs(mapped));
+        const article = WIKI_ARTICLES[p.name] || p.name;
+        direct.add(abs('img/places/' + _localImgSlug(article) + '.jpg'));
+        wikiNames.set(article, true);
+      })));
+    reg.active.postMessage({ type: 'precache', urls: [...direct] });
+    // Fotos "en vivo" de Wikipedia: pedir el resumen (el SW lo guarda) y precargar su miniatura.
+    const wikiThumbs = [];
+    const queue = [...wikiNames.keys()];
+    await Promise.all(Array.from({ length: 4 }, async () => {
+      while (queue.length) {
+        const art = queue.pop();
+        try { const e = await _fetchWikiEntry(art); if (e && e.small) wikiThumbs.push(e.small); } catch (_) {}
+      }
+    }));
+    if (wikiThumbs.length) reg.active.postMessage({ type: 'precache', urls: wikiThumbs });
+    try { localStorage.setItem('precache-stamp', stamp); } catch (_) {}
+  }).catch(() => {});
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   setupNav();
   // Con un solo viaje guardado, nos saltamos "Mis Viajes" y vamos directos
@@ -4300,4 +4337,5 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     navigate('home');
   }
+  setTimeout(precacheCuratedPhotos, 5000);
 });

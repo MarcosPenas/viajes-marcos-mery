@@ -2,6 +2,26 @@
 
 ---
 
+## 2026-10-03 (PC de casa) — Git reconciliado con `origin/main` + modo offline real (el service worker NUNCA había funcionado en producción)
+
+**1. Git del PC de casa.** Ver `COORDINACION_SESIONES.md` (bloque ✅ 3-oct). Resumen: instantánea local + rama `backup-3oct`, remoto añadido, árbol de trabajo comprobado idéntico a `origin/main` (`599f20a`), `reset --mixed` sin tocar archivos. Los archivos que llegaron por MEGA ya incluían todo el trabajo del PC del trabajo del 2-oct (fix de `makeCircle`, 13+7+8 fotos, platos, tarjetas de aeropuerto, mapa Leaflet) — no hubo que fusionar nada.
+
+**2. Hallazgo: el offline de la app no existía en producción.** `index.html` registraba el service worker con `register('/sw.js')` — ruta absoluta de raíz. En GitHub Pages el sitio vive en `/viajes-marcos-mery/`, así que esa URL es `marcospenas.github.io/sw.js` → **404** (comprobado con `curl`: `/viajes-marcos-mery/sw.js` da 200, `/sw.js` da 404). El SW no se había registrado nunca en los móviles. Además, el `sw.js` antiguo habría fallado igualmente: usaba `cache.addAll()` con una lista de ~200 imágenes (incluidas 4 que se borraron por ser erróneas) y `addAll` rechaza todo si una sola da 404.
+
+**3. Arreglo (modo "sin cobertura" real — idea nº2 de Marcos y tarea "Mapa offline"):**
+- `index.html`: `register('sw.js')` (relativo → ámbito `/viajes-marcos-mery/` en producción).
+- `sw.js` reescrito (conserva el prefijo `/viajes-marcos-mery/` en el shell): **shell con red primero y caché de respaldo** (las actualizaciones siguen llegando solas con cobertura, sin riesgo de dejar móviles atascados en una versión vieja); precaché tolerante a fallos (uno a uno, un 404 ya no rompe la instalación); **fotos y mosaicos del mapa con caché primero**, guardadas al verlas (límite 900); **resúmenes de la API de Wikipedia** (de donde salen las fotos "en vivo") con caché al instante + refresco en segundo plano; Leaflet (js+css de unpkg) cacheado para que el mapa arranque offline.
+- `js/app.js` (`precacheCuratedPhotos`, v→140): con cobertura, una vez al día por versión de datos, y solo cuando el SW ya controla la página, pide al SW que descargue las fotos curadas del itinerario, las imágenes locales de `img/places/` y las miniaturas de Wikipedia de cada ficha.
+- **Verificado en local parando el servidor** (simulando sin cobertura): la app arranca, los datos y Leaflet cargan, 56 de 66 fotos de 6 días de muestra cargan (las 10 restantes son las ya catalogadas sin foto real), 128 pines en el mapa. Caché tras la precarga: 76 resúmenes de Wikipedia + 74 imágenes locales + 162 remotas.
+- **Límite conocido:** los **mosaicos del mapa solo funcionan offline en las zonas que se hayan visto antes con cobertura** — descargar mosaicos de OSM en bloque va contra su política de uso, así que no se precargan. Los pines, popups, favoritos y "cerca de mí" sí funcionan; el fondo del mapa será gris donde no se haya navegado antes. Para tenerlo offline en el viaje: abrir el mapa con wifi en el hotel y hacer zoom por las ciudades.
+- **Primera apertura tras instalar/actualizar:** el SW necesita una visita con cobertura para instalarse y otra para precargar; no es necesario hacer nada especial, solo abrir la app con wifi una o dos veces antes de salir.
+
+**4. 3 sitios sin coordenadas en el mapa** (pendiente de la lista del 30-sep) ya tienen `lat`/`lng` (Photon/OSM): Museo de Minas Terrestres (13.5396, 103.9458), Talleres Artesanales — Reaching Out Arts and Crafts (15.8766, 108.3274), Bến Ninh Kiều (aprox. 10.0342, 105.7875, cerca del embarcadero; sin resultado exacto del geocodificador). Ahora 128/128 pines.
+
+**Archivos:** `sw.js`, `index.html` (registro del SW, `data.js?v=63`, `app.js?v=140`), `js/app.js`, `js/data.js` (DATA_VERSION 62→63). **Sin push todavía** — para que el offline llegue a los móviles hay que publicar (lo decide Marcos).
+
+---
+
 ## 2026-10-02 (continuación 7) — Revisión plato por plato de "Qué comer": 13 fotos más, 16 sin encontrar tras búsqueda exhaustiva
 
 Marcos pidió explícitamente revisar uno por uno TODOS los platos nuevos y asegurarse de que cada uno tiene su imagen, con "múltiples comprobaciones" antes de dar algo por imposible. Partiendo de los 27 restaurantes que no resolvían ninguna imagen (ver continuación 5), se intentó cada uno con 2-4 variantes de términos de búsqueda en Wikimedia Commons:

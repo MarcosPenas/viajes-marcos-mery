@@ -14,7 +14,15 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 
 ---
 
-## 🔴 IMPORTANTE — Push hecho el 2-oct-2026, hashes de commit CAMBIADOS, PC de casa debe resetear
+## ✅ 3-oct-2026 — PC de casa YA reconciliado con `origin/main` (no repetir el reset)
+
+Sesión del PC de casa del 3-oct: el repo local de casa no tenía remoto configurado y su historial era independiente. Pasos hechos (sin perder nada): instantánea local de los archivos tal y como llegaron por MEGA (rama de respaldo `backup-3oct` en el repo de casa), `git remote add origin` + `git fetch`, comprobado que el árbol de trabajo era **idéntico a `origin/main`** (`599f20a`) salvo `.claude/*`, y `git reset --mixed origin/main` (mueve el historial, no toca archivos). Resultado: `main` de casa sigue ahora a `origin/main` y los siguientes pushes serán normales (sin `--force`). **No hay que volver a hacer el reset en casa.** `.claude/launch.json` de casa apunta a `C:\Users\marco\...` y `.claude/settings*.json` son locales — no commitear. El `.gitignore` se dejó el del repo publicado.
+
+**Cambios nuevos de esta sesión (aún sin push, pendientes de que Marcos lo pida):** service worker offline reescrito y por fin registrado (ver `HISTORIAL_DE_CAMBIOS.md` 3-oct), 3 sitios con coordenadas nuevas en el mapa (`DATA_VERSION` 63). Si el PC del trabajo toca `sw.js`, `index.html` (registro del SW) o `js/app.js` (`precacheCuratedPhotos`), coordinar aquí antes.
+
+---
+
+## 🔴 (HISTÓRICO, ya resuelto arriba) Push hecho el 2-oct-2026, hashes de commit CAMBIADOS, PC de casa debe resetear
 
 **El PC del trabajo publicó a GitHub el 2-oct-2026.** `origin/main` ya NO está en `c8d9eb5` (29-jun) — ahora está en `81c5a1d`. La app en producción (https://marcospenas.github.io/viajes-marcos-mery) debería reflejar el itinerario de 25 días con el mapa Leaflet y la auditoría de imágenes en los próximos minutos (GitHub Pages tarda un poco en reconstruir tras el push).
 

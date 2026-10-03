@@ -29,7 +29,7 @@
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
+        navigator.serviceWorker.register('sw.js')
           .then(r => console.log('SW registrado:', r.scope))
           .catch(e => console.warn('SW error:', e));
       });
@@ -82,9 +82,9 @@
           integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
   <!-- App Scripts -->
-  <script src="js/data.js?v=62"></script>
+  <script src="js/data.js?v=63"></script>
   <script src="js/imageMap.js?v=12"></script>
-  <script src="js/app.js?v=137"></script>
+  <script src="js/app.js?v=140"></script>
 </body>
 </html>
 
