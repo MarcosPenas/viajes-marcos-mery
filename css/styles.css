@@ -259,7 +259,7 @@ html, body {
 }
 .htl2-zone > .block-section-header { border-radius: 20px 20px 0 0; }
 /* En Días la cabecera forma parte de la tarjeta: mismo fondo que el cuerpo (si no, en oscuro se confunde con el fondo y la tarjeta parece no cerrar por arriba) */
-.block-section > .block-section-header { background: transparent; }
+.block-section > .block-section-header { background: transparent; border-bottom: 1px solid var(--border); margin-bottom: 0; }
 .bsh-label { font-size: 13px; }
 .bsh-count {
   font-size: 11px; font-weight: 700; opacity: .75;
@@ -2887,3 +2887,19 @@ html[data-theme="light"] .sticky-btn:active { background: #e8ecf0; }
 .tt-day-num { font-size: 11px; color: var(--text-sm); font-weight: 700; min-width: 42px; }
 .tt-day-city { font-size: 14px; font-weight: 700; color: var(--text); }
 .tt-day-date { font-size: 11px; color: var(--text-sm); margin-top: 1px; }
+
+/* ── Fichas sin foto en modo oscuro: marcador discreto (antes un cuadro gris claro que deslumbraba) ── */
+html[data-theme="dark"] .lugar-thumb-wrap,
+html[data-theme="dark"] .photo-circle-img-wrap,
+html[data-theme="dark"] .lugar-thumb-fallback { background: #2c3c56; box-shadow: none; }
+html[data-theme="dark"] .lugar-thumb-fallback-icon,
+html[data-theme="dark"] .photo-circle-fallback { opacity: .22; filter: none; }
+html[data-theme="dark"] .food-card-img-placeholder { background: linear-gradient(135deg, #2a3a54, #233045); }
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .lugar-thumb-wrap,
+  html:not([data-theme="light"]) .photo-circle-img-wrap,
+  html:not([data-theme="light"]) .lugar-thumb-fallback { background: #2c3c56; box-shadow: none; }
+  html:not([data-theme="light"]) .lugar-thumb-fallback-icon,
+  html:not([data-theme="light"]) .photo-circle-fallback { opacity: .22; filter: none; }
+  html:not([data-theme="light"]) .food-card-img-placeholder { background: linear-gradient(135deg, #2a3a54, #233045); }
+}
