@@ -2156,12 +2156,12 @@ function renderItinerary(tab) {
   Object.entries(blocks).forEach(([blockName, days]) => {
     const zone = BLOCK_ZONE[blockName] || BLOCK_ZONE['General'];
     daysHtml += `
-      <div class="block-section">
+      <div class="block-section" style="border-left:3px solid ${zone.color}66">
         <div class="block-section-header" style="color:${zone.color}">
           <span class="bsh-label">${zone.label}</span>
           <span class="bsh-count">${days.length} días</span>
         </div>
-        <div class="block-days-list" style="border-left:3px solid ${zone.color}22">
+        <div class="block-days-list">
         ${days.map(day => {
           const d = new Date(day.date + 'T12:00:00');
           const dayNum = d.getDate().toString().padStart(2,'0');
@@ -2205,12 +2205,12 @@ function renderItinerary(tab) {
   Object.entries(blocks).forEach(([blockName, bDays]) => {
     const zone = BLOCK_ZONE[blockName] || BLOCK_ZONE['General'];
     transportsHtml += `
-      <div class="block-section">
+      <div class="block-section" style="border-left:3px solid ${zone.color}66">
         <div class="block-section-header" style="color:${zone.color}">
           <span class="bsh-label">${zone.label}</span>
           <span class="bsh-count">${bDays.length} días</span>
         </div>
-        <div class="block-days-list" style="border-left:3px solid ${zone.color}22">
+        <div class="block-days-list">
         ${bDays.map(day => {
           const d = new Date(day.date + 'T12:00:00');
           const dayNum = d.getDate().toString().padStart(2,'0');
