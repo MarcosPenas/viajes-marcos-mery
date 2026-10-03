@@ -2703,7 +2703,7 @@ function renderDay(date) {
     const shortName = item.name.replace(/\s*\(.*\)/, '').split(' ').slice(0,2).join(' ');
     const icon = CIRCLE_ICONS[item.type] || CIRCLE_ICONS.default;
     return `<div class="photo-circle-wrap" onclick="event.stopPropagation();showDayTab('${targetTab}')">
-      <div class="photo-circle-img-wrap">
+      <div class="photo-circle-img-wrap" style="--ph:${icon.bg}">
         <span class="photo-circle-fallback">${icon.svg}</span>
         <img class="photo-circle-img" data-wiki="${escHtml(item.name)}" data-photo="${escHtml(item.photo || '')}" data-fixed="1" alt="${escHtml(shortName)}" src="" onerror="this.style.display='none'">
       </div>
@@ -2787,7 +2787,7 @@ function renderDay(date) {
       <div class="lugar-card" id="lc-${type}-${idx}" onclick="toggleLugar('${type}',${idx})">
         <!-- Cabecera colapsada -->
         <div class="lugar-card-header">
-          <div class="lugar-thumb-wrap">
+          <div class="lugar-thumb-wrap" style="--ph:${icon.bg}">
             <span class="lugar-thumb-fallback-icon">${icon.svg}</span>
             <img class="lugar-thumb-img" data-wiki="${escHtml(item.name)}"
                  data-photo="${escHtml(item.photo || '')}"

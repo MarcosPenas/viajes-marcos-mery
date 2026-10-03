@@ -2888,18 +2888,26 @@ html[data-theme="light"] .sticky-btn:active { background: #e8ecf0; }
 .tt-day-city { font-size: 14px; font-weight: 700; color: var(--text); }
 .tt-day-date { font-size: 11px; color: var(--text-sm); margin-top: 1px; }
 
-/* ── Fichas sin foto en modo oscuro: marcador discreto (antes un cuadro gris claro que deslumbraba) ── */
-html[data-theme="dark"] .lugar-thumb-wrap,
-html[data-theme="dark"] .photo-circle-img-wrap,
-html[data-theme="dark"] .lugar-thumb-fallback { background: #2c3c56; box-shadow: none; }
-html[data-theme="dark"] .lugar-thumb-fallback-icon,
-html[data-theme="dark"] .photo-circle-fallback { opacity: .22; filter: none; }
+/* ── Fichas sin foto: baldosa con el color de su categoría e icono grande (misma paleta que los círculos de la app).
+      Claro: color suave con degradado; oscuro: el mismo color muy mezclado con el fondo para no deslumbrar. ── */
+.lugar-thumb-wrap, .photo-circle-img-wrap {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--ph, #6b52ab) 68%, #fff), var(--ph, #6b52ab));
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
+}
+.lugar-thumb-fallback-icon, .photo-circle-fallback { opacity: .92; filter: none; }
+.lugar-thumb-fallback-icon svg { width: 38px; height: 38px; }
+.photo-circle-fallback svg { width: 36px; height: 36px; }
+html[data-theme="dark"] .lugar-thumb-wrap, html[data-theme="dark"] .photo-circle-img-wrap {
+  background: linear-gradient(135deg, color-mix(in srgb, var(--ph, #6b52ab) 42%, #26344b), color-mix(in srgb, var(--ph, #6b52ab) 30%, #1f2b40));
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.07);
+}
+html[data-theme="dark"] .lugar-thumb-fallback-icon, html[data-theme="dark"] .photo-circle-fallback { opacity: .78; }
 html[data-theme="dark"] .food-card-img-placeholder { background: linear-gradient(135deg, #2a3a54, #233045); }
 @media (prefers-color-scheme: dark) {
-  html:not([data-theme="light"]) .lugar-thumb-wrap,
-  html:not([data-theme="light"]) .photo-circle-img-wrap,
-  html:not([data-theme="light"]) .lugar-thumb-fallback { background: #2c3c56; box-shadow: none; }
-  html:not([data-theme="light"]) .lugar-thumb-fallback-icon,
-  html:not([data-theme="light"]) .photo-circle-fallback { opacity: .22; filter: none; }
+  html:not([data-theme="light"]) .lugar-thumb-wrap, html:not([data-theme="light"]) .photo-circle-img-wrap {
+    background: linear-gradient(135deg, color-mix(in srgb, var(--ph, #6b52ab) 42%, #26344b), color-mix(in srgb, var(--ph, #6b52ab) 30%, #1f2b40));
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.07);
+  }
+  html:not([data-theme="light"]) .lugar-thumb-fallback-icon, html:not([data-theme="light"]) .photo-circle-fallback { opacity: .78; }
   html:not([data-theme="light"]) .food-card-img-placeholder { background: linear-gradient(135deg, #2a3a54, #233045); }
 }
