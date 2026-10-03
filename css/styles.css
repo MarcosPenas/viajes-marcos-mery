@@ -258,6 +258,8 @@ html, body {
   margin-bottom: -1px;
 }
 .htl2-zone > .block-section-header { border-radius: 20px 20px 0 0; }
+/* En Días la cabecera forma parte de la tarjeta: mismo fondo que el cuerpo (si no, en oscuro se confunde con el fondo y la tarjeta parece no cerrar por arriba) */
+.block-section > .block-section-header { background: transparent; }
 .bsh-label { font-size: 13px; }
 .bsh-count {
   font-size: 11px; font-weight: 700; opacity: .75;

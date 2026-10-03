@@ -14,6 +14,7 @@ Marcos pidió comprobar que **todos** los items tienen imagen. Resultado de la c
 - **`tools/check_imagenes.py`** ampliado: comprueba además que toda imagen `img/places|fotos/...` citada en `app.js`/`data.js`/`index.html` existe, y que los archivos de `img/fotos/` usados solo por el código (portadas) no cuentan como huérfanos. Estado: OK (212 fichas · 190 con foto · 22 sin foto · 177 archivos).
 - **Verificado en navegador:** 451 imágenes de ficha cargadas, 0 rotas; 25/25 portadas; 9/9 iconos de ruta locales; 0 respuestas 404 de recursos propios en todas las vistas (Inicio, Días, Hoy, Mapa, Docs, días 1-25 en Lugares/Qué comer).
 - Versiones: `DATA_VERSION` 65, `data.js?v=65`, `app.js?v=144`. `CREDITOS_FOTOS.md` regenerado (177 archivos).
+- **Arreglo visual (pestaña Días):** en modo oscuro la cabecera de cada bloque («Vuelos · 2 días») tenía el color del fondo de la página y la tarjeta parecía no cerrarse por arriba (redondeo raro). `.block-section > .block-section-header { background: transparent }` — ahora la cabecera comparte fondo con el cuerpo y la tarjeta se ve completa, en oscuro y en claro. `styles.css?v=77`. (El alojamiento `.htl2-zone` no se toca: su cabecera no está dentro de `.block-section`.)
 
 ---
 
