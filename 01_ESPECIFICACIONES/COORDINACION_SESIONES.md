@@ -14,9 +14,11 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 
 ---
 
-## 🟡 3-oct-2026 (tarde) — PC de casa trabaja en la rama `fotos-congeladas` (NO fusionada, NO publicada)
+## ✅ 3-oct-2026 (tarde) — PUBLICADO: `origin/main` = `e504cb2` (fotos congeladas + offline + mejoras visuales)
 
-Estrategia de fotos nueva: cada ficha lleva una foto local fija (`img/fotos/`) o ninguna; se acabó la adivinanza por alias/Wikipedia para fichas. Toca `js/data.js` (campo `photo` de las 212 fichas, DATA_VERSION 64), `js/app.js` (v141, `data-fixed`), `index.html`, `img/fotos/` (177 JPEG), poda de `img/places/` (19 archivos), `js/imageMap.js` eliminado, `CREDITOS_FOTOS.md`, `tools/check_imagenes.py`. **Si el PC del trabajo va a tocar fotos de fichas, `WIKI_ARTICLES`, `IMAGE_MAP` o `precacheCuratedPhotos`, avisar antes**: esos caminos quedan obsoletos (IMAGE_MAP ya no existe). Antes de publicar: `py -3 tools/check_imagenes.py` debe dar OK. La rama vive solo en el `.git` de casa; el resto de archivos llega por MEGA. Marcos decide cuándo fusionar con `main` y hacer push. Detalle: `HISTORIAL_DE_CAMBIOS.md` (3-oct, 2ª parte).
+El PC de casa hizo **push a `main`** (avance rápido, sin `--force`) y la web está en producción con `data.js?v=65`, `app.js?v=147`, `styles.css?v=83`. Incluye: service worker offline real, fotos congeladas (`img/fotos/`, 177 JPEG; cada ficha con foto fija o baldosa de categoría), `CREDITOS_FOTOS.md`, `tools/check_imagenes.py`, portadas de los 25 días, poda de `img/places/` (19 archivos), `imageMap.js` eliminado y mejoras de contraste/tarjetas en modo oscuro. Detalle en `HISTORIAL_DE_CAMBIOS.md` (3-oct, partes 1-3).
+
+**Para el PC del trabajo:** su `main` local (`81c5a1d` y similares) ya no coincide con el remoto — antes de tocar nada: `git fetch origin && git reset --hard origin/main` (haced una rama de respaldo antes si queda algo sin subir). **Antes de cada publicación futura, ejecutar `py -3 tools/check_imagenes.py` (debe dar OK).** No usar `IMAGE_MAP`/alias de `WIKI_ARTICLES` para fichas: ya no existen para ellas. La rama `fotos-congeladas` del PC de casa está fusionada en `main` (se puede borrar).
 
 ---
 
@@ -65,6 +67,7 @@ Lo de **1-oct** sigue vigente:
 
 | Fecha | PC | Commit subido | Notas |
 |---|---|---|---|
+| 3-oct-2026 | Casa | `e504cb2` | Fotos congeladas + offline real + mejoras de modo oscuro (ver bloque ✅ de arriba). Avance rápido desde `599f20a` |
 | 2-oct-2026 | Trabajo | `81c5a1d` | Primer push real del itinerario de 25 días — mapa Leaflet, auditoría de imágenes, bug de data-photo corregido. Historial local reescrito antes del push para quitar un token expuesto (ver aviso 🔴 arriba) |
 
 ---
