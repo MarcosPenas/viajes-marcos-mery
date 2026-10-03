@@ -16,7 +16,7 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 
 ## 🟡 3-oct-2026 (tarde) — PC de casa trabaja en la rama `fotos-congeladas` (NO fusionada, NO publicada)
 
-Estrategia de fotos nueva: cada ficha lleva una foto local fija (`img/fotos/`) o ninguna; se acabó la adivinanza por alias/Wikipedia para fichas. Toca `js/data.js` (campo `photo` de las 212 fichas, DATA_VERSION 64), `js/app.js` (v141, `data-fixed`), `index.html`, `img/fotos/` (163 JPEG), `CREDITOS_FOTOS.md`, `tools/check_imagenes.py`. **Si el PC del trabajo va a tocar fotos de fichas, `WIKI_ARTICLES`, `IMAGE_MAP` o `precacheCuratedPhotos`, avisar antes**: esos caminos quedan obsoletos para fichas. Antes de publicar: `py -3 tools/check_imagenes.py` debe dar OK. La rama vive solo en el `.git` de casa; el resto de archivos llega por MEGA. Marcos decide cuándo fusionar con `main` y hacer push. Detalle: `HISTORIAL_DE_CAMBIOS.md` (3-oct, 2ª parte).
+Estrategia de fotos nueva: cada ficha lleva una foto local fija (`img/fotos/`) o ninguna; se acabó la adivinanza por alias/Wikipedia para fichas. Toca `js/data.js` (campo `photo` de las 212 fichas, DATA_VERSION 64), `js/app.js` (v141, `data-fixed`), `index.html`, `img/fotos/` (177 JPEG), poda de `img/places/` (19 archivos), `js/imageMap.js` eliminado, `CREDITOS_FOTOS.md`, `tools/check_imagenes.py`. **Si el PC del trabajo va a tocar fotos de fichas, `WIKI_ARTICLES`, `IMAGE_MAP` o `precacheCuratedPhotos`, avisar antes**: esos caminos quedan obsoletos (IMAGE_MAP ya no existe). Antes de publicar: `py -3 tools/check_imagenes.py` debe dar OK. La rama vive solo en el `.git` de casa; el resto de archivos llega por MEGA. Marcos decide cuándo fusionar con `main` y hacer push. Detalle: `HISTORIAL_DE_CAMBIOS.md` (3-oct, 2ª parte).
 
 ---
 

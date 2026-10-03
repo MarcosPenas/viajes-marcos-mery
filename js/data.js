@@ -169,7 +169,7 @@ const DEFAULT_DATA = {
               photo: 'img/fotos/templo-bach-ma.jpg',
               description: 'Su nombre significa "Caballo Blanco", por la leyenda de un caballo que ayudó al emperador a trazar las murallas de la ciudad. Interior pequeño pero cargado de incienso, estatuas y ofrendas — un contraste silencioso con el bullicio de alrededor.',
               tips: 'Calle Hàng Buồm. Aprox. 8:00-17:00, gratuito. No hace falta mucho tiempo, pero está de paso en la ruta del Old Quarter.' },
-            { name: 'Murales de Phùng Hưng (Street Art)', type: 'monument', lat: 20.9610277, lng: 105.9564614,
+            { name: 'Murales de Phùng Hưng (Street Art)', type: 'monument', photo: 'img/fotos/murales-de-phung-hung.jpg', lat: 20.9610277, lng: 105.9564614,
               notes: 'Galería al aire libre bajo los arcos del viaducto del tren. Gratuito y muy fotogénico.',
               description: 'Los arcos de piedra del viaducto junto a la Train Street se han convertido en una galería de murales gigantes en 3D pintados por artistas vietnamitas y coreanos. Recrean escenas del Hanói antiguo: el tranvía desaparecido, vendedores ambulantes, tiendas tradicionales.',
               tips: 'Calle Phùng Hưng, tramo hacia Mercado Dong Xuan. Gratuito. Combinarlo con Train Street.' },
@@ -283,7 +283,7 @@ const DEFAULT_DATA = {
               notes: 'Plataforma ceremonial con esculturas de elefantes y garudas.',
               description: 'Escenario de desfiles y eventos públicos del imperio, junto a la Terraza del Rey Leproso (esculturas asociadas a Yama, dios hinduista de la muerte). Cerca, Tep Pranam guarda una estatua de Buda y Preah Palilay mezcla elementos hindúes y budistas.',
               tips: 'Parte final del recorrido de Angkor Thom, junto a las puertas de la Victoria y del Sur (las mejor conservadas para foto).' },
-            { name: 'Phare, The Cambodian Circus', type: 'monument', lat: 13.3671, lng: 103.8448,
+            { name: 'Phare, The Cambodian Circus', type: 'monument', photo: 'img/fotos/phare-the-cambodian-circus.jpg', lat: 13.3671, lng: 103.8448,
               notes: 'Circo contemporáneo camboyano, sin animales, con historia y folclore del país.',
               description: 'Estilo Cirque du Soleil pero con alma local: teatro, acrobacias, danza y música en vivo contando el folclore y la historia reciente de Camboya. Todo lo recaudado financia Phare Ponleu Selpak, una escuela de artes gratuita para jóvenes vulnerables en Battambang.',
               tips: '$18-38 según zona. Función diaria a las 20:00, 1h sin intermedio. Sok San Road, 5-10 min en tuk-tuk desde Pub Street. Llegar 30-45 min antes por el mercadillo de artesanía de la entrada.' }
@@ -293,7 +293,7 @@ const DEFAULT_DATA = {
             { name: 'Kuy Teav', type: 'restaurant', photo: 'img/fotos/kuy-teav.jpg', notes: 'Sopa de fideos de arroz con cerdo, desayuno popular en Camboya.' },
             { name: 'Trey Aing', type: 'restaurant', notes: 'Pescado entero a la brasa, servido con salsa de lima, pimienta y hierbas — sencillo y muy popular junto a los lagos y ríos de Camboya.',
               photo: 'img/fotos/trey-aing.jpg' },
-            { name: 'Khmer Red Curry (Kari Sach Moan)', type: 'restaurant', notes: 'Curry de pollo con leche de coco, patata y berenjena, más suave y menos picante que sus primos tailandeses.' }
+            { name: 'Khmer Red Curry (Kari Sach Moan)', type: 'restaurant', photo: 'img/fotos/khmer-red-curry.jpg', notes: 'Curry de pollo con leche de coco, patata y berenjena, más suave y menos picante que sus primos tailandeses.' }
           ],
           transport: [],
           hotel: { name: 'The Nest', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -436,7 +436,7 @@ const DEFAULT_DATA = {
               notes: 'Los Campos de la Muerte — fosas comunes y la Estupa Memorial con miles de cráneos.',
               description: 'A donde trasladaban a los prisioneros de S-21 para ser ejecutados. La Gran Estupa (17 pisos) alberga más de 9.000 cráneos clasificados por sexo y edad. El Árbol Chankiri, donde mataban a bebés y niños, está hoy cubierto de miles de pulseras de colores dejadas como homenaje.',
               tips: '15km del centro, 40-50 min en tuk-tuk ($5-7, o $15-20 ida+espera+vuelta). $6 con audioguía española incluida obligatoria. L-D 8:00-17:30, 2h de visita.' },
-            { name: 'Mercado Ruso (Tuol Tom Poung)', type: 'market', lat: 11.5564, lng: 104.9282,
+            { name: 'Mercado Ruso (Tuol Tom Poung)', type: 'market', photo: 'img/fotos/mercado-ruso.jpg', lat: 11.5564, lng: 104.9282,
               notes: 'Mercado laberíntico y local, mejores precios que el Central.',
               description: 'Techos bajos de hojalata y pasillos estrechos, más caótico y auténtico que el Central Market. Ropa de marca de fábrica (excedentes de Nike, Adidas, Zara...) a precios muy bajos, artesanía, kramas, y una zona de comida local con café helado por 1 USD.',
               tips: 'L-D 6:00-16:30, mejor 8:30-10:30 (luego hace mucho calor dentro). A 5 min de Tuol Sleng. Regatea con firmeza en souvenirs (30-40% menos), la ropa admite menos rebaja.' },
@@ -515,7 +515,7 @@ const DEFAULT_DATA = {
               notes: 'Terraza/restaurante en la ladera de la Montaña Sam con vistas a los arrozales de la frontera con Camboya.',
               description: 'Hotel-boutique en plena ladera de la Montaña Sam, con una terraza/restaurante abierta al público que mira directamente a los arrozales que se extienden hasta la frontera con Camboya — uno de los miradores más cómodos de la zona sin tener que seguir subiendo a pie.',
               tips: 'Se puede entrar a tomar algo en la terraza sin ser huésped del hotel. Mejor luz a media tarde, cuando el sol ya no pega de frente sobre los arrozales.' },
-            { name: 'Bosque de Tra Su (Cajuput)', type: 'nature', lat: 10.7101604, lng: 105.1174982,
+            { name: 'Bosque de Tra Su (Cajuput)', type: 'nature', photo: 'img/fotos/bosque-de-tra-su.jpg', lat: 10.7101604, lng: 105.1174982,
               notes: 'Reserva de aves en barca de remo entre un bosque inundado verde fluorescente. A 1h de Chau Doc.',
               description: 'Un bosque de melaleuca (cajuput) permanentemente inundado, con el agua cubierta de una capa de lentejas de agua de un verde casi fosforescente. Se recorre en dos tramos: primero en barca a motor por el canal principal hasta una torre-mirador de 4 pisos con vistas a todo el humedal, y luego el tramo bueno en barca de remo silenciosa entre los árboles, ideal para ver garzas, cigüeñas y otras aves acuáticas — mejor de noviembre a abril, temporada alta de aves.',
               tips: 'A ~30 km / 1h en coche de Chau Doc. Entrada + barca motor ~100.000 VND, tramo en barca de remo aparte (~150.000 VND, negociable). Necesita medio día — compite con el resto del plan de la mañana en Chau Doc, elegir según el tiempo disponible antes del bus a Can Tho.' },
@@ -580,7 +580,7 @@ const DEFAULT_DATA = {
               tips: 'Cruza el puente An Hội desde el casco antiguo, orilla sur del río Thu Bon. Mejor justo después de la puesta de sol, cuando se encienden los farolillos. Un paseo en barca con farolillo flotante cuesta unos 50.000-100.000 VND, negociable.' }
           ],
           restaurants: [
-            { name: 'Fruta y café flotante en Cai Rang', type: 'restaurant', notes: 'Los barcos del mercado flotante venden fruta y sirven café/fideos sin bajarse de la barca.' },
+            { name: 'Fruta y café flotante en Cai Rang', type: 'restaurant', photo: 'img/fotos/fruta-y-cafe-flotante-en-cai-rang.jpg', notes: 'Los barcos del mercado flotante venden fruta y sirven café/fideos sin bajarse de la barca.' },
             { name: 'Hủ Tiếu', type: 'restaurant', photo: 'img/fotos/hu-tieu.jpg', notes: 'Sopa de fideos suave, plato bandera de Can Tho y todo el Delta.' },
             { name: 'Bánh Xèo', type: 'restaurant', notes: 'Crepe de arroz crujiente con gambas, cerdo y brotes de soja, para envolver en hoja de lechuga — gigante en su versión sureña del Delta.',
               photo: 'img/fotos/banh-xeo.jpg' },
@@ -642,7 +642,7 @@ const DEFAULT_DATA = {
             { name: 'Cao Lầu', type: 'restaurant', photo: 'img/fotos/cao-lau.jpg', notes: 'Fideos gruesos típicos de Hoi An — dicen que solo saben igual con el agua de un pozo concreto de la ciudad.' },
             { name: 'Mì Quảng', type: 'restaurant', photo: 'img/fotos/mi-quang.jpg', notes: 'Fideos de cúrcuma con gambas y cerdo, el otro gran plato de fideos del centro de Vietnam.' },
             { name: 'Cơm Gà Hội An', type: 'restaurant', notes: 'Arroz cocido en caldo de pollo y cúrcuma, con pollo desmenuzado, cebolla encurtida y hierbas — el plato de pollo más famoso de la ciudad.' },
-            { name: 'Hoành Thánh Chiên', type: 'restaurant', notes: 'Wontons fritos crujientes cubiertos de salsa de tomate con gambas y verdura — herencia de la antigua comunidad china de Hoi An.' }
+            { name: 'Hoành Thánh Chiên', type: 'restaurant', photo: 'img/fotos/hoanh-thanh-chien.jpg', notes: 'Wontons fritos crujientes cubiertos de salsa de tomate con gambas y verdura — herencia de la antigua comunidad china de Hoi An.' }
           ],
           transport: [],
           hotel: { name: 'Volar', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -678,7 +678,7 @@ const DEFAULT_DATA = {
               photo: 'img/fotos/playa-an-bang.jpg',
               description: 'El paseo en bici más popular de Hoi An. Desde la calle Hai Bà Trưng hasta la playa de An Bang (4-5 km). De camino se pasa por la aldea de Trà Quế (desvío a la derecha), famosa por sus cultivos de hierbas aromáticas.',
               tips: 'Punto de partida: calle Hai Bà Trưng. ~20-25 min en bici. Parar en la aldea de Trà Quế de camino.' },
-            { name: 'Clases de Cocina', type: 'activity', lat: 15.8880397, lng: 108.3367883,
+            { name: 'Clases de Cocina', type: 'activity', photo: 'img/fotos/clases-de-cocina.jpg', lat: 15.8880397, lng: 108.3367883,
               notes: 'Dos opciones en islas rurales del río Thu Bon: mercado + barco + cocina (35€) o cocina tradicional con huertos (34€).',
               description: 'Opción 1 (Isla de Thuan Tinh, 08:30-11:30, 35€): visita al mercado local, paseo en barco por el río Thu Bon hasta una zona rural de cocoteros de agua, y clase de cocina en una cocina abierta con vistas al río. Incluye paseo en barca tradicional por el bosque de cocoteros de Cam Thanh. Opción 2 (Cocina Tradicional, 09:30-13:00, 34€): en una isla rural del delta, con visita a huertos locales y técnicas como la elaboración de leche de arroz o papel de arroz para nems.',
               tips: 'Reservar con antelación, son experiencias de medio día. La opción 1 combina mejor con el paseo en barca por Cam Thanh si no se hace aparte.' },
@@ -744,7 +744,7 @@ const DEFAULT_DATA = {
               photo: 'img/fotos/marisco-de-da-nang.jpg' },
             { name: 'Bánh Tráng Cuốn Thịt Heo', type: 'restaurant', notes: 'Panceta de cerdo cocida envuelta en papel de arroz junto con fideos, hierbas frescas y vegetales — plato emblemático de Da Nang, para montar tú mismo en la mesa.',
               photo: 'img/fotos/banh-trang-cuon-thit-heo.jpg' },
-            { name: 'Bún Mắm Nêm', type: 'restaurant', notes: 'Fideos con cerdo a la parrilla y una salsa intensa de pescado fermentado con piña — de sabor fuerte, muy querido por los locales de Da Nang.' }
+            { name: 'Bún Mắm Nêm', type: 'restaurant', photo: 'img/fotos/bun-mam-nem.jpg', notes: 'Fideos con cerdo a la parrilla y una salsa intensa de pescado fermentado con piña — de sabor fuerte, muy querido por los locales de Da Nang.' }
           ],
           transport: [],
           hotel: { name: 'LaDa\'s House Da Nang', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -855,8 +855,8 @@ const DEFAULT_DATA = {
             { name: 'Cơm Cháy', type: 'restaurant', photo: 'img/fotos/com-chay.jpg', notes: 'Arroz de corteza tostada y crujiente, especialidad de Ninh Binh.' },
             { name: 'Dê nướng (cabra a la parrilla)', type: 'restaurant', notes: 'La carne de cabra en todas sus formas es la especialidad de la zona.',
               photo: 'img/fotos/de-nuong.jpg' },
-            { name: 'Nem Chua Yên Mạc', type: 'restaurant', notes: 'Embutido de cerdo fermentado envuelto en hoja de guayaba, especialidad de un pueblo de Ninh Binh — se come crudo, de sabor ácido y picante.' },
-            { name: 'Rượu Kim Sơn', type: 'restaurant', notes: 'El licor de arroz destilado más famoso del norte de Vietnam, de la comarca costera de Kim Sơn — para acompañar la cabra a la parrilla.' }
+            { name: 'Nem Chua Yên Mạc', type: 'restaurant', photo: 'img/fotos/nem-chua-yen-mac.jpg', notes: 'Embutido de cerdo fermentado envuelto en hoja de guayaba, especialidad de un pueblo de Ninh Binh — se come crudo, de sabor ácido y picante.' },
+            { name: 'Rượu Kim Sơn', type: 'restaurant', photo: 'img/fotos/ruou-kim-son.jpg', notes: 'El licor de arroz destilado más famoso del norte de Vietnam, de la comarca costera de Kim Sơn — para acompañar la cabra a la parrilla.' }
           ],
           transport: [],
           hotel: { name: 'Tam coc Serenity', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
@@ -954,11 +954,11 @@ const DEFAULT_DATA = {
               photo: 'img/fotos/lan-ha-bay.jpg',
               description: 'Lan Ha Bay comparte la misma bahía y los mismos picos de piedra caliza que la famosa Ha Long Bay, pero al estar administrada desde Cat Ba (no desde Ha Long City) recibe una fracción de los cruceros masivos — aguas más limpias y playas casi vacías entre semana. Un día o dos típicos de crucero incluyen navegación entre los islotes, kayak o paddle surf en calas escondidas, parada para nadar en aguas turquesa, y si es de 2D/1N, noche a bordo o en un bungalow flotante con cena de marisco.',
               tips: 'Reservar con antelación (Flamingo Cruises o similar tienen buena fama). La excursión de 1 día suele incluir kayak + baño + comida; la de 2D/1N añade noche a bordo y más paradas. Llevar bañador puesto y protección solar — el sol en el agua pega fuerte.' },
-            { name: 'Trekking al pueblo de Viet Hai', type: 'nature', lat: 20.7321609, lng: 107.0587067,
+            { name: 'Trekking al pueblo de Viet Hai', type: 'nature', photo: 'img/fotos/trekking-al-pueblo-de-viet-hai.jpg', lat: 20.7321609, lng: 107.0587067,
               notes: 'Pueblo rural aislado dentro del Parque Nacional, solo accesible en barco + sendero o en bici.',
               description: 'Viet Hai es un pequeño pueblo agrícola escondido en un valle dentro del Parque Nacional de Cat Ba, sin carretera de acceso directo — solo se llega en barco hasta un embarcadero y luego a pie o en bici por un sendero entre arrozales y selva (unos 45-60 min caminando). Vida rural tradicional, casas de adobe y mucha tranquilidad, en fuerte contraste con el ambiente turístico del pueblo de Cat Ba.',
               tips: 'Suele venir incluido en los tours de kayak/Lan Ha Bay como parada de medio día. Se puede alquilar bici en el pueblo para el tramo final. Buena opción de comida casera vietnamita en alguna de las pocas casas-restaurante locales.' },
-            { name: 'Ba Trai Dao (Isla de los 3 melocotones)', type: 'beach', photo: 'img/fotos/trekking-al-pueblo-de-viet-hai.jpg', lat: 20.7321609, lng: 107.0587067, notes: 'Parada clásica de los cruceros por Lan Ha Bay para nadar — de tus mapas guardados.',
+            { name: 'Ba Trai Dao (Isla de los 3 melocotones)', type: 'beach', photo: 'img/fotos/ba-trai-dao.jpg', lat: 20.7321609, lng: 107.0587067, notes: 'Parada clásica de los cruceros por Lan Ha Bay para nadar — de tus mapas guardados.',
               description: 'Tres islotes kársticos con forma de melocotón que encierran una cala diminuta de arena blanca y agua turquesa muy tranquila, protegida del oleaje. Es de las playas más fotogénicas de Lan Ha Bay, pero tiene truco: la marea se la traga por completo varias horas al día — solo es una playa de verdad durante la bajamar.',
               tips: 'Solo accesible en barco/kayak, no por tierra. Ventana de baño real de apenas 2-4h al día (coincidiendo con marea baja) — si el tour para aquí fuera de esa ventana, puede que no quede arena visible. Buena para kayak y snorkel ligero además de nadar.' }
           ],
@@ -1105,7 +1105,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 64;
+const DATA_VERSION = 65;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 

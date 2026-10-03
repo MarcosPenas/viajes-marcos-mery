@@ -634,13 +634,6 @@ async function loadWikiPhoto(imgEl, placeName) {
   // Fichas de lugares/platos (data-fixed): solo foto fija verificada. Sin ella se queda el icono
   // de categoría — nunca se adivina por alias, caché antigua ni búsqueda en Wikipedia.
   if (imgEl.dataset.fixed) return;
-  // 1b. IMAGE_MAP — imagen única por nombre de lugar (mayor prioridad que artículo Wikipedia)
-  const mappedUrl = window.IMAGE_MAP && window.IMAGE_MAP[placeName];
-  if (mappedUrl) {
-    const probe = new Image();
-    const ok = await new Promise(res => { probe.onload = () => res(true); probe.onerror = () => res(false); probe.src = mappedUrl; });
-    if (ok && imgEl.isConnected) { imgEl.onload = () => imgEl.classList.add('loaded'); imgEl.src = mappedUrl; return; }
-  }
   // 2. Imagen local descargada en img/places/<slug>.jpg
   // article: desde WIKI_ARTICLES o el propio placeName si es un artículo directo (ej. círculos de zona)
   const article = WIKI_ARTICLES[placeName] || placeName;
@@ -1737,9 +1730,9 @@ function buildDashboardHTML(trip, active, past, diff, day, nextDay, pendingTotal
   const _svgPlane = `<svg viewBox="0 0 24 24" fill="white" width="26" height="26"><path d="M21 16l-8.5-4.5V4a2.5 2.5 0 0 0-5 0v7.5L3 16v2.5l4.5-1.5v3.5l-1.5 1H19l-1.5-1V17l4.5 1.5V16z"/></svg>`;
 
   const ZONE_META = {
-    'Vuelos':     { color: '#3d6b96', lt: '#dceaf5', label: 'Vuelos', wiki: 'Barcelona–El_Prat_Airport',
+    'Vuelos':     { color: '#3d6b96', lt: '#dceaf5', label: 'Vuelos', wiki: 'Barcelona–El_Prat_Airport', photo: 'img/fotos/aeropuerto-barcelona-el-prat.jpg',
                     desc: 'Barcelona y escala en Shenzhen antes de aterrizar en Hanói.' },
-    'Delta del Mekong': { color: '#2e8b57', lt: '#d6f0e0', label: 'Delta del Mekong', wiki: 'Mekong_Delta',
+    'Delta del Mekong': { color: '#2e8b57', lt: '#d6f0e0', label: 'Delta del Mekong', wiki: 'Mekong_Delta', photo: 'img/fotos/cho-noi-cai-rang.jpg',
                     desc: 'Chau Doc y Can Tho, cruzando la frontera camboyano-vietnamita por el río Mekong.' },
     'Ninh Binh':  { color: '#4a7c3f', lt: '#e0f0d8', label: 'Ninh Binh', wiki: 'Trang_An',
                     desc: 'Tam Coc y Trang An — la "Ha Long Bay terrestre", arrozales entre picos kársticos.' },
@@ -1805,7 +1798,7 @@ function buildDashboardHTML(trip, active, past, diff, day, nextDay, pendingTotal
       <div class="route-row">
         <div class="route-row-left">
           <div class="route-icon-container" style="background:${grad}">
-            <img class="route-icon-photo" data-wiki="${meta.wiki || ''}" alt="${meta.label}" src="">
+            <img class="route-icon-photo" data-wiki="${meta.wiki || ''}" data-photo="${meta.photo || ''}" alt="${meta.label}" src="">
           </div>
           ${!isLast ? `<div class="route-connector" style="background:${connectorGrad};min-height:${12 + blockDays.length * 4}px"></div>` : ''}
         </div>
@@ -2550,13 +2543,27 @@ function renderDay(date) {
     'Siem Reap':       'img/places/angkor_wat.jpg',
     'Koh Rong Sanloem':'img/places/koh_rong_sanloem.jpg',
     'Phnom Penh':      'img/places/phnom_penh.jpg',
+    'Chau Doc':        'img/fotos/cho-chau-doc.jpg',
+    'Can Tho':         'img/fotos/cho-noi-cai-rang.jpg',
+    'Tam Coc':         'img/places/tam_coc.jpg',
+    'Aeropuerto de Barcelona-El Prat': 'img/fotos/aeropuerto-barcelona-el-prat.jpg',
+    'Aeropuerto de Shenzhen (escala)': 'img/fotos/aeropuerto-shenzhen.jpg',
+  };
+  // Días de traslado ("Hanói → Siem Reap", "Tam Coc / Ninh Binh"): foto del destino, o del primer tramo si no hay
+  const cityKey = c => {
+    if (CITY_PHOTOS[c]) return c;
+    const clean = s => s.replace(/\(.*?\)/g, '').trim();
+    const dest = clean(c.split('→').pop());
+    if (CITY_PHOTOS[dest]) return dest;
+    const first = clean(c.split(/→|\//)[0]);
+    return CITY_PHOTOS[first] ? first : c;
   };
   const BLOCK_COLORS = {
     'El Norte': '#2d6a4f', 'El Centro': '#8b4513',
     'Camboya': '#b07d1a', 'Islas': '#0077a8',
     'Cierre': '#5b4080', 'El Cierre': '#5b4080',
   };
-  const cityPhoto = CITY_PHOTOS[day.city] || '';
+  const cityPhoto = CITY_PHOTOS[cityKey(day.city)] || '';
   const blockColor = BLOCK_COLORS[day.block] || 'var(--primary)';
   const headerHtml = `
     <div class="day-hero" style="${cityPhoto

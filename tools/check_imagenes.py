@@ -138,12 +138,22 @@ def main():
 
     hashes = collections.defaultdict(list)
     referenced = {f['photo'].split('/')[-1] for f in fichas if f['photo']}
+    # fotos usadas por el código (portadas de día, etc.), no por fichas
+    referenced |= set(re.findall(r"img/fotos/([\w.-]+\.jpg)", open(os.path.join(ROOT, 'js', 'app.js'), encoding='utf-8').read()))
     for fn in sorted(os.listdir(FOTOS)):
         if fn not in referenced:
             errors.append(f'archivo huérfano en img/fotos (no lo usa ninguna ficha): {fn}')
         hashes[hashlib.md5(open(os.path.join(FOTOS, fn), 'rb').read()).hexdigest()].append(fn)
     for h, fns in hashes.items():
         if len(fns) > 1: errors.append(f'imágenes idénticas con distinto nombre: {fns}')
+
+    # imágenes locales citadas en el código (portadas, hoteles...) deben existir
+    for fn in ('js/app.js', 'js/data.js', 'index.html'):
+        src = open(os.path.join(ROOT, fn.replace('/', os.sep)), encoding='utf-8').read()
+        for rel in sorted(set(re.findall(r"img/(?:places|fotos)/[^'\"\s)?`$]+\.jpg", src))):
+            if any(c in rel for c in '${*<'): continue   # plantillas/comentarios, no rutas reales
+            if not os.path.exists(os.path.join(ROOT, rel.replace('/', os.sep))):
+                errors.append(f'{fn}: cita {rel} que no existe')
 
     con = sum(1 for f in fichas if f['photo'])
     print(f'{len(fichas)} fichas · {con} con foto · {len(fichas) - con} sin foto declarada · {len(os.listdir(FOTOS))} archivos')

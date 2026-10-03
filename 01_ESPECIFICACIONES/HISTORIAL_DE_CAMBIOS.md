@@ -2,6 +2,21 @@
 
 ---
 
+## 2026-10-03 (PC de casa, 3ª parte) — "Que todos los items tengan imagen": +12 fotos de fichas, portadas de los 25 días, poda de img/places, IMAGE_MAP eliminado
+
+Marcos pidió comprobar que **todos** los items tienen imagen. Resultado de la comprobación y de lo que se hizo:
+
+- **Fichas (lugares/platos): 190 de 212 con foto** (antes 178). Segunda ronda de búsqueda en Wikimedia Commons (consultas en inglés y vietnamita, ~35 fichas, cada candidata revisada a ojo en hojas de contacto): **12 fotos nuevas verificadas** — Murales de Phùng Hưng (mural real de la calle, sustituye a la foto aleatoria de picsum), Phare The Cambodian Circus, Mercado Ruso (foto real del mercado), Bosque de Tra Su, Clases de Cocina (Hoi An), Nem Chua Yên Mạc, Rượu Kim Sơn, Trekking a Viet Hai (sendero del P.N. Cat Ba), Khmer Red Curry, Fruta y café flotante en Cai Rang (barca vendedora en Cai Rang), Bún Mắm Nêm, Hoành Thánh Chiên. Bug detectado a tiempo por el test: al guardar la del trekking se pisó el archivo que usaba Ba Trai Dao (bahía de Lan Ha) → ahora cada una tiene su archivo (`ba-trai-dao.jpg`).
+- **22 fichas siguen sin foto, a propósito** (icono neutro de categoría): Café Phố Cổ, El Callejón Colectivo Cũ, Lotus Silk Farm, Lap Khmer, Lẩu Mắm, Khô Cá Lóc, Victoria Nui Sam Lodge, Cena ligera antes del bus nocturno, Cơm Gà Hội An, Bánh Đập, Mercado de Ba Le, Mercado de Tan An, Talleres Artesanales, Aldea de Frescos de Da Nang, Mercado nocturno Son Tra, Chè Huế, Bánh Ép, Vả Trộn, Cá Rô Tổng Trường, Bề Bề Rang Muối, Tu Hài Nướng, Comida casera en Viet Hai. No existe en Commons una imagen verificable de cada una (lo que aparece son platos distintos, retratos, mapas, etc.); regla de Marcos: mejor sin foto que una equivocada. Solución real: fotos propias de Marcos/María (ver `CONTINUIDAD.md`).
+- **Portadas de día: 25/25 con foto** (antes 10/25 — los días de traslado "Hanói → Siem Reap", "Tam Coc / Ninh Binh"… salían como bloque de color). `renderDay` usa ahora la foto del destino (`cityKey`); añadidas Chau Doc, Can Tho, Tam Coc y los dos aeropuertos (`img/fotos/aeropuerto-*.jpg`).
+- **Iconos de ruta:** "Vuelos" y "Delta del Mekong" apuntaban a archivos locales inexistentes y dependían de Wikipedia en vivo (no funcionaban offline) → ahora fotos locales fijas (`meta.photo`).
+- **Poda de `img/places/`:** 208 → 19 archivos (148 MB → ~12 MB; `img/` entero 26 MB). Solo se conservan los que usa el código (portadas, hoteles, iconos de ruta). `js/imageMap.js` eliminado (index.html, sw.js y el bloque 1b de `loadWikiPhoto`). Recuperables desde git (`ee3efae` y anteriores) si hiciera falta alguno.
+- **`tools/check_imagenes.py`** ampliado: comprueba además que toda imagen `img/places|fotos/...` citada en `app.js`/`data.js`/`index.html` existe, y que los archivos de `img/fotos/` usados solo por el código (portadas) no cuentan como huérfanos. Estado: OK (212 fichas · 190 con foto · 22 sin foto · 177 archivos).
+- **Verificado en navegador:** 451 imágenes de ficha cargadas, 0 rotas; 25/25 portadas; 9/9 iconos de ruta locales; 0 respuestas 404 de recursos propios en todas las vistas (Inicio, Días, Hoy, Mapa, Docs, días 1-25 en Lugares/Qué comer).
+- Versiones: `DATA_VERSION` 65, `data.js?v=65`, `app.js?v=144`. `CREDITOS_FOTOS.md` regenerado (177 archivos).
+
+---
+
 ## 2026-10-03 (PC de casa, 2ª parte) — Fotos CONGELADAS: cada ficha lleva una foto fija revisada o ninguna (rama `fotos-congeladas`)
 
 **Problema de fondo:** la app elegía la foto de cada ficha "a posteriori" (`photo:` → `IMAGE_MAP` → archivo local por nombre/alias → resumen de Wikipedia en vivo). Esa adivinanza era la causa de casi todas las fotos que no salían o no correspondían, y cambiaba sola según lo que devolviera Wikipedia.

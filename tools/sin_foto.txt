@@ -1,35 +1,23 @@
 # Fichas SIN foto a propósito (icono neutro). Formato: fecha|nombre. Regenerar con --init.
 2026-11-07|Café Phố Cổ (azotea secreta sobre el lago)
 2026-11-09|El Callejón Colectivo Cũ (Cư xá Cũ)
-2026-11-09|Murales de Phùng Hưng (Street Art)
-2026-11-11|Khmer Red Curry (Kari Sach Moan)
-2026-11-11|Phare, The Cambodian Circus
 2026-11-12|Lotus Silk Farm
 2026-11-13|Cena ligera antes del bus nocturno
 2026-11-15|Lap Khmer
-2026-11-15|Mercado Ruso (Tuol Tom Poung)
 2026-11-16|Lẩu Mắm
-2026-11-17|Bosque de Tra Su (Cajuput)
 2026-11-17|Khô Cá Lóc
 2026-11-17|Victoria Nui Sam Lodge (mirador de los arrozales)
-2026-11-18|Fruta y café flotante en Cai Rang
 2026-11-19|Cơm Gà Hội An
-2026-11-19|Hoành Thánh Chiên
 2026-11-20|Bánh Đập
-2026-11-20|Clases de Cocina
 2026-11-20|Mercado de Ba Le
 2026-11-20|Mercado de Tan An (Tiger Market)
 2026-11-20|Talleres Artesanales
 2026-11-21|Aldea de Frescos de Da Nang
-2026-11-21|Bún Mắm Nêm
 2026-11-21|Mercado nocturno Son Tra
 2026-11-22|Chè Huế
 2026-11-23|Bánh Ép
 2026-11-23|Vả Trộn
-2026-11-24|Nem Chua Yên Mạc
-2026-11-24|Rượu Kim Sơn
 2026-11-25|Cá Rô Tổng Trường
 2026-11-26|Bề Bề Rang Muối
 2026-11-26|Tu Hài Nướng
 2026-11-27|Comida casera en Viet Hai
-2026-11-27|Trekking al pueblo de Viet Hai
