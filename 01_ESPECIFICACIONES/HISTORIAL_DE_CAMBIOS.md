@@ -2,6 +2,27 @@
 
 ---
 
+## 2026-10-06 (PC del trabajo, 4ª parte) — Mejoras pendientes: Ahora/Siguiente, avisos, reservas, SOS, sin conexión y fallo de fecha (SIN PUBLICAR)
+
+Pedido de Marcos: «vete arreglando todo lo que puedas» de la lista de mejoras.
+
+- **🔴 Fallo de fecha corregido:** `today()` usaba `toISOString()` (fecha UTC). En Vietnam y Camboya (UTC+7), de 00:00 a 07:00 la app creía que seguía siendo el día anterior (Hoy, estadísticas, todo). Ahora `isoLocal()` usa la fecha local del móvil. Regla nueva: nunca `toISOString()` para fechas.
+- **«Ahora / Siguiente» en Hoy** (lo que Marcos llamó «la nº 1»): `dayEvents()` saca los momentos con hora de cada día (salida del hotel anterior —antes del primer transporte si sale antes—, transportes y entrada en el nuevo alojamiento); la tarjeta dice qué toca ahora y lo siguiente («Hoy · 15:10 · dentro de 1 h 13 min» o «Mañana · 10:30»), con botones de punto de salida (de «Salida: …» de los detalles o del aeropuerto), localizador y llamar al hotel.
+- **Avisos de hoy y mañana** (Hoy, y antes del viaje cuando toca): salida del hotel, noche en bus, vuelo de mañana, frontera de mañana (Camboya: e-Visa y QR; Vietnam: QR; China: sin visado y VPN), madrugones (antes de las 9:00) y tareas previas con fecha de hoy/mañana.
+- **Centro de reservas** arriba de Docs: los 14 transportes con reserva y los 12 alojamientos por fecha, con HOY/MAÑANA, localizador (copiar/cambiar) y, en hoteles, cómo llegar, llamar y ficha.
+- **Botón SOS** en la cabecera (con un viaje abierto): emergencias y embajada del país en que se está (los dos antes del viaje), alojamiento de esta noche (o el siguiente si se duerme en un bus) con cómo llegar y llamar, y acceso a Documentos.
+- **Indicador sin conexión** en Inicio: «✓ Lista para usar sin conexión · 192 fotos», «⏳ Preparando… N/192», «⏳ Fotos guardadas; falta guardar la app…» o «📴 Sin conexión: usando lo guardado». Se actualiza al terminar la precarga y al perder/recuperar la red.
+- **Wikipedia sin conexión:** la precarga diaria guarda también los resúmenes de «Sobre <ciudad>» de todas las ciudades y su foto (probado: Cat Ba sale sin conexión aunque no se haya abierto ese día).
+- **Service worker:** cada versión de un archivo se guardaba como copia aparte y nunca se borraban las viejas; ahora se borran al guardar la nueva. Caché del armazón `viajes-shell-v4` (al activarse borra la v3 acumulada).
+- **Pines superpuestos** en el mapa general (Old Quarter de Hanói días 7 y 29; Old Quarter de Hoi An ×2): se separan ~25 m solo al dibujarlos.
+- **«Sobre la ciudad» en traslados:** si el trayecto principal llega antes de las 14:00 (y no es nocturno) se muestra el destino: 22-nov Hue y 26-nov Cat Ba; el resto sigue con la de salida.
+- **Zoom:** ya se puede ampliar con los dedos (fuera `maximum-scale`/`user-scalable=no`); campos de texto a 16 px para que iOS no amplíe solo.
+- **Emojis compatibles:** 12 emojis recientes salían como un cuadrado en Windows 10 (en el móvil se ven): 🧭 → 📍 (Cómo llegar), 🛕 → ☸️ (templos del mapa) y 🏛️ (tarjeta del Imperio jemer), 🟢 → 📍, y en «Qué llevar» 🧣→👘, 🥿→👟, 🩴→👡, 🩱→👙, 🦟→🐛, 🩺→💉, 🧴→✋, 🧢→👒, 🧦→👣 (categorías intactas: 10/9/7/6/5). Comprobado con un script que mide en el navegador todos los emojis de la app.
+- **Limpieza:** fuera `DISH_WIKI` (sin uso); `.claude/` sacado del repo y en `.gitignore` (configuración local de cada PC).
+- **Memoria Maestra reescrita entera (v3.0):** la anterior era de septiembre (23 días, `imageMap.js`, token pendiente…).
+- **Probado:** 26 días × todas las pestañas + Hoy simulado cada día + SOS cada día + todas las vistas: 0 errores, 0 imágenes rotas, 0 desbordes; contraste claro/oscuro de todo lo nuevo sin fallos; sin conexión con `tools/servidor_ruta_produccion.py`: todo funciona, Wikipedia incluida. `check_imagenes.py` OK y ningún localizador en el repo.
+- Versiones: `data.js?v=88` (`DATA_VERSION` 87), `guia.js?v=3`, `app.js?v=179`, `styles.css?v=100`, SW `viajes-shell-v4`. **Sin publicar.**
+
 ## 2026-10-06 (PC del trabajo, 3ª parte) — Localizadores fuera del repo público y PUBLICACIÓN
 
 - **Localizadores de reserva retirados del repo (decisión de Marcos):** el repo es público y con localizador + apellido se puede ver, cambiar o cancelar una reserva de avión (el apellido sale en el usuario de GitHub). Los 5 de vuelos y ferry llevaban publicados desde el 3-oct y se iban a añadir 5 de buses y tren. Quitados de `data.js` (detalles de transporte y resúmenes de los días 5, 6 y 30) y de este historial. Los 5 ya publicados siguen en el historial antiguo de GitHub (Marcos eligió no reescribirlo).

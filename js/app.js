@@ -121,6 +121,22 @@ function _cleanCityName(city) {
   return c in CITY_INFO_ALIAS ? CITY_INFO_ALIAS[c] : c;
 }
 
+// Ciudad de la ficha «Sobre…» de un día. En los días de traslado es la de salida, salvo que
+// el trayecto principal (el de más km) llegue antes de las 14:00 sin ser nocturno: entonces
+// el día se pasa en el destino (22-nov tren a Hue 07:05–11:03, 26-nov bus a Cat Ba 09:00–13:00).
+function cityForDayInfo(day) {
+  const city = day.city || '';
+  if (city.includes('→')) {
+    const main = (day.transport || []).slice().sort((a, b) => (b.km || 0) - (a.km || 0))[0];
+    const m = main && /(\d{1,2}):(\d{2})\s*–\s*(\d{1,2}):(\d{2})/.exec(main.time || '');
+    if (m && !/\(\+1\)/.test(main.time)) {
+      const dep = +m[1] * 60 + +m[2], arr = +m[3] * 60 + +m[4];
+      if (arr > dep && arr < 14 * 60) return _cleanCityName(city.split('→').pop());
+    }
+  }
+  return _cleanCityName(city);
+}
+
 // Título exacto en la Wikipedia en español cuando el nombre no basta:
 // «Hue» da una página de desambiguación y «Cat Ba» no existe.
 const CITY_WIKI_ES = { 'Hue': 'Huế (municipio)', 'Cat Ba': 'Isla Cát Bà' };
@@ -341,7 +357,12 @@ const HERO_WIKI_PLACES = HERO_WIKI_ARTICLES; // alias para heroLayersHtml count
 
 function save() { AppData.saveData(DB); }
 function getTrip(id) { return DB.trips.find(t => t.id === id); }
-function today() { return new Date().toISOString().slice(0,10); }
+// Fecha LOCAL del móvil (AAAA-MM-DD). Antes usaba toISOString(), que da la fecha en UTC: en
+// Vietnam y Camboya (UTC+7), de 00:00 a 07:00 la app creía que aún era el día anterior.
+function isoLocal(d) {
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+function today() { return isoLocal(new Date()); }
 
 function formatDate(str) {
   if (!str) return '';
@@ -418,6 +439,8 @@ function updateNav(view) {
     b.classList.toggle('active', b.dataset.view === active);
   });
   el('bottom-nav').style.display = (view === 'home') ? 'none' : 'flex';
+  const sos = el('sos-btn');
+  if (sos) sos.hidden = (view === 'home' || !currentTripId);
 }
 
 function setupNav() {
@@ -648,6 +671,7 @@ function renderHome() {
   currentTripId = null;
   setHeader('Mis Viajes', false);
   el('bottom-nav').style.display = 'none';
+  if (el('sos-btn')) el('sos-btn').hidden = true;
 
   const content = el('view-content');
   const monthEs = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
@@ -754,6 +778,7 @@ async function renderTripDashboard() {
   // Render estructura inicial
   const content = el('view-content');
   content.innerHTML = buildDashboardHTML(trip, active, past, diff, day, nextDay, pendingTotal, pendingNext5);
+  updateOfflineStatus();
 
   // ── Cargar imágenes Wikipedia (hero + wiki photos) ──
   loadHeroImages();
@@ -1190,7 +1215,7 @@ function buildTripStatsHTML(trip) {
     { icon: '🚗', label: 'Coche',   types: ['car', 'taxi', 'tuktuk', 'van'] },
   ];
   const known = TRANSIT_ROWS.flatMap(r => r.types);
-  TRANSIT_ROWS.push({ icon: '🧭', label: 'Otros', types: [...new Set(transits.map(tr => tr.type).filter(ty => !known.includes(ty)))] });
+  TRANSIT_ROWS.push({ icon: '🔀', label: 'Otros', types: [...new Set(transits.map(tr => tr.type).filter(ty => !known.includes(ty)))] });
   const transitRows = TRANSIT_ROWS
     .map(r => ({ ...r, total: transits.filter(tr => r.types.includes(tr.type)).length,
                        done:  doneTransits.filter(tr => r.types.includes(tr.type)).length }))
@@ -1376,7 +1401,7 @@ function buildTransitAlertHTML(day) {
 function buildDashboardHTML(trip, active, past, diff, day, nextDay, pendingTotal, pendingNext5) {
   // ── Estado del viaje ──
   let statusBadge = '';
-  if (active) statusBadge = `<span class="status-badge status-active">🟢 Viaje en curso · Día ${getDayNumber(trip, today())}</span>`;
+  if (active) statusBadge = `<span class="status-badge status-active">📍 Viaje en curso · Día ${getDayNumber(trip, today())}</span>`;
   else if (past) statusBadge = `<span class="status-badge status-past">✓ Viaje completado</span>`;
   else statusBadge = `<span class="status-badge status-future">⏳ ${diff} días para salir</span>`;
 
@@ -1566,6 +1591,9 @@ function buildDashboardHTML(trip, active, past, diff, day, nextDay, pendingTotal
       </div>
     </div>
 
+    <!-- Estado del modo sin conexión (lo rellena updateOfflineStatus) -->
+    <div id="offline-status" class="offline-status" role="status" hidden></div>
+
     <!-- Reloj dual + Tiempo -->
     <div style="padding:14px 16px 0">
       ${buildDualClockHTML()}
@@ -1617,8 +1645,8 @@ function packCategory(item) {
   if (item.cat && item.cat !== '📦 Sin categoría') return item.cat;
   const t = item.text || '';
   if (/^(🛂|📄|💳|💵)/u.test(t) || /fotos? de carn[eé]/i.test(t)) return PACK_CATS[0];
-  if (/^(👕|🧣|🥿|🩴|🩱|🌂|🧦|🧢|👓)/u.test(t)) return PACK_CATS[1];
-  if (/^(☀|🦟|💊|🩺|🧴|🚿)/u.test(t)) return PACK_CATS[2];
+  if (/^(👕|👘|👟|👡|👙|🌂|👣|👒|👓)/u.test(t)) return PACK_CATS[1];
+  if (/^(☀|🐛|💊|💉|✋|🚿)/u.test(t)) return PACK_CATS[2];
   if (/^(🔌|🔋|📷|📱|🎧|🔦)/u.test(t)) return PACK_CATS[3];
   return PACK_CATS[4];
 }
@@ -2257,7 +2285,7 @@ function renderDay(date) {
         </div>
         ${hInfo.phone ? `<a class="dsc-meta hotel-phone" style="margin-top:8px;display:block" href="${hLinks.tel}" onclick="event.stopPropagation()">📞 ${escHtml(hInfo.phone)}</a>` : ''}
         <div class="hotel-btns" onclick="event.stopPropagation()">
-          <a class="dsc-maps-btn" href="${hLinks.dir}" target="_blank" rel="noopener">🧭 Cómo llegar</a>
+          <a class="dsc-maps-btn" href="${hLinks.dir}" target="_blank" rel="noopener">📍 Cómo llegar</a>
           <button class="dsc-maps-btn" data-hotel="${escHtml(day.hotel.name)}" onclick="openHotelDetail(this.dataset.hotel,'${day.date}')">ℹ️ Ficha del alojamiento</button>
         </div>
       </div>
@@ -2347,7 +2375,7 @@ function renderDay(date) {
   // Ficha "Sobre <ciudad>" — resumen general del lugar donde se está ese día.
   // Desplegable para no ocupar tanto espacio: historia primero, luego
   // curiosidades y, si aporta algo, platos típicos al final.
-  const cityForInfo = _cleanCityName(day.city);
+  const cityForInfo = cityForDayInfo(day);
   const cityCurated = CITY_INFO[cityForInfo];
   const citySummaryHtml = cityForInfo ? `
     <div class="dsc-card city-info-card" id="city-info-${date}" role="button" tabindex="0"
@@ -2433,7 +2461,7 @@ function renderDay(date) {
             ${type === 'place' && item.lat != null ? (() => {
               const st = getPlaceState(date, item.name);
               return `<div class="lugar-actions" onclick="event.stopPropagation()">
-                <a class="lugar-act" href="https://www.google.com/maps/dir/?api=1&destination=${item.lat},${item.lng}" target="_blank" rel="noopener">🧭 Cómo llegar</a>
+                <a class="lugar-act" href="https://www.google.com/maps/dir/?api=1&destination=${item.lat},${item.lng}" target="_blank" rel="noopener">📍 Cómo llegar</a>
                 <button class="lugar-act${st.favorite ? ' on' : ''}" data-d="${date}" data-n="${escHtml(item.name)}"
                         onclick="togglePlaceFavorite(this.dataset.d, this.dataset.n); this.classList.toggle('on')">★ Favorito</button>
                 <button class="lugar-act${st.visited ? ' on' : ''}" data-d="${date}" data-n="${escHtml(item.name)}"
@@ -2644,6 +2672,285 @@ function initDayLeaflet() {
   }, 100);
 }
 
+// ══════════════════════════════════════════════════════════
+//  MOMENTOS DEL DÍA (6-oct-2026): «Ahora / Siguiente», avisos, centro de reservas, SOS
+//  y estado del modo sin conexión. Todo sale de los datos del itinerario (transportes con
+//  hora y entradas/salidas de los alojamientos), sin depender de la red.
+// ══════════════════════════════════════════════════════════
+const MEDIA_CACHE_NAME = 'viajes-media-v1'; // = MEDIA_CACHE de sw.js
+
+function effectiveDate() { return _timeTravelDate || today(); }
+function addDaysIso(iso, n) { const d = new Date(iso + 'T12:00:00'); d.setDate(d.getDate() + n); return isoLocal(d); }
+function parseTimeMin(str) { const m = /(\d{1,2}):(\d{2})/.exec(str || ''); return m ? (+m[1]) * 60 + (+m[2]) : null; }
+function fmtMin(t) { return String(Math.floor(t / 60) % 24).padStart(2, '0') + ':' + String(t % 60).padStart(2, '0'); }
+function fmtDiff(min) { const h = Math.floor(min / 60), m = min % 60; return h ? `${h} h${m ? ' ' + m + ' min' : ''}` : `${m} min`; }
+function nowMinutes() { const d = new Date(); return d.getHours() * 60 + d.getMinutes(); }
+function fmtDayShort(iso) {
+  const s = new Date(iso + 'T12:00:00').toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' });
+  return s.charAt(0).toUpperCase() + s.slice(1); // «Jue, 5 nov» (no «Jue, 5 Nov»)
+}
+
+// Momentos con hora de un día: salida del alojamiento anterior, transportes y entrada en el nuevo.
+function dayEvents(trip, date) {
+  const i = trip.days.findIndex(d => d.date === date);
+  if (i < 0) return [];
+  const day = trip.days[i], prev = trip.days[i - 1];
+  const prevH = (prev && prev.hotel && prev.hotel.name) || '';
+  const curH  = (day.hotel && day.hotel.name) || '';
+  const ev = [];
+  (day.transport || []).forEach(tr => {
+    const t = parseTimeMin(tr.time) ?? (/mañana/i.test(tr.time || '') ? 9 * 60 : null);
+    if (t != null) ev.push({ t, kind: 'transport', icon: tr.icon || transportIcon(tr.type), title: (tr.from || '') + ' → ' + (tr.to || ''), sub: tr.time || '', tr, date });
+  });
+  const trTimes = ev.map(e => e.t);
+  if (prevH && prevH !== curH) {
+    const info = hotelInfo(prev.hotel);
+    const co = parseTimeMin(info.checkOut) ?? 12 * 60;
+    // Si el primer transporte sale antes de la hora de salida, se deja el hotel antes
+    const t = trTimes.length ? Math.min(co, Math.min(...trTimes) - 30) : co;
+    ev.push({ t: Math.max(t, 0), kind: 'checkout', icon: '🔑', title: 'Salida de ' + prevH, sub: 'Dejar la habitación antes de las ' + (info.checkOut || '12:00'), hotel: info, date });
+  }
+  if (curH && curH !== prevH) {
+    const info = hotelInfo(day.hotel);
+    const ci = parseTimeMin(info.checkIn) ?? 14 * 60;
+    ev.push({ t: Math.max(ci, trTimes.length ? Math.max(...trTimes) + 1 : 0), kind: 'checkin', icon: '🏨', title: 'Entrada en ' + curH, sub: info.checkIn ? 'Entrada desde las ' + info.checkIn : '', hotel: info, date });
+  }
+  return ev.sort((a, b) => a.t - b.t);
+}
+
+// Punto de salida de un transporte para «Cómo llegar» (solo si se conoce de verdad)
+const FLIGHT_AIRPORT = {
+  'Santiago': 'Aeropuerto de Santiago de Compostela', 'Barcelona': 'Aeropuerto Josep Tarradellas Barcelona-El Prat',
+  'Hanói (HAN)': 'Aeropuerto Internacional Nội Bài, Hanói', 'Can Tho': 'Aeropuerto Internacional de Cần Thơ'
+};
+function departureQuery(tr) {
+  const m = /Salida:\s*([^.]+)/.exec(tr.details || '');
+  if (m) return m[1].trim() + ', ' + (tr.from || '').replace(/\s*\(.*\)/, '');
+  if (tr.type === 'flight' && FLIGHT_AIRPORT[tr.from]) return FLIGHT_AIRPORT[tr.from];
+  return '';
+}
+
+function eventActionsHTML(e) {
+  const btns = [];
+  if (e.kind === 'transport') {
+    const q = departureQuery(e.tr);
+    if (q) btns.push(`<a class="nn-btn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(q)}" target="_blank" rel="noopener">📍 Punto de salida</a>`);
+  } else if (e.hotel) {
+    const L = hotelLinks(e.hotel);
+    if (e.kind === 'checkin') btns.push(`<a class="nn-btn" href="${L.dir}" target="_blank" rel="noopener">📍 Cómo llegar</a>`);
+    if (L.tel) btns.push(`<a class="nn-btn" href="${L.tel}">📞 Llamar</a>`);
+  }
+  const ref = e.kind === 'transport' ? bookingRefHtml(e.date, e.tr) : '';
+  return (btns.length ? `<div class="nn-actions">${btns.join('')}</div>` : '') + ref;
+}
+
+// «Ahora / Siguiente» (arriba de Hoy, durante el viaje)
+function buildNowNextHTML(trip, date) {
+  const day = trip.days.find(d => d.date === date);
+  if (!day) return '';
+  const now = nowMinutes();
+  const evs = dayEvents(trip, date);
+  let next = evs.find(e => e.t > now), when = '';
+  if (next) when = `Hoy · ${fmtMin(next.t)} · dentro de ${fmtDiff(next.t - now)}`;
+  else {
+    next = dayEvents(trip, addDaysIso(date, 1))[0];
+    if (next) when = `Mañana · ${fmtMin(next.t)}`;
+  }
+  const cur = [...evs].reverse().find(e => e.t <= now && now - e.t < 90);
+  const nowText = cur ? `${cur.icon} ${cur.title}` : `📍 Día en ${cityForDayInfo(day) || day.city}`;
+  return `
+    <div class="now-next" role="region" aria-label="Ahora y siguiente">
+      <div class="nn-row"><span class="nn-label">Ahora</span><span class="nn-now">${escHtml(nowText)}</span></div>
+      ${next ? `
+      <div class="nn-next">
+        <div class="nn-label">Siguiente · ${escHtml(when)}</div>
+        <div class="nn-title">${next.icon} ${escHtml(next.title)}</div>
+        ${next.sub ? `<div class="nn-sub">${escHtml(next.sub)}</div>` : ''}
+        ${eventActionsHTML(next)}
+      </div>` : `<div class="nn-sub">No queda nada con hora en el itinerario.</div>`}
+    </div>`;
+}
+
+// Avisos útiles de hoy y mañana (nada de notificaciones: se ven al abrir Hoy)
+function buildAlertsHTML(trip, date) {
+  const out = [];
+  const tm = addDaysIso(date, 1);
+  const dayT = trip.days.find(d => d.date === date), dayM = trip.days.find(d => d.date === tm);
+  dayEvents(trip, date).filter(e => e.kind === 'checkout')
+    .forEach(e => out.push(['🔑', `Hoy dejáis ${e.hotel.name}: salida antes de las ${e.hotel.checkOut || '12:00'}.`]));
+  ((dayT && dayT.transport) || []).filter(tr => /nocturno|sleeper/i.test(tr.details || ''))
+    .forEach(tr => out.push(['🌙', `Esta noche dormís en el bus (${tr.from} → ${tr.to}, ${tr.time}). ${(TRANSPORT_TIPS['sleeper-bus'] || [])[0] || ''}`]));
+  if (dayM) {
+    const fl = (dayM.transport || []).find(tr => tr.type === 'flight');
+    if (fl) out.push(['✈️', `Mañana vuelo ${fl.from} → ${fl.to} (${fl.time}). Pasaportes a mano; los visados están en «Docs».`]);
+    if ((dayM.country || '').includes('→')) {
+      const dest = dayM.country.split('→').pop().replace(/[^\p{L} ]/gu, '').trim();
+      const need = /camboya/i.test(dest) ? 'e-Visa impresa (2 copias por persona) y QR de la Cambodia Digital Arrival Card'
+                 : /vietnam/i.test(dest) ? 'QR de la Vietnam Digital Arrival Card (se rellena en los 3 días previos)'
+                 : /china/i.test(dest)   ? 'pasaporte (no hace falta visado) y la VPN instalada antes de salir de España'
+                 : 'pasaporte';
+      out.push(['🛂', `Mañana entráis en ${dest}: ${need}.`]);
+    }
+    const early = dayEvents(trip, tm).find(e => e.kind === 'transport' && e.t < 9 * 60);
+    if (early) out.push(['⏰', `Mañana madrugáis: ${early.title} a las ${fmtMin(early.t)}.`]);
+  }
+  (DB.tasks || []).filter(t => !t.done && t.date && t.date >= date && t.date <= tm)
+    .forEach(t => out.push(['✅', `Pendiente para ${t.date === date ? 'hoy' : 'mañana'}: ${t.text}`]));
+  if (!out.length) return '';
+  return `
+    <div class="alerts-card" role="region" aria-label="Avisos">
+      ${out.map(([i, txt]) => `<div class="alert-row"><span class="alert-icon" aria-hidden="true">${i}</span><span>${escHtml(txt)}</span></div>`).join('')}
+    </div>`;
+}
+
+// Centro de reservas (arriba de Docs): transportes con reserva y alojamientos, por fecha
+function buildReservationsHTML(trip) {
+  const t = effectiveDate(), tm = addDaysIso(t, 1);
+  const items = [];
+  trip.days.forEach((day, i) => {
+    (day.transport || []).filter(tr => tr.ref).forEach(tr => items.push({ date: day.date, t: parseTimeMin(tr.time) ?? 0, tr }));
+    const h = day.hotel && day.hotel.name, prevH = i > 0 && trip.days[i - 1].hotel && trip.days[i - 1].hotel.name;
+    if (h && h !== prevH) items.push({ date: day.date, t: 24 * 60, day });
+  });
+  items.sort((a, b) => a.date.localeCompare(b.date) || a.t - b.t);
+  const badge = d => d === t ? '<span class="res-badge res-today">HOY</span>'
+                  : d === tm ? '<span class="res-badge res-tomorrow">MAÑANA</span>'
+                  : `<span class="res-date">${fmtDayShort(d)}</span>`;
+  const rows = items.map(it => {
+    const past = it.date < t ? ' res-past' : '';
+    if (it.tr) {
+      const company = (it.tr.details || '').split(/ — |\. /)[1] || '';
+      return `<div class="res-item${past}">
+        <div class="res-head">${badge(it.date)}<span class="res-time">${escHtml(it.tr.time || '')}</span></div>
+        <div class="res-title">${it.tr.icon || transportIcon(it.tr.type)} ${escHtml(it.tr.from + ' → ' + it.tr.to)}</div>
+        ${company ? `<div class="res-sub">${escHtml(company.replace(/\.$/, ''))}</div>` : ''}
+        ${bookingRefHtml(it.date, it.tr)}
+      </div>`;
+    }
+    const info = hotelInfo(it.day.hotel);
+    const stay = hotelStay(trip, info.name, it.date);
+    const L = hotelLinks(info);
+    return `<div class="res-item${past}">
+      <div class="res-head">${badge(it.date)}<span class="res-time">${stay ? (stay.nights === 1 ? '1 noche' : stay.nights + ' noches') : ''}</span></div>
+      <div class="res-title">🏨 ${escHtml(info.name)}</div>
+      ${info.address ? `<div class="res-sub">${escHtml(info.address)}</div>` : ''}
+      <div class="nn-actions">
+        <a class="nn-btn" href="${L.dir}" target="_blank" rel="noopener">📍 Cómo llegar</a>
+        ${L.tel ? `<a class="nn-btn" href="${L.tel}">📞 Llamar</a>` : ''}
+        <button class="nn-btn" data-hotel="${escHtml(info.name)}" onclick="openHotelDetail(this.dataset.hotel,'${it.date}')">ℹ️ Ficha</button>
+      </div>
+    </div>`;
+  }).join('');
+  return `
+    <div class="section-title">🎫 Reservas del viaje</div>
+    <div class="res-hint">Los localizadores se guardan solo en este móvil (la app es pública y no los publica).</div>
+    <div class="res-list">${rows}</div>`;
+}
+
+// SOS: emergencias, embajada y alojamiento de esta noche, en una hoja que se abre desde la cabecera
+function openSOS() {
+  const trip = getTrip(currentTripId);
+  if (!trip) return;
+  const date = effectiveDate();
+  const idx = trip.days.findIndex(d => d.date === date);
+  const day = idx >= 0 ? trip.days[idx] : null;
+  const destCountry = day ? (day.country || '').split('→').pop() : '';
+  const where = /camboya/i.test(destCountry) ? 'camboya' : /vietnam/i.test(destCountry) ? 'vietnam' : '';
+  const pick = list => (list || []).filter(e => !where || (e.country || '').toLowerCase().includes(where));
+  const tel = n => `<a class="em-phone" href="tel:${(n || '').replace(/\s+/g, '')}">${escHtml(n || '')}</a>`;
+  // Alojamiento de esta noche (o el siguiente, si esta noche es en un bus o un avión)
+  const hotelDay = (day && day.hotel && day.hotel.name) ? day : trip.days.slice(Math.max(idx, 0)).find(d => d.hotel && d.hotel.name);
+  const hi = hotelDay ? hotelInfo(hotelDay.hotel) : null;
+  const HL = hi ? hotelLinks(hi) : null;
+  const html = `
+    <div class="htl-sheet-overlay" onclick="closeSOS()"></div>
+    <div class="htl-sheet" role="dialog" aria-modal="true" aria-label="SOS">
+      <button class="htl-sheet-drag" onclick="closeSOS()" aria-label="Cerrar"></button>
+      <div class="htl-sheet-body">
+        <div class="htl-sheet-name">🆘 SOS</div>
+        <div class="em-block">
+          <div class="em-title">🚨 Emergencias${where ? '' : ' (Vietnam y Camboya)'}</div>
+          ${pick(DB.localEmergency).map(e => `
+            <div class="em-row em-phone-row"><span class="em-who">${flagText(e.country)}</span>
+              <span class="em-val">Policía ${tel(e.police)} · Ambulancia ${tel(e.ambulance)} · Bomberos ${tel(e.fire)}</span></div>`).join('')}
+        </div>
+        <div class="em-block">
+          <div class="em-title">${flagText('🇪🇸')} Embajada de España</div>
+          ${pick(DB.contacts).map(e => `
+            <div class="em-embassy">
+              <div class="em-emb-country">${flagText(e.country)} — ${escHtml(e.name || '')}</div>
+              ${e.emergency ? `<div class="em-row"><span class="em-who">Emergencia 24h</span>${tel(e.emergency)}</div>` : ''}
+              <div class="em-row"><span class="em-who">Teléfono</span>${tel(e.phone)}</div>
+            </div>`).join('')}
+        </div>
+        ${hi ? `
+        <div class="em-block">
+          <div class="em-title">🏨 ${hotelDay === day ? 'Alojamiento de esta noche' : 'Próximo alojamiento'}</div>
+          <div class="em-emb-country">${escHtml(hi.name)}</div>
+          ${hi.address ? `<div class="em-emb-addr">${escHtml(hi.address)}</div>` : ''}
+          <div class="nn-actions">
+            <a class="nn-btn" href="${HL.dir}" target="_blank" rel="noopener">📍 Cómo llegar</a>
+            ${HL.tel ? `<a class="nn-btn" href="${HL.tel}">📞 ${escHtml(hi.phone)}</a>` : ''}
+          </div>
+        </div>` : ''}
+        <div class="em-block">
+          <div class="em-title">🏥 Seguro y pasaportes</div>
+          <div class="em-note">La póliza (con su teléfono de asistencia 24 h) y las copias de los pasaportes, en «Documentos».</div>
+          <div class="nn-actions"><button class="nn-btn" onclick="closeSOS();navigate('docs')">📁 Abrir Documentos</button></div>
+        </div>
+      </div>
+    </div>`;
+  let wrap = document.getElementById('sos-sheet-wrap');
+  if (!wrap) { wrap = document.createElement('div'); wrap.id = 'sos-sheet-wrap'; document.body.appendChild(wrap); }
+  wrap.innerHTML = html;
+  wrap.style.display = 'block';
+  requestAnimationFrame(() => wrap.querySelector('.htl-sheet').classList.add('htl-sheet-open'));
+}
+
+function closeSOS() {
+  const wrap = document.getElementById('sos-sheet-wrap');
+  if (!wrap) return;
+  const sheet = wrap.querySelector('.htl-sheet');
+  if (sheet) sheet.classList.remove('htl-sheet-open');
+  setTimeout(() => { wrap.style.display = 'none'; wrap.innerHTML = ''; }, 280);
+}
+
+// Estado del modo sin conexión (Inicio): ¿está la app guardada y cuántas fotos?
+function curatedPhotoUrls() {
+  const urls = new Set();
+  DB.trips.forEach(t => (t.days || []).forEach(d =>
+    [...(d.places || []), ...(d.restaurants || [])].forEach(p => {
+      if (p.photo && !p.photo.includes('picsum')) urls.add(new URL(p.photo, location.href).href);
+    })));
+  return [...urls];
+}
+
+async function updateOfflineStatus() {
+  const box = document.getElementById('offline-status');
+  if (!box || !('serviceWorker' in navigator) || !window.caches) return;
+  let text, cls;
+  try {
+    const urls = curatedPhotoUrls();
+    const media = await caches.open(MEDIA_CACHE_NAME);
+    const have = (await Promise.all(urls.map(u => media.match(u)))).filter(Boolean).length;
+    const shell = await caches.match(new URL('js/data.js', location.href).href, { ignoreSearch: true });
+    const ready = !!navigator.serviceWorker.controller && !!shell && have >= urls.length;
+    if (!navigator.onLine) { text = `📴 Sin conexión: usando lo guardado en el móvil (${have}/${urls.length} fotos).`; cls = 'off'; }
+    else if (ready) { text = `✓ Lista para usar sin conexión · ${have} fotos guardadas`; cls = 'ok'; }
+    else if (have >= urls.length) { text = `⏳ Fotos guardadas (${have}/${urls.length}); falta guardar la propia app: ciérrala y vuelve a abrirla con wifi.`; cls = 'wait'; }
+    else { text = `⏳ Preparando el modo sin conexión: ${have}/${urls.length} fotos. Deja la app abierta con wifi un minuto.`; cls = 'wait'; }
+  } catch (e) { return; }
+  if (!box.isConnected) return;
+  box.textContent = text;
+  box.className = 'offline-status ' + cls;
+  box.hidden = false;
+}
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.addEventListener('message', e => { if (e.data && e.data.type === 'precache-done') updateOfflineStatus(); });
+}
+window.addEventListener('online', updateOfflineStatus);
+window.addEventListener('offline', updateOfflineStatus);
+
 // ── LOCALIZADORES DE RESERVA (solo en el móvil) ───────────
 // El repo es público: los localizadores no van en data.js (6-oct-2026). Los transportes con
 // reserva llevan `ref: true` y aquí se apunta su localizador, que se guarda en DB.bookingRefs
@@ -2740,7 +3047,7 @@ function openHotelDetail(name, date) {
   const links = hotelLinks(info);
   const fmt = iso => new Date(iso + 'T12:00:00').toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' });
   const outDate = new Date(stay.last.date + 'T12:00:00'); outDate.setDate(outDate.getDate() + 1);
-  const outIso  = outDate.toISOString().slice(0, 10);
+  const outIso  = isoLocal(outDate);
   const hasMap  = typeof info.lat === 'number' && typeof info.lng === 'number';
 
   const html = `
@@ -2760,7 +3067,7 @@ function openHotelDetail(name, date) {
         </div>
         ${info.desc ? `<p class="htl-sheet-desc">${escHtml(info.desc)}</p>` : ''}
         <div class="htl-sheet-actions">
-          <a class="htl-sheet-btn htl-sheet-btn-maps" href="${links.dir}" target="_blank" rel="noopener">🧭 Cómo llegar</a>
+          <a class="htl-sheet-btn htl-sheet-btn-maps" href="${links.dir}" target="_blank" rel="noopener">📍 Cómo llegar</a>
           <a class="htl-sheet-btn htl-sheet-btn-day" href="${links.place}" target="_blank" rel="noopener">🗺️ Fotos y opiniones en Google Maps</a>
           <button class="htl-sheet-btn htl-sheet-btn-day" onclick="closeHotelDetail();navigate('day','${stay.first.date}')">📅 Ver el día de llegada</button>
         </div>
@@ -2916,6 +3223,12 @@ function renderToday() {
   toDias.onclick = () => navigate('day', t);
   el('view-content').prepend(toDias);
 
+  // «Ahora / Siguiente» y avisos de hoy y mañana, lo primero de la pantalla
+  const nowBox = document.createElement('div');
+  nowBox.className = 'today-top';
+  nowBox.innerHTML = buildNowNextHTML(trip, t) + buildAlertsHTML(trip, t);
+  el('view-content').prepend(nowBox);
+
   // Añadir banner de simulación temporal encima si aplica
   if (isSimulated) {
     const banner = document.createElement('div');
@@ -3060,6 +3373,10 @@ function renderTodayPreTrip(trip, isPast) {
 
     <div style="height:80px"></div>`;
 
+  // Avisos (p. ej. el 4-nov: «Mañana vuelo Santiago → Barcelona…»)
+  const preAlerts = buildAlertsHTML(trip, today());
+  if (preAlerts) el('view-content').insertAdjacentHTML('afterbegin', `<div class="today-top">${preAlerts}</div>`);
+
   // Arrancar el timer de la cuenta atrás
   countdownTimer = setInterval(() => {
     const ms = new Date(trip.startDate + 'T00:00:00') - new Date();
@@ -3152,7 +3469,7 @@ function exitTimeTravel() {
 // ══════════════════════════════════════════════════════════
 
 const PLACE_TYPE_META = {
-  temple:   { icon: '🛕', color: '#b8861b', label: 'Templos' },
+  temple:   { icon: '☸️', color: '#b8861b', label: 'Templos' },
   monument: { icon: '🏛️', color: '#1a3a5c', label: 'Monumentos' },
   museum:   { icon: '🖼️', color: '#55672d', label: 'Museos' },
   market:   { icon: '🛍️', color: '#e8a23d', label: 'Mercados' },
@@ -3277,6 +3594,9 @@ function initFullMap(trip) {
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap', maxZoom: 19 }).addTo(mapInstance);
 
     _fullMapMarkers = {};
+    // Fichas distintas en el mismo punto exacto (p. ej. «Old Quarter» el día 7 y el 29): el
+    // pin de abajo quedaba tapado y no se podía pulsar. Se separan ~25 m solo al dibujarlos.
+    const seen = {};
     pts.forEach(pt => {
       const meta = placeTypeMeta(pt.type);
       const state = getPlaceState(pt.date, pt.name);
@@ -3285,7 +3605,11 @@ function initFullMap(trip) {
         iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -34],
         className: ''
       });
-      const marker = L.marker([pt.lat, pt.lng], { icon, title: pt.name, alt: pt.name }).addTo(mapInstance).bindPopup(buildPlacePopup(pt));
+      const k = pt.lat.toFixed(5) + ',' + pt.lng.toFixed(5);
+      const n = seen[k] = (seen[k] || 0) + 1;
+      const ang = (n - 1) * 2.4, off = n > 1 ? 0.00023 : 0;
+      const pos = [pt.lat + off * Math.cos(ang), pt.lng + off * Math.sin(ang) / Math.cos(pt.lat * Math.PI / 180)];
+      const marker = L.marker(pos, { icon, title: pt.name, alt: pt.name }).addTo(mapInstance).bindPopup(buildPlacePopup(pt));
       _fullMapMarkers[placeKey(pt.date, pt.name)] = { marker, pt };
     });
   }, 120);
@@ -3384,37 +3708,6 @@ const DOC_CATEGORIES = {
   seguros:        { label: 'Seguros',          icon: '🔒', color: '#f5ecd9' },
   otros:          { label: 'Otros',            icon: '📄', color: '#f5f5f5' },
 };
-
-// ══════════════════════════════════════════════════════════
-//  GASTRONOMÍA — Vista completa
-// ══════════════════════════════════════════════════════════
-const DISH_WIKI = {
-  'Phở Bò':              'Phở',
-  'Bún Chả':             'Bún chả',
-  'Cà Phê Trứng':        'Cà phê trứng',
-  'Chả Cá Lã Vọng':      'Chả cá Lã Vọng',
-  'Bánh Cuốn':           'Bánh cuốn',
-  'Bia Hơi':             'Bia hơi',
-  'Cao Lầu':             'Cao lầu',
-  'Bánh Mì':             'Bánh mì',
-  'Mì Quảng':            'Mì Quảng',
-  'Bún Bò Huế':          'Bún bò Huế',
-  'White Rose':          'White rose dumpling',
-  'Com Gà':              'Cơm gà',
-  'Fish Amok':           'Amok (food)',
-  'Lok Lak':             'Lok lak',
-  'Khmer Red Curry':     'Cambodian cuisine',
-  'Nom Banh Chok':       'Nom banh chok',
-  'Kuy Teav':            'Kuy teav',
-  'Pimienta de Kampot':  'Kampot pepper',
-  'Marisco fresco a la brasa': 'Grilled seafood',
-  'Fruta tropical':      'Tropical fruit',
-  'Lok Lak & Pimienta Kampot': 'Lok lak',
-  'Soupe Phnomoise':     'Cambodian cuisine',
-  'Happy Pizza':         'Happy pizza',
-};
-
-const _dishPhotoCache = {};
 
 function renderDocs() {
   const trip = getTrip(currentTripId);
@@ -3528,6 +3821,8 @@ function renderDocs() {
       <span>Sube tus documentos a <strong>Google Drive</strong>, compártelos y pega el enlace con <em>"+ Link"</em>. Un toque los abre.</span>
     </div>
 
+    ${buildReservationsHTML(trip)}
+
     ${visaSection}
 
     <div class="section-title">📁 Documentos</div>
@@ -3585,7 +3880,7 @@ function addNewDoc() {
 function precacheCuratedPhotos() {
   if (!('serviceWorker' in navigator) || !navigator.onLine) return;
   // Una vez al día por versión de datos: no repetir ~200 peticiones en cada apertura.
-  const stamp = DATA_VERSION + ':' + new Date().toISOString().slice(0, 10);
+  const stamp = DATA_VERSION + ':' + today();
   try { if (localStorage.getItem('precache-stamp') === stamp) return; } catch (_) {}
   navigator.serviceWorker.ready.then(async reg => {
     // Primera visita: el SW aún no controla la página, sus peticiones no se cachearían → esperar a la siguiente.
@@ -3599,6 +3894,12 @@ function precacheCuratedPhotos() {
       })));
     reg.active.postMessage({ type: 'precache', urls: [...urls] });
     try { localStorage.setItem('precache-stamp', stamp); } catch (_) {}
+    // Resúmenes de Wikipedia de «Sobre <ciudad>» (el SW guarda las respuestas de la API) y su
+    // foto: así la ficha sale completa sin cobertura aunque ese día no se haya abierto antes.
+    const cities = [...new Set(DB.trips.flatMap(t => (t.days || []).map(cityForDayInfo)).filter(Boolean))];
+    const infos = await Promise.all(cities.map(c => _fetchCitySummary(c)));
+    const photos = infos.map(i => i && i.photo).filter(Boolean);
+    if (photos.length) reg.active.postMessage({ type: 'precache', urls: photos });
   }).catch(() => {});
 }
 

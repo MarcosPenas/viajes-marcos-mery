@@ -1155,10 +1155,10 @@ const DEFAULT_DATA = {
           { id: 'p06', text: '💳 Tarjeta sin comisiones internacionales (Revolut / Wise)', done: false },
           { id: 'p07', text: '💵 Efectivo en USD (Camboya) y algo de EUR', done: false },
           { id: 'p08', text: '👕 Ropa ligera: camisetas, pantalones cortos (5-7 días)', done: false },
-          { id: 'p09', text: '🧣 Pañuelo/pareo para cubrir hombros y rodillas en templos', done: false },
-          { id: 'p10', text: '🥿 Calzado cómodo para caminar (senderismo ligero)', done: false },
-          { id: 'p11', text: '🩴 Chanclas o sandalias para playa y crucero', done: false },
-          { id: 'p12', text: '🩱 Bañador/bikini (Lan Ha Bay, playas de Cat Ba y An Bang)', done: false },
+          { id: 'p09', text: '👘 Pañuelo/pareo para cubrir hombros y rodillas en templos', done: false },
+          { id: 'p10', text: '👟 Calzado cómodo para caminar (senderismo ligero)', done: false },
+          { id: 'p11', text: '👡 Chanclas o sandalias para playa y crucero', done: false },
+          { id: 'p12', text: '👙 Bañador/bikini (Lan Ha Bay, playas de Cat Ba y An Bang)', done: false },
           { id: 'p13', text: '🌂 Chubasquero ultraligero o poncho (nov = época de lluvias)', done: false },
           { id: 'p14', text: '🔌 Adaptador universal de enchufes', done: false },
           { id: 'p15', text: '🔋 Power bank (10.000 mAh mínimo)', done: false },
@@ -1166,21 +1166,21 @@ const DEFAULT_DATA = {
           { id: 'p17', text: '📱 Móvil desbloqueado para SIM local vietnamita', done: false },
           { id: 'p18', text: '🎧 Auriculares para vuelos y audioguías', done: false },
           { id: 'p19', text: '☀️ Protector solar SPF50+ (biodegradable para la bahía)', done: false },
-          { id: 'p20', text: '🦟 Repelente de mosquitos (DEET o Icaridina)', done: false },
+          { id: 'p20', text: '🐛 Repelente de mosquitos (DEET o Icaridina)', done: false },
           { id: 'p21', text: '💊 Botiquín: ibuprofeno, antidiarreicos, antihistamínico, tiritas', done: false },
           { id: 'p22', text: '💊 Pastillas potabilizadoras de agua (zonas rurales)', done: false },
-          { id: 'p23', text: '🩺 Vacunas al día: tifoidea, hepatitis A, tétanos', done: false },
-          { id: 'p24', text: '🧴 Gel hidroalcohólico y toallitas húmedas', done: false },
+          { id: 'p23', text: '💉 Vacunas al día: tifoidea, hepatitis A, tétanos', done: false },
+          { id: 'p24', text: '✋ Gel hidroalcohólico y toallitas húmedas', done: false },
           { id: 'p25', text: '🚿 Artículos de higiene en formato pequeño (100ml para cabina)', done: false },
           { id: 'p26', text: '👓 Gafas de sol (imprescindible para el tren Hai Van Pass)', done: false },
-          { id: 'p27', text: '🧢 Sombrero o gorra de sol (calor extremo en Angkor)', done: false },
+          { id: 'p27', text: '👒 Sombrero o gorra de sol (calor extremo en Angkor)', done: false },
           { id: 'p28', text: '🎒 Mochila de día ligera (para excursiones, templos, playa)', done: false },
           { id: 'p29', text: '🔒 Candado pequeño para taquillas de hostales', done: false },
           { id: 'p30', text: '🌙 Antifaz y tapones para sleeper buses nocturnos', done: false },
           { id: 'p31', text: '💧 Botella de agua reutilizable', done: false },
           { id: 'p32', text: '📖 Guía o e-book de Vietnam y Camboya', done: false },
           { id: 'p33', text: '🔦 Linterna pequeña (cuevas de Cat Ba, apagones)', done: false },
-          { id: 'p34', text: '🧦 Calcetines extra (para templos donde piden quitarse zapatos)', done: false },
+          { id: 'p34', text: '👣 Calcetines extra (para templos donde piden quitarse zapatos)', done: false },
           { id: 'p35', text: '📄 2 copias en papel de cada pasaporte, en maletas separadas', done: false },
           { id: 'p36', text: '📷 2 fotos de carné cada uno (por si las piden en la frontera de Camboya)', done: false },
           { id: 'p37', text: '📄 Póliza del seguro impresa, con el teléfono de asistencia 24h y el nº de póliza', done: false }
@@ -1233,7 +1233,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 86;
+const DATA_VERSION = 87;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 

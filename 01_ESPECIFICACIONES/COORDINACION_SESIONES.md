@@ -2,7 +2,7 @@
 
 Este archivo es un **tablón de estado activo**, no un histórico — a diferencia de `HISTORIAL_DE_CAMBIOS.md` (que registra qué se hizo y cuándo, cronológico, nunca se borra), aquí solo importa **el estado actual**: qué sesión está haciendo qué ahora mismo, qué decisiones están pendientes de coordinar entre las dos máquinas, y qué bloqueos hay. Se sobrescribe, no se acumula.
 
-**Por qué existe:** `.git` no se sincroniza entre los dos PCs vía MEGA (ver Parte 19 de `MEMORIA_MAESTRA.md`), así que cualquier sesión de Claude Code en cualquiera de las dos máquinas debe leer esto **antes** de tocar git (push, reset, etc.) o de dar por hecho el estado del repo — y escribir aquí antes de hacer algo que el otro PC necesite saber.
+**Por qué existe:** `.git` no se sincroniza entre los dos PCs vía MEGA (ver Parte 12 de `MEMORIA_MAESTRA.md`), así que cualquier sesión de Claude Code en cualquiera de las dos máquinas debe leer esto **antes** de tocar git (push, reset, etc.) o de dar por hecho el estado del repo — y escribir aquí antes de hacer algo que el otro PC necesite saber.
 
 **Regla para cualquier sesión (en cualquier PC):**
 1. Leer este archivo al empezar la sesión, no solo `CONTINUIDAD.md`
@@ -11,6 +11,12 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 4. Si encuentras una sección con una fecha/sesión distinta a la tuya y no cuadra con lo que esperabas, decírselo a Marcos explícitamente antes de asumir nada
 
 **⚠️ Nota del 29-sep-2026:** este archivo se quedó desactualizado durante la sesión maratoniana del 28-sep en el PC de casa (no se tocó pese a que `CONTINUIDAD.md` de esa sesión decía que sí) — seguía hablando de "esperando el token" cuando ya había 5 commits nuevos sin mencionar aquí. Si vas a hacer cambios largos de git, actualiza esto aunque estés concentrado en otra cosa.
+
+---
+
+## 🟠 6-oct-2026 (después de publicar) — Cambios NUEVOS SIN PUBLICAR en el PC del trabajo
+
+Tras la publicación de abajo, el PC del trabajo hizo más cambios (HISTORIAL 6-oct, 4ª parte): `js/app.js`, `js/data.js` (`DATA_VERSION` 87, solo emojis de «Qué llevar»), `js/guia.js`, `css/styles.css`, `index.html`, `sw.js`, `.gitignore`, docs y `.claude/launch.json` sacado del repo (`git rm --cached`, el archivo local sigue). **Sin commit todavía**: los commitea y publica el PC del trabajo cuando Marcos lo pida. **El PC de casa no debe editar estos archivos hasta entonces** (o, si lo hace, avisar aquí antes). Cuando se publique, el PC de casa sigue los mismos pasos de abajo (`reset --mixed`, nunca `--hard`); su `.claude/launch.json` local no se toca.
 
 ---
 

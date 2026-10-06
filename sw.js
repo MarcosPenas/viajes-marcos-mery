@@ -3,7 +3,7 @@
 //   cuando hay cobertura y la app sigue abriendo sin ella.
 // - Fotos y mosaicos del mapa: caché primero, se guardan al verlos (y las fotos curadas del
 //   itinerario se pre-descargan en segundo plano cuando la app se abre con cobertura).
-const SHELL_CACHE = 'viajes-shell-v3';
+const SHELL_CACHE = 'viajes-shell-v4'; // v4 (6-oct-2026): al activarse borra la v3 con las versiones acumuladas
 const MEDIA_CACHE = 'viajes-media-v1';
 const MEDIA_MAX_ENTRIES = 900;
 const BASE = '/viajes-marcos-mery/';
@@ -90,7 +90,16 @@ async function networkFirst(req) {
   const cache = await caches.open(SHELL_CACHE);
   try {
     const res = await fetch(req);
-    if (res && res.ok) cache.put(req, res.clone());
+    if (res && res.ok) {
+      await cache.put(req, res.clone());
+      // Cada versión (?v=N) se guardaba como copia aparte y nunca se borraban las viejas:
+      // al guardar una, se quitan las demás copias del mismo archivo.
+      const path = new URL(req.url).pathname;
+      if (new URL(req.url).search) {
+        const keys = await cache.keys();
+        await Promise.all(keys.filter(k => k.url !== req.url && new URL(k.url).pathname === path).map(k => cache.delete(k)));
+      }
+    }
     return res;
   } catch (err) {
     const hit = (await cache.match(req)) || (await cache.match(req, { ignoreSearch: true }));

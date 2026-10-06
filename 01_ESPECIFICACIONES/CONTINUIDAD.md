@@ -7,7 +7,9 @@
 
 ## 👉 LEE ESTO PRIMERO (vigente)
 
-**0000000. (6-oct-2026, PC del trabajo) REVISIÓN COMPLETA TERMINADA, SIN FALLOS CONOCIDOS — leer primero.** Detalle en HISTORIAL 6-oct (dos partes).
+**00000000. (6-oct-2026, tarde, PC del trabajo) MEJORAS HECHAS, SIN PUBLICAR — leer primero.** Detalle en HISTORIAL 6-oct, 4ª parte. Hecho: «Ahora / Siguiente» en Hoy, avisos de hoy/mañana, centro de reservas en Docs, botón SOS, indicador sin conexión en Inicio, Wikipedia guardada para usar sin conexión, limpieza de la caché del SW, pines superpuestos, «Sobre la ciudad» con el destino el 22 y el 26, zoom, emojis que Windows no dibujaba, `DISH_WIKI` fuera, `.claude/` fuera del repo y **Memoria Maestra reescrita (v3.0)**. Además, **fallo serio corregido:** la fecha se calculaba en UTC y en Vietnam/Camboya de 00:00 a 07:00 la app creía que era el día anterior. Todo probado (barrido de 26 días, contraste, sin conexión). **Pendiente:** publicar cuando Marcos lo pida (esto está solo en local, en el PC del trabajo y, por MEGA, en el de casa). Lo único que queda depende de Marcos/María (ver más abajo: Lan Ha, pases de Angkor, fotos propias, apuntar localizadores en los móviles).
+
+**0000000. (6-oct-2026, PC del trabajo) REVISIÓN COMPLETA TERMINADA, SIN FALLOS CONOCIDOS.** Detalle en HISTORIAL 6-oct (dos partes).
 - **Git: PUBLICADO el 6-oct desde el PC del trabajo** (`c376f15`, con todo lo del 5-oct y el 6-oct). El PC de casa debe hacer `git branch backup-5oct` + `git reset --mixed origin/main` y **no subir** sus commits del 5-oct (pasos en `COORDINACION_SESIONES.md`, bloque 🔴).
 - **Localizadores de reservas:** ya no están en el repo (es público). Cada transporte con reserva tiene «🔒 Añadir localizador», que se guarda solo en el móvil. Los de vuelos y ferry se conservan solos al actualizar; los de buses y tren (Giant Ibis, tren Da Nang→Hue, sleeper Hue→Tam Coc, buses de Cat Ba) hay que apuntarlos a mano en cada móvil.
 - **Hecho (1ª parte):** diccionario vietnamita/jemer y tarjetas culturales (nuevo `js/guia.js`), mini mapa con coordenadas, código muerto fuera, «Qué llevar» en 5 categorías, temporizadores de la portada, tiempo con la ruta real, conversor en Camboya, portadas 8,1 → 3,6 MB, accesibilidad, barra inferior en ordenador, favicon.
@@ -108,7 +110,7 @@ Además, siguen ~24 fichas de LUGARES (no platos) en `GENERIC_IMAGE`/`DUPLICATE`
 
 App **publicada y al día en producción** desde el 2-oct-2026 — el itinerario de 25 días completo, el mapa Leaflet, la auditoría de imágenes y el bug de `data-photo` corregido ya están en GitHub Pages. El token de GitHub que bloqueaba el push está revocado y confirmado.
 
-`.git` NO se sincroniza entre los dos PCs vía MEGA (ver Parte 19 de `MEMORIA_MAESTRA.md`) — cada PC tiene su propio repo local:
+`.git` NO se sincroniza entre los dos PCs vía MEGA (ver Parte 12 de `MEMORIA_MAESTRA.md`) — cada PC tiene su propio repo local:
 
 - **PC del trabajo** (`C:\Users\mpe.HP2008\...`): rama `main` == `origin/main` (comprobar con `git log --oneline -3`, debería coincidir con el remoto salvo commits muy recientes de esta misma sesión)
 - **PC de casa** (`C:\Users\marco\...`): historial propio desactualizado, independiente del remoto. **Pendiente**: en su próxima sesión, resetear contra `origin/main` (`git fetch origin && git reset --hard origin/main`) en vez de intentar mezclar o pushear su historial local — ver `COORDINACION_SESIONES.md` para el detalle completo
@@ -260,7 +262,7 @@ Mandadas explícitamente como "apunta esto, primero arreglamos lo pendiente" —
 - Incrementar `?v=N` en index.html al modificar cualquier CSS o JS
 - Si se modifica `DEFAULT_DATA` en `js/data.js`, incrementar TAMBIÉN la constante interna `DATA_VERSION` del propio archivo (no solo el `?v=N`), o los navegadores que ya visitaron la app seguirán viendo los datos viejos guardados en `localStorage`
 - Entregar siempre archivos completos, nunca fragmentos
-- `.git` NO se sincroniza entre el PC del trabajo y el de casa vía MEGA (`.megaignore` excluye archivos ocultos) — cada PC tiene su propio repo y commit local. Comprobar `git log --oneline -5` en la máquina en la que estés antes de hacer push o asumir el estado del repo (ver Parte 19 de la Memoria Maestra)
+- `.git` NO se sincroniza entre el PC del trabajo y el de casa vía MEGA (`.megaignore` excluye archivos ocultos) — cada PC tiene su propio repo y commit local. Comprobar `git log --oneline -5` en la máquina en la que estés antes de hacer push o asumir el estado del repo (ver Parte 12 de la Memoria Maestra)
 - El token de GitHub expuesto ya se quitó de `CLAUDE.md` (8-sep-2026), se limpió del historial git (2-oct-2026) y **ya está revocado** (confirmado por Marcos, 2-oct-2026) — este incidente está cerrado del todo
 - Documentar cada cambio en `HISTORIAL_DE_CAMBIOS.md` y `CONTINUIDAD.md` a medida que se hace, no solo al cerrar la sesión
 - Si hay un `Mejoras.txt` en la raíz con entradas pendientes: al aplicar una, moverla a `HECHAS` con `[COMPLETADO <fecha>]` y una línea `->` explicando qué se hizo — nunca borrarla, eso lo hace Marcos a mano

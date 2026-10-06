@@ -73,7 +73,7 @@ window.CULTURE_CARDS = {
       text: 'Pidió ser incinerado, pero se le embalsamó. En el mausoleo: hombros y rodillas cubiertos, silencio, nada de manos en los bolsillos ni fotos dentro.' }
   ],
   'Angkor': [
-    { icon: '🛕', title: 'El Imperio jemer',
+    { icon: '🏛️', title: 'El Imperio jemer',
       text: 'Entre los siglos IX y XV, Angkor fue una de las mayores ciudades del mundo. Angkor Wat se levantó a principios del XII para Visnú y luego pasó a ser budista; mira al oeste, por eso el sol sale detrás de sus torres.' },
     { icon: '👕', title: 'Vestimenta en los templos',
       text: 'Hombros y rodillas cubiertos: en los niveles altos de Angkor Wat los guardias no dejan pasar sin ello. Lleva una prenda ligera de manga y pantalón largo o falda.' },

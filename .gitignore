@@ -22,3 +22,6 @@ MEJORAS.lnk
 # Excepción: test previo a publicar
 !tools/check_imagenes.py
 !tools/servidor_ruta_produccion.py
+
+# Configuración local de Claude Code de cada PC (rutas distintas en cada uno)
+.claude/

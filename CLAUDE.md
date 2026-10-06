@@ -30,8 +30,8 @@ Sin servidor, sin login, sin base de datos. Todo es HTML/CSS/JS vanilla.
 
 Lee estos archivos antes de hacer cualquier cambio:
 
-1. `01_ESPECIFICACIONES/COORDINACION_SESIONES.md` — **léelo primero**: estado activo entre el PC del trabajo y el de casa (qué sesión está haciendo qué ahora mismo, decisiones de git pendientes de coordinar). Este proyecto se desarrolla en paralelo desde dos PCs sincronizados por MEGA — pero `.git` NO se sincroniza entre ellos (ver Parte 19 de la Memoria Maestra), así que este archivo es la única forma de saber qué ha hecho o está haciendo la otra sesión con git.
-2. `01_ESPECIFICACIONES/MEMORIA_MAESTRA.md` — descripción completa del proyecto (32 partes)
+1. `01_ESPECIFICACIONES/COORDINACION_SESIONES.md` — **léelo primero**: estado activo entre el PC del trabajo y el de casa (qué sesión está haciendo qué ahora mismo, decisiones de git pendientes de coordinar). Este proyecto se desarrolla en paralelo desde dos PCs sincronizados por MEGA — pero `.git` NO se sincroniza entre ellos (ver Parte 12 de la Memoria Maestra), así que este archivo es la única forma de saber qué ha hecho o está haciendo la otra sesión con git.
+2. `01_ESPECIFICACIONES/MEMORIA_MAESTRA.md` — descripción completa del proyecto (v3.0, reescrita el 6-oct-2026)
 3. `01_ESPECIFICACIONES/CONTINUIDAD.md` — estado actual y tareas pendientes
 
 ## Dónde está el código activo
