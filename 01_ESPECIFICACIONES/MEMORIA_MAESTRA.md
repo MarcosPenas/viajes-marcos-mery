@@ -145,9 +145,10 @@ C:\Users\mpe.HP2008\Documents\MEGA\08_Scripts\App Viajes Marcos Mery\
 │   └── places\                     ← ~200 imágenes JPG de lugares del viaje
 │
 ├── js\
-│   ├── app.js                      ← lógica completa (v=102, 3935 líneas)
-│   ├── data.js                     ← datos del itinerario (v=21, 1222 líneas)
-│   └── imageMap.js                 ← mapa nombre→imagen (v=12, 123 líneas)
+│   ├── app.js                      ← lógica completa
+│   ├── data.js                     ← datos del itinerario (DEFAULT_DATA + AppData)
+│   └── guia.js                     ← frases, tarjetas culturales y fichas de alojamiento (nuevo 6-oct-2026)
+│   (imageMap.js se eliminó el 3-oct-2026: cada ficha lleva su `photo` fija en data.js)
 │
 ├── index.html                      ← entrada única de la SPA
 ├── manifest.json                   ← configuración PWA
@@ -162,13 +163,15 @@ C:\Users\mpe.HP2008\Documents\MEGA\08_Scripts\App Viajes Marcos Mery\
 
 Al modificar cualquier archivo JS o CSS, hay que incrementar el número `?v=N` en `index.html` para evitar que el navegador sirva la versión antigua desde caché.
 
+**Las versiones cambian casi a diario: la fuente de verdad es `index.html`** (y `DATA_VERSION` dentro de `data.js`, comprobarlo con grep). Estado a 6-oct-2026:
+
 | Archivo | Versión vigente | Referencia en index.html |
 |---|---|---|
-| css/styles.css | v=64 | `<link rel="stylesheet" href="css/styles.css?v=64">` |
-| js/app.js | v=103 | `<script src="js/app.js?v=103">` |
-| js/data.js | v=22 | `<script src="js/data.js?v=22">` (`DATA_VERSION` interno también en 22) |
-| js/imageMap.js | v=12 | `<script src="js/imageMap.js?v=12">` |
-| sw.js cache name | viajes-v2 | Definido en sw.js: `const CACHE = "viajes-v2"` |
+| css/styles.css | v=98 | `<link rel="stylesheet" href="css/styles.css?v=98">` |
+| js/data.js | v=87 | `<script src="js/data.js?v=87">` (`DATA_VERSION` interno 86) |
+| js/guia.js | v=2 | `<script src="js/guia.js?v=2">` (entre data.js y app.js) |
+| js/app.js | v=175 | `<script src="js/app.js?v=175">` |
+| sw.js | `viajes-shell-v3` / `viajes-media-v1` | Todo archivo nuevo de la app debe añadirse a `SHELL` en sw.js para funcionar sin conexión |
 
 **Nota:** `js/data.js` tiene ADEMÁS una constante interna `DATA_VERSION` (línea ~1192) que controla cuándo el navegador descarta los datos guardados en `localStorage` y recarga `DEFAULT_DATA`. Si se edita cualquier dato dentro de `DEFAULT_DATA` (itinerario, `coverImage`, etc.) hay que subir **tanto** el `?v=N` en index.html **como** `DATA_VERSION` dentro del propio archivo — si no, los usuarios que ya abrieron la app antes seguirán viendo los datos viejos cacheados en su navegador aunque el archivo en el servidor esté actualizado.
 
@@ -214,10 +217,21 @@ Define `window.DEFAULT_DATA` y `window.AppData`. Contiene los 23 días del itine
   summary, places[], restaurants[], transport[], hotel{}, tasks[], notes
 }
 ```
-**Bloques geográficos:** "El Norte" · "El Centro" · "Camboya" · "Islas" · "El Cierre"
+**Bloques geográficos (itinerario de 26 días, oct-2026):** "Vuelos" · "El Norte" · "Angkor" · "Phnom Penh" · "Delta del Mekong" · "El Centro" · "Ninh Binh" · "Vuelta al Norte" · "El Cierre" · "Vuelta a casa". Los colores de zona salen de una sola tabla, `BLOCK_ZONE_COLORS` en app.js. (Los antiguos "Camboya" e "Islas" ya no existen; quedan entradas sueltas sin efecto en algunas tablas.)
 
-### js/imageMap.js (v=12, 123 líneas)
-Define `window.IMAGE_MAP` — 115 entradas nombre exacto → `img/places/archivo.jpg`. Tiene **máxima prioridad** sobre Wikipedia en la carga de imágenes.
+### js/guia.js (nuevo 6-oct-2026)
+Contenido fijo, separado de data.js: `window.SURVIVAL_DICT` (`vi`/`km`: `lang`, `note`, `phrases[{es, local, pron}]`) → «Frases de supervivencia» en Inicio, con botón para alternar idioma; `window.CULTURE_CARDS` (clave = `block` del día: `[{icon, title, text}]`) → «Cultura y contexto» en Día › Resumen. Para añadir una zona nueva, usar exactamente el nombre del bloque de data.js.
+
+`window.HOTEL_INFO` (clave = `hotel.name` exacto de data.js: `address, phone, checkIn, checkOut, lat, lng, maps, desc`) → ficha de cada alojamiento. En app.js, `hotelInfo(day.hotel)` mezcla ambos (lo que traiga el día en data.js manda) y lo usan la pestaña Alojamiento, el Resumen del día, la ficha emergente (`openHotelDetail(nombre, fecha)`, con mini mapa) y «Próximo alojamiento». **Si se cambia o añade un hotel en data.js, añadir su entrada aquí** (dirección y coordenadas desde su ficha de Google Maps; sin fotos, que tienen derechos).
+
+**Localizadores de reserva — NUNCA en el repo (es público):** los transportes con reserva llevan `ref: true` en data.js y el localizador lo apunta cada uno en su móvil («🔒 Añadir localizador»); se guarda en `DB.bookingRefs` (localStorage, clave «fecha|tipo|destino») y `mergeUserState` lo conserva. Antes de publicar, comprobar que no se ha colado ninguno en data.js ni en la documentación.
+
+**Tablas retiradas el 6-oct-2026:** `WIKI_ARTICLES` (alias nombre→artículo de Wikipedia; desde las fotos congeladas ninguna ficha la consultaba), `HTL_INFO` (hoteles del itinerario antiguo) y las zonas viejas (Koh Rong, Camboya, Islas, Cierre).
+
+**Probar sin conexión en local:** `tools/servidor_ruta_produccion.py` sirve la app bajo `/viajes-marcos-mery/` igual que GitHub Pages (en `.claude/launch.json` de este PC como `viajes-ruta-produccion`, puerto 3001). Abrir la app, esperar ~20 s a que precargue las fotos, parar el servidor y recargar.
+
+### ~~js/imageMap.js~~ (eliminado el 3-oct-2026)
+Sustituido por las fotos congeladas: cada ficha de data.js lleva su `photo` local de `img/fotos/` o ninguna. Ver Parte de fotos y `tools/check_imagenes.py`.
 
 ### manifest.json
 ```json
@@ -557,6 +571,10 @@ py -3 -m http.server 3000 --directory "...\MEGA\08_Scripts\App Viajes Marcos Mer
 **Estado:** App funcionando en producción, con dos fixes locales (7-sep-2026) pendientes de subir a GitHub: mapa (Leaflet) y fotos de cabecera de día/portada. Próximo paso: resolver la incidencia del repo git local, regenerar token, subir los fixes, y seguir con la auditoría visual del resto de días.
 
 ---
+
+## ANEXO A2 — PALETA DE COLORES (3-oct-2026)
+
+Referencia visual: `01_ESPECIFICACIONES/PALETA_COLORES.html` (claro y oscuro). Variables en `css/styles.css` (`:root`, `html[data-theme="dark"]` y `@media (prefers-color-scheme: dark)` — hay DOS mecanismos de tema que deben mantenerse a la par). Zonas: Norte jade `#1A7B6B`, Centro azul acero `#2f6fa3`, Camboya/Angkor ocre `#b8861b`, Phnom Penh marrón `#8B5E3C`, Islas turquesa `#0090C4`, Cierre oliva `#6b7f3a`, Vuelos pizarra `#5c6b7a`. **Preferencia de Marcos: sin violetas, rosas ni terracota/naranja.** En oscuro, los colores de zona se aclaran con `color-mix` (`--zc`/`--mc`) y las baldosas de ficha sin foto se mezclan con el fondo (`--ph`). Pendiente: revisión conjunta de paletas.
 
 ## ANEXO B — FOTOS DE LAS FICHAS (img/fotos/) — vigente desde el 3-oct-2026
 

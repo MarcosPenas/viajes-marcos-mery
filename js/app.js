@@ -45,385 +45,11 @@ document.addEventListener('DOMContentLoaded', () => {
 let DB = AppData.loadData();
 let currentTripId = null;
 let currentView = 'home';
+let dayReturnView = 'itinerary'; // a dónde vuelve la flecha del Día ('today' si se abrió desde Hoy)
 let mapInstance = null;
 let countdownTimer = null;
 let _timeTravelDate = null; // null = fecha real; string 'YYYY-MM-DD' = simulación
 let weatherCache = {};
-
-// ── WIKIPEDIA PHOTO LOOKUP ─────────────────────────────────
-const WIKI_ARTICLES = {
-  // ── HANÓI — lugares ────────────────────────────────────────
-  'Old Quarter — primera noche': 'Old_Quarter,_Hanoi',
-  'Old Quarter (Barrio Antiguo)': 'Old_Quarter,_Hanoi',
-  'Old Quarter': 'Old_Quarter,_Hanoi',
-  'Lago Hoan Kiem y Templo Ngoc Son': 'Hoàn_Kiếm_Lake',
-  'Lago Hoan Kiem': 'Hoàn_Kiếm_Lake',
-  'Lago Hoan Kiem (despedida)': 'Hoàn_Kiếm_Lake',
-  'Teatro de Marionetas de Agua Thang Long': 'Thăng_Long_Water_Puppet_Theatre',
-  'Templo de la Literatura (Văn Miếu)': 'Temple_of_Literature,_Hanoi',
-  'Templo de la Literatura': 'Temple_of_Literature,_Hanoi',
-  'Mausoleo Ho Chi Minh y Pagoda de un Solo Pilar': 'Ho_Chi_Minh_Mausoleum',
-  'Catedral de San José': 'Saint_Joseph\'s_Cathedral,_Hanoi',
-  'Prisión Hoa Lo (Hanoi Hilton)': 'Hỏa_Lò_Prison',
-  'Hanoi Train Street': 'Train_Street,_Hanoi',
-  'Tren callejero de Hanói': 'Train_Street,_Hanoi',
-  // 'Murales de Phùng Hưng (Street Art)' sin alias a propósito — 'Street_art' (genérico) mostraba una foto de un barril de cerveza sin relación, y no se encontró ninguna foto real de los murales en Commons (1-oct-2026)
-  'Isla de los Plátanos (Bãi Giữa)': 'Red_River_(Asia)',
-  'Ciudadela Imperial de Thang Long': 'Imperial_Citadel_of_Thăng_Long',
-  'Lago B-52 (Hữu Tiệp Lake)': 'Hữu_Tiệp_Lake',
-  'Mercado Mayorista de Long Bien (madrugada)': 'Long_Biên_Bridge',
-  'Lago Truc Bach y West Lake (Tây Hồ)': 'West_Lake_(Hanoi)',
-  'Calle Phan Đình Phùng (La más bonita de Hanói)': 'Hanoi_Opera_House',
-  'Compras en el Old Quarter': 'Old_Quarter,_Hanoi',
-  'Masajes en Hanói': 'Hanoi',
-  'Café de azotea sobre el Lago Hoan Kiem': 'Hoàn_Kiếm_Lake',
-  'Último paseo — Old Quarter al amanecer': 'Old_Quarter,_Hanoi',
-  'Última ruta de street food': 'Vietnamese_cuisine',
-  'Ópera de Hanói': 'Hanoi_Opera_House',
-  'Tren callejero (Train Street)': 'Train_Street,_Hanoi',
-
-  // ── CAT BA ─────────────────────────────────────────────────
-  'Canon Fort (mirador atardecer)': 'Lan_Ha_Bay',
-  'Lan Ha Sky Bar — Flamingo Resort': 'Lan_Ha_Bay',
-  'Ruta de playas Cat Co (1, 2 y 3)': 'Cát_Bà_island',
-  'Playa salvaje de Tung Thu': 'Cát_Bà_island',
-  'Hospital Cave (refugio militar subterráneo)': 'Cát_Bà_National_Park',
-  'Cueva Trung Trang': 'Cát_Bà_National_Park',
-  'Ngu Lam Peak (mirador alternativo)': 'Lan_Ha_Bay',
-  'Parque Nacional Cat Ba': 'Cát_Bà_National_Park',
-  'Miradores de Cat Ba': 'Lan_Ha_Bay',
-
-  // ── LAN HA BAY ─────────────────────────────────────────────
-  'Bahía de Lan Ha — crucero 2D/1N': 'Lan_Ha_Bay',
-  'Kayak en cuevas de Lan Ha': 'Lan_Ha_Bay',
-  'Aldea de Viet Hai (día 2)': 'Lan_Ha_Bay',
-  'Lan Ha Bay': 'Lan_Ha_Bay',
-  'Bahía de Lan Ha': 'Lan_Ha_Bay',
-  'Cuevas de Lan Ha': 'Lan_Ha_Bay',
-
-  // ── NINH BINH ──────────────────────────────────────────────
-  'Llegada a Tam Coc — primer paseo en bici': 'Tam_Coc-Bích_Động',
-  'Hang Mua (Monte Mua)': 'Mua_Cave',
-  'Hang Mua': 'Mua_Cave',
-  'Sampán por Tam Coc (3 cuevas)': 'Tam_Coc-Bích_Động',
-  'Tam Coc': 'Tam_Coc-Bích_Động',
-  'Pagoda Bich Dong': 'Bích_Động_Pagoda',
-  'Trang An (barca y cuevas UNESCO)': 'Tràng_An',
-  'Trang An': 'Tràng_An',
-  'Ciudadela de Hoa Lu (antigua capital)': 'Hoa_Lư',
-  'Pagoda Bai Dinh': 'Bái_Đính_Pagoda',
-  'Parque Nacional de Cuc Phuong (opcional)': 'Cúc_Phương_National_Park',
-
-  // ── HUE ────────────────────────────────────────────────────
-  'Ciudad Imperial de Hue': 'Imperial_City,_Huế',
-  'Pagoda Thien Mu': 'Thiên_Mụ_Pagoda',
-  'Río Perfume + Dragon Boat': 'Perfume_River',
-  'Río Perfume': 'Perfume_River',
-  'Mercado Dong Ba': 'Đông_Ba_Market',
-  'Tumba Imperial de Minh Mang': 'Tomb_of_Minh_Mạng',
-  'Tumba Imperial de Khai Dinh': 'Tomb_of_Khải_Định',
-  'Tumba Imperial de Tu Duc': 'Tomb_of_Tự_Đức',
-  'Calle del Incienso de Thuy Xuan': 'Perfume_River',
-  'Ho Thuy Tien (parque acuático abandonado)': 'Hồ_Thủy_Tiên',
-  'Ho Thuy Tien (Parque abandonado)': 'Hồ_Thủy_Tiên',
-  'Cementerio City of Ghosts (Đàn Nam Giao)': 'Imperial_City,_Huế',
-  'Puente Thanh Toan (el Puente Japonés de Hue)': 'Thanh_Toàn_Bridge',
-  'Pagodas de Hue': 'Thiên_Mụ_Pagoda',
-
-  // ── DA NANG ────────────────────────────────────────────────
-  'Marble Mountains (Ngũ Hành Sơn)': 'Marble_Mountains_(Vietnam)',
-  'Marble Mountains': 'Marble_Mountains_(Vietnam)',
-  'Puente del Dragón de Da Nang': 'Dragon_Bridge_(Đà_Nẵng)',
-  'Puente del Dragón': 'Dragon_Bridge_(Đà_Nẵng)',
-
-  // ── HOI AN ─────────────────────────────────────────────────
-  'Hoi An Old Town — primera noche': 'Hội_An',
-  'Casco Antiguo — Bono Old Quarter': 'Hội_An',
-  'Casco Antiguo de Hoi An': 'Japanese_Covered_Bridge',
-  'Old Town Hoi An': 'Hội_An',
-  'Última mañana en el Old Town': 'Japanese_Covered_Bridge',
-  'Puente Cubierto Japonés (Chua Cau)': 'Japanese_Covered_Bridge',
-  'Calle Trần Phú — azoteas y Mot Hoi An': 'Hội_An',
-  'Hoi An Memories Show': 'Hội_An',
-  // 'Aldea de cerámica de Thanh Ha' tiene photo: directo (1-oct-2026) — antes apuntaba por error a Mỹ_Sơn
-  'Ruta en bici a la playa An Bang': 'An_Bàng_Beach',
-  'Playa An Bang': 'An_Bàng_Beach',
-  'Ruta en bici isla de Cam Kim': 'An_Bàng_Beach',
-  'Ba Na Hills (opcional)': 'Bà_Nà_Hills',
-  'Clase de cocina en isla Thuan Tinh': 'Hội_An',
-  'Mercados de Hoi An': 'Hội_An',
-  'Santuario de My Son': 'Mỹ_Sơn',
-  'Talleres artesanales Hoi An': 'Japanese_Covered_Bridge',
-
-  // ── SIEM REAP / ANGKOR ─────────────────────────────────────
-  'Wat Preah Prom Rath': 'Siem_Reap',
-  'Pub Street y Old Market': 'Siem_Reap',
-  'Pub Street': 'Siem_Reap',
-  'Le Pain Du Coeur': 'Siem_Reap',
-  'Angkor Wat': 'Angkor_Wat',
-  'Angkor Thom — Bayon y la Gran Ciudad': 'Angkor_Thom',
-  'Ta Prohm (Templo Tomb Raider)': 'Ta_Prohm',
-  'Ta Prohm': 'Ta_Prohm',
-  'Amanecer en Angkor Wat (2º día)': 'Angkor_Wat',
-  'Preah Khan (La Espada Sagrada)': 'Preah_Khan',
-  'Neak Pean (Templo-Isla)': 'Neak_Poan',
-  'Banteay Srei (La Joya de Angkor)': 'Banteay_Srei',
-  'Pre Rup (atardecer)': 'Pre_Rup',
-  'Ta Som': 'Ta_Som',
-  'Srah Srang (El Estanque Real)': 'Srah_Srang',
-  'Banteay Kdei (El Monasterio de las Celdas)': 'Banteay_Kdei',
-  'Banteay Samré (El Templo del Rey Sambor)': 'Banteay_Samré',
-  'El Mebon Oriental (Los Elefantes en el Islote)': 'East_Mebon',
-  'Beng Mealea (templo devorado por la selva)': 'Beng_Mealea',
-  'Beng Mealea': 'Beng_Mealea',
-  'Grupo Roluos (orígenes de Angkor)': 'Roluos',
-  'Templos a elegir': 'Preah_Khan',
-  'Mercado de Angkor Night Market': 'Siem_Reap',
-
-  // ── KOH RONG SANLOEM ───────────────────────────────────────
-  'Saracen Bay': 'Koh_Rong_Saloem',
-  'Sunset Beach': 'Koh_Rong',
-  'Lazy Beach': 'Koh_Rong_Saloem',
-  'M\'Pai Bay (pueblo local)': 'Koh_Rong',
-  'Koh Rong Sanloem': 'Koh_Rong_Saloem',
-  'Playa principal': 'Koh_Rong_Saloem',
-  // Koh Rong (isla grande, día 25)
-  'Trekking al Faro Militar (la más épica)': 'Koh_Rong',
-  'Plancton Bioluminiscente (noche)': 'Bioluminescence',
-
-  // ── PHNOM PENH ─────────────────────────────────────────────
-  'Riverside (Siskiwath Quay)': 'Sisowath_Quay',
-  'Central Market (Phsar Thmei)': 'Central_Market,_Phnom_Penh',
-  'Tuol Sleng S-21 (Museo del Genocidio)': 'Tuol_Sleng_Genocide_Museum',
-  'Choeung Ek (The Killing Fields)': 'Choeung_Ek',
-  'Palacio Real y Pagoda de Plata': 'Royal_Palace,_Phnom_Penh',
-  // 'Mercado Ruso (Tuol Tom Poung)' sin alias a propósito — 'Russian_Market' en Wikipedia mostraba una foto de skyline sin relación, y no se encontró ninguna foto real del mercado en Commons (1-oct-2026)
-  'Wat Phnom': 'Wat_Phnom',
-  'Museo Nacional de Camboya': 'National_Museum_of_Cambodia',
-  'Monumento a la Independencia': 'Independence_Monument_(Phnom_Penh)',
-  'Orillas del Mekong': 'Sisowath_Quay',
-  'Museo del Genocidio Tuol Sleng (S-21)': 'Tuol_Sleng_Genocide_Museum',
-  'Killing Fields de Choeung Ek': 'Choeung_Ek',
-
-  // ── RESTAURANTES / PLATOS ───────────────────────────────────
-  'Café Giang': 'Cà_phê_trứng',
-  'Café Giang (Café de Huevo)': 'Cà_phê_trứng',
-  'Café Giảng (Cà Phê Trứng)': 'Cà_phê_trứng',
-  'Bún Chả Hương Liên (Obama Restaurant)': 'Bún_chả',
-  'Bún Chả Hương Liên': 'Bún_chả',
-  'Phở Cuốn Hương Mai': 'Phở',
-  'The Note Coffee': 'Hanoi',
-  'Street food Old Quarter': 'Vietnamese_cuisine',
-  'Cà Phê Trứng': 'Cà_phê_trứng',
-  'Bún chả Hương Liên': 'Bún_chả',
-  'Pho Thin': 'Vietnamese_cuisine',
-  'Phở Bò': 'Phở',
-  'Bún bò Nam Bộ': 'Bún_bò_Nam_Bộ',
-  'Chả cá Lã Vọng': 'Chả_cá_Lã_Vọng',
-  'Bánh mì Phượng': 'Bánh_mì',
-  'Bánh Mì': 'Bánh_mì',
-  'White Rose (Bánh Bao Vạc)': 'Bánh_bao_vạc',
-  'White Rose Restaurant': 'Hội_An',
-  'Cao Lau (Quán Cao Lầu Thanh)': 'Cao_lầu',
-  'Cao Lầu Thanh': 'Cao_lầu',
-  'Cao Lau': 'Cao_lầu',
-  'Cơm Gà Bà Buội (arroz con pollo)': 'Vietnamese_cuisine',
-  'Mì Quảng Bà Mua': 'Mì_Quảng',
-  'Bún bò Huế': 'Bún_bò_Huế',
-  'Cơm hến': 'Cơm_hến',
-  'Mahob Khmer Restaurant': 'Fish_amok',
-  'Cuisine Wat Damnak': 'Cambodian_cuisine',
-  'Sugar Palm': 'Loc_lac',
-  'Amok': 'Fish_amok',
-  'Fish Amok': 'Fish_amok',
-  'Le Pain Du Coeur': 'Siem_Reap',
-  'Restaurante en la playa': 'Seafood',
-  'Restaurante junto al Mekong': 'Sisowath_Quay',
-  'Sovanna Restaurant': 'Cambodian_cuisine',
-  'Última ruta de street food': 'Vietnamese_cuisine',
-
-  // ── PLATOS NUEVOS POR DÍA ──────────────────────────────────
-  // Cat Ba
-  'Mariscos frescos del puerto de Cat Ba': 'Cat_Ba_Island',
-  'Chả Mực (tortilla de calamar Cat Ba)': 'Squid_as_food',
-  'Phở o Bún Bò Nam Bộ (cocina vietnamita del norte)': 'Phở',
-  // Lan Ha
-  'Banquete a bordo del crucero (incluido)': 'Lan_Ha_Bay',
-  // Ninh Binh
-  'Thịt Dê Nướng (cabra a la parrilla)': 'Goat_meat',
-  'Cơm Cháy (arroz tostado crujiente)': 'Rice_crust',
-  'Cena ligera antes del bus nocturno': 'Vietnamese_cuisine',
-  // Hue
-  'Bún Bò Huế (sopa picante de Hue)': 'Bún_bò_Huế',
-  'Bánh Khoái (crepe crujiente de Hue)': 'Huế',
-  'Bánh Bèo + Bánh Nậm + Bánh Lọc (trío imperial)': 'Bánh_bèo',
-  'Cơm Hến (arroz con almejas de Hue)': 'Cơm_hến',
-  // Da Nang / Hoi An
-  'Mì Quảng (fideos de cúrcuma, plato del Centro)': 'Mì_Quảng',
-  'Bánh Mì de viaje en tren': 'Vietnamese_cuisine',
-  'Bánh Mì Phượng (el mejor Bánh Mì del mundo, en Hoi An)': 'Bánh_mì',
-  'Mì Quảng o Cao Lầu (primer plato de Hoi An)': 'Mì_Quảng',
-  'Bánh Xèo (crepe crocante vietnamita)': 'Bánh_xèo',
-  'Bánh Mì Phượng (para el camino a la playa)': 'Bánh_mì',
-  'Último desayuno vietnamita (Hoi An)': 'Bánh_bèo',
-  // Angkor / Camboya
-  'Fish Amok (curry jemer en hoja de coco)': 'Fish_amok',
-  'Lok Lak (ternera salteada camboyana)': 'Loc_lac',
-  'Kuy Teav (sopa de fideos jemer del desayuno)': 'Kuy_teav',
-  'Num Banh Chok (fideos jemer al amanecer)': 'Cambodian_cuisine',
-  'Amok de pollo o verduras (cena en Pub Street)': 'Cambodian_cuisine',
-  'Khmer BBQ (última noche en Siem Reap)': 'Cambodian_cuisine',
-  // Koh Rong
-  'Mariscos frescos a la brasa (Saracen Bay)': 'Seafood',
-  'Cena a la luz de las velas en la playa': 'Seafood',
-  'Comida post-trekking (bar de playa)': 'Tropical_fish',
-  // Phnom Penh
-  'Bai Sach Chrouk (cerdo a la brasa, desayuno de Phnom Penh)': 'Cambodian_cuisine',
-  'Lap Khmer (ceviche camboyano de ternera)': 'Cambodian_cuisine',
-  'Nom Banh Chok (desayuno ligero antes del S-21)': 'Cambodian_cuisine',
-  'Cena jemer junto al Mekong (última en Camboya)': 'Phnom_Penh',
-  // Hanói regreso
-  'Phở Gà o Phở Bò (desayuno de reencuentro con Vietnam)': 'Vietnamese_cuisine',
-  'Chả Cá Lã Vọng (el único plato del restaurante más antiguo de Hanói)': 'Chả_cá_Lã_Vọng',
-  // ── PLATOS 25-DIAS (28-sep-2026) ──
-  'Chả Cá Lã Vọng': 'Chả_cá_Lã_Vọng',
-  'Bánh Bèo, Nậm y Lọc': 'Bánh_bèo',
-  'Lok Lak': 'Loc_lac',
-  'Mì Quảng': 'Mì_Quảng',
-  'Bánh Khoái': 'Bánh_khoái',
-  'Cơm Cháy': 'Rice_crust',
-  // ── RECONCILIACIÓN TRAS SYNC MEGA CON PC DE CASA (30-sep-2026): 27 fotos rotas ──
-  // El PC de casa renombró varias entradas de data.js con nombres más descriptivos
-  // y actualizó sus propios alias en este archivo, pero tras la sincronización por MEGA
-  // (que no hace merge, solo sustituye archivos) el data.js de este PC se quedó con los
-  // nombres cortos originales — sin alias exacto, esas fichas se quedaban sin foto.
-  // Se añaden aquí los alias que faltaban con el nombre EXACTO que hay ahora en data.js.
-  // 'Café Phố Cổ' y 'Victoria Nui Sam Lodge' sin alias a propósito — duplicaban la foto de
-  // Lago Hoan Kiem y de Montaña Sam respectivamente (sitios distintos); mejor sin foto (1-oct-2026)
-  // 'Old Quarter (bono, 5 monumentos)' y 'Mercado de pescado de Thanh Ha' ya tienen photo: directo (1-oct-2026)
-  'Bún Cá Châu Đốc': 'Vietnamese_cuisine',
-  'Calle Trần Phú': 'Hội_An',
-  'Chợ đêm Hội An (Mercado Nocturno de los Farolillos)': 'Hoi_An_Old_Town',
-  'Fruta y café flotante en Cai Rang': 'Cai_Rang',
-  'Mercado de Tan An (Tiger Market)': 'Hội_An',
-  'Mercado de Ba Le': 'Hội_An',
-  // 'Talleres Artesanales' sin alias a propósito — el archivo local talleres_artesanales_hoi_an.jpg resultó ser (verificado a ojo) el Puente Japonés otra vez, borrado (1-oct-2026)
-  'Bánh Mì Phượng': 'Bánh_mì',
-  'Paseo junto al río Perfume': 'Perfume_River',
-  'Dê (cabra) en distintas preparaciones': 'Goat_meat',
-  'Ốc (caracoles de río)': 'Vietnamese_cuisine',
-  'Ruta de playas Cat Co': 'Cat_Ba_Island', // ojo: "Cát_Bà_island" (con tildes) no resuelve, hace falta "Cat_Ba_Island" sin tildes
-  'Atardecer en Flamingo Cat Ba Resort': 'Lan_Ha_Bay',
-  'Marisco de Cat Ba': 'Seafood',
-  'Trekking al pueblo de Viet Hai': 'Lan_Ha_Bay',
-  'Ba Trai Dao (Isla de los 3 melocotones)': 'Lan_Ha_Bay',
-  'Hospital Cave': 'Cát_Bà_National_Park',
-  'Último marisco en Cat Ba': 'Seafood',
-  'Sitios pendientes del Old Quarter': 'Old_Quarter,_Hanoi',
-  // Contenido nuevo del PC de casa (Angkor extras, Da Nang) que llegó sin alias:
-  // 'Banteay Srey Butterfly Centre' usa photo: directo en data.js (foto BSRC real de Commons), no alias
-  // 'Lotus Silk Farm', 'Mercado nocturno Son Tra', 'Aldea de Frescos de Da Nang': sin alias a propósito —
-  // comprobado en Commons que no hay ninguna foto real del sitio exacto; mejor sin foto que una genérica/compartida (ver HISTORIAL_DE_CAMBIOS.md)
-  'Clases de Cocina': 'Hội_An',
-  // ── HUECOS DE CONTENIDO (29-sep-2026): Tra Su, Café Giảng ──
-  'Bosque de Tra Su (Cajuput)': 'Melaleuca_cajuputi', // árbol cajuput real; no hay artículo dedicado a Tra Su con foto
-  // ── AUDITORÍA FOTO↔SITIO (29-sep-2026): 4 huecos reales encontrados con un script de verificación (existe alias + tiene foto) ──
-  'El Callejón Colectivo Cũ (Cư xá Cũ)': 'Hanoi', // sin artículo propio; foto genérica de la ciudad
-  'Old Quarter Hoi An (paseo introductorio)': 'Hoi_An_Old_Town', // ojo: "Hoi_An" a secas es ahora desambiguación (Wikipedia reorganizó el artículo en 2025)
-  // ── ALIAS 25-DIAS (28-sep-2026): mismo articulo, nombre nuevo del itinerario ──
-  'Calle Phan Đình Phùng': 'Hanoi_Opera_House',
-  'Teatro de Marionetas de Agua': 'Thăng_Long_Water_Puppet_Theatre',
-  'Lago Truc Bach': 'Trúc_Bạch_Lake',
-  'West Lake (Tây Hồ)': 'West_Lake_(Hanoi)',
-  'Old Market (Phsar Chas)': 'Psar_Chas', // artículo dedicado "Old Market (Siem Reap)", foto real del mercado — antes usaba el genérico Siem_Reap
-  'Amanecer en Angkor Wat': 'Angkor_Wat',
-  'Banteay Kdei': 'Banteay_Kdei',
-  'Angkor Thom (South Gate)': 'Angkor_Thom',
-  'Bayon': 'Bayon',
-  'Banteay Srei ⭐': 'Banteay_Srei',
-  'Banteay Samré': 'Banteay_Samré',
-  'Preah Khan': 'Preah_Khan',
-  'Beng Mealea ⭐⭐⭐⭐⭐ (Plan B)': 'Beng_Mealea',
-  'Riverside (Sisowath Quay)': 'Sisowath_Quay',
-  'Ruta en bici isla de Cam Kim (Vietnam rural)': 'An_Bàng_Beach',
-  'Playa An Bang (ruta en bici)': 'An_Bàng_Beach',
-  'Cementerio City of Ghosts (valorar si ir)': 'Imperial_City,_Huế',
-  'Puente Thanh Toan': 'Thanh_Toàn_Bridge',
-  'Calle del incienso de Thuy Xuan': 'Perfume_River',
-  'Hang Mua (mejor al amanecer)': 'Mua_Cave',
-  'Parque nacional de Cuc Phuong (descartar por distancia)': 'Cúc_Phương_National_Park',
-  'Ngu Lam Peak': 'Lan_Ha_Bay',
-  'Mausoleo de Ho Chi Minh y Pagoda de un Solo Pilar': 'Ho_Chi_Minh_Mausoleum',
-  'Prisión de Hoa Lo': 'Hỏa_Lò_Prison',
-  'Pagoda de Bai Dinh': 'Bái_Đính_Pagoda',
-  'Palacio Real de Phnom Penh': 'Royal_Palace,_Phnom_Penh',
-
-  // ── ALIAS 29-SEP-2026: auditoría de fotos, itinerario 25 días ──
-  // Hanói
-  'Palacio de la Ópera y Hotel Sofitel Legend Metropole': 'Hanoi_Opera_House',
-  'Puente de Long Bien': 'Long_Biên_Bridge',
-  'Mercado Dong Xuan': 'Đồng_Xuân_Market',
-  'Templo Bach Ma': 'Old_Quarter,_Hanoi', // sin artículo propio en Wikipedia (comprobado 29-sep-2026)
-  'Pagoda Tran Quoc': 'Trấn_Quốc_Pagoda',
-  'Templo Quan Thanh': 'Quán_Thánh_Temple',
-  // Siem Reap / Angkor
-  'Siem Reap River': 'Siem_Reap_River', // artículo dedicado con foto real del río — antes usaba el genérico Siem_Reap
-  'Wat Damnak y alrededores': 'Wat_Damnak',
-  'Ta Nei': 'Ta_Nei',
-  'Baphuon': 'Baphuon',
-  'Terraza de los Elefantes (templo Tep Pranam)': 'Terrace_of_the_Elephants',
-  // 'Phare, The Cambodian Circus' sin alias a propósito — 'Phare_Ponleu_Selpak' (la escuela que lo fundó) mostraba gente sin relación aparente con el circo, y no se encontró ninguna foto real de una actuación en Commons (1-oct-2026)
-  'Pueblos rurales, arrozales y palmeras de azúcar': 'Siem_Reap_province',
-  // 'West Baray (Plan A)' sin alias a propósito — 'West_Baray' en Wikipedia era una imagen satelital/mapa, no una foto real del embalse (1-oct-2026)
-  // Delta del Mekong (Chau Doc / Can Tho) — sin artículo propio: foto representativa de la ciudad
-  // Nota: "Châu_Đốc" existe en Wikipedia pero SIN foto (comprobado 29-sep-2026) —
-  // se usan en su lugar artículos vecinos que sí tienen imagen real
-  'Monumento a la Hamburguesa del Delta (Estatua del Pez Basa)': 'Pangasius_bocourti', // foto real de pez basa (Basa fish), mejor que el genérico An_Giang
-  'Chợ Châu Đốc (Mercado Central de Chau Doc)': 'Wet_market', // genérico de mercado; no hay artículo específico del mercado con foto
-  'El Río Hậu: Aldeas Flotantes y Comunidad Cham': 'Mekong_Delta',
-  'Chợ Châu Đốc en hora punta': 'Wet_market', // mismo mercado que el día anterior, misma foto genérica
-  'Mausoleo de Thoại Ngọc Hầu (Tomb of Thoai Ngoc Hau)': 'Thoại_Ngọc_Hầu',
-  'Montaña Sam (Nui Sam)': 'An_Giang', // foto real: templo de Bà Chúa Xứ, en la propia Montaña Sam
-  'Bến Ninh Kiều (Muelle de Ninh Kieu)': 'Can_Tho',
-  'Ninh Kieu Footbridge': 'Can_Tho',
-  'Chùa Ông Cần Thơ': 'Can_Tho',
-  'Nhà cổ Bình Thủy': 'Can_Tho',
-  'Thiền viện Trúc Lâm Phương Nam': 'Can_Tho',
-  'Chợ nổi Cái Răng (Mercado Flotante de Cai Rang)': 'Cai_Rang', // "Cái_Răng_floating_market" no existe (comprobado 29-sep-2026)
-  // Hoi An
-  'Mercado central Chợ Hội An': 'Hội_An',
-  'Chùa Cầu (Puente Japonés)': 'Japanese_Covered_Bridge',
-  'Casas Antiguas y Capillas Familiares': 'Hội_An',
-  'Salones de Asambleas Chinos': 'Hội_An',
-  'Museos Históricos': 'Hội_An',
-  'Puentes, Templos y Casas Comunales': 'Hội_An',
-  'Espectáculos, Demostraciones y Tumbas': 'Hội_An',
-  // Hue
-  'Mercado nocturno de Dong Ba': 'Đông_Ba_Market',
-  'Tumba de Tu Duc': 'Tomb_of_Tự_Đức',
-  'Tumba de Minh Mang': 'Imperial_City,_Huế', // "Tomb_of_Minh_Mạng" no existe; "Minh_Mạng" tiene solo un .gif que la app no carga bien (comprobado 29-sep-2026)
-  // Cat Ba / Lan Ha Bay
-  'Cannon Fort (Pháo Đài Thần Công)': 'Cát_Bà_island',
-  'Lan Ha Bay (crucero 2d/1n o excursión de 1 día)': 'Lan_Ha_Bay',
-
-  // ── ALIAS 29-SEP-2026 (continuación): auditoría de restaurantes/platos ──
-  'Bia Hơi': 'Bia_hơi',
-  'Kuy Teav': 'Kuy_teav',
-  'Khmer BBQ': 'Cambodian_cuisine',
-  'Nom Banh Chok': 'Cambodian_cuisine',
-  'Bai Sach Chrouk': 'Cambodian_cuisine',
-  'Lap Khmer': 'Cambodian_cuisine',
-  'Amok de pollo o verduras': 'Cambodian_cuisine',
-  'Cena de comida Khmer': 'Cambodian_cuisine',
-  'Bun Ca': 'Vietnamese_cuisine', // sin artículo propio (comprobado 29-sep-2026)
-  'Chao Ca': 'Congee',
-  'Pescado de agua dulce del Mekong': 'Mekong_Delta',
-  'Hủ Tiếu': 'Hủ_tiếu',
-  'Cao Lầu': 'Cao_lầu', // con tilde — "Cao Lau" (sin tilde) apuntaba a un artículo distinto y no coincidía con el nombre real de data.js
-  'Marisco de Da Nang': 'Seafood',
-  'Dê nướng (cabra a la parrilla)': 'Goat_meat',
-  'Chả Mực Cát Bà': 'Squid_as_food',
-};
 
 // Comida típica y curiosidades por ciudad, para la ficha "Sobre <ciudad>" —
 // contenido curado a mano (no viene de Wikipedia), pensado para el estilo de
@@ -433,9 +59,9 @@ const CITY_INFO = {
     food: 'Noche de tránsito, no de turismo — Barcelona ciudad no entra en el plan esta vez. Si hay hueco antes de dormir, un bocadillo de jamón o unas bravas cerca del hotel/aeropuerto; mañana ya toca comida de avión.',
     curiosities: 'El Prat tiene dos terminales (T1 y T2) bastante separadas entre sí — el vuelo internacional a Shenzhen (Shenzhen Airlines) sale de la Terminal 1, desde las puertas de embarque de la zona D (la gran mayoría de sus vuelos usan esa zona, alguna vez la E). Es un aeropuerto grande: llegar con margen, el check-in de la maleta facturada puede tener cola en la T1.'
   },
-  'Aeropuerto de Shenzhen (escala)': {
+  'Aeropuerto de Shenzhen': { // sin «(escala)»: _cleanCityName quita los paréntesis (antes no se mostraba nunca)
     food: 'Escala de varias horas, sin salir del aeropuerto — Shenzhen ciudad tampoco entra en el plan. La Terminal 3 de Bao\'an tiene bastante oferta de comida dentro de la zona de tránsito internacional (cadenas chinas y occidentales), buen momento para probar algo local sin gastar un día entero.',
-    curiosities: 'China exige visado normalmente, pero desde diciembre de 2024 España está entre los 54 países con tránsito sin visado ampliado a 240 horas (10 días) en Shenzhen y otras ciudades — de sobra para esta escala de 5h40min, aunque el plan es quedarse en la zona de tránsito sin salir. Para la conexión internacional-internacional en la T3 basta con seguir los carteles de "Transfer" (no hace falta recoger la maleta facturada si va facturada hasta Hanói). Llevar el billete de continuación a mano por si lo piden al pasar cualquier control. El edificio de la T3, con forma de manta ondulada, es obra del mismo estudio que el aeropuerto de Madrid-Barajas (Studio Fuksas).'
+    curiosities: 'Con pasaporte español no hace falta visado para China: exención de hasta 30 días, prorrogada hasta el 31 de diciembre de 2026 (comprobado el 6-oct-2026) — de sobra para esta escala de 5h40min, aunque lo práctico es quedarse en la zona de tránsito. Para la conexión internacional-internacional en la T3 basta con seguir los carteles de "Transfer" (no hace falta recoger la maleta facturada si va facturada hasta Hanói). Llevar el billete de continuación a mano por si lo piden al pasar cualquier control. El edificio de la T3, con forma de manta ondulada, es obra del mismo estudio que el aeropuerto de Madrid-Barajas (Studio Fuksas).'
   },
   'Hanói': {
     food: 'La cuna del phở (mejor por la mañana, en puestos con taburetes bajos), el bún chả que hizo famoso Obama, el cà phê trứng (café de huevo) y el bia hơi callejero a 30 céntimos el vaso. Comer en la calle, sentados en plástico, es la experiencia real — los sitios con menú plastificado en inglés son para turistas.',
@@ -484,18 +110,29 @@ const _citySummaryCache = {};
 
 // Nombre de ciudad "limpio" a partir del campo day.city (puede venir como
 // "Hanói → Siem Reap" en días de traslado, o con una nota entre paréntesis)
+// Ciudad del día para «Sobre <ciudad>»: la de origen en los días de traslado y sin
+// paréntesis ni «/ Ninh Binh» (antes «Tam Coc / Ninh Binh» no encontraba nada).
+// El día 30 (Barcelona → Santiago) es solo un enlace de vuelos de vuelta: sin ficha
+// (el texto del aeropuerto es el de la ida y Barcelona ciudad no entra en el plan).
+const CITY_INFO_ALIAS = { 'Barcelona': '' };
 function _cleanCityName(city) {
   if (!city) return '';
-  return city.split('→')[0].replace(/\(.*\)/, '').trim();
+  const c = city.split(/→|\//)[0].replace(/\(.*\)/, '').trim();
+  return c in CITY_INFO_ALIAS ? CITY_INFO_ALIAS[c] : c;
 }
+
+// Título exacto en la Wikipedia en español cuando el nombre no basta:
+// «Hue» da una página de desambiguación y «Cat Ba» no existe.
+const CITY_WIKI_ES = { 'Hue': 'Huế (municipio)', 'Cat Ba': 'Isla Cát Bà' };
 
 // Resumen en español de la ciudad/lugar del día, para la ficha "Sobre <ciudad>"
 async function _fetchCitySummary(cityName) {
   if (_citySummaryCache[cityName]) return _citySummaryCache[cityName];
   try {
-    const res = await fetch(`https://es.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(cityName)}`);
+    const res = await fetch(`https://es.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(CITY_WIKI_ES[cityName] || cityName)}`);
     if (!res.ok) throw new Error('not found');
     const data = await res.json();
+    if (data.type === 'disambiguation') throw new Error('desambiguación');
     _citySummaryCache[cityName] = {
       extract: data.extract || '',
       photo: data.thumbnail?.source || data.originalimage?.source || '',
@@ -515,8 +152,14 @@ async function loadCitySummary(cardEl, cityName) {
   cardEl.dataset.loaded = '1';
   const info = await _fetchCitySummary(cityName);
   if (!cardEl.isConnected) return;
-  if (!info.extract) { cardEl.style.display = 'none'; return; }
   const textEl  = cardEl.querySelector('.city-info-text');
+  if (!info.extract) {
+    // Sin resumen de Wikipedia (sin cobertura o sin artículo): antes se ocultaba la ficha
+    // entera, también las curiosidades y platos propios, que están en la app.
+    if (cardEl.querySelector('.city-info-extra')) { if (textEl) textEl.remove(); }
+    else cardEl.style.display = 'none';
+    return;
+  }
   const photoEl = cardEl.querySelector('.city-info-photo');
   if (textEl) textEl.textContent = info.extract;
   if (photoEl && info.photo) {
@@ -540,7 +183,7 @@ async function _fetchWikiEntry(article) {
   return _wikiCache[article];
 }
 
-// Busca en Wikimedia Commons cuando no hay artículo en WIKI_ARTICLES
+// Busca en Wikimedia Commons cuando no hay artículo directo
 async function _searchCommonsImage(query) {
   const key = '__commons__' + query;
   if (_wikiCache[key]) return _wikiCache[key];
@@ -635,8 +278,10 @@ async function loadWikiPhoto(imgEl, placeName) {
   // de categoría — nunca se adivina por alias, caché antigua ni búsqueda en Wikipedia.
   if (imgEl.dataset.fixed) return;
   // 2. Imagen local descargada en img/places/<slug>.jpg
-  // article: desde WIKI_ARTICLES o el propio placeName si es un artículo directo (ej. círculos de zona)
-  const article = WIKI_ARTICLES[placeName] || placeName;
+  // Aquí solo llegan artículos de Wikipedia directos (iconos de zona de la Ruta). La tabla de
+  // alias nombre→artículo (WIKI_ARTICLES) se quitó el 6-oct-2026: desde las fotos congeladas
+  // (3-oct) las fichas salen antes (data-fixed) y ya nunca se consultaba.
+  const article = placeName;
   {
     const localSlug = _localImgSlug(article);
     const localUrl = `img/places/${localSlug}.jpg`;
@@ -734,12 +379,6 @@ function daysUntilTrip(trip) { return daysBetween(today(), trip.startDate); }
 function isTripActive(trip) { const t = today(); return t >= trip.startDate && t <= trip.endDate; }
 function isTripPast(trip) { return today() > trip.endDate; }
 
-function placeIcon(type) {
-  const icons = { monument:'📍', restaurant:'🍜', cafe:'☕', hotel:'🏨',
-    airport:'✈️', station:'🚆', city:'📍', other:'📌' };
-  return icons[type] || '📍';
-}
-
 function docIcon(type) {
   const icons = { flight:'✈️', visa:'🛃', insurance:'🔒', booking:'🏨', transport:'🚌', other:'📄' };
   return icons[type] || '📄';
@@ -758,6 +397,7 @@ function navigate(view, extra, tripId) {
   if (tripId) currentTripId = tripId;
   if (countdownTimer) { clearInterval(countdownTimer); countdownTimer = null; }
   if (_dayMapInstance) { _dayMapInstance.remove(); _dayMapInstance = null; }
+  if (view === 'day') dayReturnView = (currentView === 'today' || (currentView === 'day' && dayReturnView === 'today')) ? 'today' : 'itinerary';
   currentView = view;
   const vc = el('view-content');
   vc.style.opacity = '0';
@@ -774,7 +414,8 @@ function navigate(view, extra, tripId) {
 
 function updateNav(view) {
   document.querySelectorAll('.nav-item').forEach(b => {
-    b.classList.toggle('active', b.dataset.view === view);
+    const active = (view === 'day') ? dayReturnView : view; // un día abierto marca la pestaña desde la que se abrió
+    b.classList.toggle('active', b.dataset.view === active);
   });
   el('bottom-nav').style.display = (view === 'home') ? 'none' : 'flex';
 }
@@ -800,7 +441,7 @@ function setHeader(title, showBack) {
   const backBtn = el('header-back');
   if (showBack) {
     backBtn.classList.add('visible');
-    backBtn.onclick = () => navigate('itinerary');
+    backBtn.onclick = () => navigate(currentView === 'day' ? dayReturnView : 'itinerary');
   } else {
     backBtn.classList.remove('visible');
     backBtn.onclick = null;
@@ -809,6 +450,20 @@ function setHeader(title, showBack) {
 
 // ── RENDER DISPATCHER ──────────────────────────────────────
 
+// Temporizadores de la portada (foto de cabecera, tiempo, reloj, consejos). Se cancelan
+// al cambiar de vista: antes se acumulaban en cada visita a Inicio y, p. ej., quedaban
+// dos fotos de cabecera activas a la vez y la pastilla del tiempo cambiaba a saltos.
+let _homeTimers = [];
+function homeInterval(fn, ms) {
+  const id = setInterval(fn, ms);
+  _homeTimers.push(id);
+  return id;
+}
+function clearHomeTimers() {
+  _homeTimers.forEach(clearInterval);
+  _homeTimers = [];
+}
+
 function renderView(view, extra) {
   const content = el('view-content');
   content.scrollTop = 0;
@@ -816,6 +471,7 @@ function renderView(view, extra) {
   void content.offsetWidth;
   content.classList.add('fade-in');
 
+  clearHomeTimers();
   if (view !== 'map' && mapInstance) { mapInstance.remove(); mapInstance = null; }
   if (view !== 'map') stopNearMeTracking();
 
@@ -875,17 +531,22 @@ async function fetchWeather(city) {
   } catch { return null; }
 }
 
-// Destinos del viaje con medias históricas de noviembre (fallback offline)
+// Destinos del viaje, en el orden del itinerario, con medias aproximadas de noviembre
+// (se muestran sin conexión o hasta que llega el tiempo real). `blocks` = bloques de
+// data.js en los que se está en esa ciudad: sus destinos salen primero en la portada.
+// Actualizado el 6-oct-2026: antes era la ruta antigua (Koh Rong, sin el Delta).
+// Ojo: noviembre es el pico de la época de lluvias en Hue, Da Nang y Hoi An.
 const WEATHER_DESTINATIONS = [
-  { label: 'Hanói',        query: 'Hanoi,Vietnam',        block: 'El Norte',  offline: { temp:'23', max:'27', min:'19', icon:'⛅', desc:'Parcialmente nublado', humidity:'75' } },
-  { label: 'Cat Ba',       query: 'Cat Ba,Vietnam',       block: 'El Norte',  offline: { temp:'22', max:'26', min:'18', icon:'🌤️', desc:'Mayormente despejado', humidity:'78' } },
-  { label: 'Ninh Binh',   query: 'Ninh Binh,Vietnam',   block: 'El Norte',  offline: { temp:'23', max:'27', min:'19', icon:'⛅', desc:'Nublado variable', humidity:'77' } },
-  { label: 'Hue',          query: 'Hue,Vietnam',          block: 'El Centro', offline: { temp:'24', max:'28', min:'20', icon:'🌦️', desc:'Lluvias ocasionales', humidity:'82' } },
-  { label: 'Da Nang',      query: 'Da Nang,Vietnam',      block: 'El Centro', offline: { temp:'25', max:'29', min:'21', icon:'🌤️', desc:'Soleado con nubes', humidity:'74' } },
-  { label: 'Hoi An',       query: 'Hoi An,Vietnam',       block: 'El Centro', offline: { temp:'25', max:'29', min:'21', icon:'☀️', desc:'Soleado', humidity:'72' } },
-  { label: 'Siem Reap',    query: 'Siem Reap,Cambodia',   block: 'Camboya',   offline: { temp:'28', max:'32', min:'22', icon:'☀️', desc:'Seco y soleado', humidity:'60' } },
-  { label: 'Koh Rong',     query: 'Koh Rong,Cambodia',    block: 'Islas',     offline: { temp:'29', max:'31', min:'25', icon:'🌴', desc:'Tropical y cálido', humidity:'68' } },
-  { label: 'Phnom Penh',   query: 'Phnom Penh,Cambodia',  block: 'El Cierre', offline: { temp:'29', max:'33', min:'23', icon:'☀️', desc:'Caluroso y seco', humidity:'58' } },
+  { label: 'Hanói',      query: 'Hanoi,Vietnam',       blocks: ['El Norte', 'El Cierre'], offline: { temp:'23', max:'26', min:'19', icon:'⛅', desc:'Templado, algo nublado', humidity:'75' } },
+  { label: 'Siem Reap',  query: 'Siem Reap,Cambodia',  blocks: ['Angkor'],                offline: { temp:'27', max:'31', min:'23', icon:'☀️', desc:'Caluroso, fin de las lluvias', humidity:'70' } },
+  { label: 'Phnom Penh', query: 'Phnom Penh,Cambodia', blocks: ['Phnom Penh'],            offline: { temp:'28', max:'31', min:'24', icon:'🌤️', desc:'Caluroso y bastante seco', humidity:'70' } },
+  { label: 'Chau Doc',   query: 'Chau Doc,Vietnam',    blocks: ['Delta del Mekong'],      offline: { temp:'27', max:'31', min:'24', icon:'🌦️', desc:'Calor húmedo, algún chubasco', humidity:'80' } },
+  { label: 'Can Tho',    query: 'Can Tho,Vietnam',     blocks: ['Delta del Mekong'],      offline: { temp:'27', max:'31', min:'24', icon:'🌦️', desc:'Calor húmedo, algún chubasco', humidity:'80' } },
+  { label: 'Hoi An',     query: 'Hoi An,Vietnam',      blocks: ['El Centro'],             offline: { temp:'24', max:'26', min:'21', icon:'🌧️', desc:'Lluvias frecuentes', humidity:'87' } },
+  { label: 'Da Nang',    query: 'Da Nang,Vietnam',     blocks: ['El Centro'],             offline: { temp:'24', max:'26', min:'21', icon:'🌧️', desc:'Lluvias frecuentes', humidity:'85' } },
+  { label: 'Hue',        query: 'Hue,Vietnam',         blocks: ['El Centro'],             offline: { temp:'22', max:'25', min:'20', icon:'🌧️', desc:'Muy lluvioso (su mes más húmedo)', humidity:'90' } },
+  { label: 'Ninh Binh',  query: 'Ninh Binh,Vietnam',   blocks: ['Ninh Binh'],             offline: { temp:'23', max:'26', min:'19', icon:'⛅', desc:'Templado, nublado variable', humidity:'77' } },
+  { label: 'Cat Ba',     query: 'Cat Ba,Vietnam',      blocks: ['Vuelta al Norte'],       offline: { temp:'22', max:'25', min:'19', icon:'🌤️', desc:'Templado, mayormente despejado', humidity:'78' } },
 ];
 
 // Artículo Wikipedia para la foto de fondo del widget de tiempo
@@ -898,8 +559,9 @@ const WEATHER_CITY_WIKI = {
   'Da Nang':    'Da_Nang',
   'Hoi An':     'Hội_An',
   'Siem Reap':  'Angkor_Wat',
-  'Koh Rong':   'Koh_Rong_Samloem',
   'Phnom Penh': 'Phnom_Penh',
+  'Chau Doc':   'Châu_Đốc',
+  'Can Tho':    'Cần_Thơ',
 };
 
 // Dado el viaje y la fecha de hoy, devuelve lista de destinos ordenada:
@@ -914,23 +576,11 @@ function getContextualDestinations(trip) {
     return WEATHER_DESTINATIONS;
   }
 
-  const inBlock  = WEATHER_DESTINATIONS.filter(d => d.block === currentBlock);
-  const outBlock = WEATHER_DESTINATIONS.filter(d => d.block !== currentBlock);
+  const inBlock  = WEATHER_DESTINATIONS.filter(d => d.blocks.includes(currentBlock));
+  const outBlock = WEATHER_DESTINATIONS.filter(d => !d.blocks.includes(currentBlock));
   return [...inBlock, ...outBlock];
 }
 
-const WEATHER_CITY_COORDS = {
-  'Santiago de Compostela': [42.8782, -8.5448],
-  'Hanoi':                  [21.0285,  105.8542],
-  'Ho Chi Minh City':       [10.8231,  106.6297],
-  'Hoi An':                 [15.8801,  108.3380],
-  'Hue':                    [16.4637,  107.5909],
-  'Siem Reap':              [13.3671,  103.8448],
-  'Phnom Penh':             [11.5564,  104.9282],
-  'Ha Long':                [20.9101,  107.1839],
-  'Ninh Binh':              [20.2539,  105.9750],
-  'Da Nang':                [16.0544,  108.2022],
-};
 function weatherPill(data, label) {
   const icon = data?.icon || '🌡️';
   const temp = data?.temp || '—';
@@ -1075,7 +725,7 @@ const TIP_BOLD_HTML = {
   'Electricidad': 'Vietnam y Camboya usan enchufes <strong>tipo A, C y G (220 V)</strong>. Un <strong>adaptador universal</strong> cubre todo. Los hoteles suelen tener enchufes universales en los cuartos.',
   'Fotos':        'En <strong>Tuol Sleng y los Killing Fields</strong>, guarda el móvil con respeto. En Angkor, los mejores ángulos están en los <strong>rincones menos transitados</strong>.',
   'Regateo':      'En mercados, empieza en el <strong>40-50 % del precio pedido</strong>. En tiendas con precio fijo, no se regatea. Siempre con <strong>buen humor</strong> — el regateo agresivo es maleducado.',
-  'Visados':      'Vietnam: <strong>e-Visa online</strong> antes de salir (25 USD). Camboya: <strong>e-Visa online</strong> (36 USD) o a la llegada. Ambos necesitan pasaporte con <strong>mínimo 6 meses de vigencia</strong>.',
+  'Visados':      'Vietnam: <strong>sin visado</strong> con pasaporte español (exención de 45 días), pero hay que rellenar la <strong>Digital Arrival Card</strong> online en los 3 días previos. Camboya: <strong>e-Visa online</strong> (~36 USD) + Digital Arrival Card en los 7 días previos. Pasaporte con <strong>mínimo 6 meses de vigencia</strong>.',
 };
 
 // ══════════════════════════════════════════════════════════
@@ -1083,6 +733,7 @@ const TIP_BOLD_HTML = {
 // ══════════════════════════════════════════════════════════
 
 async function renderTripDashboard() {
+  clearHomeTimers(); // también si se repinta sin pasar por renderView
   const trip = getTrip(currentTripId);
   if (!trip) return renderHome();
   setHeader(trip.name, false);
@@ -1110,7 +761,7 @@ async function renderTripDashboard() {
 
   // ── Hero rotante ──
   let heroIdx = 0;
-  setInterval(() => {
+  homeInterval(() => {
     const layers = document.querySelectorAll('.hero-img-layer');
     if (!layers.length) return;
     layers[heroIdx].classList.replace('active', 'inactive');
@@ -1181,39 +832,41 @@ async function renderTripDashboard() {
 
   // Mostrar Santiago inmediatamente (con dato offline si aún no ha cargado)
   showWeatherCity(0, true);
-  wTimer = setInterval(() => { wIdx++; showWeatherCity(wIdx, false); }, 15000);
+  wTimer = homeInterval(() => { wIdx++; showWeatherCity(wIdx, false); }, 15000);
 
-  // Reemplazar datos offline con reales cuando lleguen
+  // Reemplazar datos offline con reales cuando lleguen (y repintar si es la ciudad visible)
   allCities.forEach((c, i) => {
     fetchWeather(c.query).then(w => {
-      if (w) resolved[i].data = w;
+      if (!w) return;
+      resolved[i].data = w;
+      if (i === wIdx % resolved.length) showWeatherCity(wIdx, true);
     });
   });
 
   // ── Tick del reloj dual ──
   tickDualClock(trip);
-  setInterval(() => tickDualClock(trip), 10000);
+  homeInterval(() => tickDualClock(trip), 10000);
 
   // ── Inicializar conversor ──
-  const langNow = getCurrentCountry(trip);
-  if (langNow === 'km') { _fxRate = FX_RATES.KHR.perEur; }
-  else { _fxRate = FX_RATES.VND.perEur; }
+  // Moneda del país en que se está. Antes solo cambiaba el tipo interno (_fxRate) y en
+  // Camboya convertía a rieles mostrando la etiqueta y la pestaña de VND.
+  switchFXCurrency(getCurrentCountry(trip) === 'km' ? 'KHR' : 'VND');
 
   // ── Tips rotantes con gradiente ──
   const tips = trip.travelTips || [];
   const tipGrads = [
     'linear-gradient(135deg,#1a3a5c,#2d6a8f)',
     'linear-gradient(135deg,#1b4332,#2d6a4f)',
-    'linear-gradient(135deg,#3d2c5c,#6b46a1)',
-    'linear-gradient(135deg,#7b3f00,#b5560d)',
+    'linear-gradient(135deg,#1f4e79,#2f6fa3)',
+    'linear-gradient(135deg,#2f3d17,#6b7f3a)',
     'linear-gradient(135deg,#0d3b4f,#1a7a8a)',
-    'linear-gradient(135deg,#4a1942,#8b3a7e)',
+    'linear-gradient(135deg,#4a3510,#8a6a1c)',
     'linear-gradient(135deg,#1a3a5c,#2d6a8f)',
     'linear-gradient(135deg,#1b4332,#2d6a4f)',
-    'linear-gradient(135deg,#3d2c5c,#6b46a1)',
-    'linear-gradient(135deg,#7b3f00,#b5560d)',
+    'linear-gradient(135deg,#1f4e79,#2f6fa3)',
+    'linear-gradient(135deg,#2f3d17,#6b7f3a)',
     'linear-gradient(135deg,#0d3b4f,#1a7a8a)',
-    'linear-gradient(135deg,#4a1942,#8b3a7e)',
+    'linear-gradient(135deg,#4a3510,#8a6a1c)',
   ];
   if (tips.length > 1) {
     let tipIdx = 0;
@@ -1266,7 +919,7 @@ async function renderTripDashboard() {
         tipIdx = +dot.dataset.i;
         clearInterval(tipTimer);
         showTip(tipIdx);
-        tipTimer = setInterval(() => { tipIdx++; showTip(tipIdx); }, 7000);
+        tipTimer = homeInterval(() => { tipIdx++; showTip(tipIdx); }, 7000);
       });
     });
     // Show first photo immediately (already in cache)
@@ -1278,7 +931,7 @@ async function renderTripDashboard() {
         bgImg.src = _tipPhotoCache[0];
       }
     }, 100);
-    var tipTimer = setInterval(() => { tipIdx++; showTip(tipIdx); }, 7000);
+    var tipTimer = homeInterval(() => { tipIdx++; showTip(tipIdx); }, 7000);
   }
 }
 
@@ -1337,9 +990,9 @@ function tickDualClock(trip) {
   const t = today();
   const destCity = (() => {
     const d = trip.days.find(day => day.date === t);
-    if (d && d.block !== 'Vuelos') return d.city;
+    if (d && !FLIGHT_BLOCKS.includes(d.block)) return d.city;
     // Días de vuelo (España→Asia) no son el "destino" a efectos de este reloj — saltar al primer día real
-    const next = trip.days.find(day => day.date > t && day.block !== 'Vuelos') || trip.days.find(day => day.date > t);
+    const next = trip.days.find(day => day.date > t && !FLIGHT_BLOCKS.includes(day.block)) || trip.days.find(day => day.date > t);
     return next ? next.city : (trip.days[0]?.city || 'Destino');
   })();
   // Vietnam & Cambodia both UTC+7
@@ -1365,6 +1018,31 @@ const FX_RATES = {
   KHR: { name: 'Riel camboyano',  cc: 'kh', symbol: '៛', perEur: 4630  },
   USD: { name: 'Dólar USA',       cc: 'us', symbol: '$', perEur: 1.14  },
 };
+// Banderas emoji (🇻🇳, 🇰🇭…): en el móvil se dibujan bien, pero Windows no tiene banderas y
+// salen como letras («VN»). Solo en ese caso se cambian por imágenes; en el móvil se dejan
+// como emoji para que todo siga funcionando sin conexión.
+const SUPPORTS_FLAG_EMOJI = (() => {
+  try {
+    const c = document.createElement('canvas'); c.width = c.height = 24;
+    const x = c.getContext('2d'); x.textBaseline = 'top'; x.font = '20px sans-serif';
+    x.fillText('\u{1F1EA}\u{1F1F8}', 0, 0);
+    const d = x.getImageData(0, 0, 24, 24).data;
+    for (let i = 0; i < d.length; i += 4) {
+      if (d[i + 3] > 0 && (Math.abs(d[i] - d[i + 1]) > 40 || Math.abs(d[i + 1] - d[i + 2]) > 40)) return true; // hay color: bandera real
+    }
+    return false;
+  } catch (e) { return true; }
+})();
+function flagText(str) {
+  const safe = escHtml(String(str || ''));
+  if (SUPPORTS_FLAG_EMOJI) return safe;
+  return safe.replace(/([\u{1F1E6}-\u{1F1FF}])([\u{1F1E6}-\u{1F1FF}])/gu, (m, a, b) => {
+    const cc = String.fromCharCode(a.codePointAt(0) - 0x1F1E6 + 97, b.codePointAt(0) - 0x1F1E6 + 97);
+    return `<img class="emoji-flag" src="https://flagcdn.com/20x15/${cc}.png" alt="${cc.toUpperCase()}" width="20" height="15">`;
+  });
+}
+
+// flagcdn solo sirve ciertos tamaños (16, 20, 24, 28, 32…): 18 daba imagen rota.
 function flagImg(cc, size) {
   const s = size || 32;
   return `<img src="https://flagcdn.com/${s}x${Math.round(s*0.75)}/${cc}.png" alt="${cc}" class="fx-flag-img" width="${s}" height="${Math.round(s*0.75)}" style="border-radius:3px;display:block">`;
@@ -1389,13 +1067,13 @@ function buildCurrencyHTML(trip) {
         <div class="currency-input-row">
           <div class="currency-eur-badge">${flagImg('eu', 24)} € EUR</div>
           <input class="currency-input" id="fx-eur" type="number" placeholder="0"
-                 inputmode="decimal" oninput="calcFXFrom('eur')">
+                 inputmode="decimal" oninput="calcFXFrom('eur')" aria-label="Cantidad en euros">
         </div>
         <div class="currency-divider">↕</div>
         <div class="currency-input-row">
           <div class="currency-local-badge" id="fx-local-badge">${flagImg(mainCur.cc, 24)} ${mainCur.symbol} ${mainCur.key}</div>
           <input class="currency-input" id="fx-local" type="number" placeholder="0"
-                 inputmode="decimal" oninput="calcFXFrom('local')">
+                 inputmode="decimal" oninput="calcFXFrom('local')" aria-label="Cantidad en moneda local">
         </div>
       </div>
       <div class="currency-tabs" id="fx-tabs">
@@ -1477,9 +1155,9 @@ function buildTripStatsHTML(trip) {
   const pct = Math.round((currentDay / totalDays) * 100);
 
   // Zonas
-  const blocks = [...new Set(allDays.map(d => d.block).filter(Boolean))];
-  const pastBlocks = new Set(allDays.filter(d => d.date < t).map(d => d.block).filter(Boolean));
-  if (dayNum >= 0) pastBlocks.add(allDays[dayNum].block);
+  const blocks = [...new Set(allDays.map(d => d.block).filter(b => b && !FLIGHT_BLOCKS.includes(b)))];
+  const pastBlocks = new Set(allDays.filter(d => d.date < t).map(d => d.block).filter(b => b && !FLIGHT_BLOCKS.includes(b)));
+  if (dayNum >= 0 && !FLIGHT_BLOCKS.includes(allDays[dayNum].block)) pastBlocks.add(allDays[dayNum].block);
 
   // Países — un día de tránsito fronterizo ("España → China") cuenta como el
   // primer país real del texto, no como una entrada nueva distinta
@@ -1489,22 +1167,34 @@ function buildTripStatsHTML(trip) {
   const doneCountries = new Set(allDays.filter(d => d.date <= t).map(d => primaryCountry(d.country)).filter(Boolean));
 
   // Noches por país
-  const nightsVI = allDays.filter(d => (d.country||'').toLowerCase().includes('vietnam')).length;
-  const nightsKH = allDays.filter(d => (d.country||'').toLowerCase().includes('camboy')||
-    (d.country||'').toLowerCase().includes('cambodia')||
-    (d.country||'').toLowerCase().includes('camboya')).length;
+  // Noches por país: la noche de cada día se pasa en el país de DESTINO del día («Vietnam → Camboya» = Camboya),
+  // y solo cuenta si se duerme en tierra (hotel o bus nocturno), no en un vuelo.
+  const destCountry = d => ((d.country || '').split('→').pop() || '').toLowerCase();
+  const sleepsHere  = d => (d.hotel && d.hotel.name) || (d.transport || []).some(tr => /nocturno|sleeper/i.test(tr.details || ''));
+  const nightsVI = allDays.filter(d => sleepsHere(d) && destCountry(d).includes('vietnam')).length;
+  const nightsKH = allDays.filter(d => sleepsHere(d) && /camboya|cambodia/.test(destCountry(d))).length;
 
   // Tránsitos
-  const transits = window.TRIP_TRANSITS || [];
+  // Todos los trayectos del viaje con su fecha (km aproximados en data.js)
+  const transits = trip.days.flatMap(d => (d.transport || []).map(tr => ({ ...tr, date: d.date })));
   const doneTransits = transits.filter(tr => tr.date <= t);
   const pendingTransits = transits.filter(tr => tr.date > t);
   const nextTransit = pendingTransits[0];
-  const flights = transits.filter(tr => tr.type === 'flight');
-  const trains  = transits.filter(tr => tr.type === 'train');
-  const buses   = transits.filter(tr => tr.type === 'bus' || tr.type === 'ferry');
-  const doneFlights = doneTransits.filter(tr => tr.type === 'flight').length;
-  const doneTrains  = doneTransits.filter(tr => tr.type === 'train').length;
-  const doneBuses   = doneTransits.filter(tr => tr.type === 'bus' || tr.type === 'ferry').length;
+  // Una fila por medio de transporte (solo las que aparecen en el viaje). Los traslados en
+  // coche (Grab, taxi, miniván) cuentan como un transporte más (decisión de Marcos, 6-oct-2026).
+  const TRANSIT_ROWS = [
+    { icon: '✈️', label: 'Vuelos',  types: ['flight'] },
+    { icon: '🚆', label: 'Trenes',  types: ['train', 'night-train'] },
+    { icon: '🚌', label: 'Buses',   types: ['bus', 'sleeper-bus'] },
+    { icon: '⛴️', label: 'Barcos',  types: ['ferry', 'boat'] },
+    { icon: '🚗', label: 'Coche',   types: ['car', 'taxi', 'tuktuk', 'van'] },
+  ];
+  const known = TRANSIT_ROWS.flatMap(r => r.types);
+  TRANSIT_ROWS.push({ icon: '🧭', label: 'Otros', types: [...new Set(transits.map(tr => tr.type).filter(ty => !known.includes(ty)))] });
+  const transitRows = TRANSIT_ROWS
+    .map(r => ({ ...r, total: transits.filter(tr => r.types.includes(tr.type)).length,
+                       done:  doneTransits.filter(tr => r.types.includes(tr.type)).length }))
+    .filter(r => r.total > 0);
   const kmDone  = doneTransits.reduce((s, tr) => s + (tr.km || 0), 0);
   const kmTotal = transits.reduce((s, tr) => s + (tr.km || 0), 0);
   const kmPct   = kmTotal ? Math.round((kmDone / kmTotal) * 100) : 0;
@@ -1548,7 +1238,7 @@ function buildTripStatsHTML(trip) {
             <div class="stat2-val">${doneCountries.size}<span class="stat2-of">/${countries.length}</span></div>
           </div>
           <div class="stat2-lbl">Países visitados</div>
-          <div class="stat2-flags">🇻🇳 ${nightsVI}n &nbsp; 🇰🇭 ${nightsKH}n</div>
+          <div class="stat2-flags">${flagText('🇻🇳')} ${nightsVI}n &nbsp; ${flagText('🇰🇭')} ${nightsKH}n</div>
         </div>
 
         <!-- Zonas -->
@@ -1566,7 +1256,7 @@ function buildTripStatsHTML(trip) {
         <!-- Km recorridos -->
         <div class="stat2-card stat2-km">
           <div class="stat2-top">
-            <div class="stat2-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 21 9 3"/><path d="M19 21 15 3"/><path d="M6.8 15h10.4"/><path d="M8.5 9h7"/></svg></div>
+            <div class="stat2-icon">🛣️</div>
             <div class="stat2-val">${kmDone.toLocaleString('es')}</div>
           </div>
           <div class="stat2-lbl">km recorridos</div>
@@ -1577,9 +1267,7 @@ function buildTripStatsHTML(trip) {
         <!-- Transportes -->
         <div class="stat2-card">
           <div class="stat2-lbl" style="margin-bottom:6px">Transportes</div>
-          <div class="stat2-transit-row"><span>✈️</span><div class="stat2-tr-bar-wrap"><div class="stat2-tr-bar" style="width:${flights.length?Math.round(doneFlights/flights.length*100):0}%"></div></div><span class="stat2-tr-val">${doneFlights}/${flights.length}</span></div>
-          <div class="stat2-transit-row"><span>🚆</span><div class="stat2-tr-bar-wrap"><div class="stat2-tr-bar" style="width:${trains.length?Math.round(doneTrains/trains.length*100):0}%"></div></div><span class="stat2-tr-val">${doneTrains}/${trains.length}</span></div>
-          <div class="stat2-transit-row"><span>🚌</span><div class="stat2-tr-bar-wrap"><div class="stat2-tr-bar" style="width:${buses.length?Math.round(doneBuses/buses.length*100):0}%"></div></div><span class="stat2-tr-val">${doneBuses}/${buses.length}</span></div>
+          ${transitRows.map(r => `<div class="stat2-transit-row" title="${r.label}"><span aria-label="${r.label}">${r.icon}</span><div class="stat2-tr-bar-wrap"><div class="stat2-tr-bar" style="width:${Math.round(r.done / r.total * 100)}%"></div></div><span class="stat2-tr-val">${r.done}/${r.total}</span></div>`).join('')}
         </div>
 
       </div>
@@ -1601,7 +1289,7 @@ function buildTripStatsHTML(trip) {
         <div class="snh-icon">🏨</div>
         <div class="snh-body">
           <div class="snh-label">Próximo alojamiento · ${new Date(nextHotel.date+' 12:00').toLocaleDateString('es-ES',{day:'numeric',month:'short'})}</div>
-          <div class="snh-name">${nextHotel.hotel.name}${nextHotel.hotel.checkIn?' · Check-in '+nextHotel.hotel.checkIn:''}</div>
+          <div class="snh-name">${escHtml(nextHotel.hotel.name)}${hotelInfo(nextHotel.hotel).checkIn ? ' · Entrada ' + escHtml(hotelInfo(nextHotel.hotel).checkIn) : ''}</div>
         </div>
       </div>` : ''}
 
@@ -1609,49 +1297,47 @@ function buildTripStatsHTML(trip) {
 }
 
 // ── DICCIONARIO DE SUPERVIVENCIA ───────────────────────────
+// Datos en js/guia.js. Por defecto, el idioma del país en que se está (vietnamita
+// fuera del viaje); el botón del idioma alterna vietnamita ⇄ jemer.
+let _dictLang = null;
+
 function buildSurvivalDictHTML(trip) {
   if (!window.SURVIVAL_DICT) return '';
-  const langKey = getCurrentCountry(trip) === 'km' ? 'km' : 'vi';
+  const langKey = _dictLang || (getCurrentCountry(trip) === 'km' ? 'km' : 'vi');
   const dict = window.SURVIVAL_DICT[langKey];
   if (!dict) return '';
-  const phrases = dict.phrases;
-  const langCC = { vi: 'vn', km: 'kh', th: 'th', ja: 'jp', zh: 'cn' }[langKey] || 'vn';
-  const langName = langKey === 'vi' ? 'Vietnamita' : langKey === 'km' ? 'Jemer' : dict.lang;
+  const langCC = { vi: 'vn', km: 'kh' }[langKey] || 'vn';
+  const otherName = langKey === 'vi' ? 'jemer' : 'vietnamita';
 
-  const cards = phrases.map(p => `
+  const cards = dict.phrases.map(p => `
     <div class="dict-card">
       <div class="dict-es">${p.es}</div>
-      <div class="dict-local">${p.local}</div>
-      <div class="dict-pron">${p.pron}</div>
+      <div class="dict-local" lang="${langKey}">${p.local}</div>
+      <div class="dict-pron">Se dice: ${p.pron}</div>
     </div>`).join('');
 
   return `
     <div class="dict-wrap">
       <div class="dict-header">
         <div class="dict-title">Frases de supervivencia</div>
-        <div class="dict-lang-badge">${flagImg(langCC, 18)} ${langName}</div>
+        <button class="dict-lang-badge" onclick="toggleDictLang()" aria-label="Cambiar a ${otherName}">${flagImg(langCC, 20)} ${dict.lang} ⇄</button>
       </div>
+      ${dict.note ? `<div class="dict-note">${dict.note}</div>` : ''}
       <div class="dict-scroll" id="dict-scroll">${cards}</div>
     </div>`;
 }
 
-// ── GASTRONOMÍA ────────────────────────────────────────────
-function buildGastroHTML(block) {
-  const dishes = (window.GASTRO_BY_BLOCK || {})[block];
-  if (!dishes || !dishes.length) return '';
-  return `
-    <div class="section-title">🍽️ Qué comer aquí</div>
-    <div class="gastro-scroll" style="padding:0 16px 6px">
-      ${dishes.map(d => `
-        <div class="gastro-card">
-          <div class="gastro-emoji">${d.emoji}</div>
-          <div class="gastro-name">${d.name}</div>
-          <div class="gastro-desc">${d.desc}</div>
-        </div>`).join('')}
-    </div>`;
+function toggleDictLang() {
+  const trip = getTrip(currentTripId);
+  const box = document.getElementById('dict-box');
+  if (!trip || !box) return;
+  const cur = _dictLang || (getCurrentCountry(trip) === 'km' ? 'km' : 'vi');
+  _dictLang = cur === 'vi' ? 'km' : 'vi';
+  box.innerHTML = buildSurvivalDictHTML(trip);
 }
 
 // ── TARJETAS CULTURALES ────────────────────────────────────
+// Datos en js/guia.js (CULTURE_CARDS), por bloque del itinerario.
 function buildCultureHTML(block) {
   const cards = (window.CULTURE_CARDS || {})[block];
   if (!cards || !cards.length) return '';
@@ -1660,9 +1346,11 @@ function buildCultureHTML(block) {
     <div class="culture-grid" style="padding:0 16px 8px">
       ${cards.map(c => `
         <div class="culture-card">
-          <div class="culture-icon">${c.icon}</div>
-          <div class="culture-title">${c.title}</div>
-          <div class="culture-text">${c.text}</div>
+          <div class="culture-icon" aria-hidden="true">${c.icon}</div>
+          <div class="culture-body">
+            <div class="culture-title">${c.title}</div>
+            <div class="culture-text">${c.text}</div>
+          </div>
         </div>`).join('')}
     </div>`;
 }
@@ -1670,8 +1358,7 @@ function buildCultureHTML(block) {
 // ── ALERTAS DE TRÁNSITO ────────────────────────────────────
 function buildTransitAlertHTML(day) {
   if (!day || !day.transport || !day.transport.length) return '';
-  const alerts = window.TRIP_TRANSITS || [];
-  const todayTransit = alerts.filter(tr => tr.date === day.date && tr.notes);
+  const todayTransit = day.transport.filter(tr => tr.notes);
   if (!todayTransit.length) return '';
   return `
     <div class="transit-alerts">
@@ -1712,7 +1399,7 @@ function buildDashboardHTML(trip, active, past, diff, day, nextDay, pendingTotal
             <div class="transport-route">${tr.from} → ${tr.to}</div>
           </div>
         </div>` : ''}
-        ${day.hotel && day.hotel.name ? `<div style="margin-top:8px;font-size:13px;color:var(--text-sm)">🏨 ${day.hotel.name}${day.hotel.checkIn ? ' · Check-in ' + day.hotel.checkIn : ''}</div>` : ''}
+        ${day.hotel && day.hotel.name ? `<div style="margin-top:8px;font-size:13px;color:var(--text-sm)">🏨 ${escHtml(day.hotel.name)}${hotelInfo(day.hotel).checkIn ? ' · Entrada ' + escHtml(hotelInfo(day.hotel).checkIn) : ''}</div>` : ''}
         <div style="margin-top:10px;font-size:12px;color:var(--primary);font-weight:700">Ver todo el día →</div>
       </div>`;
   }
@@ -1730,29 +1417,28 @@ function buildDashboardHTML(trip, active, past, diff, day, nextDay, pendingTotal
   const _svgPlane = `<svg viewBox="0 0 24 24" fill="white" width="26" height="26"><path d="M21 16l-8.5-4.5V4a2.5 2.5 0 0 0-5 0v7.5L3 16v2.5l4.5-1.5v3.5l-1.5 1H19l-1.5-1V17l4.5 1.5V16z"/></svg>`;
 
   const ZONE_META = {
-    'Vuelos':     { color: '#3d6b96', lt: '#dceaf5', label: 'Vuelos', wiki: 'Barcelona–El_Prat_Airport', photo: 'img/fotos/aeropuerto-barcelona-el-prat.jpg',
+    'Vuelos':     { color: '#5c6b7a', lt: '#e4e8ec', label: 'Vuelos', wiki: 'Barcelona–El_Prat_Airport', photo: 'img/fotos/aeropuerto-barcelona-el-prat.jpg',
                     desc: 'Barcelona y escala en Shenzhen antes de aterrizar en Hanói.' },
+    'Vuelta a casa': { color: '#5c6b7a', lt: '#e4e8ec', label: 'Vuelta a casa', wiki: 'Barcelona–El_Prat_Airport', photo: 'img/fotos/aeropuerto-barcelona-el-prat.jpg',
+                    desc: 'Escala en Shenzhen, llegada a Barcelona y último vuelo a Santiago.' },
     'Delta del Mekong': { color: '#2e8b57', lt: '#d6f0e0', label: 'Delta del Mekong', wiki: 'Mekong_Delta', photo: 'img/fotos/cho-noi-cai-rang.jpg',
                     desc: 'Chau Doc y Can Tho, cruzando la frontera camboyano-vietnamita por el río Mekong.' },
     'Ninh Binh':  { color: '#4a7c3f', lt: '#e0f0d8', label: 'Ninh Binh', wiki: 'Trang_An',
                     desc: 'Tam Coc y Trang An — la "Ha Long Bay terrestre", arrozales entre picos kársticos.' },
     'El Norte':   { color: '#1A7B6B', lt: '#d0f0e8', label: 'Vietnam Norte',   wiki: 'Lan_Ha_Bay',
-                    desc: 'Hanói, Cat Ba, Lan Ha Bay y Ninh Binh. La esencia del norte: bahías cársticas, templos milenarios y pho auténtico.' },
+                    desc: 'Hanói: el Old Quarter, el lago Hoan Kiem, templos milenarios y phở auténtico. El primer contacto con Vietnam.' },
     'Vuelta al Norte': { color: '#1A7B6B', lt: '#d0f0e8', label: 'Cat Ba · vuelta al Norte', wiki: 'Lan_Ha_Bay',
                     desc: 'Cat Ba y Lan Ha Bay antes de volver a Hanói para el vuelo de regreso.' },
-    'El Centro':  { color: '#D4581A', lt: '#fde8d8', label: 'Vietnam Centro',   wiki: 'Hội_An',
-                    desc: 'Hue, Da Nang y Hoi An. El tren panorámico HD3 por el Hai Van Pass, la ciudad imperial y los farolillos de seda.' },
-    'Angkor':     { color: '#C1513A', lt: '#fde0da', label: 'Angkor & Siem Reap', wiki: 'Angkor_Wat',
+    'El Centro':  { color: '#2f6fa3', lt: '#dbe8f4', label: 'Vietnam Centro',   wiki: 'Hội_An',
+                    desc: 'Hoi An, Da Nang y Hue: los farolillos del casco antiguo, el tren panorámico por el paso de Hai Van y la ciudad imperial.' },
+    'Angkor':     { color: '#b8861b', lt: '#f6ebcf', label: 'Angkor & Siem Reap', wiki: 'Angkor_Wat',
                     desc: 'Siem Reap y los templos de Angkor. La civilización jemer en todo su esplendor: Angkor Wat al amanecer y la jungla infinita.' },
-    'Koh Rong':   { color: '#0090C4', lt: '#cceeff', label: 'Koh Rong Sanloem', wiki: 'Koh_Rong_Saloem',
-                    desc: 'La isla paradisíaca de Camboya. Playas de arena blanca, bioluminiscencia nocturna y el ritmo caribeño del Sudeste Asiático.' },
     'Phnom Penh': { color: '#8B5E3C', lt: '#f5e6d8', label: 'Phnom Penh',       wiki: 'Phnom_Penh',
-                    desc: 'Capital de Camboya junto al Mekong. Historia jemer, mercados vivaces y la despedida del sudeste asiático antes del vuelo de regreso.' },
-    'El Cierre':  { color: '#6B4FAE', lt: '#e8e0f8', label: 'El Cierre · Hanói', wiki: 'Hanoi',
-                    desc: 'Los últimos días en Hanói antes de volar a casa. Phở de regreso, Chả Cá y los recuerdos del viaje de vuestra vida.' },
-    'Cierre':     { color: '#6B4FAE', lt: '#e8e0f8', label: 'El Cierre · Hanói', wiki: 'Hanoi',
-                    desc: 'Los últimos días en Hanói antes de volar a casa.' },
+                    desc: 'Capital de Camboya junto al Mekong: el Palacio Real, la memoria de los Jemeres Rojos y mercados vivos, antes de cruzar a Vietnam en barco por el río.' },
+    'El Cierre':  { color: '#6b7f3a', lt: '#e8edd6', label: 'El Cierre · Hanói', wiki: 'Hanoi',
+                    desc: 'El último día en Hanói antes de volar a casa: phở de despedida, chả cá y los recuerdos del viaje de vuestra vida.' },
   };
+  applyZoneColors(ZONE_META);
 
   // Bloque activo (en qué bloque estamos hoy)
   const todayDate = today();
@@ -1760,16 +1446,8 @@ function buildDashboardHTML(trip, active, past, diff, day, nextDay, pendingTotal
   const activeBlock = todayDay ? todayDay.block : null;
 
   // Gradientes vivos para los círculos por zona
-  const ZONE_GRADIENTS = {
-    'El Norte':   'linear-gradient(135deg,#22a07a,#1A7B6B)',
-    'Vuelta al Norte': 'linear-gradient(135deg,#22a07a,#1A7B6B)',
-    'El Centro':  'linear-gradient(135deg,#e86828,#D4581A)',
-    'Angkor':     'linear-gradient(135deg,#d96048,#C1513A)',
-    'Koh Rong':   'linear-gradient(135deg,#22b0e8,#0090C4)',
-    'Phnom Penh': 'linear-gradient(135deg,#b07848,#8B5E3C)',
-    'El Cierre':  'linear-gradient(135deg,#8866cc,#6B4FAE)',
-    'Cierre':     'linear-gradient(135deg,#8866cc,#6B4FAE)',
-  };
+  const ZONE_GRADIENTS = Object.fromEntries(Object.entries(BLOCK_ZONE_COLORS)
+    .filter(([, z]) => z.g).map(([k, z]) => [k, `linear-gradient(135deg,${z.g},${z.color})`]));
 
   const routeItems = blocks.map((b, i) => {
     const meta = ZONE_META[b] || { color: '#1a3a5c', lt: '#e8f0f8', icon: '📍', label: b, desc: '' };
@@ -1808,7 +1486,7 @@ function buildDashboardHTML(trip, active, past, diff, day, nextDay, pendingTotal
              onclick="toggleRouteCard(${i})">
           <div class="route-card-header">
             <div class="route-card-name">${meta.label}</div>
-            <span class="day-badge" style="background:${meta.lt};color:${meta.color}">${blockDays.length} días</span>
+            <span class="day-badge" style="--zc:${meta.color};color:var(--zc)">${blockDays.length} días</span>
             <span class="route-card-arrow">›</span>
           </div>
           <div class="route-card-cities">${cities.join(' · ')}</div>
@@ -1830,7 +1508,7 @@ function buildDashboardHTML(trip, active, past, diff, day, nextDay, pendingTotal
         <span class="tsr-lbl">lugares</span>
       </div>
       <div class="tsr-card">
-        <span class="tsr-num">${blocks.length}</span>
+        <span class="tsr-num">${blocks.filter(b => !FLIGHT_BLOCKS.includes(b)).length}</span>
         <span class="tsr-lbl">zonas</span>
       </div>
       <div class="tsr-card">
@@ -1847,8 +1525,8 @@ function buildDashboardHTML(trip, active, past, diff, day, nextDay, pendingTotal
   const tipGradients = [
     'linear-gradient(135deg,#1a3a5c,#2d6a8f)',
     'linear-gradient(135deg,#1b4332,#2d6a4f)',
-    'linear-gradient(135deg,#3d2c5c,#6b46a1)',
-    'linear-gradient(135deg,#7b3f00,#b5560d)',
+    'linear-gradient(135deg,#1f4e79,#2f6fa3)',
+    'linear-gradient(135deg,#2f3d17,#6b7f3a)',
     'linear-gradient(135deg,#0d3b4f,#1a7a8a)',
   ];
   const tipsSection = tips.length ? `
@@ -1913,8 +1591,8 @@ function buildDashboardHTML(trip, active, past, diff, day, nextDay, pendingTotal
       ${buildCurrencyHTML(trip)}
     </div>
 
-    <!-- Frases de supervivencia -->
-    <div style="padding:14px 16px 0">
+    <!-- Frases de supervivencia (la tarjeta ya lleva su propio margen lateral) -->
+    <div id="dict-box" style="padding-top:14px">
       ${buildSurvivalDictHTML(trip)}
     </div>
 
@@ -1929,6 +1607,20 @@ function buildDashboardHTML(trip, active, past, diff, day, nextDay, pendingTotal
 
 function ensureTripNotes(trip) {
   if (!trip.tripNotes) trip.tripNotes = { freeNotes: [], packingList: [], preTripTasks: [] };
+}
+
+// Categorías de «Qué llevar». Los artículos de data.js no traen `cat`: se deduce del
+// emoji con el que empieza el texto. Los que añade el usuario guardan su `cat`.
+const PACK_CATS = ['🛂 Documentos y dinero', '👕 Ropa y calzado', '💊 Salud e higiene', '🔌 Electrónica', '🎒 Otros'];
+
+function packCategory(item) {
+  if (item.cat && item.cat !== '📦 Sin categoría') return item.cat;
+  const t = item.text || '';
+  if (/^(🛂|📄|💳|💵)/u.test(t) || /fotos? de carn[eé]/i.test(t)) return PACK_CATS[0];
+  if (/^(👕|🧣|🥿|🩴|🩱|🌂|🧦|🧢|👓)/u.test(t)) return PACK_CATS[1];
+  if (/^(☀|🦟|💊|🩺|🧴|🚿)/u.test(t)) return PACK_CATS[2];
+  if (/^(🔌|🔋|📷|📱|🎧|🔦)/u.test(t)) return PACK_CATS[3];
+  return PACK_CATS[4];
 }
 
 function renderNotesSection(trip) {
@@ -1959,7 +1651,7 @@ function renderNotesSection(trip) {
               </div>`).join('')}
         <div class="notes-add-row">
           <input class="notes-input" id="input-free" type="text" placeholder="Escribe una nota…" onkeydown="if(event.key==='Enter')addNote()">
-          <button class="notes-add-btn" onclick="addNote()">+</button>
+          <button class="notes-add-btn" onclick="addNote()" aria-label="Añadir nota">+</button>
         </div>
       </div>
     </div>
@@ -1972,9 +1664,10 @@ function renderNotesSection(trip) {
           <span class="notes-progress-label">${packDone}/${n.packingList.length}</span>
         </div>
         ${(() => {
-          const groups = {};
+          // Siempre las categorías fijas (aunque estén vacías, para poder añadir en ellas)
+          const groups = Object.fromEntries(PACK_CATS.map(c => [c, []]));
           n.packingList.forEach((item, i) => {
-            const cat = item.cat || '📦 Sin categoría';
+            const cat = packCategory(item);
             if (!groups[cat]) groups[cat] = [];
             groups[cat].push({ item, i });
           });
@@ -1995,7 +1688,7 @@ function renderNotesSection(trip) {
               <div class="pack-cat-add-row">
                 <input class="pack-cat-input" id="pci-${catId}" type="text" placeholder="Añadir en ${cat.replace(/^[^\s]+\s/,'').trim()}…"
                        onkeydown="if(event.key==='Enter')addPackingItemToCat('${escHtml(cat)}','pci-${catId}')">
-                <button class="pack-cat-add-btn" onclick="addPackingItemToCat('${escHtml(cat)}','pci-${catId}')">+</button>
+                <button class="pack-cat-add-btn" onclick="addPackingItemToCat('${escHtml(cat)}','pci-${catId}')" aria-label="Añadir en ${escHtml(cat.replace(/^[^\s]+\s/,'').trim())}">+</button>
               </div>`;
           }).join('');
         })()}
@@ -2017,7 +1710,7 @@ function renderNotesSection(trip) {
           </div>`).join('')}
         <div class="notes-add-row">
           <input class="notes-input" id="input-pretask" type="text" placeholder="Añadir tarea previa…" onkeydown="if(event.key==='Enter')addNoteItem('pretask')">
-          <button class="notes-add-btn" onclick="addNoteItem('pretask')">+</button>
+          <button class="notes-add-btn" onclick="addNoteItem('pretask')" aria-label="Añadir tarea previa">+</button>
         </div>
       </div>
     </div>`;
@@ -2080,7 +1773,7 @@ function addPackingItemToCat(cat, inputId) {
   const list = trip.tripNotes.packingList;
   let insertIdx = list.length;
   for (let i = list.length - 1; i >= 0; i--) {
-    if ((list[i].cat || '📦 Sin categoría') === cat) { insertIdx = i + 1; break; }
+    if (packCategory(list[i]) === cat) { insertIdx = i + 1; break; }
   }
   list.splice(insertIdx, 0, { id: 'pl' + Date.now(), cat, text, done: false });
   save();
@@ -2130,20 +1823,19 @@ function renderItinerary(tab) {
   const activeTab = tab || 'days';
 
   const BLOCK_ZONE = {
-    'El Norte':  { color: '#2d6a4f', lt: '#d8f0e6', label: 'Vietnam Norte' },
-    'Vuelta al Norte': { color: '#2d6a4f', lt: '#d8f0e6', label: 'Cat Ba · vuelta al Norte' },
-    'Delta del Mekong': { color: '#1a90b8', lt: '#d6f0fa', label: 'Delta del Mekong' },
+    'El Norte':  { color: '#1A7B6B', lt: '#d0f0e8', label: 'Vietnam Norte' },
+    'Vuelta al Norte': { color: '#1A7B6B', lt: '#d0f0e8', label: 'Cat Ba · vuelta al Norte' },
+    'Delta del Mekong': { color: '#2e8b57', lt: '#d6f0e0', label: 'Delta del Mekong' },
     'Vuelos':    { color: '#5c6b7a', lt: '#e4e8ec', label: 'Vuelos' },
-    'Ninh Binh': { color: '#2d6a4f', lt: '#d8f0e6', label: 'Ninh Binh' },
-    'El Centro': { color: '#8b4513', lt: '#f5e6da', label: 'Vietnam Centro' },
-    'Camboya':   { color: '#b07d1a', lt: '#fdf3d8', label: 'Angkor & Camboya' },
-    'Angkor':    { color: '#b07d1a', lt: '#fdf3d8', label: 'Angkor & Siem Reap' },
+    'Vuelta a casa': { color: '#5c6b7a', lt: '#e4e8ec', label: 'Vuelta a casa' },
+    'Ninh Binh': { color: '#4a7c3f', lt: '#e0f0d8', label: 'Ninh Binh' },
+    'El Centro': { color: '#2f6fa3', lt: '#dbe8f4', label: 'Vietnam Centro' },
+    'Angkor':    { color: '#b8861b', lt: '#f6ebcf', label: 'Angkor & Siem Reap' },
     'Phnom Penh': { color: '#8B5E3C', lt: '#f5e6d8', label: 'Phnom Penh' },
-    'Islas':     { color: '#0077a8', lt: '#d6f0fa', label: 'Koh Rong' },
-    'Cierre':    { color: '#5b4080', lt: '#ede8f5', label: 'Cierre' },
-    'El Cierre': { color: '#5b4080', lt: '#ede8f5', label: 'El Cierre' },
+    'El Cierre': { color: '#6b7f3a', lt: '#e8edd6', label: 'El Cierre' },
     'General':   { color: '#1a3a5c', lt: '#e8f0f8', label: 'General' },
   };
+  applyZoneColors(BLOCK_ZONE);
 
   // ── Pestaña DÍAS ──────────────────────────────────────────
   let daysHtml = '';
@@ -2173,8 +1865,8 @@ function renderItinerary(tab) {
           return `
             <div class="day-row2${isToday?' day-today':''}"
                  onclick="navigate('day','${day.date}')"
-                 style="${isToday ? `background:${zone.lt};` : ''}">
-              <div class="day-date-box2" style="${isToday ? `color:${zone.color}` : ''}">
+                 style="${isToday ? `background:color-mix(in srgb, ${zone.color} 10%, transparent);` : ''}">
+              <div class="day-date-box2" style="${isToday ? `--zc:${zone.color};color:var(--zc)` : ''}">
                 <div class="day-num2">${dayNum}</div>
                 <div class="day-mon2">${mon}</div>
               </div>
@@ -2182,7 +1874,7 @@ function renderItinerary(tab) {
                 <div class="day-city2">${transportStr ? `<span>${transportStr}</span> ` : ''}${day.city}${isToday ? ' <span class="today-dot">●</span>' : ''}</div>
                 ${places ? `<div class="day-places2">${places}</div>` : ''}
               </div>
-              <div class="day-arrow2" style="color:${zone.color}">›</div>
+              <div class="day-arrow2" style="--zc:${zone.color};color:var(--zc)">›</div>
             </div>`;
         }).join('')}
         </div>
@@ -2192,8 +1884,8 @@ function renderItinerary(tab) {
   // ── Pestaña TRANSPORTES (lista de días) ──────────────────
   const TRANSPORT_TYPE_INFO = {
     'flight':      { label: 'Vuelos',         icon: '✈️',  color: '#1a3a5c' },
-    'train':       { label: 'Tren',            icon: '🚆',  color: '#8b4513' },
-    'sleeper-bus': { label: 'Bus nocturno',    icon: '🚌',  color: '#5b4080' },
+    'train':       { label: 'Tren',            icon: '🚆',  color: '#2f6fa3' },
+    'sleeper-bus': { label: 'Bus nocturno',    icon: '🚌',  color: '#55672d' },
     'bus':         { label: 'Autobús',         icon: '🚐',  color: '#2d6a4f' },
     'bus+ferry':   { label: 'Bus + Ferry',     icon: '🚐',  color: '#0077a8' },
     'ferry':       { label: 'Ferry',           icon: '🚢',  color: '#0077a8' },
@@ -2225,6 +1917,7 @@ function renderItinerary(tab) {
               <div class="tr-inline-body">
                 ${tr.details ? `<div class="tr-inline-det">${tr.details}</div>` : ''}
                 ${route ? `<div class="tr-inline-route">${route}</div>` : ''}
+                ${bookingRefHtml(day.date, tr)}
               </div>
             </div>`;
           }).join('');
@@ -2234,8 +1927,8 @@ function renderItinerary(tab) {
             <div class="day-row2${isToday?' day-today':''}${!hasTr?' day-row-no-tr':''}"
                  id="${rowId}"
                  onclick="${hasTr ? `toggleTransportPanel('${day.date}')` : ''}"
-                 style="${isToday ? `background:${zone.lt};` : ''}${hasTr ? 'cursor:pointer' : 'cursor:default'}">
-              <div class="day-date-box2" style="${hasTr ? `color:${zone.color}` : 'opacity:.38'}">
+                 style="${isToday ? `background:color-mix(in srgb, ${zone.color} 10%, transparent);` : ''}${hasTr ? 'cursor:pointer' : 'cursor:default'}">
+              <div class="day-date-box2" style="${hasTr ? `--zc:${zone.color};color:var(--zc)` : 'color:var(--text-xs)'}">
                 <div class="day-num2">${dayNum}</div>
                 <div class="day-mon2">${mon}</div>
               </div>
@@ -2246,7 +1939,7 @@ function renderItinerary(tab) {
                 ${hasTr ? `<div class="tr-inline-list">${trHtml}</div>` : ''}
               </div>
               <div class="day-arrow2 tr-expand-arrow" id="arrow-${day.date}"
-                   style="color:${hasTr?zone.color:'var(--border)'}">›</div>
+                   style="${hasTr ? `--zc:${zone.color};color:var(--zc)` : 'color:var(--text-xs);opacity:.5'}">›</div>
             </div>
             <div class="tr-detail-panel" id="${panelId}" style="display:none">
               ${day.transport.map(tr => {
@@ -2302,73 +1995,7 @@ function renderItinerary(tab) {
     _htlByZone[b].push(g);
   });
 
-  // Información enriquecida de alojamientos (foto, descripción, query de mapas)
-  const HTL_INFO = {
-    'Embrace Boutique Hanoi Hotel|Old Quarter, Hanói': {
-      photo: 'img/places/old_quarter_hanoi.jpg',
-      desc: 'Boutique hotel con habitaciones deluxe y desayuno incluido en pleno Old Quarter. Bajada del bus 86 en el 162 Trần Quang Khải. Restaurante propio, servicio de conserjería y ambiente colonial chic en el corazón de las 36 calles históricas.',
-      maps: 'Embrace+Boutique+Hanoi+Hotel+Old+Quarter',
-    },
-    'The Oversleep Catba Hostel & Pool Bar|Cat Ba Town': {
-      photo: 'img/places/cát_bà_national_park.jpg',
-      desc: 'Hostal moderno con piscina y pool bar en Cat Ba Town. Habitación doble deluxe con balcón y vistas al mar. Sin desayuno incluido, pero rodeado de restaurantes de marisco y bares con música en vivo a pie de calle.',
-      maps: 'The+Oversleep+Catba+Hostel+Cat+Ba+Town',
-    },
-    'Camarote del crucero|Bahía de Lan Ha': {
-      photo: 'img/places/lan_ha_bay.jpg',
-      desc: 'Dormir en un crucero en la Bahía de Lan Ha es una experiencia única: 1.600 islotes kársticos emergiendo del mar, kayak entre cuevas y amaneceres sobre el agua en total silencio. Comidas incluidas a bordo.',
-      maps: 'Lan+Ha+Bay+Cat+Ba+Vietnam',
-    },
-    'Tam Coc Serenity Hotel & Bungalow|Tam Coc, Ninh Binh': {
-      photo: 'img/places/mua_cave.jpg',
-      desc: 'Hotel boutique con bungalows rodeados de arrozales y montañas kársticas en Tam Coc. Habitación doble superior con desayuno incluido. Bicicletas disponibles para explorar los campos y las grutas del río.',
-      maps: 'Tam+Coc+Serenity+Hotel+Bungalow+Ninh+Binh',
-    },
-    'Por confirmar|Hue': {
-      photo: 'img/places/imperial_city_huế.jpg',
-      desc: 'Hue fue la capital imperial de Vietnam durante casi 150 años. La ciudad guarda una atmósfera tranquila, con la Ciudadela Imperial, las tumbas reales y la cocina más refinada del país.',
-      maps: 'Hue+Vietnam+city+center',
-    },
-    'Por confirmar|Da Nang': {
-      photo: 'img/places/dragon_bridge_đà_nẵng.jpg',
-      desc: 'Da Nang combina ciudad moderna y playas espectaculares. Punto de tránsito clave entre Hue y Hoi An, con el Puente del Dragón, My Khe Beach y la mítica montaña de mármol.',
-      maps: 'Da+Nang+Vietnam',
-    },
-    'Por confirmar|Hoi An': {
-      photo: 'img/places/japanese_covered_bridge.jpg',
-      desc: 'El casco antiguo de Hoi An (Patrimonio UNESCO) es una de las ciudades más fotogénicas de Asia. Farolillos de papel, arquitecturas chinas y coloniales, sastres a medida y la mejor comida del centro de Vietnam.',
-      maps: 'Hoi+An+Ancient+Town+Vietnam',
-    },
-    'Por confirmar|Siem Reap': {
-      photo: 'img/places/angkor_wat.jpg',
-      desc: 'Siem Reap es la puerta de acceso a Angkor, el mayor complejo de templos del mundo. La ciudad tiene una Pub Street animada, mercados nocturnos y la energía de un destino que vive para los viajeros.',
-      maps: 'Siem+Reap+Cambodia',
-    },
-    'Bungalow en la playa|Koh Rong Sanloem': {
-      photo: 'img/places/koh_rong_saloem.jpg',
-      desc: 'M\'Pay Bay, en Koh Rong Sanloem, es una de las playas más paradisíacas de Camboya. Aguas turquesas, fondo de arena blanca, plancton bioluminiscente por las noches y sin coches en toda la isla.',
-      maps: 'Koh+Rong+Sanloem+Cambodia',
-    },
-    'Por confirmar|Phnom Penh': {
-      photo: 'img/places/royal_palace_phnom_penh.jpg',
-      desc: 'La capital camboyana, en la confluencia del Mekong y el Tonle Sap, mezcla historia colonial francesa con la densidad del sureste asiático. Ciudad que exige respeto por su historia y sorprende por su gastronomía.',
-      maps: 'Phnom+Penh+Cambodia',
-    },
-    'Hotel Hanói (llegada noche)|Old Quarter, Hanói': {
-      photo: 'img/places/hoàn_kiếm_lake.jpg',
-      desc: 'De vuelta al Old Quarter de Hanói para la recta final del viaje. El barrio nunca duerme del todo: cafeterías de huevo, bia hơi en la esquina y los mismos callejones que lo empezaron todo.',
-      maps: 'Old+Quarter+Hoan+Kiem+Hanoi+Vietnam',
-    },
-  };
-
-  window._HTL_INFO_GLOBAL = HTL_INFO; // exponer para openHotelDetail
-
-  const HTL_ZONE_COLORS = {
-    'El Norte':'#1a6e8a','El Centro':'#c45e1a','Camboya':'#b84830',
-    'Islas':'#1a90b8','Cierre':'#6644aa','El Cierre':'#6644aa',
-    'Vuelta al Norte':'#1a6e8a','Angkor':'#b84830','Phnom Penh':'#8B5E3C',
-    'Delta del Mekong':'#1a90b8','Ninh Binh':'#1a6e8a','Vuelos':'#5c6b7a',
-  };
+  const HTL_ZONE_COLORS = Object.fromEntries(Object.keys(BLOCK_ZONE_COLORS).map(k => [k, zoneColor(k)]));
   const _svH = p => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
   const _HSVG = {
     bed:  _svH('<path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M2 18h20"/>'),
@@ -2417,6 +2044,7 @@ function renderItinerary(tab) {
     }).join('');
 
     // — Columna derecha: tarjetas absolutas con horas —
+    let colH = totalH;
     const cardsHtml = zoneGroups.map(g => {
       const nights    = g.dates.length;
       const nightLbl  = nights === 1 ? '1 noche' : nights + ' noches';
@@ -2424,7 +2052,6 @@ function renderItinerary(tab) {
         || g.name.toLowerCase().includes('en ruta')
         || (g.name.toLowerCase().includes('bus') && g.name.toLowerCase().includes('noct'));
       const dotColor  = isTransit ? zcolor + '80' : zcolor;
-      const iconColor = isTransit ? 'var(--text-sm)' : zcolor;
 
       // Posicionamiento siempre 15:00 → 12:00 para garantizar que nunca se solapan
       // (los tiempos reales se muestran en el texto meta)
@@ -2435,26 +2062,31 @@ function renderItinerary(tab) {
       const endIdx   = startIdx + nights - 1; // índice del último día de estancia
 
       const topPx    = startIdx * HTL_ROW_H + (ciH / 24) * HTL_ROW_H;
-      const bottomPx = Math.min((endIdx + 1) * HTL_ROW_H + (coH / 24) * HTL_ROW_H, totalH);
-      const heightPx = Math.max(bottomPx - topPx, 40); // mínimo 40px visible
+      // Sin recortar al final de la zona: si la salida cae en el día siguiente (que ya es
+      // de otra zona), antes la tarjeta quedaba en 40 px y el texto se salía.
+      const bottomPx = (endIdx + 1) * HTL_ROW_H + (coH / 24) * HTL_ROW_H;
+      const heightPx = Math.max(bottomPx - topPx, 64);
+      colH = Math.max(colH, topPx + heightPx);
 
+      // Horarios reales del alojamiento (data.js o HOTEL_INFO); antes se inventaban 15:00/12:00
+      const hi = isTransit ? {} : hotelInfo(g);
       const metaParts = [];
-      if (!isTransit) {
-        metaParts.push('Check-in: '  + (g.checkIn  || '15:00'));
-        metaParts.push('Check-out: ' + (g.checkOut || '12:00'));
-      }
+      if (hi.checkIn)  metaParts.push('Entrada ' + hi.checkIn);
+      if (hi.checkOut) metaParts.push('Salida ' + hi.checkOut);
 
       return '<div class="htl2-card' + (isTransit ? ' htl2-card-transit' : '') + '"'
         + ' style="top:' + topPx.toFixed(1) + 'px;height:' + heightPx.toFixed(1) + 'px;'
         + 'border-color:' + (isTransit ? dotColor : zcolor + '55') + '"'
-        + ' onclick="openHotelDetail(\'' + (g.name||'').replace(/'/g,"\\'") + '\',\'' + (g.address||'').replace(/'/g,"\\'") + '\',\'' + (g.checkIn||'') + '\',\'' + (g.checkOut||'') + '\',\'' + g.dates[0] + '\')">'
+        + (isTransit ? '' : ' role="button" tabindex="0" data-hotel="' + escHtml(g.name) + '" data-date="' + g.dates[0] + '"'
+                         + ' onclick="openHotelDetail(this.dataset.hotel, this.dataset.date)"'
+                         + ' onkeydown="if(event.key===\'Enter\')openHotelDetail(this.dataset.hotel, this.dataset.date)"') + '>'
         + '<div class="htl2-card-top">'
-        +   '<span class="htl2-card-icon" style="color:' + iconColor + '">' + _htlSvg(g.name) + '</span>'
+        +   '<span class="htl2-card-icon" style="' + (isTransit ? 'color:var(--text-sm)' : '--zc:' + zcolor + ';color:var(--zc)') + '">' + _htlSvg(g.name) + '</span>'
         +   '<div class="htl2-card-info">'
-        +     '<div class="htl2-card-name" style="color:' + iconColor + '">' + (g.name || 'En tránsito') + '</div>'
-        +     (g.address ? '<div class="htl2-card-addr">' + g.address + '</div>' : '')
+        +     '<div class="htl2-card-name" style="' + (isTransit ? 'color:var(--text-sm)' : '--zc:' + zcolor + ';color:var(--zc)') + '">' + (g.name || 'En tránsito') + '</div>'
+        +     (hi.address ? '<div class="htl2-card-addr">' + escHtml(hi.address) + '</div>' : '')
         +   '</div>'
-        +   '<div class="htl2-card-nights" style="background:' + dotColor + '">' + nightLbl + '</div>'
+        +   '<div class="htl2-card-nights" style="--zc:' + zcolor + ';color:var(--zc)">' + nightLbl + '</div>'
         + '</div>'
         + (metaParts.length
             ? '<div class="htl2-card-meta">' + metaParts.join('&nbsp;·&nbsp;') + '</div>'
@@ -2470,7 +2102,7 @@ function renderItinerary(tab) {
       + '</div>'
       + '<div class="htl2-wrapper" style="--rh:' + HTL_ROW_H + 'px">'
       +   '<div class="htl2-dates-col">' + dayCellsHtml + '</div>'
-      +   '<div class="htl2-cards-col" style="height:' + totalH + 'px">' + cardsHtml + '</div>'
+      +   '<div class="htl2-cards-col" style="height:' + Math.ceil(colH) + 'px">' + cardsHtml + '</div>'
       + '</div>'
       + '</div>';
   });
@@ -2491,22 +2123,6 @@ function renderItinerary(tab) {
     bodyHtml = `<div class="itinerary-wrap">${daysHtml}</div>`;
   }
   el('view-content').innerHTML = tabsHtml + bodyHtml + '<div style="height:80px"></div>';
-
-  if (activeTab === 'food') {
-    // Lazy-load dish photos
-    const GASTRO = window.GASTRO_BY_BLOCK || {};
-    const blocks = [...new Set(trip.days.map(d => d.block).filter(Boolean))];
-    blocks.forEach(block => {
-      (GASTRO[block] || []).forEach((d, i) => {
-        const slug = (block + '_' + i).replace(/\s/g,'_');
-        _fetchDishPhoto(d.name).then(src => {
-          if (!src) return;
-          const img = document.getElementById('fci-' + slug);
-          if (img) { img.src = src; }
-        });
-      });
-    });
-  }
 }
 
 // ══════════════════════════════════════════════════════════
@@ -2541,12 +2157,12 @@ function renderDay(date) {
     'Da Nang':         'img/places/dragon_bridge_đà_nẵng.jpg',
     'Hoi An':          'img/places/old_town_hoi_an.jpg',
     'Siem Reap':       'img/places/angkor_wat.jpg',
-    'Koh Rong Sanloem':'img/places/koh_rong_sanloem.jpg',
     'Phnom Penh':      'img/places/phnom_penh.jpg',
     'Chau Doc':        'img/fotos/cho-chau-doc.jpg',
     'Can Tho':         'img/fotos/cho-noi-cai-rang.jpg',
     'Tam Coc':         'img/places/tam_coc.jpg',
     'Aeropuerto de Barcelona-El Prat': 'img/fotos/aeropuerto-barcelona-el-prat.jpg',
+    'Barcelona':       'img/fotos/aeropuerto-barcelona-el-prat.jpg', // día 30: Barcelona → Santiago
     'Aeropuerto de Shenzhen (escala)': 'img/fotos/aeropuerto-shenzhen.jpg',
   };
   // Días de traslado ("Hanói → Siem Reap", "Tam Coc / Ninh Binh"): foto del destino, o del primer tramo si no hay
@@ -2558,11 +2174,7 @@ function renderDay(date) {
     const first = clean(c.split(/→|\//)[0]);
     return CITY_PHOTOS[first] ? first : c;
   };
-  const BLOCK_COLORS = {
-    'El Norte': '#2d6a4f', 'El Centro': '#8b4513',
-    'Camboya': '#b07d1a', 'Islas': '#0077a8',
-    'Cierre': '#5b4080', 'El Cierre': '#5b4080',
-  };
+  const BLOCK_COLORS = Object.fromEntries(Object.keys(BLOCK_ZONE_COLORS).map(k => [k, zoneColor(k)]));
   const cityPhoto = CITY_PHOTOS[cityKey(day.city)] || '';
   const blockColor = BLOCK_COLORS[day.block] || 'var(--primary)';
   const headerHtml = `
@@ -2573,7 +2185,7 @@ function renderDay(date) {
         <div class="dh-meta">${formatDate(date).toUpperCase()} · DÍA ${dayNum}/${tripDuration(trip)}</div>
         <div class="dh-city">${day.city}</div>
         <div class="dh-bottom">
-          <span class="dh-country">${day.country}</span>
+          <span class="dh-country">${flagText(day.country)}</span>
           ${isToday ? '<span class="today-pill">HOY</span>' : ''}
         </div>
       </div>
@@ -2620,27 +2232,34 @@ function renderDay(date) {
           <div class="transport-body">
             <div class="transport-detail">${tr.details}</div>
             ${tr.from || tr.to ? `<div class="transport-route">${tr.from} → ${tr.to}</div>` : ''}
+            ${bookingRefHtml(day.date, tr)}
           </div>
         </div>`).join('')}
     </div>` : '';
 
-  // Hotel en resumen
+  // Hotel en resumen (datos completos vía hotelInfo: data.js + HOTEL_INFO de guia.js)
+  const hInfo  = hasHotel ? hotelInfo(day.hotel) : null;
+  const hLinks = hasHotel ? hotelLinks(hInfo) : null;
   const hotelHtml = hasHotel ? `
-    <div class="dsc-card hotel-expand-card" onclick="toggleHotelExpand(this)" style="cursor:pointer">
+    <div class="dsc-card hotel-expand-card" role="button" tabindex="0" aria-expanded="false"
+         onclick="toggleHotelExpand(this)" onkeydown="if(event.key==='Enter')toggleHotelExpand(this)" style="cursor:pointer">
       <div class="dsc-header">
         <span class="dsc-header-icon">🏨</span>
         <span class="dsc-title">${escHtml(day.hotel.name)}</span>
         <span class="hotel-chevron" style="margin-left:auto;font-size:18px;color:var(--text-sm);transition:transform .25s">›</span>
       </div>
-      ${day.hotel.address ? `<div class="dsc-meta">📍 ${escHtml(day.hotel.address)}</div>` : ''}
+      ${hInfo.address ? `<div class="dsc-meta">📍 ${escHtml(hInfo.address)}</div>` : ''}
       <div class="hotel-expand-body" style="display:none;margin-top:12px">
         <div class="hotel-times">
-          ${day.hotel.checkIn  ? `<div class="hotel-time-box"><div class="hotel-label">Check-in</div><div class="hotel-value">${escHtml(day.hotel.checkIn)}</div></div>`  : ''}
-          ${day.hotel.checkOut ? `<div class="hotel-time-box"><div class="hotel-label">Check-out</div><div class="hotel-value">${escHtml(day.hotel.checkOut)}</div></div>` : ''}
-          ${day.hotel.breakfast ? `<div class="hotel-time-box"><div class="hotel-label">Desayuno</div><div class="hotel-value" style="color:#2ecc71">✓ Incluido</div></div>` : `<div class="hotel-time-box"><div class="hotel-label">Desayuno</div><div class="hotel-value" style="color:var(--text-sm)">No incluido</div></div>`}
+          ${hInfo.checkIn  ? `<div class="hotel-time-box"><div class="hotel-label">Entrada</div><div class="hotel-value">${escHtml(hInfo.checkIn)}</div></div>`  : ''}
+          ${hInfo.checkOut ? `<div class="hotel-time-box"><div class="hotel-label">Salida</div><div class="hotel-value">${escHtml(hInfo.checkOut)}</div></div>` : ''}
+          ${day.hotel.breakfast ? `<div class="hotel-time-box"><div class="hotel-label">Desayuno</div><div class="hotel-value hotel-bf-yes">✓ Incluido</div></div>` : `<div class="hotel-time-box"><div class="hotel-label">Desayuno</div><div class="hotel-value" style="color:var(--text-sm)">No incluido</div></div>`}
         </div>
-        ${day.hotel.phone ? `<div class="dsc-meta" style="margin-top:8px">📞 ${escHtml(day.hotel.phone)}</div>` : ''}
-        ${day.hotel.address ? `<button class="dsc-maps-btn" style="margin-top:12px" onclick="event.stopPropagation();openHotelMaps('${escHtml(day.hotel.name)}','${escHtml(day.hotel.address)}')">📌 Cómo llegar</button>` : ''}
+        ${hInfo.phone ? `<a class="dsc-meta hotel-phone" style="margin-top:8px;display:block" href="${hLinks.tel}" onclick="event.stopPropagation()">📞 ${escHtml(hInfo.phone)}</a>` : ''}
+        <div class="hotel-btns" onclick="event.stopPropagation()">
+          <a class="dsc-maps-btn" href="${hLinks.dir}" target="_blank" rel="noopener">🧭 Cómo llegar</a>
+          <button class="dsc-maps-btn" data-hotel="${escHtml(day.hotel.name)}" onclick="openHotelDetail(this.dataset.hotel,'${day.date}')">ℹ️ Ficha del alojamiento</button>
+        </div>
       </div>
     </div>` : '';
 
@@ -2670,7 +2289,7 @@ function renderDay(date) {
       <rect x="7" y="14" width="22" height="5" rx="2.5" fill="white"/>
       <path d="M13 11 Q16 7 19 11 Q22 15 25 11" fill="none" stroke="rgba(255,255,255,.85)" stroke-width="2.5" stroke-linecap="round"/>
     </svg>` },
-    cafe: { bg:'#e07aab', svg:`<svg viewBox="0 0 36 36" width="30" height="30">
+    cafe: { bg:'#8a6a4a', svg:`<svg viewBox="0 0 36 36" width="30" height="30">
       <rect x="14" y="13" width="9" height="8" rx="1.5" fill="white"/>
       <rect x="13" y="10" width="11" height="4" rx="2" fill="white"/>
       <path d="M15 21 Q15 30 18.5 30 Q22 30 22 21Z" fill="white"/>
@@ -2684,14 +2303,14 @@ function renderDay(date) {
       <circle cx="15" cy="29" r="2" fill="white"/>
       <circle cx="21" cy="29" r="2" fill="white"/>
     </svg>` },
-    temple: { bg:'#8B3DAF', svg:`<svg viewBox="0 0 36 36" width="30" height="30">
+    temple: { bg:'#b8861b', svg:`<svg viewBox="0 0 36 36" width="30" height="30">
       <rect x="5" y="20" width="26" height="10" rx="1" fill="white"/>
       <rect x="8" y="16" width="20" height="5" rx="1" fill="white"/>
       <path d="M6 16 L18 8 L30 16Z" fill="rgba(255,255,255,.9)"/>
       <rect x="14" y="24" width="4" height="6" rx="1" fill="rgba(139,61,175,.6)"/>
       <rect x="18" y="24" width="4" height="6" rx="1" fill="rgba(139,61,175,.6)"/>
     </svg>` },
-    default: { bg:'#6b52ab', svg:`<svg viewBox="0 0 36 36" width="30" height="30">
+    default: { bg:'#5c6b7a', svg:`<svg viewBox="0 0 36 36" width="30" height="30">
       <path d="M18 5 Q13 11 13 16 Q13 22 18 23 Q23 22 23 16 Q23 11 18 5Z" fill="white"/>
       <path d="M6 17 Q11 12 15 15 Q18 23 15 26 Q9 23 6 17Z" fill="rgba(255,255,255,.75)"/>
       <path d="M30 17 Q25 12 21 15 Q18 23 21 26 Q27 23 30 17Z" fill="rgba(255,255,255,.75)"/>
@@ -2731,7 +2350,8 @@ function renderDay(date) {
   const cityForInfo = _cleanCityName(day.city);
   const cityCurated = CITY_INFO[cityForInfo];
   const citySummaryHtml = cityForInfo ? `
-    <div class="dsc-card city-info-card" id="city-info-${date}" onclick="toggleCityInfo('${date}')">
+    <div class="dsc-card city-info-card" id="city-info-${date}" role="button" tabindex="0"
+         onclick="toggleCityInfo('${date}')" onkeydown="if(event.key==='Enter')toggleCityInfo('${date}')">
       <div class="dsc-header">
         <span class="dsc-header-icon">🌏</span>
         <span class="dsc-title">Sobre ${escHtml(cityForInfo)}</span>
@@ -2763,7 +2383,7 @@ function renderDay(date) {
       <div class="photo-circles-row">
         ${day.restaurants.map(r => makeCircle(r, 'comer')).join('')}
       </div>
-      <button class="dsc-see-all" onclick="showDayTab('comer')">Ver restaurantes →</button>
+      <button class="dsc-see-all" onclick="showDayTab('comer')">Ver todos los platos →</button>
     </div>` : '';
 
   const tabResumen = `
@@ -2810,8 +2430,20 @@ function renderDay(date) {
             ${item.description ? `<p class="lugar-description">${item.description}</p>` : ''}
             ${item.tips ? `<div class="lugar-tips"><span class="lugar-tips-icon">💡</span><div class="lugar-tips-text">${item.tips}</div></div>` : ''}
             ${!item.description && !item.tips ? `<p class="lugar-description" style="color:var(--text-xs)">${item.notes || 'Sin información adicional.'}</p>` : ''}
+            ${type === 'place' && item.lat != null ? (() => {
+              const st = getPlaceState(date, item.name);
+              return `<div class="lugar-actions" onclick="event.stopPropagation()">
+                <a class="lugar-act" href="https://www.google.com/maps/dir/?api=1&destination=${item.lat},${item.lng}" target="_blank" rel="noopener">🧭 Cómo llegar</a>
+                <button class="lugar-act${st.favorite ? ' on' : ''}" data-d="${date}" data-n="${escHtml(item.name)}"
+                        onclick="togglePlaceFavorite(this.dataset.d, this.dataset.n); this.classList.toggle('on')">★ Favorito</button>
+                <button class="lugar-act${st.visited ? ' on' : ''}" data-d="${date}" data-n="${escHtml(item.name)}"
+                        onclick="togglePlaceVisited(this.dataset.d, this.dataset.n); this.classList.toggle('on')">✓ Visitado</button>
+              </div>`;
+            })() : ''}
           </div>
-          <div class="lugar-mini-map" id="lmap-${type}-${idx}" style="display:none"></div>
+          ${typeof item.lat === 'number' && typeof item.lng === 'number'
+            ? `<div class="lugar-mini-map" id="lmap-${type}-${idx}" data-lat="${item.lat}" data-lng="${item.lng}" style="display:none"></div>`
+            : ''}
         </div>
       </div>`;
   }
@@ -2889,7 +2521,7 @@ function renderDay(date) {
       ${day.notes ? `
         <div class="section-title">💬 Notas del día</div>
         <div class="card">
-          <p style="font-size:14px;line-height:1.7;color:var(--text-sm)">${day.notes}</p>
+          <p style="font-size:14px;line-height:1.7;color:var(--text-sm);white-space:pre-line">${day.notes}</p>
         </div>` : ''}
       ${!total && !day.notes
         ? `<div class="empty-state"><span class="empty-icon">💬</span><p>Sin tareas ni notas para este día.</p></div>` : ''}
@@ -2916,21 +2548,14 @@ function lugarThumbError(el, emoji) {
 
 const _lugarMapInstances = {};
 
-async function loadLugarMap(mapEl, placeName) {
+// Mini mapa de un lugar con las coordenadas de su ficha (las mismas del mapa general).
+// Antes se geocodificaba el NOMBRE con Nominatim y podía pintar el sitio en otro lugar;
+// las fichas sin lat/lng (p. ej. los platos) ya no llevan mini mapa.
+function loadLugarMap(mapEl) {
   if (!mapEl || mapEl.dataset.mapLoaded) return;
+  const lat = parseFloat(mapEl.dataset.lat), lng = parseFloat(mapEl.dataset.lng);
+  if (!isFinite(lat) || !isFinite(lng)) return;
   mapEl.dataset.mapLoaded = '1';
-  // Geocodificar con Nominatim
-  const city = window._dayCity || '';
-  const query = encodeURIComponent(placeName + (city ? ', ' + city : ''));
-  let lat = null, lng = null;
-  try {
-    const r = await fetch(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&limit=1`, {
-      headers: { 'Accept-Language': 'es', 'User-Agent': 'ViajesMM/1.0' }
-    });
-    const data = await r.json();
-    if (data[0]) { lat = parseFloat(data[0].lat); lng = parseFloat(data[0].lon); }
-  } catch(e) {}
-  if (!lat) return; // sin coordenadas, ocultar
   mapEl.style.display = 'block';
   const id = mapEl.id;
   if (_lugarMapInstances[id]) { _lugarMapInstances[id].remove(); delete _lugarMapInstances[id]; }
@@ -2959,12 +2584,7 @@ function toggleLugar(type, idx) {
       if (placeName) loadCarousel(carouselEl, dotsEl, placeName, photoUrl && !photoUrl.includes('picsum') ? photoUrl : '');
     }
     // Mini mapa
-    const mapEl = document.getElementById('lmap-' + type + '-' + idx);
-    if (mapEl) {
-      const nameEl = card.querySelector('.lugar-name');
-      const placeName = nameEl ? nameEl.textContent.trim() : '';
-      if (placeName) loadLugarMap(mapEl, placeName);
-    }
+    loadLugarMap(document.getElementById('lmap-' + type + '-' + idx));
   } else {
     // Al cerrar, invalidar tamaño por si reabre
     const mapEl = document.getElementById('lmap-' + type + '-' + idx);
@@ -3008,10 +2628,8 @@ function initDayLeaflet() {
   if (!pts.length) return;
   const avgLat = pts.reduce((s, p) => s + p.lat, 0) / pts.length;
   const avgLng = pts.reduce((s, p) => s + p.lng, 0) / pts.length;
-  const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
   setTimeout(() => {
     const mapEl2 = el('day-leaflet-map');
-    if (mapEl2) mapEl2.classList.toggle('leaflet-dark-tiles', isDark);
     _dayMapInstance = L.map('day-leaflet-map').setView([avgLat, avgLng], 14);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap', maxZoom: 19 }).addTo(_dayMapInstance);
     pts.forEach(pt => {
@@ -3021,14 +2639,50 @@ function initDayLeaflet() {
         iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -34],
         className: ''
       });
-      L.marker([pt.lat, pt.lng], { icon }).addTo(_dayMapInstance).bindPopup(buildPlacePopup(pt));
+      L.marker([pt.lat, pt.lng], { icon, title: pt.name, alt: pt.name }).addTo(_dayMapInstance).bindPopup(buildPlacePopup(pt));
     });
   }, 100);
 }
 
-function openHotelMaps(name, address) {
-  const q = encodeURIComponent(name + ' ' + address);
-  window.open(`https://www.google.com/maps/search/?api=1&query=${q}`, '_blank');
+// ── LOCALIZADORES DE RESERVA (solo en el móvil) ───────────
+// El repo es público: los localizadores no van en data.js (6-oct-2026). Los transportes con
+// reserva llevan `ref: true` y aquí se apunta su localizador, que se guarda en DB.bookingRefs
+// (localStorage, nunca se publica). Clave «fecha|tipo|destino».
+function bookingRefKey(date, tr) { return date + '|' + tr.type + '|' + tr.to; }
+
+function bookingRefHtml(date, tr) {
+  if (!tr || !tr.ref) return '';
+  const key  = bookingRefKey(date, tr);
+  const code = (DB.bookingRefs || {})[key] || '';
+  const k    = escHtml(key);
+  return code
+    ? `<div class="tr-ref" data-k="${k}" onclick="event.stopPropagation()">🔒 Localizador <b class="tr-ref-code">${escHtml(code)}</b>
+         <button class="tr-ref-btn" data-k="${k}" onclick="copyBookingRef(this)">Copiar</button>
+         <button class="tr-ref-btn" data-k="${k}" onclick="editBookingRef(this.dataset.k)">Cambiar</button></div>`
+    : `<div class="tr-ref" data-k="${k}" onclick="event.stopPropagation()">
+         <button class="tr-ref-btn" data-k="${k}" onclick="editBookingRef(this.dataset.k)">🔒 Añadir localizador</button>
+         <span class="tr-ref-note">se guarda solo en este móvil</span></div>`;
+}
+
+function editBookingRef(key) {
+  const cur = (DB.bookingRefs || {})[key] || '';
+  const v = prompt('Localizador de la reserva\n(se guarda solo en este móvil, no se publica):', cur);
+  if (v === null) return;
+  DB.bookingRefs = DB.bookingRefs || {};
+  const clean = v.trim();
+  if (clean) DB.bookingRefs[key] = clean; else delete DB.bookingRefs[key];
+  save();
+  const [date, type, ...to] = key.split('|');
+  const html = bookingRefHtml(date, { ref: true, type, to: to.join('|') });
+  document.querySelectorAll('.tr-ref').forEach(el => { if (el.dataset.k === key) el.outerHTML = html; });
+}
+
+function copyBookingRef(btn) {
+  const code = (DB.bookingRefs || {})[btn.dataset.k] || '';
+  if (!code) return;
+  const done = () => { btn.textContent = '✓ Copiado'; setTimeout(() => { btn.textContent = 'Copiar'; }, 1500); };
+  if (navigator.clipboard) navigator.clipboard.writeText(code).then(done, () => prompt('Copia el localizador:', code));
+  else prompt('Copia el localizador:', code);
 }
 
 function toggleHotelExpand(card) {
@@ -3037,6 +2691,7 @@ function toggleHotelExpand(card) {
   if (!body) return;
   const open = body.style.display !== 'none';
   body.style.display = open ? 'none' : 'block';
+  card.setAttribute('aria-expanded', String(!open));
   if (chevron) chevron.style.transform = open ? '' : 'rotate(90deg)';
 }
 
@@ -3044,39 +2699,70 @@ function openDayInMaps(city) {
   window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(city)}`, '_blank');
 }
 
-function openHotelDetail(name, address, checkIn, checkOut, firstDate) {
-  // Buscar info enriquecida
-  const key = name + '|' + address;
-  // HTL_INFO está dentro de renderItinerary, necesitamos una copia global
-  const info = window._HTL_INFO_GLOBAL && window._HTL_INFO_GLOBAL[key];
-  const photo    = info ? info.photo : '';
-  const desc     = info ? info.desc  : '';
-  const mapsQ    = info ? info.maps  : encodeURIComponent((name + ' ' + address).trim());
-  const mapsUrl  = 'https://maps.google.com/?q=' + (info ? mapsQ : encodeURIComponent((name + ' ' + address).trim()));
+// Datos de un alojamiento: lo que traiga el día en data.js manda; lo que falte sale de
+// HOTEL_INFO (js/guia.js: dirección, teléfono, horarios, coordenadas, descripción).
+function hotelInfo(h) {
+  const base = (window.HOTEL_INFO || {})[(h && h.name) || ''] || {};
+  const pick = k => (h && h[k]) || base[k] || '';
+  return { ...base, name: (h && h.name) || '', address: pick('address'), phone: pick('phone'),
+           checkIn: pick('checkIn'), checkOut: pick('checkOut') };
+}
 
-  const isTransit = !name || name.toLowerCase().includes('en ruta') || name.toLowerCase().includes('bus noct');
-  if (isTransit) return;
+// Estancia (días seguidos con el mismo alojamiento) que incluye la fecha dada
+function hotelStay(trip, name, date) {
+  const days = trip.days;
+  let i = days.findIndex(d => d.date === date && d.hotel && d.hotel.name === name);
+  if (i < 0) i = days.findIndex(d => d.hotel && d.hotel.name === name);
+  if (i < 0) return null;
+  let a = i, b = i;
+  while (a > 0 && days[a - 1].hotel && days[a - 1].hotel.name === name) a--;
+  while (b < days.length - 1 && days[b + 1].hotel && days[b + 1].hotel.name === name) b++;
+  return { first: days[a], last: days[b], nights: b - a + 1, breakfast: days.slice(a, b + 1).some(d => d.hotel.breakfast) };
+}
+
+function hotelLinks(info) {
+  const q = encodeURIComponent(((info.maps || info.name) + ', ' + (info.address || '')).replace(/, $/, ''));
+  return {
+    dir:   typeof info.lat === 'number' ? `https://www.google.com/maps/dir/?api=1&destination=${info.lat},${info.lng}` : `https://www.google.com/maps/dir/?api=1&destination=${q}`,
+    place: `https://www.google.com/maps/search/?api=1&query=${q}`,
+    tel:   info.phone ? 'tel:' + info.phone.replace(/[^\d+]/g, '') : ''
+  };
+}
+
+let _htlSheetMap = null;
+
+function openHotelDetail(name, date) {
+  const trip = getTrip(currentTripId);
+  if (!trip || !name) return;
+  const stay = hotelStay(trip, name, date);
+  if (!stay) return;
+  const info  = hotelInfo(stay.first.hotel);
+  const links = hotelLinks(info);
+  const fmt = iso => new Date(iso + 'T12:00:00').toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' });
+  const outDate = new Date(stay.last.date + 'T12:00:00'); outDate.setDate(outDate.getDate() + 1);
+  const outIso  = outDate.toISOString().slice(0, 10);
+  const hasMap  = typeof info.lat === 'number' && typeof info.lng === 'number';
 
   const html = `
     <div class="htl-sheet-overlay" onclick="closeHotelDetail()"></div>
-    <div class="htl-sheet">
-      <div class="htl-sheet-drag" onclick="closeHotelDetail()"></div>
-      ${photo ? `<div class="htl-sheet-photo" style="background-image:url('${photo}')"></div>` : ''}
+    <div class="htl-sheet" role="dialog" aria-modal="true" aria-label="${escHtml(info.name)}">
+      <button class="htl-sheet-drag" onclick="closeHotelDetail()" aria-label="Cerrar"></button>
+      ${hasMap ? `<div class="htl-sheet-map" id="htl-sheet-map"></div>` : ''}
       <div class="htl-sheet-body">
-        <div class="htl-sheet-name">${name || 'Alojamiento'}</div>
-        ${address ? `<div class="htl-sheet-addr">📍 ${address}</div>` : ''}
+        <div class="htl-sheet-name">${escHtml(info.name)}</div>
+        <div class="htl-sheet-stay">${fmt(stay.first.date)} → ${fmt(outIso)} · ${stay.nights === 1 ? '1 noche' : stay.nights + ' noches'}</div>
+        ${info.address ? `<div class="htl-sheet-addr">📍 ${escHtml(info.address)}</div>` : ''}
+        ${info.phone ? `<a class="htl-sheet-phone" href="${links.tel}">📞 ${escHtml(info.phone)}</a>` : ''}
         <div class="htl-sheet-times">
-          ${checkIn  ? `<div class="htl-sheet-time-box"><div class="htl-sheet-time-label">Check-in</div><div class="htl-sheet-time-val">${checkIn}</div></div>` : ''}
-          ${checkOut ? `<div class="htl-sheet-time-box"><div class="htl-sheet-time-label">Check-out</div><div class="htl-sheet-time-val">${checkOut}</div></div>` : ''}
+          ${info.checkIn  ? `<div class="htl-sheet-time-box"><div class="htl-sheet-time-label">Entrada</div><div class="htl-sheet-time-val">${escHtml(info.checkIn)}</div></div>` : ''}
+          ${info.checkOut ? `<div class="htl-sheet-time-box"><div class="htl-sheet-time-label">Salida</div><div class="htl-sheet-time-val">${escHtml(info.checkOut)}</div></div>` : ''}
+          <div class="htl-sheet-time-box"><div class="htl-sheet-time-label">Desayuno</div><div class="htl-sheet-time-val htl-sheet-bf">${stay.breakfast ? 'Incluido' : 'No'}</div></div>
         </div>
-        ${desc ? `<p class="htl-sheet-desc">${desc}</p>` : ''}
+        ${info.desc ? `<p class="htl-sheet-desc">${escHtml(info.desc)}</p>` : ''}
         <div class="htl-sheet-actions">
-          <a class="htl-sheet-btn htl-sheet-btn-maps" href="${mapsUrl}" target="_blank" rel="noopener">
-            🗺️ Ver en Google Maps
-          </a>
-          <button class="htl-sheet-btn htl-sheet-btn-day" onclick="closeHotelDetail();navigate('day','${firstDate}')">
-            📅 Ver el día
-          </button>
+          <a class="htl-sheet-btn htl-sheet-btn-maps" href="${links.dir}" target="_blank" rel="noopener">🧭 Cómo llegar</a>
+          <a class="htl-sheet-btn htl-sheet-btn-day" href="${links.place}" target="_blank" rel="noopener">🗺️ Fotos y opiniones en Google Maps</a>
+          <button class="htl-sheet-btn htl-sheet-btn-day" onclick="closeHotelDetail();navigate('day','${stay.first.date}')">📅 Ver el día de llegada</button>
         </div>
       </div>
     </div>`;
@@ -3087,9 +2773,17 @@ function openHotelDetail(name, address, checkIn, checkOut, firstDate) {
     wrap.id = 'htl-sheet-wrap';
     document.body.appendChild(wrap);
   }
+  if (_htlSheetMap) { _htlSheetMap.remove(); _htlSheetMap = null; }
   wrap.innerHTML = html;
   wrap.style.display = 'block';
   requestAnimationFrame(() => wrap.querySelector('.htl-sheet').classList.add('htl-sheet-open'));
+  if (hasMap && window.L) {
+    _htlSheetMap = L.map('htl-sheet-map', { zoomControl: false, attributionControl: false }).setView([info.lat, info.lng], 16);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(_htlSheetMap);
+    L.circleMarker([info.lat, info.lng], { radius: 9, color: '#1a3a5c', fillColor: '#2a6fc4', fillOpacity: 1, weight: 3 }).addTo(_htlSheetMap);
+    L.control.zoom({ position: 'bottomright' }).addTo(_htlSheetMap);
+    setTimeout(() => _htlSheetMap && _htlSheetMap.invalidateSize(), 320);
+  }
 }
 
 function closeHotelDetail() {
@@ -3098,7 +2792,10 @@ function closeHotelDetail() {
   const sheet = wrap.querySelector('.htl-sheet');
   if (sheet) {
     sheet.classList.remove('htl-sheet-open');
-    setTimeout(() => { wrap.style.display = 'none'; wrap.innerHTML = ''; }, 280);
+    setTimeout(() => {
+      if (_htlSheetMap) { _htlSheetMap.remove(); _htlSheetMap = null; }
+      wrap.style.display = 'none'; wrap.innerHTML = '';
+    }, 280);
   }
 }
 
@@ -3157,25 +2854,29 @@ const TRANSPORT_TIPS = {
   ],
 };
 
+// ── COLORES DE ZONA: tabla ÚNICA para toda la app (paleta aprobada 3/5-oct-2026) ──
+// color = tono principal · lt = fondo suave · g = tono claro para degradados.
+// Todas las pantallas (Ruta, Días, Alojamiento, Hoy, Mapa, Comida…) leen de aquí.
 const BLOCK_ZONE_COLORS = {
-  'El Norte':   { color: '#1A7B6B', lt: '#d0f0e8' },
-  'Vuelta al Norte': { color: '#1A7B6B', lt: '#d0f0e8' },
-  'El Centro':  { color: '#D4581A', lt: '#fde8d8' },
-  'Angkor':     { color: '#C1513A', lt: '#fde0da' },
-  'Koh Rong':   { color: '#0090C4', lt: '#cceeff' },
-  'Phnom Penh': { color: '#8B5E3C', lt: '#f5e6d8' },
-  'Delta del Mekong': { color: '#0090C4', lt: '#cceeff' },
-  'Ninh Binh':  { color: '#1A7B6B', lt: '#d0f0e8' },
-  'Vuelos':     { color: '#5c6b7a', lt: '#e4e8ec' },
-  'Cierre':     { color: '#6B4FAE', lt: '#e8e0f8' },
-  'El Cierre':  { color: '#6B4FAE', lt: '#e8e0f8' },
-  'Camboya':    { color: '#C1513A', lt: '#fde0da' },
-  'General':    { color: '#1a3a5c', lt: '#e8f0f8' },
+  'El Norte':         { color: '#1A7B6B', lt: '#d0f0e8', g: '#22a07a' },
+  'Vuelta al Norte':  { color: '#1A7B6B', lt: '#d0f0e8', g: '#22a07a' },
+  'El Centro':        { color: '#2f6fa3', lt: '#dbe8f4', g: '#5593c4' },
+  'Angkor':           { color: '#b8861b', lt: '#f6ebcf', g: '#d4a63a' },
+  'Phnom Penh':       { color: '#8B5E3C', lt: '#f5e6d8', g: '#b07848' },
+  'Delta del Mekong': { color: '#2e8b57', lt: '#d6f0e0' },
+  'Ninh Binh':        { color: '#4a7c3f', lt: '#e0f0d8' },
+  'El Cierre':        { color: '#6b7f3a', lt: '#e8edd6', g: '#8aa04c' },
+  'Vuelos':           { color: '#5c6b7a', lt: '#e4e8ec' },
+  'Vuelta a casa':    { color: '#5c6b7a', lt: '#e4e8ec' },
+  'General':          { color: '#1a3a5c', lt: '#e8f0f8' },
 };
-
-function isNightTransport(tr) {
-  return ['sleeper-bus','night-train'].includes(tr.type) ||
-    /nocturno|noche|22:|23:|00:|01:/i.test(tr.details + (tr.from||''));
+const zoneColor = b => (BLOCK_ZONE_COLORS[b] || BLOCK_ZONE_COLORS['General']).color;
+// Bloques que son solo vuelos (no cuentan como «zonas» del viaje)
+const FLIGHT_BLOCKS = ['Vuelos', 'Vuelta a casa'];
+// Copia color/lt de la tabla única sobre una tabla local con más campos (etiquetas, fotos…)
+function applyZoneColors(map) {
+  Object.keys(map).forEach(k => { const z = BLOCK_ZONE_COLORS[k]; if (z) { map[k].color = z.color; map[k].lt = z.lt; } });
+  return map;
 }
 
 function renderToday() {
@@ -3208,6 +2909,12 @@ function renderToday() {
 
   // Mostrar la vista de día completa (Resumen / Lugares / Comer / Mapa / Notas)
   renderDay(t);
+  setHeader(`Hoy · Día ${getDayNumber(trip, t)}`, false);
+  const toDias = document.createElement('div');
+  toDias.className = 'today-to-dias';
+  toDias.innerHTML = `<span>📅 Abrir este día en la pestaña Días</span><span class="today-to-dias-arrow">›</span>`;
+  toDias.onclick = () => navigate('day', t);
+  el('view-content').prepend(toDias);
 
   // Añadir banner de simulación temporal encima si aplica
   if (isSimulated) {
@@ -3227,177 +2934,6 @@ function renderToday() {
     </div>
     <div style="height:80px"></div>`;
   el('view-content').appendChild(progressEl);
-
-  return;
-
-  // (código legacy — ya no se usa pero se conserva por referencia)
-  const hour       = new Date().getHours();
-  const isMorning  = hour < 14;
-  const isEvening  = hour >= 18;
-  const dayNum     = getDayNumber(trip, t);
-  const zone       = BLOCK_ZONE_COLORS[day.block] || BLOCK_ZONE_COLORS['General'];
-
-  const nightTrans   = day.transport.filter(isNightTransport);
-  const morningTrans = day.transport.filter(tr => !isNightTransport(tr));
-
-  const greeting = hour < 12 ? '🌅 Buenos días' : hour < 18 ? '☀️ Buenas tardes' : '🌙 Buenas noches';
-  const d = new Date(t + 'T12:00:00');
-  const dateLabel = d.toLocaleDateString('es-ES', { weekday:'long', day:'numeric', month:'long' });
-
-  // Sección alerta transporte nocturno (visible en tarde/noche)
-  const nightAlertHtml = (!isMorning && nightTrans.length) ? `
-    <div class="tnow-alert">
-      <div class="tnow-alert-header">🌙 Esta noche</div>
-      ${nightTrans.map(tr => `
-        <div class="tnow-transport-card tnow-night">
-          <div class="tnow-tr-icon">${tr.icon || '🚌'}</div>
-          <div class="tnow-tr-body">
-            <div class="tnow-tr-title">${tr.details}</div>
-            <div class="tnow-tr-route">${tr.from || ''} → ${tr.to || ''}</div>
-          </div>
-        </div>
-        ${(TRANSPORT_TIPS[tr.type] || []).length ? `
-          <div class="tnow-tips-box">
-            <div class="tnow-tips-title">💡 Consejos de la IA</div>
-            ${(TRANSPORT_TIPS[tr.type] || []).map(tip => `<div class="tnow-tip">· ${tip}</div>`).join('')}
-          </div>` : ''}
-      `).join('')}
-    </div>` : '';
-
-  // Transporte de mañana (visible en mañana)
-  const morningTransHtml = (isMorning && morningTrans.length) ? `
-    <div class="tnow-section">
-      <div class="tnow-sec-title">🚦 Transporte de hoy</div>
-      ${morningTrans.map(tr => `
-        <div class="tnow-transport-card">
-          <div class="tnow-tr-icon">${tr.icon || transportIcon(tr.type)}</div>
-          <div class="tnow-tr-body">
-            <div class="tnow-tr-title">${tr.details}</div>
-            <div class="tnow-tr-route">${tr.from || ''} ${tr.to ? '→ ' + tr.to : ''}</div>
-          </div>
-        </div>`).join('')}
-    </div>` : '';
-
-  // También mostrar transporte nocturno en mañana como aviso suave
-  const nightPreviewHtml = (isMorning && nightTrans.length) ? `
-    <div class="tnow-night-preview">
-      <span>🌙</span>
-      <span>Esta noche: ${nightTrans.map(tr => tr.details).join(' · ')}</span>
-    </div>` : '';
-
-  // Actividades — en tarde/noche omitir lugares si hay mucho contenido
-  const showPlaces = isMorning || day.places.length <= 3;
-  const placesHtml = showPlaces && day.places.length ? `
-    <div class="tnow-section">
-      <div class="tnow-sec-title">📍 Lugares de hoy</div>
-      ${day.places.map(p => `
-        <div class="tnow-place-row" onclick="navigate('day','${t}')">
-          <span class="tnow-place-icon">${placeIcon(p.type)}</span>
-          <div class="tnow-place-body">
-            <div class="tnow-place-name">${p.name}</div>
-            ${p.notes ? `<div class="tnow-place-notes">${p.notes}</div>` : ''}
-          </div>
-          <span class="tnow-place-arrow" style="color:${zone.color}">›</span>
-        </div>`).join('')}
-    </div>` : '';
-
-  // Restaurantes — más prominentes por la tarde
-  const restHtml = day.restaurants && day.restaurants.length ? `
-    <div class="tnow-section">
-      <div class="tnow-sec-title">${isEvening ? '🍜 ¿Dónde cenas?' : '🍜 Dónde comer'}</div>
-      ${day.restaurants.map(r => `
-        <div class="tnow-place-row">
-          <span class="tnow-place-icon">${r.type === 'cafe' ? '☕' : '🍜'}</span>
-          <div class="tnow-place-body">
-            <div class="tnow-place-name">${r.name}</div>
-            ${r.notes ? `<div class="tnow-place-notes">${r.notes}</div>` : ''}
-          </div>
-        </div>`).join('')}
-    </div>` : '';
-
-  // Tareas pendientes
-  const pendingTasks = day.tasks.filter(tk => !tk.done);
-  const tasksHtml = pendingTasks.length ? `
-    <div class="tnow-section">
-      <div class="tnow-sec-title">✅ Pendiente</div>
-      ${pendingTasks.slice(0,3).map((tk, i) => `
-        <div class="task-item" onclick="toggleTask('${t}',${day.tasks.indexOf(tk)})">
-          <div class="task-check"></div>
-          <div class="task-text">${tk.text}</div>
-        </div>`).join('')}
-    </div>` : '';
-
-  // Notas del día
-  const notesHtml = day.notes ? `
-    <div class="tnow-section">
-      <div class="tnow-notes">${day.notes}</div>
-    </div>` : '';
-
-  // Lo que hemos recorrido (días anteriores al efectivo)
-  const pastDays = trip.days.filter(d => d.date < t);
-  const recorridoHtml = pastDays.length ? (() => {
-    const byBlock = {};
-    pastDays.forEach(d => {
-      if (!byBlock[d.block]) byBlock[d.block] = [];
-      byBlock[d.block].push(d);
-    });
-    const blockEntries = Object.entries(byBlock);
-    return `
-    <div class="tnow-section" style="margin-top:8px">
-      <div class="tnow-sec-title">🗺️ Lo que hemos recorrido</div>
-      ${blockEntries.map(([block, days]) => {
-        const zc = BLOCK_ZONE_COLORS[block] || BLOCK_ZONE_COLORS['General'];
-        const cities = [...new Set(days.map(d => d.city.replace(/\s*→.*$/, '')))].join(', ');
-        return `<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)">
-          <div style="width:10px;height:10px;border-radius:50%;background:${zc.color};flex-shrink:0"></div>
-          <div>
-            <div style="font-size:13px;font-weight:700;color:var(--text)">${cities}</div>
-            <div style="font-size:11px;color:var(--text-sm)">${days.length} día${days.length!==1?'s':''} · ${block}</div>
-          </div>
-        </div>`;
-      }).join('')}
-    </div>`;
-  })() : '';
-
-  // Banner de simulación temporal
-  const simBannerHtml = isSimulated ? `
-    <div style="background:#e8b800;color:#1a2a40;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;font-size:13px;font-weight:700">
-      <span>⏰ Vista previa: ${new Date(t+'T12:00:00').toLocaleDateString('es-ES',{weekday:'short',day:'numeric',month:'short'})}</span>
-      <button onclick="exitTimeTravel()" style="background:#1a2a40;color:#e8b800;border:none;border-radius:20px;padding:4px 12px;font-size:12px;font-weight:700;cursor:pointer">✕ Salir</button>
-    </div>` : '';
-
-  el('view-content').innerHTML = `
-    ${simBannerHtml}
-    <div class="tnow-top-bar" style="border-left:4px solid ${zone.color}">
-      <div class="tnow-top-left">
-        <div class="tnow-greeting">${isSimulated ? '🔮 Simulando' : greeting}</div>
-        <div class="tnow-city">${day.city}</div>
-      </div>
-      <div class="tnow-daynum" style="color:${zone.color}">DÍA ${dayNum}</div>
-    </div>
-
-    ${nightAlertHtml}
-    ${morningTransHtml}
-    ${nightPreviewHtml}
-    ${placesHtml}
-    ${restHtml}
-    ${tasksHtml}
-    ${notesHtml}
-
-    <div class="tnow-footer-link" onclick="navigate('day','${t}')">
-      Ver el día completo →
-    </div>
-
-    ${recorridoHtml}
-
-    <!-- Progreso del viaje -->
-    <div style="padding:14px 16px 0">
-      <div class="section-title" style="padding:0 0 8px">Progreso del viaje</div>
-      ${buildTripStatsHTML(trip)}
-    </div>
-
-    <div style="height:80px"></div>`;
-
 }
 
 // ── HOY: antes del viaje (cuenta atrás bonita + preparativos) ──
@@ -3437,7 +2973,7 @@ function renderTodayPreTrip(trip, isPast) {
     { icon: '🎭', text: 'Hoi An Memories Show', date: '19 NOV' },
     { icon: '🚆', text: 'Tren panorámico Hai Van Pass', date: '22 NOV' },
     { icon: '🌄', text: 'Amanecer en Hang Mua', date: '25 NOV' },
-    { icon: '🛳️', text: 'Crucero Lan Ha Bay', date: '27 NOV' },
+    { icon: '🛳️', text: 'Lan Ha Bay en barco', date: '27 NOV' },
   ];
 
   el('view-content').innerHTML = `
@@ -3494,7 +3030,8 @@ function renderTodayPreTrip(trip, isPast) {
           <div class="transport-body">
             <div class="transport-detail">${tr.details}</div>
             <div class="transport-route">${tr.from} → ${tr.to}</div>
-            <div class="text-xs" style="margin-top:2px">${formatDate(firstTransportDay.date)}</div>
+            <div class="text-xs" style="margin-top:2px">${formatDate(firstTransportDay.date)}${tr.time ? ' · ' + tr.time : ''}</div>
+            ${bookingRefHtml(firstTransportDay.date, tr)}
           </div>
         </div>
       </div>`;
@@ -3615,9 +3152,9 @@ function exitTimeTravel() {
 // ══════════════════════════════════════════════════════════
 
 const PLACE_TYPE_META = {
-  temple:   { icon: '🛕', color: '#8b5cf6', label: 'Templos' },
+  temple:   { icon: '🛕', color: '#b8861b', label: 'Templos' },
   monument: { icon: '🏛️', color: '#1a3a5c', label: 'Monumentos' },
-  museum:   { icon: '🖼️', color: '#5b4080', label: 'Museos' },
+  museum:   { icon: '🖼️', color: '#55672d', label: 'Museos' },
   market:   { icon: '🛍️', color: '#e8a23d', label: 'Mercados' },
   nature:   { icon: '🌿', color: '#22a07a', label: 'Naturaleza' },
   beach:    { icon: '🏖️', color: '#22b0e8', label: 'Playas' },
@@ -3685,7 +3222,7 @@ function renderMap() {
   el('view-content').innerHTML = `
     <div id="maptab-full" style="position:relative;">
       <div class="map-legend">${legendHtml}</div>
-      <div id="full-leaflet-map" style="width:100%;height:calc(100vh - var(--header-h) - var(--nav-h) - 118px);"></div>
+      <div id="full-leaflet-map"></div>
       <button class="map-nearme-btn" onclick="showNearMe()">📍 Cerca de mí</button>
       <div id="map-nearme-panel" class="map-nearme-panel" style="display:none"></div>
     </div>`;
@@ -3731,12 +3268,10 @@ function initFullMap(trip) {
   const avgLat = pts.reduce((s, p) => s + p.lat, 0) / pts.length;
   const avgLng = pts.reduce((s, p) => s + p.lng, 0) / pts.length;
 
-  const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
   setTimeout(() => {
     const mapEl = el('full-leaflet-map');
     if (!mapEl) return;
-    mapEl.classList.toggle('leaflet-dark-tiles', isDark);
     if (mapInstance) { mapInstance.remove(); mapInstance = null; }
     mapInstance = L.map('full-leaflet-map').setView([avgLat, avgLng], 6);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap', maxZoom: 19 }).addTo(mapInstance);
@@ -3750,7 +3285,7 @@ function initFullMap(trip) {
         iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -34],
         className: ''
       });
-      const marker = L.marker([pt.lat, pt.lng], { icon }).addTo(mapInstance).bindPopup(buildPlacePopup(pt));
+      const marker = L.marker([pt.lat, pt.lng], { icon, title: pt.name, alt: pt.name }).addTo(mapInstance).bindPopup(buildPlacePopup(pt));
       _fullMapMarkers[placeKey(pt.date, pt.name)] = { marker, pt };
     });
   }, 120);
@@ -3843,10 +3378,10 @@ function showNearMe() {
 
 const DOC_CATEGORIES = {
   identificacion: { label: 'Identificación',  icon: '📋', color: '#e3f2fd' },
-  vuelos:         { label: 'Vuelos',           icon: '✈️', color: '#f3e5f5' },
+  vuelos:         { label: 'Vuelos',           icon: '✈️', color: '#e0f0ee' },
   transportes:    { label: 'Transportes',      icon: '🚌', color: '#e8f5e9' },
   reservas:       { label: 'Reservas',         icon: '🏨', color: '#fff3e0' },
-  seguros:        { label: 'Seguros',          icon: '🔒', color: '#fce4ec' },
+  seguros:        { label: 'Seguros',          icon: '🔒', color: '#f5ecd9' },
   otros:          { label: 'Otros',            icon: '📄', color: '#f5f5f5' },
 };
 
@@ -3880,211 +3415,6 @@ const DISH_WIKI = {
 };
 
 const _dishPhotoCache = {};
-
-async function _fetchDishPhoto(dishName) {
-  if (_dishPhotoCache[dishName]) return _dishPhotoCache[dishName];
-  const article = DISH_WIKI[dishName];
-  if (!article) return null;
-  try {
-    const entry = await _fetchWikiEntry(article);
-    const src = entry?.large || entry?.small || null;
-    _dishPhotoCache[dishName] = src;
-    return src;
-  } catch { return null; }
-}
-
-function buildHotelTimelineHTML(trip) {
-  // Agrupar días consecutivos con el mismo alojamiento
-  const groups = [];
-  let current = null;
-  trip.days.forEach(day => {
-    const h = day.hotel || {};
-    const key = (h.name || '') + '|' + (h.address || '');
-    if (!current || current.key !== key) {
-      current = { key, name: h.name || '', address: h.address || '',
-                  checkIn: h.checkIn || '', checkOut: h.checkOut || '',
-                  days: [day], block: day.block };
-      groups.push(current);
-    } else {
-      current.days.push(day);
-      if (h.checkOut) current.checkOut = h.checkOut;
-    }
-  });
-
-  const ZONE_COLORS = {
-    'El Norte':  '#1a6e8a', 'El Centro': '#c45e1a',
-    'Camboya':   '#b84830', 'Islas':     '#1a90b8',
-    'Cierre':    '#6644aa', 'El Cierre': '#6644aa',
-    'Vuelta al Norte': '#1a6e8a', 'Angkor': '#b84830',
-    'Phnom Penh': '#8B5E3C', 'Delta del Mekong': '#1a90b8',
-    'Ninh Binh': '#1a6e8a', 'Vuelos': '#5c6b7a',
-  };
-  const ZONE_LABELS = {
-    'El Norte':  'Vietnam Norte',    'El Centro': 'Vietnam Centro',
-    'Camboya':   'Angkor & Camboya', 'Islas':     'Koh Rong',
-    'Cierre':    'Phnom Penh',       'El Cierre': 'Phnom Penh',
-    'Vuelta al Norte': 'Cat Ba · vuelta al Norte', 'Angkor': 'Angkor & Siem Reap',
-    'Phnom Penh': 'Phnom Penh', 'Delta del Mekong': 'Delta del Mekong',
-    'Ninh Binh': 'Ninh Binh', 'Vuelos': 'Vuelos',
-  };
-
-  // Iconos SVG para tipos de alojamiento
-  const _sv = p => `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;
-  const HOTEL_SVG = {
-    bed:  _sv('<path d="M2 20v-8a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v8"/><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"/><path d="M2 18h20"/>'),
-    boat: _sv('<path d="M2 21h20"/><path d="M4 9V5l8-2 8 2v4H4z"/><path d="M2 15c2 0 4 1 6 1s4-1 6-1 4 1 6 1"/>'),
-    bus:  _sv('<rect x="1" y="3" width="22" height="16" rx="2"/><path d="M1 12h22"/><circle cx="7" cy="15.5" r="1.5"/><circle cx="17" cy="15.5" r="1.5"/>'),
-    home: _sv('<path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>'),
-  };
-  function hotelSvg(name) {
-    const n = (name || '').toLowerCase();
-    if (n.includes('crucero') || n.includes('camarote') || n.includes('barco')) return HOTEL_SVG.boat;
-    if (n.includes('bus nocturno') || n.includes('en ruta')) return HOTEL_SVG.bus;
-    if (n.includes('homestay') || n.includes('bungalow')) return HOTEL_SVG.home;
-    return HOTEL_SVG.bed;
-  }
-  function fmtDate(d) {
-    const months = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
-    const [,m,day] = d.split('-');
-    return `${parseInt(day)} ${months[parseInt(m)-1]}`;
-  }
-  function nightsLabel(n) { return n === 1 ? '1 noche' : `${n} noches`; }
-  const tripStart = new Date(trip.startDate + 'T12:00:00');
-  function tripDayNum(dateStr) {
-    return Math.round((new Date(dateStr + 'T12:00:00') - tripStart) / 86400000) + 1;
-  }
-
-  // Agrupar por zona geográfica
-  const zoneGroups = [];
-  let curZone = null;
-  groups.forEach(g => {
-    if (!curZone || curZone.block !== g.block) {
-      curZone = { block: g.block, groups: [g] };
-      zoneGroups.push(curZone);
-    } else {
-      curZone.groups.push(g);
-    }
-  });
-
-  const totalNights = groups.reduce((acc, g) => acc + g.days.length, 0);
-
-  let html = `
-    <div class="htl-summary">
-      <span class="htl-summary-num">${zoneGroups.length}</span>
-      <span class="htl-summary-lbl">zonas</span>
-      <span class="htl-summary-sep">·</span>
-      <span class="htl-summary-num">${groups.length}</span>
-      <span class="htl-summary-lbl">alojamientos</span>
-      <span class="htl-summary-sep">·</span>
-      <span class="htl-summary-num">${totalNights}</span>
-      <span class="htl-summary-lbl">noches</span>
-    </div>
-    <div class="hotel-timeline">`;
-
-  zoneGroups.forEach((zone, zi) => {
-    const color = ZONE_COLORS[zone.block] || '#1a3a5c';
-    const label = ZONE_LABELS[zone.block] || zone.block;
-    const allDays = zone.groups.flatMap(g => g.days);
-    const dayFrom = tripDayNum(allDays[0].date);
-    const dayTo   = tripDayNum(allDays[allDays.length - 1].date);
-    const zoneNights = allDays.length;
-
-    html += `
-      <div class="htl-zone-header" style="background:${color}14;border-color:${color}">
-        <span class="htl-zone-label" style="color:${color}">${label}</span>
-        <span class="htl-zone-stats">Días ${dayFrom}–${dayTo} · ${zoneNights} noches</span>
-      </div>`;
-
-    zone.groups.forEach((g, gi) => {
-      const isLastOverall = zi === zoneGroups.length - 1 && gi === zone.groups.length - 1;
-      const nextBlock = gi < zone.groups.length - 1 ? zone.block : (zoneGroups[zi + 1]?.block);
-      const nextColor = ZONE_COLORS[nextBlock] || '#1a3a5c';
-      const nights = g.days.length;
-      const d1 = fmtDate(g.days[0].date);
-      const d2 = fmtDate(g.days[g.days.length - 1].date);
-      const dayF = tripDayNum(g.days[0].date);
-      const dayT = tripDayNum(g.days[g.days.length - 1].date);
-      const dayRange = nights === 1 ? `Día ${dayF}` : `Días ${dayF}–${dayT}`;
-      const dateRange = nights === 1 ? d1 : `${d1} – ${d2}`;
-      const isTransit = !g.name || (g.name.toLowerCase().includes('en ruta') || (g.name.toLowerCase().includes('bus') && g.name.toLowerCase().includes('noct')));
-
-      html += `
-        <div class="htl-row">
-          <div class="htl-spine">
-            <div class="htl-dot" style="background:${color};color:${color}"></div>
-            ${!isLastOverall ? `<div class="htl-line" style="background:linear-gradient(to bottom,${color}80,${nextColor}80)"></div>` : ''}
-          </div>
-          <div class="htl-card${isTransit ? ' htl-card--transit' : ''}">
-            <div class="htl-card-top">
-              <div class="htl-icon-wrap" style="color:${color}">${hotelSvg(g.name)}</div>
-              <div class="htl-info">
-                <div class="htl-name">${g.name || 'En tránsito'}</div>
-                ${g.address ? `<div class="htl-addr">${g.address}</div>` : ''}
-              </div>
-              <div class="htl-nights" style="background:${color}">${nightsLabel(nights)}</div>
-            </div>
-            <div class="htl-meta">
-              <span class="htl-day-range" style="background:${color}18;color:${color}">${dayRange}</span>
-              <span class="htl-dates">${dateRange}</span>
-              ${g.checkIn  ? `<span class="htl-ci">&#8593; ${g.checkIn}</span>` : ''}
-              ${g.checkOut ? `<span class="htl-co">&#8595; ${g.checkOut}</span>` : ''}
-            </div>
-          </div>
-        </div>`;
-    });
-  });
-
-  html += `</div>`;
-  return html;
-}
-
-function buildFoodViewHTML(trip) {
-  const GASTRO = window.GASTRO_BY_BLOCK || {};
-  const blocks = [...new Set(trip.days.map(d => d.block).filter(Boolean))];
-  const ZONE_COLORS = {
-    'El Norte':  '#22a07a', 'El Centro': '#e86828',
-    'Camboya':   '#d96048', 'Islas':     '#22b0e8',
-    'Cierre':    '#8866cc', 'El Cierre': '#8866cc',
-  };
-
-  let html = `<div class="food-view">`;
-  blocks.forEach(block => {
-    const dishes = GASTRO[block];
-    if (!dishes || !dishes.length) return;
-    const color = ZONE_COLORS[block] || '#1a3a5c';
-    html += `
-      <div class="food-zone-header" style="--zone-col:${color}">
-        <div class="food-zone-name">${block}</div>
-      </div>
-      <div class="food-list">`;
-    dishes.forEach((d, i) => {
-      const slug = (block + '_' + i).replace(/\s/g,'_');
-      html += `
-        <div class="food-card" id="fc-${slug}">
-          <div class="food-card-img-wrap">
-            <div class="food-card-img-placeholder">${d.emoji}</div>
-            <img class="food-card-img" id="fci-${slug}" src="" alt="${d.name}" style="display:none" onload="this.style.display='block';this.previousElementSibling.style.display='none'">
-          </div>
-          <div class="food-card-body">
-            <div class="food-card-name">${d.name}</div>
-            <div class="food-card-desc">${d.desc}</div>
-          </div>
-        </div>`;
-    });
-    html += `</div>`;
-  });
-  html += `</div>`;
-  return html;
-}
-
-function renderFood() {
-  const trip = getTrip(currentTripId);
-  if (!trip) return;
-  setHeader('Gastronomía', false);
-  // Redirigir a la pestaña Comer dentro de Días
-  navigate('itinerary');
-  setTimeout(() => renderItinerary('food'), 50);
-}
 
 function renderDocs() {
   const trip = getTrip(currentTripId);
@@ -4130,72 +3460,65 @@ function renderDocs() {
     <div class="section-title">🛃 Visados</div>
     <div class="visa-grid">
       <div class="visa-card visa-vn">
-        <div class="visa-country">🇻🇳 Vietnam</div>
-        <div class="visa-name">e-Visa Vietnam</div>
-        <div class="visa-detail">25 USD · online · 30 días</div>
+        <div class="visa-country">${flagText('🇻🇳')} Vietnam</div>
+        <div class="visa-name">Sin visado</div>
+        <div class="visa-detail">Exención · pasaporte español · hasta 45 días</div>
         <div class="visa-steps">
-          <div class="visa-step">1. Accede a evisa.xuatnhapcanh.gov.vn</div>
-          <div class="visa-step">2. Rellena el formulario con datos del pasaporte</div>
-          <div class="visa-step">3. Paga 25 USD con tarjeta</div>
-          <div class="visa-step">4. Recibe el e-Visa por email en 3 días hábiles</div>
-          <div class="visa-step">5. Imprímelo o guárdalo offline</div>
+          <div class="visa-step">1. Dentro de los 3 días antes de llegar, entra en prearrival.immigration.gov.vn</div>
+          <div class="visa-step">2. Rellena la Digital Arrival Card con los datos del pasaporte y del vuelo</div>
+          <div class="visa-step">3. Guarda el código QR en el móvil (o impreso)</div>
+          <div class="visa-step">4. En inmigración, cola general «Foreigners»: pasaporte + QR</div>
+          <div class="visa-step">5. Se entra dos veces (7-nov y 16-nov por el Mekong): comprobar si hay que repetir el registro para la segunda</div>
         </div>
-        <div class="visa-warning">⚠️ Pasaporte con mínimo 6 meses de vigencia desde la fecha de regreso</div>
+        <div class="visa-warning">⚠️ Pasaporte con mínimo 6 meses de vigencia (hasta mayo de 2027) y 2-3 páginas libres</div>
       </div>
       <div class="visa-card visa-kh">
-        <div class="visa-country">🇰🇭 Camboya</div>
+        <div class="visa-country">${flagText('🇰🇭')} Camboya</div>
         <div class="visa-name">e-Visa Camboya</div>
-        <div class="visa-detail">36 USD · online · 30 días</div>
+        <div class="visa-detail">~36 USD · online · 30 días</div>
         <div class="visa-steps">
           <div class="visa-step">1. Accede a evisa.gov.kh</div>
           <div class="visa-step">2. Sube foto pasaporte y foto personal</div>
           <div class="visa-step">3. Paga 36 USD con tarjeta</div>
           <div class="visa-step">4. Recibe aprobación en 3 días hábiles</div>
-          <div class="visa-step">5. Imprime en color — lo comprueban en frontera</div>
+          <div class="visa-step">5. Imprime 2 copias por persona (una al entrar y otra al salir)</div>
+          <div class="visa-step">6. Rellena la Digital Arrival Card en arrival.gov.kh (7 días antes) y guarda el QR</div>
         </div>
         <div class="visa-warning">⚠️ También disponible a la llegada pero hay colas largas. Online es más rápido.</div>
       </div>
     </div>`;
 
   // ── Emergencias ──
-  const em = window.EMERGENCY_DATA || {};
+  // Datos de emergencia: embajadas (DB.contacts) y teléfonos locales (DB.localEmergency) de data.js.
+  // (Antes leía window.EMERGENCY_DATA, que no existía: la sección salía vacía.)
+  const embassies = DB.contacts || [];
+  const localEm   = DB.localEmergency || [];
+  const tel = n => `<a class="em-phone" href="tel:${(n || '').replace(/\s+/g, '')}">${n}</a>`;
   const emergencySection = `
     <div class="section-title">🆘 Datos de emergencia</div>
     <div class="emergency-card">
       <div class="em-block">
-        <div class="em-title">📘 Pasaportes</div>
-        ${(em.passports || []).map(p => `
-          <div class="em-row">
-            <span class="em-who">${p.who}</span>
-            <span class="em-val">${p.number} · Cad. ${p.expires}</span>
-          </div>
-          ${p.notes ? `<div class="em-note">${p.notes}</div>` : ''}`).join('')}
-      </div>
-      <div class="em-block">
-        <div class="em-title">🏥 Seguro médico</div>
-        <div class="em-row"><span class="em-who">Compañía</span><span class="em-val">${em.insurance?.company || '—'}</span></div>
-        <div class="em-row"><span class="em-who">Póliza</span><span class="em-val">${em.insurance?.policy || '—'}</span></div>
-        <div class="em-row em-phone-row">
-          <span class="em-who">Asistencia 24h</span>
-          <a class="em-phone" href="tel:${em.insurance?.intlPhone}">${em.insurance?.intlPhone || '—'}</a>
-        </div>
-      </div>
-      <div class="em-block">
-        <div class="em-title">Embajadas de España</div>
-        ${(em.embassies || []).map(e => `
-          <div class="em-embassy">
-            <div class="em-emb-country">${e.country} — ${e.name}</div>
-            <div class="em-emb-addr">${e.address}</div>
-            <a class="em-phone" href="tel:${e.phone}">${e.phone}</a>
-          </div>`).join('')}
-      </div>
-      <div class="em-block">
         <div class="em-title">🚨 Emergencias locales</div>
-        ${(em.localEmergency || []).map(e => `
-          <div class="em-row">
-            <span class="em-who">${e.country}</span>
-            <span class="em-val">Policía: ${e.police} · Ambulancia: ${e.ambulance}</span>
+        ${localEm.map(e => `
+          <div class="em-row em-phone-row">
+            <span class="em-who">${flagText(e.country)}</span>
+            <span class="em-val">Policía ${tel(e.police)} · Ambulancia ${tel(e.ambulance)} · Bomberos ${tel(e.fire)}</span>
           </div>`).join('')}
+      </div>
+      <div class="em-block">
+        <div class="em-title">${flagText('🇪🇸')} Embajada y consulado de España</div>
+        ${embassies.map(e => `
+          <div class="em-embassy">
+            <div class="em-emb-country">${flagText(e.country)} — ${escHtml(e.name || '')}</div>
+            <div class="em-emb-addr">${e.address}</div>
+            <div class="em-row"><span class="em-who">Teléfono</span>${tel(e.phone)}</div>
+            ${e.emergency ? `<div class="em-row"><span class="em-who">Emergencia 24h</span>${tel(e.emergency)}</div>` : ''}
+            ${e.notes ? `<div class="em-note">${e.notes}</div>` : ''}
+          </div>`).join('')}
+      </div>
+      <div class="em-block">
+        <div class="em-title">🏥 Seguro médico y pasaportes</div>
+        <div class="em-note">Por privacidad no se guardan aquí (el repositorio es público). Añade la póliza (con su teléfono de asistencia 24h) y las copias de los pasaportes en «Documentos», arriba, con un enlace a Google Drive.</div>
       </div>
     </div>`;
 

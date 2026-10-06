@@ -6,15 +6,18 @@ Regla del proyecto: **mejor sin foto que una equivocada**. Las fichas sin foto m
 
 | Archivo | Ficha(s) | Origen |
 |---|---|---|
+| `accb.jpg` | ACCB, centro de conservación de fauna (opcional) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:ACCB.jpg) (CC BY-SA 4.0; autoría en esa página) |
 | `aeropuerto-barcelona-el-prat.jpg` | Portada del día: Aeropuerto de Barcelona-El Prat | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Barcelona_El_Prat_International_Airport_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original) (licencia libre; autoría en esa página) |
 | `aeropuerto-shenzhen.jpg` | Portada del día: Aeropuerto de Shenzhen | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Shenzhen_Bao%27an_International_Airport_Terminal_3_East_Concourse_20260827.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original) (licencia libre; autoría en esa página) |
 | `aldea-de-ceramica-de-thanh-ha.jpg` | Aldea de cerámica de Thanh Ha | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ngh%E1%BB%87_nh%C3%A2n_l%C3%A0ng_g%E1%BB%91m_Thanh_H%C3%A0.JPG) (licencia libre; autoría en esa página) |
 | `amanecer-en-angkor-wat.jpg` | Amanecer en Angkor Wat | Imagen principal del artículo de Wikipedia «angkor wat» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
+| `angkor-silk-farm.jpg` | Artesanía: Angkor Silk Farm y Khmer Ceramics (opcional) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Artisans_Angkor,_2018_(34).jpg) (CC BY-SA 4.0; autoría en esa página) |
 | `angkor-thom.jpg` | Angkor Thom (South Gate) | Imagen principal del artículo de Wikipedia «angkor thom» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `atardecer-en-flamingo-cat-ba-resort.jpg` | Atardecer en Flamingo Cat Ba Resort | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Swimming_Pool_at_Flamingo_Cat_Ba_Resort.jpg) (licencia libre; autoría en esa página) |
 | `ba-na-hills.jpg` | Ba Na Hills | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Golden_Bridge_at_Ba_Na_Hills_20250718.jpg) (licencia libre; autoría en esa página) |
 | `ba-trai-dao.jpg` | Ba Trai Dao (Isla de los 3 melocotones) | Imagen principal del artículo de Wikipedia «lan ha bay» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `bai-sach-chrouk.jpg` | Bai Sach Chrouk | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Bay_sach_chrouk.jpg) (licencia libre; autoría en esa página) |
+| `baksei-chamkrong.jpg` | Baksei Chamkrong (opcional) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:2016_Angkor,_Baksei_Chamkrong_(05).jpg) (CC BY-SA 4.0; autoría en esa página) |
 | `banh-beo-nam-y-loc.jpg` | Bánh Bèo, Nậm y Lọc | Imagen principal del artículo de Wikipedia «bánh bèo» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `banh-cuon.jpg` | Bánh Cuốn | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:B%C3%A1nh_cu%E1%BB%91n_nh%C3%A2n_th%E1%BB%8Bt.JPG) (licencia libre; autoría en esa página) |
 | `banh-khoai.jpg` | Bánh Khoái | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Banh_Xeo_with_fish_sauce_and_vegetables.jpg) (licencia libre; autoría en esa página) |
@@ -56,6 +59,7 @@ Regla del proyecto: **mejor sin foto que una equivocada**. Las fichas sin foto m
 | `cha-ca-la-vong.jpg` | Chả Cá Lã Vọng | Imagen principal del artículo de Wikipedia «chả cá lã vọng» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `cha-muc-cat-ba.jpg` | Chả Mực Cát Bà | Imagen principal del artículo de Wikipedia «squid as food» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `chao-ca.jpg` | Chao Ca | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Chinese_rice_congee.jpg) (licencia libre; autoría en esa página) |
+| `chau-say-tevoda.jpg` | Chau Say Tevoda (opcional) | Imagen principal del artículo de Wikipedia correspondiente ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Chao_Say_Tevoda%2C_Angkor%2C_Camboya%2C_2013-08-16%2C_DD_01.JPG); licencia libre, autoría en esa página) |
 | `che-bap.jpg` | Chè Bắp | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ch%C3%A8_B%E1%BA%AFp.jpg) (licencia libre; autoría en esa página) |
 | `che.jpg` | Chè | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ch%C3%A8_xo%C3%A0i.jpg) (licencia libre; autoría en esa página) |
 | `cho-chau-doc.jpg` | Chợ Châu Đốc (Mercado Central de Chau Doc) · Chợ Châu Đốc en hora punta | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Chau_Doc_Market_%2810344053384%29.jpg) (licencia libre; autoría en esa página) |
@@ -76,6 +80,7 @@ Regla del proyecto: **mejor sin foto que una equivocada**. Las fichas sin foto m
 | `el-rio-hau-aldeas-flotantes-y-comunidad-cham.jpg` | El Río Hậu: Aldeas Flotantes y Comunidad Cham | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Vietnam%2C_Chau_Doc%2C_Floating_village.jpg) (licencia libre; autoría en esa página) |
 | `espectaculos-demostraciones-y-tumbas.jpg` | Espectáculos, Demostraciones y Tumbas | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Traditional_Vietnamese_Music.jpg) (licencia libre; autoría en esa página) |
 | `fruta-y-cafe-flotante-en-cai-rang.jpg` | Fruta y café flotante en Cai Rang | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Can_Tho%2C_Vietnam%2C_Floating_Market%2C_Sale.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original) (licencia libre; autoría en esa página) |
+| `grupo-roluos.jpg` | Grupo Roluos: Bakong, Preah Ko y Lolei (opcional) | Imagen principal del artículo de Wikipedia correspondiente ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Roulos_Group_-_005_Bakong_%288587796725%29.jpg); licencia libre, autoría en esa página) |
 | `hang-mua.jpg` | Hang Mua (mejor al amanecer) | Imagen principal del artículo de Wikipedia «mua cave» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `hanoi-train-street.jpg` | Hanoi Train Street | Imagen principal del artículo de Wikipedia «train street hanoi» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `ho-thuy-tien.jpg` | Ho Thuy Tien (parque acuático abandonado) | Imagen principal del artículo de Wikipedia «hồ thủy tiên» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
@@ -84,8 +89,10 @@ Regla del proyecto: **mejor sin foto que una equivocada**. Las fichas sin foto m
 | `hospital-cave.jpg` | Hospital Cave | Imagen principal del artículo de Wikipedia «cát bà national park» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `hu-tieu.jpg` | Hủ Tiếu | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Hu_Tieu_Nam_Vang.jpg) (licencia libre; autoría en esa página) |
 | `isla-de-los-platanos.jpg` | Isla de los Plátanos (Bãi Giữa) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Bai_giua_song_Hong.jpg) (licencia libre; autoría en esa página) |
+| `kbal-spean.jpg` | Kbal Spean (opcional) | Imagen principal del artículo de Wikipedia correspondiente ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Kbal_Spean%2C_sur_les_pentes_sud-ouest_du_mont_Kulen_%2812%29.jpg); licencia libre, autoría en esa página) |
 | `khmer-bbq.jpg` | Khmer BBQ | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Cambodian_BBQ_%2811468613985%29.jpg) (licencia libre; autoría en esa página) |
 | `khmer-red-curry.jpg` | Khmer Red Curry (Kari Sach Moan) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Khmer_Kitchen_Restaurant_%2824599886794%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original) (licencia libre; autoría en esa página) |
+| `krol-ko.jpg` | Krol Ko y Prasat Prei (opcional) | Imagen principal del artículo de Wikipedia correspondiente ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Krol_Ko_%285984979200%29.jpg); licencia libre, autoría en esa página) |
 | `kuy-teav.jpg` | Kuy Teav | Imagen principal del artículo de Wikipedia «kuy teav» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `lago-b-52.jpg` | Lago B-52 (Hữu Tiệp Lake) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:B52_WRECKAGE_AT_HUU_TIEP_LAKE_BA_DINH_DISTRICT_%28AKA_B52_LAKE%29HANOI_VIETNAM_FEB_2012_%286818002106%29.jpg) (licencia libre; autoría en esa página) |
 | `lago-hoan-kiem-y-templo-ngoc-son.jpg` | Lago Hoan Kiem y Templo Ngoc Son | Imagen principal del artículo de Wikipedia «hoàn kiếm lake» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
@@ -98,6 +105,7 @@ Regla del proyecto: **mejor sin foto que una equivocada**. Las fichas sin foto m
 | `marisco-de-da-nang.jpg` | Marisco de Da Nang · Marisco de Cat Ba · Banquete de marisco a bordo · Último marisco en Cat Ba | [Pexels](https://www.pexels.com/photo/14786461/) (licencia Pexels, uso libre) |
 | `mausoleo-de-ho-chi-minh-y-pagoda-de-un-solo-pila.jpg` | Mausoleo de Ho Chi Minh y Pagoda de un Solo Pilar | Imagen principal del artículo de Wikipedia «ho chi minh mausoleum» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `mausoleo-de-thoai-ngoc-hau.jpg` | Mausoleo de Thoại Ngọc Hầu (Tomb of Thoai Ngoc Hau) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Le_mausol%C3%A9e_de_Thoai_Ngoc_Hau_%28Vinh_T%C3%AA%2C_Vietnam%29_%286614182471%29.jpg) (licencia libre; autoría en esa página) |
+| `mebon-oriental.jpg` | Mebon Oriental (opcional) | Imagen principal del artículo de Wikipedia correspondiente ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Mebon_Oriental%2C_Angkor%2C_Camboya%2C_2013-08-17%2C_DD_05.JPG); licencia libre, autoría en esa página) |
 | `mercado-central-cho-hoi-an.jpg` | Mercado central Chợ Hội An | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Central_Market_Hoi_An.JPG) (licencia libre; autoría en esa página) |
 | `mercado-de-pescado-de-thanh-ha.jpg` | Mercado de pescado de Thanh Ha | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:H%E1%BB%99i_An_morning_market_%2831663589968%29.jpg) (licencia libre; autoría en esa página) |
 | `mercado-dong-xuan.jpg` | Mercado Dong Xuan | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Dong_Xuan_market.jpg) (licencia libre; autoría en esa página) |
@@ -113,6 +121,7 @@ Regla del proyecto: **mejor sin foto que una equivocada**. Las fichas sin foto m
 | `museo-del-genocidio-tuol-sleng.jpg` | Museo del Genocidio Tuol Sleng (S-21) | Imagen principal del artículo de Wikipedia «museo del genocidio tuol sleng s 21» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `museo-nacional-de-camboya.jpg` | Museo Nacional de Camboya | Imagen principal del artículo de Wikipedia «national museum of cambodia» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `museos-historicos.jpg` | Museos Históricos | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Hoi_An_Museum_main_building.jpg) (licencia libre; autoría en esa página) |
+| `neak-pean.jpg` | Neak Pean (opcional) | Imagen principal del artículo de Wikipedia correspondiente ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Neakpeancentralpond2014.jpg); licencia libre, autoría en esa página) |
 | `nem-chua-yen-mac.jpg` | Nem Chua Yên Mạc | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Nem_chua_Yen_Mac.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original) (licencia libre; autoría en esa página) |
 | `nem-lui-hue.jpg` | Nem Lụi Huế | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Nem_l%E1%BB%A5i.jpg) (licencia libre; autoría en esa página) |
 | `nem-nuong-cai-rang.jpg` | Nem Nướng Cái Răng | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Nem_n%C6%B0%E1%BB%9Bng.jpg) (licencia libre; autoría en esa página) |
@@ -142,6 +151,8 @@ Regla del proyecto: **mejor sin foto que una equivocada**. Las fichas sin foto m
 | `playa-an-bang.jpg` | Playa An Bang (ruta en bici) | Imagen principal del artículo de Wikipedia «an bàng beach» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `playa-salvaje-de-tung-thu.jpg` | Playa salvaje de Tung Thu | Imagen principal del artículo de Wikipedia «playa salvaje tung thu» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `prahok-ktis.jpg` | Prahok Ktis | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Prahok_ktis.jpg) (licencia libre; autoría en esa página) |
+| `prasat-bei.jpg` | Prasat Bei (opcional) | Imagen principal del artículo de Wikipedia correspondiente ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Prasat_Bei.JPG); licencia libre, autoría en esa página) |
+| `prasat-kravan.jpg` | Prasat Kravan (opcional) | Imagen principal del artículo de Wikipedia correspondiente ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Prasat_Kravan%2C_Angkor%2C_Camboya%2C_2013-08-16%2C_DD_05.JPG); licencia libre, autoría en esa página) |
 | `pre-rup.jpg` | Pre Rup (atardecer) | Imagen principal del artículo de Wikipedia «pre rup» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `preah-khan.jpg` | Preah Khan | Imagen principal del artículo de Wikipedia «preah khan» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `prision-de-hoa-lo.jpg` | Prisión de Hoa Lo | Imagen principal del artículo de Wikipedia «hỏa lò prison» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
@@ -159,10 +170,14 @@ Regla del proyecto: **mejor sin foto que una equivocada**. Las fichas sin foto m
 | `samlor-kor-ko.jpg` | Samlor Kor Ko | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Samlor_Korko_Khmer_at_Peace_Cafe.jpg) (licencia libre; autoría en esa página) |
 | `santuario-de-my-son.jpg` | Santuario de My Son | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:My_Son_Sanctuary_Vietnam_05.jpg) (licencia libre; autoría en esa página) |
 | `siem-reap-river.jpg` | Siem Reap River | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Siem_Reap_river.JPG) (licencia libre; autoría en esa página) |
+| `srah-srang.jpg` | Srah Srang (opcional) | Imagen principal del artículo de Wikipedia correspondiente ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Srah_Srang%2C_Angkor%2C_Camboya%2C_2013-08-16%2C_DD_08.JPG); licencia libre, autoría en esa página) |
 | `ta-hien.jpg` | Tạ Hiện (Beer Street) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ta-hien-street-3559133.jpg) (licencia libre; autoría en esa página) |
+| `ta-keo.jpg` | Ta Keo (opcional) | Imagen principal del artículo de Wikipedia correspondiente ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ta_Keo_Temple_%28I%29.jpg); licencia libre, autoría en esa página) |
 | `ta-nei.jpg` | Ta Nei | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Tanei.jpg) (licencia libre; autoría en esa página) |
+| `ta-prohm-kel.jpg` | Ta Prohm Kel (opcional) | Imagen principal del artículo de Wikipedia correspondiente ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Ta_Prohm_Kel4.JPG); licencia libre, autoría en esa página) |
 | `ta-prohm.jpg` | Ta Prohm | Imagen principal del artículo de Wikipedia «ta prohm» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `ta-som.jpg` | Ta Som | Imagen principal del artículo de Wikipedia «ta som» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
+| `talleres-artesanales.jpg` | Talleres Artesanales (Hoi An) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Hoi_An_Lantern_Shop.jpg) (CC BY 2.5; autoría en esa página) |
 | `tam-coc.jpg` | Tam Coc | Imagen principal del artículo de Wikipedia «tam coc» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `teatro-de-marionetas-de-agua.jpg` | Teatro de Marionetas de Agua | Imagen principal del artículo de Wikipedia «thăng long water puppet theatre» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `templo-bach-ma.jpg` | Templo Bach Ma | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Bach_Ma_Temple%2C_Hanoi_%282018%29_01.jpg) (licencia libre; autoría en esa página) |
@@ -170,9 +185,11 @@ Regla del proyecto: **mejor sin foto que una equivocada**. Las fichas sin foto m
 | `templo-quan-thanh.jpg` | Templo Quan Thanh | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Quan_Thanh_Taoist_Temple%2C_Hanoi%2C_11th_century_and_later_%281%29_%2838441404416%29.jpg) (licencia libre; autoría en esa página) |
 | `terraza-de-los-elefantes.jpg` | Terraza de los Elefantes (templo Tep Pranam) | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Terraza_de_los_Elefantes%2C_Angkor_Thom%2C_Camboya%2C_2013-08-16%2C_DD_03.jpg) (licencia libre; autoría en esa página) |
 | `thien-vien-truc-lam-phuong-nam.jpg` | Thiền viện Trúc Lâm Phương Nam | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Thi%E1%BB%81n_Vi%E1%BB%87n_Tr%C3%BAc_L%C3%A2m_Ph%C6%B0%C6%A1ng_Nam.jpg) (licencia libre; autoría en esa página) |
+| `thommanon.jpg` | Thommanon (opcional) | Imagen principal del artículo de Wikipedia correspondiente ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Thommanon_%28Angkor%29_%286844745654%29.jpg); licencia libre, autoría en esa página) |
 | `trang-an.jpg` | Trang An | Imagen principal del artículo de Wikipedia «trang an» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `trekking-al-pueblo-de-viet-hai.jpg` | Trekking al pueblo de Viet Hai | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Hiking_trail_in_Cat_Ba_National_Park_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=original) (licencia libre; autoría en esa página) |
 | `trey-aing.jpg` | Trey Aing | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Elephant_Walk_Trey_Ang.jpg) (licencia libre; autoría en esa página) |
+| `tumba-de-khai-dinh.jpg` | Tumba de Khai Dinh | Imagen principal del artículo de Wikipedia «tomb of khải định» ([Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Emperor_Khai_Dinh_in_Hue_(39543600561).jpg); licencia libre, autoría en esa página) |
 | `tumba-de-minh-mang.jpg` | Tumba de Minh Mang | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Hue_Vietnam_Tomb-of-Emperor-Minh-Mang-03a.jpg) (licencia libre; autoría en esa página) |
 | `tumba-de-tu-duc.jpg` | Tumba de Tu Duc | Imagen principal del artículo de Wikipedia «tomb of tự đức» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |
 | `ultimo-pho-o-banh-mi-antes-del-vuelo.jpg` | Último Phở o Bánh Mì antes del vuelo | Imagen principal del artículo de Wikipedia «último phở o bánh mì antes del vuelo» (licencia libre; autoría en la página del archivo en Wikimedia Commons) |

@@ -11,7 +11,6 @@
 2026-11-20|Bánh Đập
 2026-11-20|Mercado de Ba Le
 2026-11-20|Mercado de Tan An (Tiger Market)
-2026-11-20|Talleres Artesanales
 2026-11-21|Aldea de Frescos de Da Nang
 2026-11-21|Mercado nocturno Son Tra
 2026-11-22|Chè Huế
@@ -21,3 +20,4 @@
 2026-11-26|Bề Bề Rang Muối
 2026-11-26|Tu Hài Nướng
 2026-11-27|Comida casera en Viet Hai
+2026-11-13|Preah Dak y el azúcar de palma (opcional)

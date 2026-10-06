@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Paleta de colores · Viajes Marcos &amp; Mery</title>
+<style>
+  body { margin: 0; font-family: system-ui, "Segoe UI", sans-serif; background: #e9ecf1; color: #1a202c; padding: 24px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  .sub { color: #4a5568; font-size: 13px; margin-bottom: 20px; }
+  .themes { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 20px; max-width: 1100px; }
+  .theme { border-radius: 20px; padding: 20px; box-shadow: 0 4px 20px rgba(0,0,0,.12); }
+  .light { background: #F4F5F7; color: #1a202c; }
+  .dark  { background: #0f1923; color: #e8edf2; }
+  .theme h2 { margin: 0 0 14px; font-size: 18px; }
+  .theme h3 { margin: 22px 0 8px; font-size: 11px; letter-spacing: .8px; text-transform: uppercase; opacity: .7; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 10px; }
+  .sw { border-radius: 12px; overflow: hidden; border: 1px solid rgba(128,128,128,.28); font-size: 11px; }
+  .sw .chip { height: 46px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 15px; }
+  .sw .lbl { padding: 5px 7px; line-height: 1.3; }
+  .light .sw .lbl { background: #fff; color: #1a202c; }
+  .dark  .sw .lbl { background: #1a2535; color: #e8edf2; }
+  .sw .lbl b { display: block; font-size: 11px; }
+  .sw .lbl code { font-size: 10.5px; opacity: .75; }
+  .card { border-radius: 16px; padding: 14px; margin-top: 8px; display: flex; gap: 12px; align-items: center; }
+  .light .card { background: #fff; border: 1px solid #e8ecf0; box-shadow: 0 4px 20px rgba(0,0,0,.09); }
+  .dark  .card { background: #233045; border: 1px solid #2d3f55; }
+  .tile { width: 56px; height: 56px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 24px; color: #fff; }
+  .card b { display: block; font-size: 14px; }
+  .card span { font-size: 12px; }
+  .light .card span { color: #4a5568; } .dark .card span { color: #b8c6d6; }
+  .tag { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 11px; font-weight: 700; }
+  .note { max-width: 1100px; margin-top: 18px; font-size: 12px; color: #4a5568; line-height: 1.55; }
+</style>
+</head>
+<body>
+<h1>Paleta de colores de la app</h1>
+<div class="sub">Viajes Marcos &amp; Mery · valores reales de <code>css/styles.css</code> y <code>js/app.js</code> (3-oct-2026, v2 sin violetas, rosas ni terracotas) · modo claro y modo oscuro</div>
+
+<div class="themes">
+
+  <!-- ===================== CLARO ===================== -->
+  <div class="theme light">
+    <h2>☀️ Modo claro</h2>
+
+    <h3>Marca y acentos</h3>
+    <div class="grid">
+      <div class="sw"><div class="chip" style="background:#1a3a5c;color:#fff">Aa</div><div class="lbl"><b>Primario</b><code>#1a3a5c</code></div></div>
+      <div class="sw"><div class="chip" style="background:#2c5282;color:#fff">Aa</div><div class="lbl"><b>Primario claro</b><code>#2c5282</code></div></div>
+      <div class="sw"><div class="chip" style="background:#e8a020">Aa</div><div class="lbl"><b>Acento</b><code>#e8a020</code></div></div>
+      <div class="sw"><div class="chip" style="background:#f6c252">Aa</div><div class="lbl"><b>Acento claro</b><code>#f6c252</code></div></div>
+      <div class="sw"><div class="chip" style="background:#1a7b6b;color:#fff">Aa</div><div class="lbl"><b>Verde</b><code>#1a7b6b</code></div></div>
+      <div class="sw"><div class="chip" style="background:#c0392b;color:#fff">Aa</div><div class="lbl"><b>Rojo</b><code>#c0392b</code></div></div>
+    </div>
+
+    <h3>Fondos y bordes</h3>
+    <div class="grid">
+      <div class="sw"><div class="chip" style="background:#F4F5F7">&nbsp;</div><div class="lbl"><b>Fondo</b><code>#F4F5F7</code></div></div>
+      <div class="sw"><div class="chip" style="background:#ffffff">&nbsp;</div><div class="lbl"><b>Superficie / tarjeta</b><code>#ffffff</code></div></div>
+      <div class="sw"><div class="chip" style="background:#e8ecf0">&nbsp;</div><div class="lbl"><b>Borde</b><code>#e8ecf0</code></div></div>
+    </div>
+
+    <h3>Texto</h3>
+    <div class="grid">
+      <div class="sw"><div class="chip" style="background:#fff;color:#1a202c">Texto</div><div class="lbl"><b>Principal</b><code>#1a202c</code></div></div>
+      <div class="sw"><div class="chip" style="background:#fff;color:#4a5568">Texto</div><div class="lbl"><b>Secundario</b><code>#4a5568</code></div></div>
+      <div class="sw"><div class="chip" style="background:#fff;color:#647181">Texto</div><div class="lbl"><b>Terciario</b><code>#647181</code></div></div>
+    </div>
+
+    <h3>Zonas del viaje (color · fondo suave)</h3>
+    <div class="grid">
+      <div class="sw"><div class="chip" style="background:#d0f0e8;color:#1A7B6B">Norte</div><div class="lbl"><b>Vietnam Norte</b><code>#1A7B6B</code> · <code>#d0f0e8</code></div></div>
+      <div class="sw"><div class="chip" style="background:#dbe8f4;color:#2f6fa3">Centro</div><div class="lbl"><b>Vietnam Centro</b><code>#2f6fa3</code> · <code>#dbe8f4</code></div></div>
+      <div class="sw"><div class="chip" style="background:#f6ebcf;color:#b8861b">Angkor</div><div class="lbl"><b>Camboya</b><code>#b8861b</code> · <code>#f6ebcf</code></div></div>
+      <div class="sw"><div class="chip" style="background:#cceeff;color:#0090C4">Islas</div><div class="lbl"><b>Koh Rong</b><code>#0090C4</code> · <code>#cceeff</code></div></div>
+      <div class="sw"><div class="chip" style="background:#e8edd6;color:#6b7f3a">Cierre</div><div class="lbl"><b>Cierre</b><code>#6b7f3a</code> · <code>#e8edd6</code></div></div>
+    </div>
+
+    <h3>Categorías (icono de ficha sin foto)</h3>
+    <div class="grid">
+      <div class="sw"><div class="chip" style="background:#C8312A;color:#fff">🏛</div><div class="lbl"><b>Monumento</b><code>#C8312A</code></div></div>
+      <div class="sw"><div class="chip" style="background:#18A4C4;color:#fff">🏖</div><div class="lbl"><b>Playa</b><code>#18A4C4</code></div></div>
+      <div class="sw"><div class="chip" style="background:#3592C4;color:#fff">🌿</div><div class="lbl"><b>Naturaleza</b><code>#3592C4</code></div></div>
+      <div class="sw"><div class="chip" style="background:#1e2d6b;color:#fff">🍜</div><div class="lbl"><b>Restaurante</b><code>#1e2d6b</code></div></div>
+      <div class="sw"><div class="chip" style="background:#8a6a4a;color:#fff">☕</div><div class="lbl"><b>Café</b><code>#8a6a4a</code></div></div>
+      <div class="sw"><div class="chip" style="background:#E8992A;color:#fff">🛍</div><div class="lbl"><b>Mercado</b><code>#E8992A</code></div></div>
+      <div class="sw"><div class="chip" style="background:#b8861b;color:#fff">🛕</div><div class="lbl"><b>Templo</b><code>#b8861b</code></div></div>
+      <div class="sw"><div class="chip" style="background:#5c6b7a;color:#fff">📍</div><div class="lbl"><b>Otros</b><code>#5c6b7a</code></div></div>
+    </div>
+
+    <h3>Ejemplo de tarjeta</h3>
+    <div class="card">
+      <div class="tile" style="background:linear-gradient(135deg,color-mix(in srgb,#8a6a4a 68%,#fff),#8a6a4a)">☕</div>
+      <div><b>Café Phố Cổ</b><span>Ficha sin foto · baldosa de categoría</span><br><span class="tag" style="background:#d0f0e8;color:#1A7B6B">3 días</span></div>
+    </div>
+  </div>
+
+  <!-- ===================== OSCURO ===================== -->
+  <div class="theme dark">
+    <h2>🌙 Modo oscuro</h2>
+
+    <h3>Marca y acentos</h3>
+    <div class="grid">
+      <div class="sw"><div class="chip" style="background:#4a90d9;color:#fff">Aa</div><div class="lbl"><b>Primario</b><code>#4a90d9</code></div></div>
+      <div class="sw"><div class="chip" style="background:#5ba3e8;color:#fff">Aa</div><div class="lbl"><b>Primario claro</b><code>#5ba3e8</code></div></div>
+      <div class="sw"><div class="chip" style="background:#f6c252;color:#1a202c">Aa</div><div class="lbl"><b>Acento</b><code>#f6c252</code></div></div>
+      <div class="sw"><div class="chip" style="background:#fad97a;color:#1a202c">Aa</div><div class="lbl"><b>Acento claro</b><code>#fad97a</code></div></div>
+      <div class="sw"><div class="chip" style="background:#52b788;color:#0f1923">Aa</div><div class="lbl"><b>Verde</b><code>#52b788</code></div></div>
+      <div class="sw"><div class="chip" style="background:#e57373;color:#0f1923">Aa</div><div class="lbl"><b>Rojo</b><code>#e57373</code></div></div>
+    </div>
+
+    <h3>Fondos y bordes</h3>
+    <div class="grid">
+      <div class="sw"><div class="chip" style="background:#0a1018">&nbsp;</div><div class="lbl"><b>Fondo exterior</b><code>#0a1018</code></div></div>
+      <div class="sw"><div class="chip" style="background:#0f1923">&nbsp;</div><div class="lbl"><b>Fondo</b><code>#0f1923</code></div></div>
+      <div class="sw"><div class="chip" style="background:#1a2535">&nbsp;</div><div class="lbl"><b>Superficie (cabecera, nav)</b><code>#1a2535</code></div></div>
+      <div class="sw"><div class="chip" style="background:#233045">&nbsp;</div><div class="lbl"><b>Tarjetas y filas</b><code>#233045</code></div></div>
+      <div class="sw"><div class="chip" style="background:#2d3f55">&nbsp;</div><div class="lbl"><b>Borde</b><code>#2d3f55</code></div></div>
+    </div>
+
+    <h3>Texto</h3>
+    <div class="grid">
+      <div class="sw"><div class="chip" style="background:#233045;color:#e8edf2">Texto</div><div class="lbl"><b>Principal</b><code>#e8edf2</code></div></div>
+      <div class="sw"><div class="chip" style="background:#233045;color:#b8c6d6">Texto</div><div class="lbl"><b>Secundario</b><code>#b8c6d6</code></div></div>
+      <div class="sw"><div class="chip" style="background:#233045;color:#8fa4bb">Texto</div><div class="lbl"><b>Terciario</b><code>#8fa4bb</code></div></div>
+    </div>
+
+    <h3>Zonas del viaje (color aclarado · fondo suave)</h3>
+    <div class="grid">
+      <div class="sw"><div class="chip" style="background:#1a3028;color:#a6d3c8">Norte</div><div class="lbl"><b>Vietnam Norte</b><code>#1A7B6B</code>→aclarado · <code>#1a3028</code></div></div>
+      <div class="sw"><div class="chip" style="background:#14263b;color:#b0c8dc">Centro</div><div class="lbl"><b>Vietnam Centro</b><code>#2f6fa3</code>→aclarado · <code>#14263b</code></div></div>
+      <div class="sw"><div class="chip" style="background:#2a2208;color:#e4d1a8">Angkor</div><div class="lbl"><b>Camboya</b><code>#b8861b</code>→aclarado · <code>#2a2208</code></div></div>
+      <div class="sw"><div class="chip" style="background:#0a2535;color:#8dd0ec">Islas</div><div class="lbl"><b>Koh Rong</b><code>#0090C4</code>→aclarado · <code>#0a2535</code></div></div>
+      <div class="sw"><div class="chip" style="background:#1f2512;color:#c7ceb4">Cierre</div><div class="lbl"><b>Cierre</b><code>#6b7f3a</code>→aclarado · <code>#1f2512</code></div></div>
+    </div>
+
+    <h3>Categorías (baldosa mezclada con el fondo)</h3>
+    <div class="grid">
+      <div class="sw"><div class="chip" style="background:linear-gradient(135deg,color-mix(in srgb,#C8312A 42%,#26344b),color-mix(in srgb,#C8312A 30%,#1f2b40));color:#fff">🏛</div><div class="lbl"><b>Monumento</b><code>#C8312A</code> al 30-42 %</div></div>
+      <div class="sw"><div class="chip" style="background:linear-gradient(135deg,color-mix(in srgb,#18A4C4 42%,#26344b),color-mix(in srgb,#18A4C4 30%,#1f2b40));color:#fff">🏖</div><div class="lbl"><b>Playa</b><code>#18A4C4</code></div></div>
+      <div class="sw"><div class="chip" style="background:linear-gradient(135deg,color-mix(in srgb,#3592C4 42%,#26344b),color-mix(in srgb,#3592C4 30%,#1f2b40));color:#fff">🌿</div><div class="lbl"><b>Naturaleza</b><code>#3592C4</code></div></div>
+      <div class="sw"><div class="chip" style="background:linear-gradient(135deg,color-mix(in srgb,#1e2d6b 42%,#26344b),color-mix(in srgb,#1e2d6b 30%,#1f2b40));color:#fff">🍜</div><div class="lbl"><b>Restaurante</b><code>#1e2d6b</code></div></div>
+      <div class="sw"><div class="chip" style="background:linear-gradient(135deg,color-mix(in srgb,#8a6a4a 42%,#26344b),color-mix(in srgb,#8a6a4a 30%,#1f2b40));color:#fff">☕</div><div class="lbl"><b>Café</b><code>#8a6a4a</code></div></div>
+      <div class="sw"><div class="chip" style="background:linear-gradient(135deg,color-mix(in srgb,#E8992A 42%,#26344b),color-mix(in srgb,#E8992A 30%,#1f2b40));color:#fff">🛍</div><div class="lbl"><b>Mercado</b><code>#E8992A</code></div></div>
+      <div class="sw"><div class="chip" style="background:linear-gradient(135deg,color-mix(in srgb,#b8861b 42%,#26344b),color-mix(in srgb,#b8861b 30%,#1f2b40));color:#fff">🛕</div><div class="lbl"><b>Templo</b><code>#b8861b</code></div></div>
+      <div class="sw"><div class="chip" style="background:linear-gradient(135deg,color-mix(in srgb,#5c6b7a 42%,#26344b),color-mix(in srgb,#5c6b7a 30%,#1f2b40));color:#fff">📍</div><div class="lbl"><b>Otros</b><code>#5c6b7a</code></div></div>
+    </div>
+
+    <h3>Ejemplo de tarjeta</h3>
+    <div class="card">
+      <div class="tile" style="background:linear-gradient(135deg,color-mix(in srgb,#8a6a4a 42%,#26344b),color-mix(in srgb,#8a6a4a 30%,#1f2b40))">☕</div>
+      <div><b>Café Phố Cổ</b><span>Ficha sin foto · baldosa de categoría</span><br><span class="tag" style="background:#1a3028;color:#a6d3c8">3 días</span></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="note">
+  <b>Notas.</b> Desde el 5-oct-2026 hay <b>una sola tabla de colores de zona</b>: <code>BLOCK_ZONE_COLORS</code> en <code>js/app.js</code>. Ruta, Días, Transportes, Alojamiento, cabecera del día, Hoy y Comida leen de ella (antes había 8 tablas con tonos distintos). Valores: Norte <code>#1A7B6B</code>, Centro <code>#2f6fa3</code>, Camboya/Angkor <code>#b8861b</code>, Phnom Penh <code>#8B5E3C</code>, Delta del Mekong <code>#2e8b57</code>, Ninh Binh <code>#4a7c3f</code>, Islas <code>#0090C4</code>, Cierre <code>#6b7f3a</code>, Vuelos y Vuelta a casa <code>#5c6b7a</code>. <b>Texto en color de zona:</b> en claro se pinta un 25 % más oscuro (34 % en las etiquetas pequeñas tintadas) y en oscuro se aclara al 38 %, para pasar siempre de 4,5:1; los bordes, puntos y degradados usan el color tal cual. El gris de etiquetas <code>--text-xs</code> en claro pasó de <code>#647181</code> (3,0:1) a <code>#647181</code> (5,0:1).
+  En oscuro se aclaran automáticamente con <code>color-mix(color 38%, blanco)</code> para mantener el contraste.
+  Los degradados de portada son capas negras sobre foto. El tema se cambia con el botón ☀️/🌙 de la cabecera y respeta el modo del sistema.
+</div>
+</body>
+</html>

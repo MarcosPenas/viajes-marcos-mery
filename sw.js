@@ -14,6 +14,7 @@ const SHELL = [
   BASE + 'css/styles.css',
   BASE + 'js/app.js',
   BASE + 'js/data.js',
+  BASE + 'js/guia.js',
   BASE + 'manifest.json',
   BASE + 'img/icon-192.png',
   BASE + 'img/icon-512.png'

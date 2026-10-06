@@ -12,18 +12,18 @@ El token classic ("viajes", scope `repo`, sin caducidad) que estuvo expuesto en 
 
 `.megaignore` en la raíz de MEGA excluye todo lo que empiece por punto (`-:.*`), así que `.git` nunca se sincroniza entre el PC del trabajo y el de casa — solo el resto de archivos (código, docs, imágenes). **GitHub es el único punto de sincronización real para el historial de versiones.**
 
-**Estado actual (2-oct-2026): el PC del trabajo ya hizo el primer push real** (`81c5a1d`, itinerario de 25 días completo). El historial local de ese PC fue reescrito antes del push (ver punto 1) — los hashes de commit son nuevos desde el principio. **El PC de casa debe resetear contra `origin/main` en su próxima sesión** (`git fetch origin && git reset --hard origin/main`), no intentar mezclar su historial local. Detalle completo y actualizado en `01_ESPECIFICACIONES/COORDINACION_SESIONES.md` — **léelo siempre antes de tocar git**.
+**Los dos PCs ya siguen a `origin/main`** (casa se reconcilió el 3-oct, trabajo el 6-oct). **Nunca usar `git reset --hard` para ponerse al día:** MEGA ya habrá traído los archivos más nuevos del otro PC y `--hard` los pisaría con versiones viejas (y MEGA propagaría la pérdida). Usar `git reset --mixed origin/main` (mueve el historial sin tocar archivos). Quién tiene commits sin publicar y quién debe commitear qué: `01_ESPECIFICACIONES/COORDINACION_SESIONES.md` — **léelo siempre antes de tocar git**.
 
 ### 3. Revisar datos personales en repo público — ✅ HECHO (7-sep-2026, repo ya público)
 
-Se revisó `js/data.js` (la clave real es `localEmergency`): solo contiene teléfonos públicos de emergencia y la embajada de España. No hay pasaportes ni datos de seguro médico. El repo ya está publicado, esto sigue vigente — cualquier dato nuevo que se añada debe pasar el mismo criterio.
+Se revisó `js/data.js` (la clave real es `localEmergency`): solo contiene teléfonos públicos de emergencia y la embajada de España. No hay pasaportes ni datos de seguro médico. El repo ya está publicado, esto sigue vigente — cualquier dato nuevo que se añada debe pasar el mismo criterio. **Tampoco localizadores de reservas** (6-oct-2026): con localizador + apellido se puede cancelar un vuelo. Van solo en el móvil de cada uno (campo «🔒 Localizador» de cada transporte con `ref: true`).
 
 ---
 
 ## Qué es este proyecto
 
 PWA (Progressive Web App) de guía de viaje personal para Marcos y Mery.  
-Viaje: Vietnam & Camboya, 25 días, 5–29 noviembre 2026 (incluye 2 días de vuelos España→Barcelona→Shenzhen→Hanói).  
+Viaje: Vietnam & Camboya, 26 días, 5–30 noviembre 2026 (incluye 2 días de vuelos de ida Santiago→Barcelona→Shenzhen→Hanói y la vuelta Hanói→Shenzhen→Barcelona→Santiago el 29-30). Fuente definitiva del itinerario: documento final de María (`itinerario final V&C (1).odt`, integrado el 5-oct-2026).  
 Sin servidor, sin login, sin base de datos. Todo es HTML/CSS/JS vanilla.
 
 ## Documentación principal
@@ -45,9 +45,11 @@ sw.js               ← Service Worker offline
 css/styles.css      ← todos los estilos
 js/app.js           ← toda la lógica
 js/data.js          ← datos del itinerario (DATA_VERSION interno — comprobar con grep, no asumir el número)
-js/imageMap.js      ← mapa nombre→imagen local
+js/guia.js          ← frases, tarjetas culturales y fichas de los hoteles (HOTEL_INFO)
+tools/              ← check_imagenes.py (antes de publicar) y servidor_ruta_produccion.py (prueba sin conexión)
 img/icon-*.png      ← iconos de la app
-img/places/         ← imágenes de lugares cacheadas localmente
+img/fotos/          ← foto fija de cada ficha (ver tools/check_imagenes.py)
+img/places/         ← portadas de días y ciudades
 ```
 
 ## Cómo arrancar en local

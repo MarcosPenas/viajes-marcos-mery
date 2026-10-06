@@ -14,7 +14,7 @@
   --border:     #e8ecf0;
   --text:       #1a202c;
   --text-sm:    #4a5568;
-  --text-xs:    #8896a8;
+  --text-xs:    #647181;   /* 5,0:1 sobre blanco (antes #8896a8, 3,0:1) */
   --card:       #ffffff;
   --shadow:     0 2px 16px rgba(0,0,0,0.07);
   --shadow-sm:  0 1px 6px rgba(0,0,0,0.06);
@@ -28,14 +28,14 @@
   /* ── Colores por zona geográfica (vibrantes) ── */
   --zone-norte:    #1A7B6B;   /* jade — Vietnam norte */
   --zone-norte-lt: #d0f0e8;
-  --zone-centro:   #D4581A;   /* terracota — Vietnam centro */
-  --zone-centro-lt:#fde8d8;
-  --zone-camboya:  #C1513A;   /* rojo-terracota — Angkor */
-  --zone-camboya-lt:#fde0da;
+  --zone-centro:   #2f6fa3;   /* azul acero — Vietnam centro */
+  --zone-centro-lt:#dbe8f4;
+  --zone-camboya:  #b8861b;   /* ocre dorado — Angkor */
+  --zone-camboya-lt:#f6ebcf;
   --zone-islas:    #0090C4;   /* turquesa vivo — Koh Rong */
   --zone-islas-lt: #cceeff;
-  --zone-cierre:   #6B4FAE;   /* violeta rico — regreso */
-  --zone-cierre-lt:#e8e0f8;
+  --zone-cierre:   #6b7f3a;   /* verde oliva — regreso */
+  --zone-cierre-lt:#e8edd6;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -110,6 +110,7 @@ html, body {
   display: flex;
   position: fixed;
   bottom: 0; left: 0; right: 0;
+  max-width: 480px; margin: 0 auto; /* mismo ancho que #app en pantallas grandes */
   height: calc(var(--nav-h) + env(safe-area-inset-bottom));
   padding-bottom: env(safe-area-inset-bottom);
   background: rgba(255,255,255,0.92);
@@ -262,7 +263,7 @@ html, body {
 .block-section > .block-section-header { background: transparent; border-bottom: 1px solid var(--border); margin-bottom: 0; }
 .bsh-label { font-size: 13px; }
 .bsh-count {
-  font-size: 11px; font-weight: 700; opacity: .75;
+  font-size: 11px; font-weight: 700;
   padding: 2px 8px; border-radius: 10px;
   background: var(--border); color: inherit;
 }
@@ -366,6 +367,7 @@ html, body {
 }
 .htl-sheet {
   position: absolute; bottom: 0; left: 0; right: 0;
+  max-width: 480px; margin: 0 auto; /* mismo ancho que la app en pantallas grandes */
   background: var(--surface);
   border-radius: 20px 20px 0 0;
   max-height: 88vh;
@@ -376,17 +378,24 @@ html, body {
 }
 .htl-sheet.htl-sheet-open { transform: translateY(0); }
 .htl-sheet-drag {
-  width: 40px; height: 4px;
-  background: var(--border);
+  display: block; width: 40px; height: 4px; padding: 0;
+  background: var(--border); border: none;
   border-radius: 2px;
   margin: 12px auto 0;
   cursor: pointer;
 }
-.htl-sheet-photo {
-  width: 100%; height: 200px;
-  background-size: cover; background-position: center;
-  margin-top: 10px;
+.htl-sheet-map {
+  height: 170px; margin-top: 10px;
+  background: var(--bg);
 }
+.htl-sheet-stay {
+  font-size: 13px; font-weight: 600; color: var(--text-sm); margin-bottom: 8px;
+}
+.htl-sheet-phone {
+  display: inline-block; margin: -6px 0 14px;
+  font-size: 14px; font-weight: 700; color: var(--primary); text-decoration: none;
+}
+.htl-sheet-bf { font-size: 16px; }
 .htl-sheet-body { padding: 16px 20px 32px; }
 .htl-sheet-name {
   font-size: 20px; font-weight: 800;
@@ -430,6 +439,11 @@ html, body {
 }
 .htl-sheet-btn-maps {
   background: var(--primary); color: #fff;
+}
+/* En oscuro --primary es un azul claro: con texto blanco daba 3,3:1 */
+html[data-theme="dark"] .htl-sheet-btn-maps { background: #2563a8; }
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .htl-sheet-btn-maps { background: #2563a8; }
 }
 .htl-sheet-btn-day {
   background: var(--bg);
@@ -616,8 +630,8 @@ html, body {
 .doc-icon.flight   { background: #e3f2fd; }
 .doc-icon.visa     { background: #e8f5e9; }
 .doc-icon.insurance{ background: #fff3e0; }
-.doc-icon.booking  { background: #fce4ec; }
-.doc-icon.transport{ background: #f3e5f5; }
+.doc-icon.booking  { background: #f5ecd9; }
+.doc-icon.transport{ background: #e0f0ee; }
 .doc-icon.other    { background: var(--bg); }
 .doc-body { flex: 1; min-width: 0; }
 .doc-name { font-size: 14px; font-weight: 600; color: var(--text); }
@@ -931,7 +945,7 @@ html, body {
 .route-card-active .route-card-name { color: var(--zone-color); }
 
 /* Bloque pasado */
-.route-card-past { opacity: 0.52; }
+.route-card-past { opacity: 0.8; } /* atenuado pero legible (0,52 dejaba el texto por debajo de 3:1) */
 
 /* Cabecera de la tarjeta */
 .route-card-header {
@@ -1132,12 +1146,12 @@ html, body {
   padding: 16px 18px 14px;
   position: relative; z-index: 1; width: 100%;
 }
-.dh-meta   { font-size: 10px; color: rgba(255,255,255,.75); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.dh-meta   { font-size: 10px; color: rgba(255,255,255,.92); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .dh-city   { font-size: 28px; font-weight: 800; color: #fff; margin-top: 2px; line-height: 1.1; text-shadow: 0 2px 8px rgba(0,0,0,.35); }
 .dh-bottom { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
-.dh-country{ font-size: 13px; color: rgba(255,255,255,.85); }
+.dh-country{ font-size: 13px; color: rgba(255,255,255,.95); }
 .today-pill {
-  display: inline-block; background: var(--accent); color: white;
+  display: inline-block; background: var(--accent); color: #1a202c; /* oscuro sobre ámbar: 9:1 (blanco daba 2,2:1) */
   font-size: 10px; font-weight: 800; padding: 2px 8px;
   border-radius: 10px;
 }
@@ -1469,18 +1483,39 @@ html, body {
   margin-bottom: 4px;
 }
 .dsc-maps-btn {
+  display: block; box-sizing: border-box;
   margin-top: 12px;
   width: 100%;
   padding: 10px;
   border: 1px solid var(--primary);
   border-radius: var(--radius-sm);
-  background: white;
+  background: var(--surface);
   color: var(--primary);
+  font-family: inherit;
   font-size: 13px;
   font-weight: 700;
+  text-align: center; text-decoration: none;
   cursor: pointer;
 }
-.dsc-maps-btn:active { background: #e8f0fe; }
+.dsc-maps-btn:active { background: var(--bg); }
+/* Localizador de reserva guardado solo en el móvil */
+.tr-ref {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+  margin-top: 6px; font-size: 12px; color: var(--text-sm);
+}
+.tr-ref-code { color: var(--text); font-family: ui-monospace, Consolas, monospace; font-size: 14px; letter-spacing: .5px; }
+.tr-ref-btn {
+  font-family: inherit; font-size: 12px; font-weight: 700;
+  color: var(--primary); background: var(--surface);
+  border: 1px solid var(--border); border-radius: 8px;
+  padding: 3px 9px; cursor: pointer;
+}
+.tr-ref-btn:active { background: var(--bg); }
+.tr-ref-note { font-size: 11px; color: var(--text-xs); }
+.hotel-btns { display: flex; gap: 8px; }
+.hotel-btns .dsc-maps-btn { flex: 1; }
+.hotel-bf-yes { color: var(--green); }
+.hotel-phone { color: var(--primary); text-decoration: none; font-weight: 600; }
 
 /* ── Ver todos ── */
 .dsc-see-all {
@@ -1779,99 +1814,14 @@ html, body {
 }
 .sticky-btn-primary:active { background: var(--primary-lt); }
 
-/* ══════════════════════════════════════════════════════════
-   HOY — Vista inteligente por hora del día
-   ══════════════════════════════════════════════════════════ */
-
-.tnow-top-bar {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 14px 16px 12px;
-  border-left: 4px solid var(--primary);
-  margin: 12px 16px 4px;
-  border-radius: 0 10px 10px 0;
-  background: var(--bg);
+.today-to-dias {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  margin: 10px 16px 0; padding: 10px 14px;
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  font-size: 13.5px; font-weight: 600; color: var(--primary); cursor: pointer;
 }
-.tnow-top-left { flex: 1; }
-.tnow-greeting { font-size: 11px; font-weight: 600; color: var(--text-xs); letter-spacing: .5px; text-transform: uppercase; }
-.tnow-city { font-size: 20px; font-weight: 800; color: var(--text); line-height: 1.2; margin-top: 2px; }
-.tnow-daynum { font-size: 13px; font-weight: 700; letter-spacing: .5px; }
-.tnow-summary {
-  margin: 0 16px 4px; font-size: 13px; line-height: 1.55;
-  color: var(--text-sm);
-}
-
-/* Alerta transporte nocturno */
-.tnow-alert {
-  margin: 0 16px 12px;
-  border: 2px solid #5b408033;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #ede8f5, #f5f0ff);
-  overflow: hidden;
-  margin-top: 14px;
-}
-.tnow-alert-header {
-  font-size: 11px; font-weight: 700; letter-spacing: .8px;
-  color: #5b4080; padding: 10px 14px 0;
-  text-transform: uppercase;
-}
-.tnow-transport-card {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 12px 14px;
-  background: var(--surface);
-  border-radius: 12px;
-  margin: 8px 10px;
-  box-shadow: var(--shadow);
-}
-.tnow-transport-card.tnow-night { background: #f5f0ff; box-shadow: none; margin: 6px 10px; }
-.tnow-tr-icon { font-size: 22px; flex-shrink: 0; line-height: 1; padding-top: 2px; }
-.tnow-tr-body { flex: 1; }
-.tnow-tr-title { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.3; }
-.tnow-tr-route { font-size: 12px; color: var(--text-sm); margin-top: 3px; }
-
-.tnow-tips-box {
-  margin: 0 10px 10px;
-  background: rgba(91,64,128,.08);
-  border-radius: 10px;
-  padding: 10px 14px;
-}
-.tnow-tips-title { font-size: 11px; font-weight: 700; color: #5b4080; margin-bottom: 6px; letter-spacing: .3px; }
-.tnow-tip { font-size: 12.5px; color: var(--text-sm); line-height: 1.6; }
-
-/* Secciones genéricas de Hoy */
-.tnow-section { padding: 14px 16px 0; }
-.tnow-sec-title {
-  font-size: 11px; font-weight: 700; letter-spacing: .8px;
-  text-transform: uppercase; color: var(--text-xs); margin-bottom: 8px;
-}
-.tnow-place-row {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 0; border-bottom: 1px solid var(--border);
-  cursor: pointer;
-}
-.tnow-place-row:last-child { border-bottom: none; }
-.tnow-place-icon { font-size: 18px; flex-shrink: 0; }
-.tnow-place-body { flex: 1; }
-.tnow-place-name { font-size: 14px; font-weight: 600; color: var(--text); }
-.tnow-place-notes { font-size: 12px; color: var(--text-sm); margin-top: 2px; }
-.tnow-place-arrow { font-size: 18px; color: var(--text-xs); }
-
-.tnow-night-preview {
-  display: flex; align-items: center; gap: 8px;
-  margin: 10px 16px 0;
-  background: #f5f0ff; border-radius: 10px; padding: 10px 14px;
-  font-size: 13px; color: #5b4080; font-weight: 600;
-}
-.tnow-notes {
-  font-size: 13.5px; line-height: 1.65; color: var(--text-sm);
-  background: var(--bg); border-radius: 12px; padding: 12px 14px;
-}
-.tnow-footer-link {
-  text-align: center; margin: 16px 16px 0;
-  font-size: 14px; font-weight: 600; color: var(--primary);
-  cursor: pointer; padding: 12px;
-  border: 1px solid var(--border); border-radius: 12px;
-}
-.tnow-footer-link:active { background: var(--bg); }
+.today-to-dias:active { background: var(--bg); }
+.today-to-dias-arrow { font-size: 20px; color: var(--text-xs); line-height: 1; }
 
 /* ══════════════════════════════════════════════════════════
    ITINERARIO — Pestañas + Transportes
@@ -2036,8 +1986,8 @@ html, body {
   box-shadow: 0 2px 8px rgba(0,0,0,.15);
 }
 /* OSM no tiene mosaicos oscuros propios gratis sin API key — se invierte con CSS */
-.leaflet-dark-tiles .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(.95) contrast(.9); }
-.leaflet-dark-tiles .leaflet-marker-icon, .leaflet-dark-tiles .leaflet-popup { filter: none; }
+html[data-theme="dark"] .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(.95) contrast(.9); } /* sigue el tema de la app, no el del sistema */
+
 
 /* ══════════════════════════════════════════════════════════
    BOTÓN TEMA
@@ -2077,10 +2027,10 @@ html:not([data-theme])   .theme-toggle-btn::before { content: '🌓'; }
     --shadow-lg:  0 8px 32px rgba(0,0,0,0.55);
 
     --zone-norte-lt: #1a3028;
-    --zone-centro-lt:#2e1a0e;
+    --zone-centro-lt:#14263b;
     --zone-camboya-lt:#2a2208;
     --zone-islas-lt: #0a2535;
-    --zone-cierre-lt:#1e1530;
+    --zone-cierre-lt:#1f2512;
   }
 
   body { background: #0a1018; }
@@ -2178,8 +2128,8 @@ html[data-theme="dark"] {
   --text-sm:    #b8c6d6; --text-xs:    #8fa4bb;
   --shadow:     0 2px 12px rgba(0,0,0,0.40);
   --shadow-lg:  0 8px 32px rgba(0,0,0,0.55);
-  --zone-norte-lt:#1a3028; --zone-centro-lt:#2e1a0e;
-  --zone-camboya-lt:#2a2208; --zone-islas-lt:#0a2535; --zone-cierre-lt:#1e1530;
+  --zone-norte-lt:#1a3028; --zone-centro-lt:#14263b;
+  --zone-camboya-lt:#2a2208; --zone-islas-lt:#0a2535; --zone-cierre-lt:#1f2512;
   color-scheme: dark;
 }
 html[data-theme="dark"] body { background: #0a1018; }
@@ -2228,7 +2178,6 @@ html[data-theme="dark"] .htl-card--transit, html[data-theme="dark"] .htl2-card-t
 html[data-theme="dark"] .htl-inline-transit { background: #1e2b3d; }
 html[data-theme="dark"] .docs-hint { background: #16283d; border-bottom-color: #2d4a68; }
 html[data-theme="dark"] .lugar-tips { background: #3a2f12; border-color: #6b551f; }
-html[data-theme="dark"] .tnow-transport-card.tnow-night { background: #2a2140; }
 html[data-theme="dark"] .dsc-transport-card { background: var(--surface); }
 html[data-theme="dark"] .currency-eur-badge { background: linear-gradient(135deg,#1b3a2a,#234a34); color: #6fd89a; }
 html[data-theme="dark"] .currency-local-badge { background: linear-gradient(135deg,#1a2d52,#233a63); }
@@ -2242,11 +2191,11 @@ html[data-theme="light"] {
   --bg:         #F4F5F7; --surface:    #ffffff;
   --card:       #ffffff;
   --border:     #e8ecf0; --text:       #1a202c;
-  --text-sm:    #4a5568; --text-xs:    #8896a8;
+  --text-sm:    #4a5568; --text-xs:    #647181;
   --shadow:     0 2px 16px rgba(0,0,0,0.07);
   --shadow-lg:  0 12px 40px rgba(0,0,0,0.13);
-  --zone-norte-lt:#d0f0e8; --zone-centro-lt:#fde8d8;
-  --zone-camboya-lt:#fde0da; --zone-islas-lt:#cceeff; --zone-cierre-lt:#e8e0f8;
+  --zone-norte-lt:#d0f0e8; --zone-centro-lt:#dbe8f4;
+  --zone-camboya-lt:#f6ebcf; --zone-islas-lt:#cceeff; --zone-cierre-lt:#e8edd6;
   color-scheme: light;
 }
 html[data-theme="light"] body { background: #F4F5F7; }
@@ -2400,12 +2349,12 @@ html[data-theme="light"] .sticky-btn:active { background: #e8ecf0; }
 }
 .fx-tab.active .fx-tab-key { color: var(--primary); }
 .fx-tab-name {
-  font-size: 9px; color: var(--text-xs); display: block;
+  font-size: 9px; color: var(--text-sm); display: block;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .fx-tab-rate {
-  font-size: 9px; color: var(--text-xs); display: block;
-  font-weight: 600; opacity: .8;
+  font-size: 9px; color: var(--text-sm); display: block;
+  font-weight: 600;
 }
 
 /* ══════════════════════════════════════════════════════════
@@ -2438,7 +2387,7 @@ html[data-theme="light"] .sticky-btn:active { background: #e8ecf0; }
 .spc-label { font-size: 14px; font-weight: 700; color: rgba(255,255,255,.9); }
 .spc-pct { font-size: 28px; font-weight: 900; color: #fff; }
 .spc-bar { height: 8px; background: rgba(255,255,255,.15); border-radius: 4px; overflow: hidden; margin-bottom: 8px; }
-.spc-bar-fill { height: 100%; background: linear-gradient(90deg,#60a5fa,#a78bfa); border-radius: 4px; transition: width .8s ease; }
+.spc-bar-fill { height: 100%; background: linear-gradient(90deg,#60a5fa,#34d399); border-radius: 4px; transition: width .8s ease; }
 .spc-bottom { display: flex; justify-content: space-between; font-size: 11px; color: rgba(255,255,255,.5); }
 .spc-left { background: rgba(255,255,255,.12); border-radius: 8px; padding: 2px 8px; color: rgba(255,255,255,.8); }
 .stats-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -2474,7 +2423,7 @@ html[data-theme="light"] .sticky-btn:active { background: #e8ecf0; }
 .snt-route, .snh-name { font-size: 14px; font-weight: 800; color: var(--text); }
 .snt-notes { font-size: 12px; color: var(--text-sm); margin-top: 3px; }
 .stats-pretrip-note {
-  background: linear-gradient(135deg, #e8f0ff, #f0e8ff);
+  background: linear-gradient(135deg, #e8f0ff, #e4f4ef);
   border-radius: 14px; padding: 12px 16px; margin-bottom: 12px;
   font-size: 13px; color: var(--text-sm); line-height: 1.5;
   border-left: 3px solid var(--primary);
@@ -2495,8 +2444,14 @@ html[data-theme="light"] .sticky-btn:active { background: #e8ecf0; }
   border: 1.5px solid var(--border);
   border-radius: 20px; padding: 4px 10px;
   font-size: 12px; font-weight: 700;
+  font-family: inherit; cursor: pointer;
 }
+.dict-lang-badge:active { background: var(--border); }
 .dict-lang-badge .fx-flag-img { border-radius: 3px; }
+.dict-note {
+  font-size: 12px; color: var(--text-sm); line-height: 1.45;
+  padding: 0 16px; margin: -4px 0 10px;
+}
 .dict-scroll {
   display: flex; gap: 10px;
   overflow-x: auto; scroll-snap-type: x mandatory;
@@ -2527,36 +2482,23 @@ html[data-theme="light"] .sticky-btn:active { background: #e8ecf0; }
 }
 
 /* ══════════════════════════════════════════════════════════
-   GASTRONOMÍA
+   CULTURA Y CONTEXTO
 ══════════════════════════════════════════════════════════ */
-.gastro-scroll {
-  display: flex; gap: 10px; overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none; padding: 0 0 6px;
+.culture-grid {
+  display: flex; flex-direction: column; gap: 10px;
 }
-.gastro-scroll::-webkit-scrollbar { display: none; }
-.gastro-card {
-  flex: 0 0 160px; scroll-snap-align: start;
+.culture-card {
   background: var(--card); border-radius: 18px;
-  padding: 14px 12px; box-shadow: var(--shadow-sm);
+  padding: 14px 16px; box-shadow: var(--shadow-sm);
+  display: flex; gap: 12px; align-items: flex-start;
 }
-.gastro-emoji { font-size: 32px; line-height: 1; margin-bottom: 8px; }
-.gastro-name  { font-size: 13px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
-.gastro-desc  { font-size: 11px; color: var(--text-sm); line-height: 1.4; }
+.culture-icon  { font-size: 26px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
+.culture-body  { flex: 1; min-width: 0; }
 
-/* ── VISTA GASTRONOMÍA COMPLETA ── */
-.food-view { padding: 0 0 16px; }
-.food-zone-header {
-  padding: 18px 16px 10px;
-  display: flex; align-items: center; gap: 10px;
-}
-.food-zone-header::before {
-  content: ''; display: block;
-  width: 5px; height: 22px; border-radius: 3px;
-  background: var(--zone-col, #1a3a5c); flex-shrink: 0;
-}
-.food-zone-name { font-size: 18px; font-weight: 900; color: var(--text); }
+/* Banderas como imagen solo donde el sistema no dibuja las banderas emoji (Windows) */
+.emoji-flag { display: inline-block; width: 1.25em; height: auto; vertical-align: -0.15em; border-radius: 2px; }
+
+/* ── QUÉ COMER (pestaña del día) ── */
 .food-list { display: flex; flex-direction: column; gap: 12px; padding: 0 16px; }
 .food-card {
   background: var(--card); border-radius: 22px;
@@ -2581,19 +2523,10 @@ html[data-theme="light"] .sticky-btn:active { background: #e8ecf0; }
 .food-card-body { padding: 14px 16px 16px; }
 .food-card-name { font-size: 16px; font-weight: 900; color: var(--text); margin-bottom: 5px; }
 .food-card-desc { font-size: 13px; color: var(--text-sm); line-height: 1.5; }
-
-/* ══════════════════════════════════════════════════════════
-   CULTURA Y CONTEXTO
-══════════════════════════════════════════════════════════ */
-.culture-grid {
-  display: flex; flex-direction: column; gap: 10px;
+html[data-theme="dark"] .food-card-img-placeholder { background: linear-gradient(135deg, #2a3a54, #233045); }
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .food-card-img-placeholder { background: linear-gradient(135deg, #2a3a54, #233045); }
 }
-.culture-card {
-  background: var(--card); border-radius: 18px;
-  padding: 14px 16px; box-shadow: var(--shadow-sm);
-  display: flex; gap: 12px; align-items: flex-start;
-}
-.culture-icon  { font-size: 26px; line-height: 1; flex-shrink: 0; margin-top: 2px; }
 .culture-title { font-size: 13px; font-weight: 800; color: var(--text); margin-bottom: 4px; }
 .culture-text  { font-size: 12px; color: var(--text-sm); line-height: 1.5; }
 
@@ -2798,7 +2731,7 @@ html[data-theme="light"] .sticky-btn:active { background: #e8ecf0; }
   transition: transform .12s;
 }
 .htl2-card:active { transform: scale(.98); }
-.htl2-card-transit { background: #f7f8fc; border-style: dashed; opacity: .78; }
+.htl2-card-transit { background: #f7f8fc; border-style: dashed; opacity: .92; }
 
 /* Interior de la tarjeta */
 .htl2-card-top   { display: flex; align-items: flex-start; gap: 8px; }
@@ -2891,25 +2824,23 @@ html[data-theme="light"] .sticky-btn:active { background: #e8ecf0; }
 /* ── Fichas sin foto: baldosa con el color de su categoría e icono grande (misma paleta que los círculos de la app).
       Claro: color suave con degradado; oscuro: el mismo color muy mezclado con el fondo para no deslumbrar. ── */
 .lugar-thumb-wrap, .photo-circle-img-wrap {
-  background: linear-gradient(135deg, color-mix(in srgb, var(--ph, #6b52ab) 68%, #fff), var(--ph, #6b52ab));
+  background: linear-gradient(135deg, color-mix(in srgb, var(--ph, #5c6b7a) 68%, #fff), var(--ph, #5c6b7a));
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
 }
 .lugar-thumb-fallback-icon, .photo-circle-fallback { opacity: .92; filter: none; }
 .lugar-thumb-fallback-icon svg { width: 38px; height: 38px; }
 .photo-circle-fallback svg { width: 36px; height: 36px; }
 html[data-theme="dark"] .lugar-thumb-wrap, html[data-theme="dark"] .photo-circle-img-wrap {
-  background: linear-gradient(135deg, color-mix(in srgb, var(--ph, #6b52ab) 42%, #26344b), color-mix(in srgb, var(--ph, #6b52ab) 30%, #1f2b40));
+  background: linear-gradient(135deg, color-mix(in srgb, var(--ph, #5c6b7a) 42%, #26344b), color-mix(in srgb, var(--ph, #5c6b7a) 30%, #1f2b40));
   box-shadow: inset 0 0 0 1px rgba(255,255,255,.07);
 }
 html[data-theme="dark"] .lugar-thumb-fallback-icon, html[data-theme="dark"] .photo-circle-fallback { opacity: .78; }
-html[data-theme="dark"] .food-card-img-placeholder { background: linear-gradient(135deg, #2a3a54, #233045); }
 @media (prefers-color-scheme: dark) {
   html:not([data-theme="light"]) .lugar-thumb-wrap, html:not([data-theme="light"]) .photo-circle-img-wrap {
-    background: linear-gradient(135deg, color-mix(in srgb, var(--ph, #6b52ab) 42%, #26344b), color-mix(in srgb, var(--ph, #6b52ab) 30%, #1f2b40));
+    background: linear-gradient(135deg, color-mix(in srgb, var(--ph, #5c6b7a) 42%, #26344b), color-mix(in srgb, var(--ph, #5c6b7a) 30%, #1f2b40));
     box-shadow: inset 0 0 0 1px rgba(255,255,255,.07);
   }
   html:not([data-theme="light"]) .lugar-thumb-fallback-icon, html:not([data-theme="light"]) .photo-circle-fallback { opacity: .78; }
-  html:not([data-theme="light"]) .food-card-img-placeholder { background: linear-gradient(135deg, #2a3a54, #233045); }
 }
 
 /* ── Tarjetas de visado en modo oscuro: fondo oscuro teñido (antes pastel claro con texto gris claro, ilegible) ── */
@@ -2933,9 +2864,56 @@ html[data-theme="dark"] .visa-warning { color: #fcc56b; background: rgba(245,158
 /* ── Contraste en modo oscuro: colores de zona/categoría (pensados para fondo claro) aclarados; aviso previo al viaje ── */
 html[data-theme="dark"] [style*="--zc"] { color: color-mix(in srgb, var(--zc) 38%, #fff) !important; }
 html[data-theme="dark"] .map-legend-chip[style*="--mc"] { color: color-mix(in srgb, var(--mc) 38%, #fff) !important; }
-html[data-theme="dark"] .stats-pretrip-note { background: linear-gradient(135deg, rgba(96,130,255,.16), rgba(160,110,255,.12)), #233045; }
+html[data-theme="dark"] .stats-pretrip-note { background: linear-gradient(135deg, rgba(96,130,255,.16), rgba(60,180,150,.12)), #233045; }
 @media (prefers-color-scheme: dark) {
   html:not([data-theme="light"]) [style*="--zc"] { color: color-mix(in srgb, var(--zc) 38%, #fff) !important; }
   html:not([data-theme="light"]) .map-legend-chip[style*="--mc"] { color: color-mix(in srgb, var(--mc) 38%, #fff) !important; }
-  html:not([data-theme="light"]) .stats-pretrip-note { background: linear-gradient(135deg, rgba(96,130,255,.16), rgba(160,110,255,.12)), #233045; }
+  html:not([data-theme="light"]) .stats-pretrip-note { background: linear-gradient(135deg, rgba(96,130,255,.16), rgba(60,180,150,.12)), #233045; }
 }
+
+/* ── Contraste (5-oct-2026): texto en color de zona legible en los dos temas ──
+   Cualquier elemento con style="--zc:<color de zona>" pinta su texto así:
+   claro → el mismo tono un 25 % más oscuro (≥4,5:1 incluso el ocre de Angkor);
+   oscuro → la regla de arriba lo aclara al 38 % (≥7,9:1).
+   Los bordes, puntos y degradados siguen usando el color aprobado tal cual. */
+html[data-theme="light"] [style*="--zc"] { color: color-mix(in srgb, var(--zc) 75%, #000) !important; }
+@media (prefers-color-scheme: light) {
+  html:not([data-theme="dark"]) [style*="--zc"] { color: color-mix(in srgb, var(--zc) 75%, #000) !important; }
+}
+/* Etiquetas «N días» / «N noches»: fondo tintado del color de zona (antes blanco sobre ocre, 3,2:1) */
+.day-badge[style*="--zc"], .htl2-card-nights[style*="--zc"] {
+  background: color-mix(in srgb, var(--zc) 14%, transparent) !important;
+}
+/* Modo oscuro: rojo del teléfono de emergencia y badges blancos sobre el azul de marca */
+html[data-theme="dark"] .em-phone { color: #f87171; }
+html[data-theme="dark"] .dsc-count,
+html[data-theme="dark"] .notes-tab.active,
+html[data-theme="dark"] .notes-add-btn { background: #2f6fb3; border-color: #2f6fb3; }
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme="light"]) .em-phone { color: #f87171; }
+  html:not([data-theme="light"]) .dsc-count,
+  html:not([data-theme="light"]) .notes-tab.active,
+  html:not([data-theme="light"]) .notes-add-btn { background: #2f6fb3; border-color: #2f6fb3; }
+}
+/* Nombre del bloque activo en Ruta: mismo tratamiento que el resto del texto en color de zona */
+html[data-theme="light"] .route-card-active .route-card-name { color: color-mix(in srgb, var(--zone-color) 75%, #000); }
+html[data-theme="dark"]  .route-card-active .route-card-name { color: color-mix(in srgb, var(--zone-color) 38%, #fff); }
+/* Etiquetas pequeñas sobre fondo tintado («N días», «N noches»): un poco más oscuras en claro para pasar de 4,5:1 */
+html[data-theme="light"] .day-badge[style*="--zc"],
+html[data-theme="light"] .htl2-card-nights[style*="--zc"],
+html[data-theme="light"] .bsh-count { color: color-mix(in srgb, var(--zc) 66%, #000) !important; }
+/* Pestañas del día en una sola línea en móvil («Qué comer» se partía en dos) */
+.day-tab { white-space: nowrap; font-size: 12.5px; padding-left: 2px; padding-right: 2px; }
+/* Botones de cada lugar: cómo llegar, favorito, visitado */
+.lugar-actions { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+.lugar-act {
+  flex: 1 1 auto; text-align: center; text-decoration: none; cursor: pointer;
+  font: inherit; font-size: 12.5px; font-weight: 700; color: var(--primary);
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px;
+}
+.lugar-act.on { background: var(--primary); border-color: var(--primary); color: #fff; }
+html[data-theme="dark"] .lugar-act.on { background: #2f6fb3; border-color: #2f6fb3; }
+/* Mapa general: ocupa todo el alto disponible hasta la barra inferior (antes quedaba una franja vacía de ~70 px) */
+#full-leaflet-map { width: 100%; height: calc(100vh - var(--header-h) - var(--nav-h) - 46px); height: calc(100dvh - var(--header-h) - var(--nav-h) - 46px); }
+html[data-theme="dark"] .em-note { background: rgba(245,158,11,.14); color: #fcc56b; }
+.em-embassy .em-row { margin-top: 3px; }

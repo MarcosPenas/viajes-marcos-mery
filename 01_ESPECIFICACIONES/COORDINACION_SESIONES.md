@@ -14,11 +14,38 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 
 ---
 
+## 🟠 6-oct-2026 — El PC del TRABAJO ha cambiado archivos SIN COMMIT, también `data.js` (para el PC de casa)
+
+**Qué ha pasado:** dos sesiones seguidas en el PC del trabajo (detalle en `HISTORIAL_DE_CAMBIOS.md`, 6-oct, 1ª y 2ª parte): pendientes de la revisión del 5-oct, traslados en las estadísticas, fichas reales de los hoteles y barrido completo sin fallos. Archivos tocados: `js/app.js`, `css/styles.css`, `index.html`, `sw.js`, **`js/data.js`** (traslados, pines, Mausoleo, Shenzhen, Wat Damnak; `DATA_VERSION` 85), **`js/guia.js` (nuevo)**, **`tools/servidor_ruta_produccion.py` (nuevo)**, `img/places/` (9 portadas reducidas de peso y 8 sin uso movidas a `02_DESARROLLO/IMAGENES_ANTERIORES/places_retiradas_6oct/`) y los `.md` de `01_ESPECIFICACIONES`. **Nadie ha tocado `data.js` en casa desde el 5-oct 22:16** (comprobado por fecha antes de editarlo), así que no hay choque: el `data.js` de MEGA es el del 5-oct + lo del 6-oct.
+
+**Git en el PC del trabajo:** NO se hizo commit (los commits del 5-oct solo existen en casa y no se pueden reconstruir aquí). Su `main` se movió con `git reset --mixed origin/main` (rama de respaldo `backup-work-6oct` en `599f20a`): historial = `origin/main` (`05e2559`), archivos = lo que hay en MEGA.
+
+**Para el PC de casa, en su próxima sesión:**
+1. **No empezar a editar nada antes de commitear lo del 6-oct.** `git status`: los cambios aparecerán como modificaciones encima de sus commits del 5-oct. Revisar el diff y commitearlos allí: `git add -A` + `git add -f tools/servidor_ruta_produccion.py` (los `.py` están en `.gitignore`). Las 8 portadas movidas saldrán como borradas en `img/places/`: es intencionado.
+2. ~~Aplicar en `data.js` la corrección de Wat Damnak~~ → ya hecho en el PC del trabajo (2ª parte).
+3. Cuando Marcos pida publicar: `py -3 tools/check_imagenes.py` (hoy da OK), opcionalmente la prueba sin conexión con `tools/servidor_ruta_produccion.py` (instrucciones dentro del archivo), y push desde casa (es quien tiene el historial completo).
+
+**Para el PC del trabajo, la próxima vez:** antes de tocar nada, `git fetch origin`. Si casa ya publicó, **`git reset --mixed origin/main`** (no `--hard`: MEGA ya habrá traído los archivos y `--hard` los pisaría con versiones viejas). Si no ha publicado, no commitear aquí: trabajar sobre los archivos y dejarlo anotado en este tablón.
+
+---
+
+## 🟡 5-oct-2026 — MUCHOS cambios LOCALES sin publicar en el PC de casa (itinerario definitivo de María)
+
+`main` local del PC de casa va **por delante de `origin/main`** con la paleta del 3-oct y todo el trabajo del 5-oct: itinerario definitivo de María integrado y repasado línea a línea, vuelta el 30-nov, 18 lugares opcionales en Siem Reap, ~60 pines del mapa corregidos, `data.js?v=84`, `app.js?v=166`, `styles.css?v=92` (revisión general de la app de la madrugada del 6-oct incluida). **Sin push** (Marcos aún no lo ha pedido). ~~El PC del trabajo NO debe tocar `js/data.js` hasta que esto se publique~~ → el 6-oct sí lo tocó, sin commitear (el riesgo era de choque de commits, no de archivos): ver bloque 🟠 de arriba. Detalle en `HISTORIAL_DE_CAMBIOS.md` (5-oct, partes 1-4) y `REVISION_ITINERARIO_MARIA.md`.
+
+---
+
+## 🟡 3-oct-2026 (noche) — Cambios LOCALES sin publicar en el PC de casa (paleta)
+
+Tras el push `05e2559` quedaron en `main` local (sin push, Marcos aún no lo ha pedido): `PALETA_COLORES.html` y el cambio de paleta (sin violetas/rosas/terracotas; `styles.css?v=84`, `app.js?v=148`). Si el PC del trabajo toca colores/CSS de zonas, coordinar antes. ~~Pendiente futuro: revisar las paletas~~ → **✅ 5-oct-2026: Marcos aprueba la paleta tal cual.**
+
+---
+
 ## ✅ 3-oct-2026 (tarde) — PUBLICADO: `origin/main` = `e504cb2` (fotos congeladas + offline + mejoras visuales)
 
 El PC de casa hizo **push a `main`** (avance rápido, sin `--force`) y la web está en producción con `data.js?v=65`, `app.js?v=147`, `styles.css?v=83`. Incluye: service worker offline real, fotos congeladas (`img/fotos/`, 177 JPEG; cada ficha con foto fija o baldosa de categoría), `CREDITOS_FOTOS.md`, `tools/check_imagenes.py`, portadas de los 25 días, poda de `img/places/` (19 archivos), `imageMap.js` eliminado y mejoras de contraste/tarjetas en modo oscuro. Detalle en `HISTORIAL_DE_CAMBIOS.md` (3-oct, partes 1-3).
 
-**Para el PC del trabajo:** su `main` local (`81c5a1d` y similares) ya no coincide con el remoto — antes de tocar nada: `git fetch origin && git reset --hard origin/main` (haced una rama de respaldo antes si queda algo sin subir). **Antes de cada publicación futura, ejecutar `py -3 tools/check_imagenes.py` (debe dar OK).** No usar `IMAGE_MAP`/alias de `WIKI_ARTICLES` para fichas: ya no existen para ellas. La rama `fotos-congeladas` del PC de casa está fusionada en `main` (se puede borrar).
+**Para el PC del trabajo:** su `main` local (`81c5a1d` y similares) ya no coincide con el remoto — ~~antes de tocar nada: `git fetch origin && git reset --hard origin/main`~~ **(corregido 6-oct: usar `--mixed`, nunca `--hard`, porque MEGA ya trae los archivos nuevos y `--hard` los pisaría; hecho el 6-oct, ver bloque 🟠 de arriba)**. **Antes de cada publicación futura, ejecutar `py -3 tools/check_imagenes.py` (debe dar OK).** No usar `IMAGE_MAP`/alias de `WIKI_ARTICLES` para fichas: ya no existen para ellas. La rama `fotos-congeladas` del PC de casa está fusionada en `main` (se puede borrar).
 
 ---
 
@@ -76,8 +103,8 @@ Lo de **1-oct** sigue vigente:
 
 | PC | Rama | Último commit local | ¿Desciende del remoto real? |
 |---|---|---|---|
-| Trabajo (`C:\Users\mpe.HP2008\...`) | `main` | `81c5a1d` (2-oct-2026) — == `origin/main`, ya publicado | Sí, es el remoto |
-| Casa (`C:\Users\marco\...`) | `main` | Desconocido en este momento, probablemente desactualizado | No — historial propio independiente. **Debe resetear contra `origin/main` en la próxima sesión, ver aviso 🔴 arriba** |
+| Trabajo (`C:\Users\mpe.HP2008\...`) | `main` | `05e2559` (== `origin/main`, tras `reset --mixed` el 6-oct) + cambios del 6-oct **sin commit** | Sí |
+| Casa (`C:\Users\marco\...`) | `main` | `05e2559` + 17+ commits del 5-oct sin push (reconciliado el 3-oct) | Sí — **es quien debe commitear lo del 6-oct y publicar** |
 
 ---
 

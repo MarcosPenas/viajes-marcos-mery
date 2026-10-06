@@ -2,6 +2,152 @@
 
 ---
 
+## 2026-10-06 (PC del trabajo, 3ª parte) — Localizadores fuera del repo público y PUBLICACIÓN
+
+- **Localizadores de reserva retirados del repo (decisión de Marcos):** el repo es público y con localizador + apellido se puede ver, cambiar o cancelar una reserva de avión (el apellido sale en el usuario de GitHub). Los 5 de vuelos y ferry llevaban publicados desde el 3-oct y se iban a añadir 5 de buses y tren. Quitados de `data.js` (detalles de transporte y resúmenes de los días 5, 6 y 30) y de este historial. Los 5 ya publicados siguen en el historial antiguo de GitHub (Marcos eligió no reescribirlo).
+- **Localizador local por transporte:** los 14 transportes con reserva llevan `ref: true` en `data.js`; la app les pone «🔒 Añadir localizador» (resumen del día, pestaña Transportes y «Primer movimiento»), con «Copiar» y «Cambiar». Se guarda en `DB.bookingRefs` (localStorage, clave «fecha|tipo|destino»), nunca se publica, y `mergeUserState` lo conserva en cada actualización.
+- **Migración:** al actualizarse, cada móvil recoge los localizadores que tenía escritos en los textos de la versión anterior y los guarda en local (probado simulando un móvil con los datos antiguos: se conservaron los 5). Los de buses y tren hay que apuntarlos a mano en cada móvil (no llegaron a publicarse).
+- **`.gitignore`:** MEGA no sincroniza archivos que empiezan por punto, así que la copia de este PC estaba atrasada (le faltaba la excepción de `tools/check_imagenes.py`). Restaurada desde el repo + excepción para `tools/servidor_ruta_produccion.py`. `.claude/launch.json` no se commitea (configuración local de cada PC).
+- **Publicado desde el PC del trabajo** (ver COORDINACION): un commit con todo el trabajo del 5-oct (llegado por MEGA desde casa) y del 6-oct. `DATA_VERSION` 86, `data.js?v=87`, `app.js?v=175`, `styles.css?v=98`, `guia.js?v=2`.
+
+## 2026-10-06 (PC del trabajo, 2ª parte) — Traslados en coche, fichas de hotel reales y barrido final sin fallos
+
+Pedido de Marcos: «los traslados en coche entre ciudades o similar cuentan en las estadísticas; la ficha de cada hotel ponla bien; todo en orden hasta que no existan fallos». **Esta vez sí se ha tocado `js/data.js`** (ver COORDINACION): `DATA_VERSION` 83 → 85.
+
+- **Transportes / estadísticas:**
+  - «Transportes» (Hoy › Progreso) ya no tiene 3 filas fijas: una por medio usado en el viaje — Vuelos 8, Trenes 1, Buses 9, Barcos 1, **Coche 4** (antes el coche no contaba y el ferry iba con los buses).
+  - Traslados que solo estaban en las notas y ahora son transportes (cuentan en km y en la pestaña Transportes): 5-nov bus L99 aeropuerto → Viladecans; 7-nov Nội Bài → Old Quarter (Grab o bus 86); 10-nov bus 86 al aeropuerto y miniván reservada aeropuerto SAI → Siem Reap; 21-nov Hoi An → Da Nang (bus LK-02 o Grab; ese día no tenía ningún transporte); 29-nov Old Quarter → Nội Bài. El 6-nov el L99 salía de «Barcelona centro»: es del hotel de Viladecans. Total 23 trayectos, 27.295 km.
+- **Alojamientos (`HOTEL_INFO` en `js/guia.js`, los 12 hoteles reales):** dirección, teléfono y coordenadas exactas sacadas de la ficha de Google Maps de cada uno; horarios de entrada/salida de Booking/Trip/Agoda; descripción con distancias medidas con coordenadas a los sitios del itinerario. Sin fotos (derechos; el repo es público): botón a las fotos y opiniones de Google Maps.
+  - Ficha emergente nueva (Días › Alojamiento): mini mapa, fechas y noches de la estancia, dirección, teléfono pulsable, entrada/salida/desayuno, descripción, «Cómo llegar», «Fotos y opiniones», «Ver el día». La tabla vieja `HTL_INFO` (itinerario antiguo, no coincidía con ningún hotel) eliminada.
+  - Resumen de cada día: dirección, teléfono, horarios, «Cómo llegar» y «Ficha del alojamiento» (antes sin dirección ni botón).
+  - La pestaña Alojamiento **inventaba «Check-in 15:00 · Check-out 12:00»** cuando no sabía la hora: ahora los reales. Las tarjetas de la última noche de cada zona se recortaban a 40 px (el texto se salía): la columna crece lo necesario.
+  - De Rivé tiene tres casas en la misma calle (9A, 10 y 20 Thủ Khoa Huân): se indica comprobar el número en la reserva.
+- **Datos corregidos (`data.js`):**
+  - Mausoleo de Ho Chi Minh: **abre por dentro el 8-nov** (mantenimiento 2026 del 4-sep al 2-nov, reabre el 3-nov; domingo 8:00-11:00). Fuentes: VTV, Tuổi Trẻ.
+  - Escala en Shenzhen: con pasaporte español no hace falta visado ni el permiso de tránsito de 24 h (exención de 30 días prorrogada hasta el 31-dic-2026, gov.cn). También en el texto propio de la ficha «Sobre Aeropuerto de Shenzhen».
+  - Wat Damnak: sede del Center for Khmer Studies (no de Cambodian Living Arts).
+  - Pines exactos (Google Maps): pueblo de Viet Hai y Ba Trai Dao (tenían el punto del pueblo de Cat Ba), mercado de Tân An, isla de Thuận Tình (clases de cocina) y bloque A12 del Callejón Colectivo (ya estaba a 35 m). 145/145 lugares con coordenadas.
+- **«Sobre <ciudad>»:** se ocultaba entera si Wikipedia no respondía (sin cobertura) aunque hubiera curiosidades y platos propios; Cat Ba no tiene artículo en español (ficha oculta los días 26-28 incluso con conexión); Hue mostraba una página de desambiguación; el 25-nov («Tam Coc / Ninh Binh») no encontraba nada; y el texto propio del 6-nov (Shenzhen) **no se había mostrado nunca** por un paréntesis en la clave. Todo corregido (`CITY_WIKI_ES`, `_cleanCityName`, `loadCitySummary`). El día 30 ya no muestra ficha de ciudad (es solo un enlace de vuelos).
+- **Zonas:** descripciones de la Ruta que no cuadraban (Phnom Penh «despedida antes del vuelo de regreso», El Norte con Cat Ba y Ninh Binh, El Centro al revés, El Cierre «últimos días»). Fuera las claves viejas (Koh Rong, Camboya, Islas, Cierre) de `ZONE_META`, `BLOCK_ZONE`, `BLOCK_ZONE_COLORS` y `CITY_PHOTOS`.
+- **Código y archivos sin uso retirados:** `WIKI_ARTICLES` (~375 líneas; desde las fotos congeladas del 3-oct ninguna ficha llegaba a consultarla, comprobado), `openHotelMaps`, 8 portadas de `img/places` sin ninguna referencia (movidas a `02_DESARROLLO/IMAGENES_ANTERIORES/places_retiradas_6oct/`, no borradas).
+- **Banderas:** en Windows las banderas emoji salían como letras («VN», «KH»). `flagText()` detecta si el sistema las dibuja y solo si no las cambia por imágenes (en el móvil siguen siendo emoji, sin depender de la red).
+- **Accesibilidad:** tarjetas de hotel y de ciudad navegables con teclado (`role="button"`, Intro), `aria-expanded`, botón de cerrar la ficha con nombre.
+- **Prueba sin conexión por fin hecha en local:** `tools/servidor_ruta_produccion.py` sirve la app bajo `/viajes-marcos-mery/` como GitHub Pages (en `.claude/launch.json` como `viajes-ruta-produccion`). Resultado: el SW precarga el armazón (incluido `guia.js`) y las fotos; con el servidor parado la app abre y **515 fotos de los 26 días cargan sin ningún fallo**, igual que fichas de hotel, diccionario y tarjetas.
+- **Barrido final:** los 26 días × todas las pestañas + «Hoy» simulado día a día + fichas de los 12 hoteles + todas las vistas: 0 errores de consola, 0 «undefined/null/NaN», 0 imágenes rotas, 0 desbordes. Contraste en claro y oscuro (lugares desplegados incluidos): 0 fallos (el único encontrado, el botón «Cómo llegar» de la ficha en oscuro, 3,3:1, corregido). `tools/check_imagenes.py` → OK.
+- Versiones: `data.js?v=86` (`DATA_VERSION` 85), `guia.js?v=2`, `app.js?v=174`, `styles.css?v=97`.
+
+## 2026-10-06 (PC del trabajo) — Pendientes 1-3 de la revisión general + revisión terminada
+
+**Git (importante para el otro PC):** este PC estaba en `599f20a`, 9 commits por detrás de `origin/main`, con los archivos del 5-oct del PC de casa ya en disco por MEGA. NO se hizo el `git reset --hard origin/main` que pedían las notas antiguas (habría sobrescrito con versiones viejas todo el trabajo del 5-oct, y MEGA lo habría propagado a casa). Se hizo `git branch backup-work-6oct` + `git reset --mixed origin/main` (mueve el historial, no toca archivos). **No se ha hecho ningún commit en este PC**: los cambios de hoy quedan como modificaciones sin commitear y llegan a casa por MEGA, encima de sus commits locales del 5-oct.
+
+- **Datos «perdidos» (pendiente 1):** `SURVIVAL_DICT`, `GASTRO_BY_BLOCK` y `CULTURE_CARDS` **no existieron nunca** en ningún commit (`git grep` en todo el historial y búsqueda en todo el proyecto, incluido `02_DESARROLLO`): las funciones se escribieron sin sus datos.
+  - **Nuevo `js/guia.js`** (incluido en `index.html` y en `SHELL` de `sw.js`; aparte de `data.js` para no chocar con el trabajo sin publicar de casa):
+    - `SURVIVAL_DICT`: 19 frases en vietnamita y 18 en jemer (escritura jemer + pronunciación para hispanohablantes). Jemer contrastado con bhasaly.com/khmer-phrases y lostplate.com.
+    - `CULTURE_CARDS`: 2-4 tarjetas por bloque (El Norte, Angkor, Phnom Penh, Delta del Mekong, El Centro, Ninh Binh, Vuelta al Norte, El Cierre); Vuelos y Vuelta a casa sin tarjetas.
+  - Diccionario (Inicio): botón «Vietnamita ⇄ / Jemer ⇄» para alternar (antes del viaje solo salía vietnamita), nota de uso por idioma, «Se dice: …», `lang` en la frase local, sin doble margen lateral (contenedor `#dict-box`).
+  - Tarjetas culturales (Día › Resumen): título y texto se maquetaban como dos columnas (hermanos en un flex) → envueltos en `.culture-body`.
+  - `GASTRO_BY_BLOCK` no se ha creado: la vista «Gastronomía» era **inalcanzable** (sin botón ni pestaña) y «Qué comer» de cada día ya cubre esa función con 84+ platos con foto → se borró como código muerto.
+- **Mini mapa de cada lugar (pendiente 2):** `loadLugarMap(mapEl)` usa `data-lat/data-lng` de la ficha (las mismas coordenadas del mapa general) en vez de geocodificar el nombre con Nominatim. Las fichas sin coordenadas (platos) ya no llevan mini mapa. Comprobado: el del Mausoleo se centra en 21.03678, 105.83469.
+- **Código muerto borrado (pendiente 3):** diseño «tnow» de `renderToday` (tras el `return`), `buildHotelTimelineHTML`, `buildGastroHTML`, `buildFoodViewHTML`, `renderFood`, `_fetchDishPhoto`, la carga de fotos de la pestaña `food` en `renderItinerary`, `isNightTransport`, `placeIcon`, `WEATHER_CITY_COORDS`; CSS `.tnow-*`, `.gastro-*`, `.food-view`, `.food-zone-*`. **Ojo:** `.food-card*`/`.food-list` SÍ se usan (pestaña «Qué comer»): se borraron por error y se restauraron en la misma sesión (comprobado con un cruce de las 420 clases usadas en JS contra el CSS). Se dejó `DISH_WIKI` (tabla de fotos de platos, ahora sin uso).
+- **Revisión sin terminar del 5-oct, completada:**
+  - Notas / Qué llevar / Previas: añadir, marcar y borrar funcionan y se guardan. **Qué llevar** salía como una sola lista «📦 Sin categoría» (los artículos de data.js no tienen `cat`): ahora `packCategory()` deduce la categoría del emoji inicial → 5 grupos fijos (Documentos y dinero 10, Ropa y calzado 9, Salud e higiene 7, Electrónica 6, Otros 5), siempre visibles para poder añadir en cualquiera.
+  - **Portada — temporizadores acumulados:** los `setInterval` de foto de cabecera, tiempo, reloj y consejos nunca se cancelaban; tras volver a Inicio varias veces quedaban 2 fotos de cabecera activas a la vez y la pastilla del tiempo cambiaba a saltos. Ahora `homeInterval()` / `clearHomeTimers()` (se limpian en `renderView` y `renderTripDashboard`).
+  - **Tiempo:** `WEATHER_DESTINATIONS` era la ruta antigua (Koh Rong, sin Chau Doc/Can Tho, bloques viejos) y Koh Rong salía en la pastilla rotatoria. Rehecho en el orden del viaje con `blocks` actuales; medias de noviembre corregidas (Hue, Da Nang y Hoi An en pico de lluvias, antes «Soleado»). Al llegar el dato real de la ciudad que se está mostrando se repinta al momento (antes había que esperar ~2,5 min a la vuelta completa).
+  - **Conversor:** en Camboya cambiaba el tipo interno a rieles pero la etiqueta y la pestaña seguían en «₫ VND» (10 € → «46.300 ₫»). Ahora llama a `switchFXCurrency('KHR'|'VND')`. Probado simulando 12-nov y 19-nov.
+  - Bandera del botón de idioma rota: `flagImg(…, 18)` pedía un tamaño que flagcdn no sirve → 20.
+  - Viajar en el tiempo: 26 días, aviso de vista previa y salida correctos. «Qué comer»: 26 días revisados, sin fichas vacías.
+  - Rendimiento: 9 portadas de `img/places` > 400 KB reducidas a ≤1400 px (8,1 MB → 3,6 MB; `japanese_covered_bridge.jpg` pesaba 3,1 MB). `img/fotos` ya estaba bien (media ~95 KB). `tools/check_imagenes.py` → OK.
+  - Accesibilidad: `aria-label` en los «+» de notas/equipaje/tareas y en las casillas del conversor; `title`/`alt` con el nombre del sitio en los pines del mapa.
+  - Ordenador: la barra inferior ocupaba todo el ancho con la app en una columna de 480 px → `max-width: 480px; margin: 0 auto` (sigue `position: fixed`). Favicon añadido (`img/icon-192.png`; antes 404).
+  - Contraste de lo nuevo: todo ≥ 4,98:1 en claro y oscuro.
+- **Detectado, sin tocar:** `HTL_INFO` (ficha emergente de cada hotel en Alojamiento) es del itinerario antiguo: ninguno de los 12 hoteles actuales encuentra foto ni descripción. Entradas viejas sin efecto visible (Koh Rong, «Camboya», «Islas») en `CITY_PHOTOS`, `BLOCK_ZONE_COLORS` y otras tablas. Modo offline sin probar (solo se puede en producción, en un móvil).
+- Versiones: `app.js?v=168`, `styles.css?v=94`, `guia.js?v=1` (nuevo), `data.js` sin tocar (`?v=84`, `DATA_VERSION` 83).
+
+## 2026-10-05 (PC de casa, 6ª parte) — Segundo repaso de María + revisión general de la app
+
+- **Segundo repaso del anexo de María, por días** (script que compara cada línea solo con los días a los que se refiere; nombres propios y cifras): ~25 datos que faltaban; Beng Mealea ya no se contradice (60-70 km, incluido en el pase, 1h15 de visita); McCain fue derribado en **1967** (el documento dice 1971).
+- **Revisión de la app** (todas las pantallas a 375 px, claro y oscuro, consola, imágenes, desbordes; sin errores ni desbordes):
+  - Estadísticas de «Progreso del viaje»: km y transportes siempre a 0 (leían `window.TRIP_TRANSITS`, inexistente) → se calculan de los transportes de cada día con `km` aproximados en data.js (27.131 km en total). Zonas sin contar «Vuelos»/«Vuelta a casa» (`FLIGHT_BLOCKS`, 8 zonas). Noches por país según el país de destino y solo si se duerme en tierra (16 VN, 6 KH; antes 18/7).
+  - **`AppData.mergeUserState`**: al subir `DATA_VERSION` se conservan favoritos/visitados, notas libres, casillas de equipaje/tareas, elementos añadidos por el usuario (id terminado en 13 cifras) y documentos. Antes se borraba todo en cada actualización.
+  - Botones «🧭 Cómo llegar» (Google Maps con las coordenadas), «★ Favorito» y «✓ Visitado» en cada lugar desplegado (mismo estado que el mapa).
+  - Mapa: el oscurecido seguía al sistema operativo y no al tema de la app (ahora CSS `html[data-theme="dark"] .leaflet-tile-pane`); el mapa general llega hasta la barra inferior (`dvh`).
+  - Documentos → Emergencias: salía vacía (`window.EMERGENCY_DATA` no existía). Ahora usa `DB.contacts`/`DB.localEmergency`, con teléfonos pulsables. Datos de embajada corregidos con exteriores.gob.es.
+  - Fichas sin descripción/consejos completadas (Wat Damnak, Pueblos rurales, mercados de Hoi An, último día con hora de salida al aeropuerto), traslado Da Nang→Hoi An con hora, «Lan Ha Bay en barco» (no «Crucero») en Hoy, hora del primer vuelo en Hoy, icono 🛣️ de km, pestañas del día en una línea.
+  - Detectado y sin arreglar: ver CONTINUIDAD, bloque 000000 (datos perdidos de SURVIVAL_DICT / GASTRO_BY_BLOCK / CULTURE_CARDS, mini mapa por nombre, código muerto…).
+  - Versiones: `DATA_VERSION` 83, `data.js?v=84`, `app.js?v=166`, `styles.css?v=92`.
+
+## 2026-10-05 (PC de casa, 5ª parte) — Colores coherentes, contraste, enlace Hoy→Días y bloque «Vuelta a casa»
+
+- **Una sola tabla de colores de zona** (`BLOCK_ZONE_COLORS` en `app.js`, con `color`, `lt` y `g` para degradados) y los helpers `zoneColor()` y `applyZoneColors()`. Ruta (`ZONE_META`, `ZONE_GRADIENTS`), Días (`BLOCK_ZONE`), Alojamiento (`HTL_ZONE_COLORS`), cabecera del día (`BLOCK_COLORS`), alojamiento antiguo (`ZONE_COLORS`/`ZONE_LABELS`) y Comida leen de ella. Antes había 8 tablas: Norte en tres verdes, Cierre en dos olivas, Vuelos gris o azul… Corregida también la etiqueta «Phnom Penh» que tenía El Cierre en `buildHotelTimelineHTML` (función sin uso).
+- **Contraste** medido con un script en el navegador (todas las pantallas, claro y oscuro, antes y durante el viaje simulando el 19-nov; mínimo 4,5:1, o 3:1 en texto grande):
+  - `--text-xs` en claro: `#8896a8` → `#647181` (3,0 → 5,0:1).
+  - El texto en color de zona usa ahora `style="--zc:…;color:var(--zc)"` y dos reglas globales: en claro un 25 % más oscuro, en oscuro aclarado al 38 % (la regla que ya existía). Afecta a las fechas y flechas de Días/Transportes, al nombre e icono del hotel, a las etiquetas «N días»/«N noches» (ahora fondo tintado en vez de blanco sobre ocre) y al nombre del bloque activo en Ruta.
+  - Fila de «hoy» en Días: tinte del 10 % del color de zona en vez del pastel fijo (en modo oscuro el pastel dejaba el texto ilegible).
+  - «HOY»: texto oscuro sobre ámbar (blanco daba 2,2:1). Rojo del teléfono de emergencia y badges blancos sobre azul más legibles en oscuro. Bloques pasados en Ruta al 0,8 de opacidad (antes 0,52). Tarjetas «en tránsito» al 0,92. Fechas de días sin transporte en gris de etiqueta en vez de opacidad 0,38. Cabecera del día con texto blanco al 92-95 %.
+  - Resultado: sin fallos antes del viaje. Durante el viaje solo las tarjetas de bloques ya pasados quedan en 3,5-4,5:1 (atenuadas a propósito).
+- **Hoy → Días:** acceso «📅 Abrir este día en la pestaña Días» arriba en Hoy (durante el viaje). La flecha del día vuelve a Hoy si se abrió desde Hoy (`dayReturnView`) y la barra inferior marca la pestaña de origen (también al abrir un día desde Días, que antes no marcaba ninguna). Hoy ya no muestra flecha de volver.
+- **Día 30 con bloque propio «Vuelta a casa»** (mismo gris que Vuelos): antes caía en el bloque «Vuelos» y aparecía arriba del todo en Días y Alojamiento, junto a los días 5 y 6. Foto de portada del día 30 (aeropuerto de Barcelona). `DATA_VERSION` 77, `app.js?v=159`, `styles.css?v=88`.
+
+## 2026-10-05 (PC de casa, 4ª parte) — Respuestas de María, pase de Angkor y PINES DEL MAPA corregidos
+
+- **Respuestas de María:** Villa Soleil del 18 al 21-nov (era una errata; ya no falta la noche del 20). El bus Chau Doc→Can Tho se compra allí. El correo de Trip del bus Hue→Tam Coc ya llegó, y el bus sale a las **22:30**. Hay que comprar los pases de Angkor (tarea añadida: 2 pases de 3 días, 62 $, en ticket.angkorenterprise.gov.kh).
+- **Beng Mealea SÍ está incluido en el Angkor Pass** desde 2020 (comprobado en la web oficial y en guías de 2026; la web vende además una entrada suelta de 10 $ para quien va sin pase). Koh Ker: 15 $ según la web oficial.
+- Botón «Ver todos los platos →» en Qué comer (antes «Ver restaurantes»).
+- **Hoy vs Días:** durante el viaje, Hoy ya pinta `renderDay(hoy)` (la misma página que Días) más el progreso. El diseño «tnow» de `renderToday` es código antiguo inalcanzable (está después de un `return`). No hacía falta enlace.
+- **PINES DEL MAPA:** se encontró que ~60 sitios tenían una coordenada copiada de otro sitio o de otra ciudad (el mercado de Chau Doc en Phnom Penh; el mercado nocturno de Hoi An en Can Tho; My Son en el casco de Hoi An; Angkor Wat, Ta Prohm, Bayon y Phare en el mismo punto; Ta Som al sur de Siem Reap; Dong Xuan a 15 km…). Se corrigieron con la coordenada de Wikipedia o de OpenStreetMap (búsqueda limitada a la zona), descartando a mano los resultados absurdos y comprobando la distancia de cada pin al centro de su ciudad. City of Ghosts con la coordenada que dio Marcos (16.360322, 107.712604). **Siguen aproximados** (en la zona correcta pero no exactos): Viet Hai, Ba Trai Dao, el mercado de Tan An, la isla de las clases de cocina y el Callejón Colectivo Cũ (puesto en la calle Tôn Thất Tùng). `DATA_VERSION` 76.
+
+## 2026-10-05 (PC de casa, 3ª parte) — Repaso EXHAUSTIVO del documento de María, línea a línea
+
+Petición de Marcos: «revisar ese documento de pe a pa y no dejar nada fuera». Método: script `cover.py` (en el scratchpad de la sesión) que marca cada línea del documento cuyas palabras clave o cifras no aparecen en la app, más una comparación a mano, sitio por sitio, del texto de María con la ficha de la app (Hanói, Siem Reap, Phnom Penh, Delta, Hoi An/Da Nang, Hue, Tam Coc, Cat Ba). `DATA_VERSION` 69, `data.js?v=69`, `app.js?v=151`.
+
+- **Notas del día con párrafos** (`white-space: pre-line` en Días y Hoy; `
+
+` dentro de las notas de `data.js`). Ojo: en `data.js` hay que escribir el `
+` escapado, nunca un salto de línea real dentro de la cadena (rompe el JS — pasó en esta sesión y se corrigió).
+- **Guías de llegada** (notas de los días 7, 10 y 18): dinero, apps de pago (LocalPay, Moreta/Fizen, Wise vía Alipay+; Bakong Tourists en Camboya), SIM (Viettel; Smart/Metfone), bus 86 y Grab, shuttle **reservado** de Siem Reap (15 €, 17:30, polo morado), traslados de Da Nang a Hoi An.
+- **Siem Reap:** pase de Angkor (qué no incluye), alquiler de e-bikes con contactos, Tonlé Sap (Kompong Phluk/Khleang; evitar Chong Kneas), leyenda de Wat Preah Prom Rath y **18 lugares opcionales en el día 13** (Roluos, Kbal Spean, Ta Keo, Baksei Chamkrong, Kravan, Bei, Mebon Oriental, Thommanon, Chau Say Tevoda, Ta Prohm Kel, Krol Ko + Prasat Prei, Neak Pean, Srah Srang, artesanía, Preah Dak, ACCB), con 12 fotos nuevas de Wikipedia revisadas a ojo (`CREDITOS_FOTOS.md`) y 4 declaradas sin foto.
+- **Hanói:** Night Market, The Note Coffee, Bún Chả Hương Liên, Café Giảng, Train Street (entrada y tramo sur), Mausoleo, marionetas, mercado mayorista de Long Bien, Phở Cuốn de Ngũ Xã.
+- **Phnom Penh:** el Festival del Agua tal como lo describe María (día 15).
+- **Delta:** Cai Rang (cómo contratar el bote), mercados nocturnos y tabernas de Can Tho, Vinh Te.
+- **Hoi An / Da Nang:** los 22 monumentos del bono uno a uno, horarios de mercados, Quán Cao Lầu Thanh, Puente del Dragón, Marble Mountains (Tam Thai, Am Phu) y la Aldea de Frescos.
+- **Ninh Binh / Cat Ba:** paradas de las rutas de Trang An, Cuc Phuong completo y los programas de la excursión y del crucero por Lan Ha.
+- «Via Jet» → **VietJet**.
+- **Lista de errores, contradicciones y cosas por decidir:** `01_ESPECIFICACIONES/REVISION_ITINERARIO_MARIA.md`.
+
+## 2026-10-05 (PC de casa, 2ª parte) — Itinerario DEFINITIVO de María integrado
+
+Marcos pasó la versión final del documento de María (`Downloads\itinerario final V&C (1).odt`). Se comparó con la versión anterior (diff de texto) y con `data.js` día a día. `DATA_VERSION` 65→66, `data.js?v=66`, `app.js?v=150`.
+
+- **Vuelta a casa el 30-nov (nuevo día):** el viaje pasa a 26 días (5-30 nov). Día 29: vuelos Hanói→Shenzhen (18:30-21:20) y Shenzhen→Barcelona (01:45-08:55). Día 30 nuevo (bloque «Vuelos»): escala de 6h 15min y Barcelona→Santiago 15:10-17:05 (Vueling). `endDate` y subtítulo actualizados.
+- **Hotel de Hoi An:** «Volar» → **Villa Soleil Hoi An** (con desayuno).
+- **Desayuno incluido:** Secret Garden, Jungle Addition, Villa Soleil, Tam Coc Serenity y La Passion.
+- **Localizadores y horarios nuevos:** Giant Ibis (terminales de salida y llegada), tren Da Nang→Hue (07:05-11:03), sleeper Hue→Tam Coc (falta el correo de confirmación de Trip), bus Tam Coc→Cat Ba, bus Cat Ba→Hanói (15:30-18:30). *(Los localizadores se retiraron del repo público el 6-oct-2026: ahora se guardan solo en cada móvil.)* Horarios corregidos de Barcelona→Shenzhen (11:35) y Shenzhen→Hanói (12:45). Bus Chau Doc→Can Tho marcado como SIN COMPRAR.
+- **Visados:** con pasaporte español Vietnam NO pide visado (exención de 45 días): solo la Digital Arrival Card. Corregidos la nota del día 7, el equipaje, las tareas y la tarjeta «Visados» de Documentos (decía e-Visa de 25 USD). Camboya: e-Visa ~36 $ con 2 copias impresas + Cambodia Digital Arrival Card (arrival.gov.kh, 7 días antes).
+- **Notas nuevas:** bus L99 del aeropuerto de Barcelona al hotel (día 5); escala en Shenzhen con permiso de tránsito y VPN Astrill/ZoogVPN (día 6); bus turístico y ticket combinado de las tumbas de Hue (día 23).
+- **Datos prácticos de María en las fichas:** Chau Doc (Pez Basa, mercado, río Hậu, mausoleo, Montaña Sam con teleférico, Victoria Lodge, Tra Su), Can Tho (Ninh Kieu, Chùa Ông, Bình Thủy, Trúc Lâm), Marble Mountains desde Hoi An, Hue (Dong Ba, río Perfume, City of Ghosts a 35 km, Thanh Toan, Tu Duc, Minh Mang), barca de Tam Coc, ruta 3 de Trang An, y Cat Ba entero (Cat Co, Tung Thu, Sky Bar del Flamingo, **Cannon Fort temporalmente cerrado**, Ngu Lam a 120.000 VND con Trung Trang incluida, Hospital Cave, trekking de Viet Hai, comparativa entre la excursión de 1 día y el crucero 2D/1N).
+- **Ficha nueva:** Tumba de Khai Dinh (día 23), con foto de Wikipedia (`img/fotos/tumba-de-khai-dinh.jpg`, anotada en `CREDITOS_FOTOS.md`).
+- **Equipaje y tareas previas:** copias de los pasaportes, fotos de carné, póliza impresa, confirmación de Trip, carpeta de reservas sin conexión; quitada la compra del tren (ya está comprado) y las menciones a Koh Rong.
+- `tools/check_imagenes.py` OK (213 fichas, 191 con foto). Probado en local: todas las vistas cargan sin errores.
+
+## 2026-10-05 (PC de casa) — Paleta aprobada; Delta del Mekong y Ninh Binh con un solo color
+
+- **Marcos da por buena la paleta del 3-oct tal cual** — no hay que seguir revisándola.
+- **Delta del Mekong y Ninh Binh tenían un color distinto según la pantalla** (Ruta: verde mar / verde hoja; Días y Hoteles: azul `#1a90b8` / verde `#2d6a4f` / azul-verde `#1a6e8a`; `BLOCK_ZONE_COLORS`: turquesa de Islas / jade del Norte). Unificados en todo `js/app.js` con los colores de la Ruta: **Delta `#2e8b57`** (suave `#d6f0e0`) y **Ninh Binh `#4a7c3f`** (suave `#e0f0d8`). `app.js?v=149`. Anotado en `PALETA_COLORES.html`. Comprobado en local, sin errores en consola.
+
+## 2026-10-03 (PC de casa, 4ª parte) — PUBLICADO + paleta sin violetas/rosas/terracotas + PALETA_COLORES.html
+
+- **Publicado** en GitHub Pages (`origin/main` = `05e2559` al cerrar la publicación; ver `COORDINACION_SESIONES.md`). Comprobado en producción: `app.js?v=147`, `data.js?v=65`, `styles.css?v=83`, `sw.js` y las fotos nuevas responden 200.
+- **`PALETA_COLORES.html`** (esta carpeta): referencia visual de la paleta en claro y oscuro (marca, fondos, texto, zonas, categorías, tarjeta de ejemplo). Se actualiza a mano cuando cambien los colores.
+- **Decisión de Marcos (3-oct): no le gustan los violetas, los rosas ni los terracota/naranja** (Centro `#D4581A`, Camboya `#C1513A`); «el resto puede encajar» (jade del Norte, turquesa de Islas, rojo de monumentos, marrón de Phnom Penh, navy de la marca…). Sustituciones aplicadas en TODO `css/styles.css` y `js/app.js` (zonas, tarjetas de ruta, gradientes de círculos, hoteles, mapa, documentos, tips, tarjetas de Hoy, barra de progreso, categorías de ficha):
+  - **Vietnam Centro:** terracota → **azul acero `#2f6fa3`** (suave `#dbe8f4`, fondo oscuro `#14263b`; degradados `#5593c4`/`#2a6496`). También el marrón `#8b4513` que usaba Días.
+  - **Camboya/Angkor:** rojo-terracota → **ocre dorado `#b8861b`** (suave `#f6ebcf`; degradados `#d4a63a`/`#a8780f`).
+  - **Cierre/regreso:** violeta → **verde oliva `#6b7f3a`** (suave `#e8edd6`, oscuro `#1f2512`; `#8aa04c`/`#55672d`). Afecta a la alerta «Hoy» (`tnow-*`) y a la tarjeta de transporte nocturno.
+  - **Categorías de ficha sin foto:** café rosa → **marrón café `#8a6a4a`**; templo violeta → **ocre `#b8861b`**; resto/violeta por defecto → **gris pizarra `#5c6b7a`**; mapa (`PLACE_TYPE_META`): templos `#b8861b`, museos oliva `#55672d`.
+  - **Tips de viaje** (gradientes): violeta → azul acero, ciruela → bronce, marrón-naranja → oliva. **Documentos:** `vuelos` rosa/violeta claro → verde agua `#e0f0ee`, `seguros`/`booking` rosa → arena `#f5ecd9`. Barra de progreso previa al viaje: `#60a5fa→#34d399`.
+  - Verificado con un escáner de tono sobre `styles.css` y `app.js`: 0 violetas/rosas y solo quedan 3 marrones de texto de aviso (`#92400e`, `#b45309`). `styles.css?v=84`, `app.js?v=148`. **Estos cambios están solo en local (sin push) al cerrar esta sesión.**
+
+---
+
 ## 2026-10-03 (PC de casa, 3ª parte) — "Que todos los items tengan imagen": +12 fotos de fichas, portadas de los 25 días, poda de img/places, IMAGE_MAP eliminado
 
 Marcos pidió comprobar que **todos** los items tienen imagen. Resultado de la comprobación y de lo que se hizo:

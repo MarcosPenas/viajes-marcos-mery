@@ -21,3 +21,4 @@ MEJORAS.lnk
 
 # Excepción: test previo a publicar
 !tools/check_imagenes.py
+!tools/servidor_ruta_produccion.py
