@@ -14,7 +14,22 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 
 ---
 
-## 🟠 6-oct-2026 — El PC del TRABAJO ha cambiado archivos SIN COMMIT, también `data.js` (para el PC de casa)
+## 🔴 6-oct-2026 (tarde) — PUBLICADO DESDE EL PC DEL TRABAJO: `origin/main` = `c376f15` (+ commit de documentación). EL PC DE CASA NO DEBE HACER PUSH DE SUS COMMITS DEL 5-OCT
+
+Marcos pidió publicar desde el PC del trabajo. Como los commits del 5-oct solo existían en casa, el PC del trabajo hizo **un único commit (`c376f15`) con el estado completo de los archivos de MEGA**: todo lo del 5-oct (paleta, itinerario definitivo de María, etc.) + todo lo del 6-oct. El contenido es el mismo; lo que no está en GitHub es el desglose en 17+ commits del 5-oct (sigue en el repo local de casa; el detalle está en `HISTORIAL_DE_CAMBIOS.md`). Push normal, sin `--force`. Antes de publicar se **quitaron los localizadores de reservas** del repo (ver HISTORIAL 6-oct, 3ª parte).
+
+**Para el PC de casa, en su próxima sesión (antes de tocar nada):**
+1. `git branch backup-5oct` (conserva su historial detallado del 5-oct).
+2. `git fetch origin && git reset --mixed origin/main` — **nunca `--hard`**. Los archivos de disco (MEGA) ya son los publicados.
+3. `git checkout -- .gitignore` — MEGA no sincroniza archivos que empiezan por punto; el de GitHub ya incluye la excepción para `tools/servidor_ruta_produccion.py`.
+4. `git status` debería quedar limpio (salvo `.claude/`, que es local de cada PC). Si sale algo más, es trabajo hecho en casa después del 6-oct: revisarlo antes de commitear.
+5. **No hacer push de los commits del 5-oct** (su contenido ya está publicado; subirlos crearía un historial divergente).
+
+**Para los móviles:** al abrir la app con cobertura se actualiza sola (`DATA_VERSION` 86). Los localizadores de vuelos y ferry que ya tenían se conservan; los de buses y tren hay que apuntarlos en cada transporte («🔒 Añadir localizador»).
+
+---
+
+## ✅ (resuelto por el bloque 🔴 de arriba) 6-oct-2026 — El PC del TRABAJO había cambiado archivos SIN COMMIT, también `data.js`
 
 **Qué ha pasado:** dos sesiones seguidas en el PC del trabajo (detalle en `HISTORIAL_DE_CAMBIOS.md`, 6-oct, 1ª y 2ª parte): pendientes de la revisión del 5-oct, traslados en las estadísticas, fichas reales de los hoteles y barrido completo sin fallos. Archivos tocados: `js/app.js`, `css/styles.css`, `index.html`, `sw.js`, **`js/data.js`** (traslados, pines, Mausoleo, Shenzhen, Wat Damnak; `DATA_VERSION` 85), **`js/guia.js` (nuevo)**, **`tools/servidor_ruta_produccion.py` (nuevo)**, `img/places/` (9 portadas reducidas de peso y 8 sin uso movidas a `02_DESARROLLO/IMAGENES_ANTERIORES/places_retiradas_6oct/`) y los `.md` de `01_ESPECIFICACIONES`. **Nadie ha tocado `data.js` en casa desde el 5-oct 22:16** (comprobado por fecha antes de editarlo), así que no hay choque: el `data.js` de MEGA es el del 5-oct + lo del 6-oct.
 
@@ -94,6 +109,7 @@ Lo de **1-oct** sigue vigente:
 
 | Fecha | PC | Commit subido | Notas |
 |---|---|---|---|
+| 6-oct-2026 | Trabajo | `c376f15` (+ documentación) | Todo lo del 5-oct (de casa, por MEGA) y del 6-oct en un commit; localizadores fuera del repo. Avance rápido desde `05e2559` |
 | 3-oct-2026 | Casa | `e504cb2` | Fotos congeladas + offline real + mejoras de modo oscuro (ver bloque ✅ de arriba). Avance rápido desde `599f20a` |
 | 2-oct-2026 | Trabajo | `81c5a1d` | Primer push real del itinerario de 25 días — mapa Leaflet, auditoría de imágenes, bug de data-photo corregido. Historial local reescrito antes del push para quitar un token expuesto (ver aviso 🔴 arriba) |
 
@@ -103,8 +119,8 @@ Lo de **1-oct** sigue vigente:
 
 | PC | Rama | Último commit local | ¿Desciende del remoto real? |
 |---|---|---|---|
-| Trabajo (`C:\Users\mpe.HP2008\...`) | `main` | `05e2559` (== `origin/main`, tras `reset --mixed` el 6-oct) + cambios del 6-oct **sin commit** | Sí |
-| Casa (`C:\Users\marco\...`) | `main` | `05e2559` + 17+ commits del 5-oct sin push (reconciliado el 3-oct) | Sí — **es quien debe commitear lo del 6-oct y publicar** |
+| Trabajo (`C:\Users\mpe.HP2008\...`) | `main` | == `origin/main` (publicado el 6-oct) | Sí, es el remoto |
+| Casa (`C:\Users\marco\...`) | `main` | `05e2559` + 17+ commits del 5-oct **que NO deben subirse** | **Debe hacer `reset --mixed origin/main`** (ver bloque 🔴) |
 
 ---
 
