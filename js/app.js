@@ -400,11 +400,6 @@ function daysUntilTrip(trip) { return daysBetween(today(), trip.startDate); }
 function isTripActive(trip) { const t = today(); return t >= trip.startDate && t <= trip.endDate; }
 function isTripPast(trip) { return today() > trip.endDate; }
 
-function docIcon(type) {
-  const icons = { flight:'✈️', visa:'🛃', insurance:'🔒', booking:'🏨', transport:'🚌', other:'📄' };
-  return icons[type] || '📄';
-}
-
 function transportIcon(type) {
   const icons = { flight:'✈️', bus:'🚌', 'sleeper-bus':'🚌', train:'🚆',
     ferry:'🚢', boat:'🚢', taxi:'🚕', grab:'🚗', tuk:'🚗', bike:'🚲',
@@ -516,7 +511,7 @@ function renderView(view, extra) {
 
 const WEATHER_ICONS = {
   '113': '☀️', '116': '⛅', '119': '☁️', '122': '☁️',
-  '143': '🌫️', '176': '🌦️', '179': '🌨️', '182': '🌧️',
+  '143': '🌫️', '149': '🌫️', '176': '🌦️', '179': '🌨️', '182': '🌧️',
   '185': '🌧️', '200': '⛈️', '227': '🌨️', '230': '❄️',
   '248': '🌫️', '260': '🌫️', '263': '🌦️', '266': '🌦️',
   '281': '🌧️', '284': '🌧️', '293': '🌦️', '296': '🌦️',
@@ -529,19 +524,37 @@ const WEATHER_ICONS = {
   '386': '⛈️', '389': '⛈️', '392': '⛈️', '395': '❄️'
 };
 
+// Descripción en español por código (wttr.in no traduce algunas, p. ej. 149 «Smoky haze»)
+const WEATHER_ES = {
+  '113': 'Despejado', '116': 'Parcialmente nublado', '119': 'Nublado', '122': 'Cubierto',
+  '143': 'Neblina', '149': 'Calima', '176': 'Lluvia dispersa', '179': 'Nieve dispersa',
+  '182': 'Aguanieve dispersa', '185': 'Llovizna helada', '200': 'Posibles tormentas',
+  '227': 'Ventisca', '230': 'Ventisca fuerte', '248': 'Niebla', '260': 'Niebla helada',
+  '263': 'Llovizna débil', '266': 'Llovizna', '281': 'Llovizna helada', '284': 'Llovizna helada intensa',
+  '293': 'Lluvia débil dispersa', '296': 'Lluvia débil', '299': 'Lluvia moderada a ratos',
+  '302': 'Lluvia moderada', '305': 'Lluvia fuerte a ratos', '308': 'Lluvia fuerte',
+  '311': 'Lluvia helada', '314': 'Lluvia helada intensa', '317': 'Aguanieve', '320': 'Aguanieve intensa',
+  '323': 'Nieve débil dispersa', '326': 'Nieve débil', '329': 'Nieve moderada', '332': 'Nieve',
+  '335': 'Nieve fuerte', '338': 'Nieve intensa', '350': 'Granizo', '353': 'Chubascos débiles',
+  '356': 'Chubascos', '359': 'Chubascos torrenciales', '362': 'Chubascos de aguanieve',
+  '365': 'Chubascos de aguanieve', '368': 'Chubascos de nieve', '371': 'Chubascos de nieve',
+  '374': 'Chubascos de granizo', '377': 'Granizo fuerte', '386': 'Lluvia con tormenta',
+  '389': 'Tormenta con lluvia fuerte', '392': 'Nieve con tormenta', '395': 'Tormenta de nieve'
+};
+
 async function fetchWeather(city) {
   if (weatherCache[city] && Date.now() - weatherCache[city].ts < 1800000) {
     return weatherCache[city].data;
   }
   try {
-    const resp = await fetch(`https://wttr.in/${encodeURIComponent(city)}?format=j1`);
+    const resp = await fetch(`https://wttr.in/${encodeURIComponent(city)}?format=j1&lang=es`);
     if (!resp.ok) return null;
     const json = await resp.json();
     const cur = json.current_condition[0];
     const data = {
       temp: cur.temp_C,
       feels: cur.FeelsLikeC,
-      desc: cur.lang_es ? cur.lang_es[0].value : cur.weatherDesc[0].value,
+      desc: WEATHER_ES[cur.weatherCode] || (cur.lang_es ? cur.lang_es[0].value : cur.weatherDesc[0].value),
       icon: WEATHER_ICONS[cur.weatherCode] || '🌡️',
       humidity: cur.humidity,
       wind: cur.windspeedKmph,
@@ -625,27 +638,6 @@ function weatherPill(data, label) {
     </div>`;
 }
 
-function weatherWidget(data, locationLabel) {
-  if (!data) return `
-    <div class="weather-widget weather-loading">
-      <span class="weather-icon">🌡️</span>
-      <div class="weather-body">
-        <div class="weather-temp">—°</div>
-        <div class="weather-desc">Cargando tiempo…</div>
-      </div>
-    </div>`;
-  return `
-    <div class="weather-widget">
-      <span class="weather-icon">${data.icon}</span>
-      <div class="weather-body">
-        <div class="weather-temp">${data.temp}°C</div>
-        <div class="weather-desc">${data.desc}</div>
-        <div class="weather-meta">↑${data.max}° ↓${data.min}° · 💧${data.humidity}% · 💨${data.wind}km/h</div>
-      </div>
-      <div class="weather-location">${locationLabel}</div>
-    </div>`;
-}
-
 // ══════════════════════════════════════════════════════════
 //  VIEW: HOME (lista de viajes)
 // ══════════════════════════════════════════════════════════
@@ -661,11 +653,6 @@ function toggleRouteCard(idx) {
     setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 80);
   }
 }
-// Alias para compatibilidad (popover antiguo ya no se usa)
-function closeAllMetroPopovers() {
-  document.querySelectorAll('.route-card.open').forEach(c => c.classList.remove('open'));
-}
-function toggleMetroPopover(idx) { toggleRouteCard(idx); }
 
 function renderHome() {
   currentTripId = null;
@@ -1119,10 +1106,6 @@ function buildCurrencyHTML(trip) {
 let _fxRate = FX_RATES.VND.perEur;
 let _fxCurKey = 'VND';
 
-function _fmtLocal(val) {
-  return _fxRate > 10 ? Math.round(val).toLocaleString('es') : val.toFixed(2);
-}
-
 function calcFXFrom(from) {
   const eurEl   = document.getElementById('fx-eur');
   const localEl = document.getElementById('fx-local');
@@ -1140,19 +1123,6 @@ function calcFXFrom(from) {
     const eur = local / _fxRate;
     eurEl.value = eur.toFixed(2);
   }
-}
-
-function swapFX() {
-  const eurEl   = document.getElementById('fx-eur');
-  const localEl = document.getElementById('fx-local');
-  if (!eurEl || !localEl) return;
-  const tmp = eurEl.value;
-  eurEl.value = localEl.value;
-  localEl.value = tmp;
-  if (eurEl.value) calcFXFrom('eur');
-  else if (localEl.value) calcFXFrom('local');
-  const btn = document.querySelector('.currency-swap-btn');
-  if (btn) { btn.style.transform = 'rotate(180deg)'; setTimeout(() => btn.style.transform = '', 300); }
 }
 
 function switchFXCurrency(key) {
@@ -2570,10 +2540,6 @@ function renderDay(date) {
   if (cityForInfo) loadCitySummary(document.getElementById('city-info-' + date), cityForInfo);
 }
 
-function lugarThumbError(el, emoji) {
-  el.outerHTML = '<div class="lugar-thumb-fallback">' + emoji + '</div>';
-}
-
 const _lugarMapInstances = {};
 
 // Mini mapa de un lugar con las coordenadas de su ficha (las mismas del mapa general).
@@ -3015,10 +2981,6 @@ function toggleHotelExpand(card) {
   body.style.display = open ? 'none' : 'block';
   card.setAttribute('aria-expanded', String(!open));
   if (chevron) chevron.style.transform = open ? '' : 'rotate(90deg)';
-}
-
-function openDayInMaps(city) {
-  window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(city)}`, '_blank');
 }
 
 // Datos de un alojamiento: lo que traiga el día en data.js manda; lo que falte sale de
@@ -3561,19 +3523,6 @@ function renderMap() {
   initFullMap(trip);
 }
 
-function switchMapTab(tab) {
-  // Compatibilidad: ya no hay pestañas separadas, el mapa propio es el único.
-}
-
-function promptMyMapsUrl() {
-  const url = prompt('Pega la URL de embed de tu Google My Maps\n(Menú Compartir → Embed → copia el src del iframe):');
-  if (!url || !url.includes('google.com/maps')) return;
-  const trip = getTrip(currentTripId);
-  trip.myMapsUrl = url;
-  save();
-  renderMap();
-}
-
 function buildPlacePopup(pt) {
   const meta = placeTypeMeta(pt.type);
   const state = getPlaceState(pt.date, pt.name);
@@ -3599,7 +3548,6 @@ function initFullMap(trip) {
   if (!pts.length) return;
   const avgLat = pts.reduce((s, p) => s + p.lat, 0) / pts.length;
   const avgLng = pts.reduce((s, p) => s + p.lng, 0) / pts.length;
-
 
   setTimeout(() => {
     const mapEl = el('full-leaflet-map');

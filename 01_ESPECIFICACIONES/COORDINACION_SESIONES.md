@@ -14,6 +14,18 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 
 ---
 
+## 🟡 6-oct-2026 (noche) — PC de casa: commits NUEVOS sin publicar (revisión profunda)
+
+Encima de `origin/main` (`e5d274e`), el PC de casa tiene commits locales: «Ahora/Siguiente» con el vuelo de madrugada del 29-nov, tiempo en español, fechas de tareas, «✅» de las Previas y 10 funciones muertas borradas (`js/app.js`, `js/data.js` con `DATA_VERSION` 89, `index.html`, docs). Detalle en HISTORIAL 6-oct (PC de casa, noche). **Sin push** hasta que Marcos lo pida. **El PC del trabajo no debe editar `js/app.js` ni `js/data.js` hasta que esto se publique** (o avisar aquí antes).
+
+---
+
+## ✅ 6-oct-2026 — PC de casa YA RECONCILIADO con `origin/main` (`e5d274e`)
+
+Hechos los pasos del bloque 🔴: `git branch backup-5oct` (los 24 commits del 5-oct quedan ahí), `git fetch` + `git reset --mixed origin/main`, `git checkout -- .gitignore`. `git status` limpio: los archivos de MEGA coinciden con lo publicado. Los dos PCs siguen a `origin/main`; no hay commits locales pendientes en casa (solo esta nota, sin commitear).
+
+---
+
 ## ✅ 6-oct-2026 (noche) — PUBLICADO de nuevo desde el PC del trabajo: `50dde1f` (+ commit de documentación)
 
 Publicada la 4ª parte del HISTORIAL (6-oct): Ahora/Siguiente, avisos, reservas, SOS, indicador sin conexión, fecha local, etc. Push normal, avance rápido desde `0e4d86a`. **Para el PC de casa:** los mismos pasos del bloque 🔴 de abajo (`git branch backup-5oct`, `git fetch origin && git reset --mixed origin/main`, `git checkout -- .gitignore`); con `reset --mixed` su `.claude/launch.json` local no se toca. No subir sus commits del 5-oct.

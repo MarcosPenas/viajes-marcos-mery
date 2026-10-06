@@ -1186,17 +1186,17 @@ const DEFAULT_DATA = {
           { id: 'p37', text: '📄 Póliza del seguro impresa, con el teléfono de asistencia 24h y el nº de póliza', done: false }
         ],
         preTripTasks: [
-          { id: 'pre_t01', text: '✅ Informar al banco de los destinos para evitar bloqueos', done: false },
-          { id: 'pre_t02', text: '✅ Descargar mapas offline de Vietnam y Camboya en Maps.me o Google Maps', done: false },
-          { id: 'pre_t03', text: '✅ Instalar Grab (taxis Vietnam y Camboya) y Xanh SM (Cat Ba)', done: false },
-          { id: 'pre_t04', text: '✅ Descargar Google Translate con paquetes de vietnamita y jemer offline', done: false },
-          { id: 'pre_t05', text: '✅ Instalar una VPN 1-2 días antes de salir (Astrill o ZoogVPN) — en China no se puede descargar', done: false },
-          { id: 'pre_t07', text: '✅ Lan Ha Bay: decidir excursión de 1 día (~21 €) o crucero 2D/1N (~107 €) y reservar', done: false },
-          { id: 'pre_t08', text: '✅ Reservar entradas Hoi An Memories Show en klook.com', done: false },
-          { id: 'pre_t09', text: '✅ Comprar 2 pases Angkor de 3 días (62 $ cada uno) para el 11, 12 y 13-nov en ticket.angkorenterprise.gov.kh — incluye Beng Mealea', done: false },
-          { id: 'pre_t10', text: '✅ Vuelo de regreso confirmado (check-in online 24h antes)', done: false },
-          { id: 'pre_t12', text: '✅ Guardar todas las reservas en PDF en una carpeta con acceso sin conexión en el móvil', done: false },
-          { id: 'pre_t13', text: '✅ Activar las compras internacionales de las tarjetas y revisar su caducidad', done: false }
+          { id: 'pre_t01', text: 'Informar al banco de los destinos para evitar bloqueos', done: false },
+          { id: 'pre_t02', text: 'Descargar mapas offline de Vietnam y Camboya en Maps.me o Google Maps', done: false },
+          { id: 'pre_t03', text: 'Instalar Grab (taxis Vietnam y Camboya) y Xanh SM (Cat Ba)', done: false },
+          { id: 'pre_t04', text: 'Descargar Google Translate con paquetes de vietnamita y jemer offline', done: false },
+          { id: 'pre_t05', text: 'Instalar una VPN 1-2 días antes de salir (Astrill o ZoogVPN) — en China no se puede descargar', done: false },
+          { id: 'pre_t07', text: 'Lan Ha Bay: decidir excursión de 1 día (~21 €) o crucero 2D/1N (~107 €) y reservar', done: false },
+          { id: 'pre_t08', text: 'Reservar entradas Hoi An Memories Show en klook.com', done: false },
+          { id: 'pre_t09', text: 'Comprar 2 pases Angkor de 3 días (62 $ cada uno) para el 11, 12 y 13-nov en ticket.angkorenterprise.gov.kh — incluye Beng Mealea', done: false },
+          { id: 'pre_t10', text: 'Vuelo de regreso confirmado (check-in online 24h antes)', done: false },
+          { id: 'pre_t12', text: 'Guardar todas las reservas en PDF en una carpeta con acceso sin conexión en el móvil', done: false },
+          { id: 'pre_t13', text: 'Activar las compras internacionales de las tarjetas y revisar su caducidad', done: false }
         ]
       }
     }
@@ -1233,7 +1233,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 88;
+const DATA_VERSION = 89;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 

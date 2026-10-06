@@ -2,6 +2,20 @@
 
 ---
 
+
+## 2026-10-06 (PC de casa, noche) — Revisión profunda: «Ahora/Siguiente», tiempo en español, tareas y limpieza
+
+Barrido completo a 375 px (todas las vistas, los 26 días con sus 5 pestañas): 0 errores, 0 imágenes rotas, 0 desbordes, 0 secciones vacías, 0 textos «undefined/NaN». Datos: todos los hoteles tienen ficha en `HOTEL_INFO`; todos los lugares tienen descripción, consejos y coordenadas; todos los transportes tienen hora y km. Probados a mano: notas, «Qué llevar», «Previas», localizadores (guardar y borrar), SOS, viajar en el tiempo, conversor y la fusión de datos al actualizar.
+
+- **«Ahora / Siguiente» y avisos (`dayEvents`):** el 29-nov el vuelo Shenzhen→Barcelona de la 01:45 (que es la madrugada del 30) se ordenaba el primero del día, así que la «salida del hotel» salía a la 01:15 y a las 2:00 decía «Ahora: Shenzhen → Barcelona». Ahora un transporte que sale antes que el anterior del mismo día cuenta como de la madrugada siguiente («Madrugada del lun, 30 nov · 01:45»). «Ahora» usa la hora de llegada de cada trayecto (en el vuelo de 12 h del día 6, en el bus nocturno…) y, entre trayectos, dice dónde se está («📍 En Shenzhen» en la escala).
+- **Tiempo en inglés** («Smoky haze» en Hanói): la petición a wttr.in no pedía español y ese código (149) ni se traduce ni tenía icono. Nueva tabla `WEATHER_ES` por código, `&lang=es` y icono para el 149.
+- **Tareas con fecha** (`tasks` de data.js, solo alimentan los avisos de Hoy): «Comprar seguros» y «Solicitar eVisa Camboya» estaban el 7-nov (ya en Hanói) → 25-oct; «Informar al banco» el 29-nov (último día) → 1-nov; «Cambodia Digital Arrival Card» el 10-nov (día de llegada) → 8-nov.
+- **«Previas»:** las 11 tareas empezaban por «✅» en el propio texto y parecían hechas aunque su casilla estuviera vacía → quitado.
+- **Código muerto:** 10 funciones sin ninguna llamada (`docIcon`, `weatherWidget`, `closeAllMetroPopovers`, `toggleMetroPopover`, `_fmtLocal`, `swapFX`, `lugarThumbError`, `openDayInMaps`, `switchMapTab`, `promptMyMapsUrl`) borradas.
+- Comprobado y sin cambios: localizadores de reservas fuera del repo (los 5 antiguos siguen en el historial de GitHub por decisión de Marcos); `mergeUserState` conserva los localizadores; el service worker incluye `guia.js`.
+- **Sin poder verificar hoy:** la auditoría automática de contraste dio lecturas imposibles (1:1) porque el panel del navegador se ocultaba y la transición de entrada de cada vista no terminaba. Los colores no se han tocado hoy; repetirla con el panel visible.
+- `DATA_VERSION` 89, `data.js?v=90`, `app.js?v=185`.
+
 ## 2026-10-06 (PC del trabajo, 4ª parte) — Mejoras pendientes: Ahora/Siguiente, avisos, reservas, SOS, sin conexión y fallo de fecha (SIN PUBLICAR)
 
 Pedido de Marcos: «vete arreglando todo lo que puedas» de la lista de mejoras.
