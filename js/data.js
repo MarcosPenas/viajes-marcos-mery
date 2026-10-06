@@ -1203,14 +1203,14 @@ const DEFAULT_DATA = {
   ],
 
   tasks: [
-    { id: 'pre1', date: '2026-11-07', text: 'Comprar seguros de viaje', done: false },
-    { id: 'pre2', date: '2026-11-10', text: 'Rellenar la Cambodia Digital Arrival Card (arrival.gov.kh) — dentro de los 7 días antes de llegar a Camboya, guardar el QR', done: false },
-    { id: 'pre3', date: '2026-11-07', text: 'Solicitar eVisa Camboya (evisa.gov.kh, ~36 $) e imprimir 2 copias por persona', done: false },
+    { id: 'pre1', date: '2026-10-25', text: 'Comprar seguros de viaje', done: false },
+    { id: 'pre2', date: '2026-11-08', text: 'Rellenar la Cambodia Digital Arrival Card (arrival.gov.kh) — dentro de los 7 días antes de llegar a Camboya, guardar el QR', done: false },
+    { id: 'pre3', date: '2026-10-25', text: 'Solicitar eVisa Camboya (evisa.gov.kh, ~36 $) e imprimir 2 copias por persona', done: false },
     { id: 'pre3b', date: '2026-11-06', text: 'Rellenar la Vietnam Digital Arrival Card (prearrival.immigration.gov.vn) — dentro de las 72h antes del vuelo a Hanói, genera QR para inmigración', done: false },
     { id: 'pre4', date: '2026-11-10', text: 'Lan Ha Bay: decidir excursión de 1 día o crucero 2D/1N y reservar', done: false },
     { id: 'pre6', date: '2026-11-17', text: 'Reservar entradas Hoi An Memories Show (klook.com)', done: false },
     { id: 'pre7', date: '2026-11-10', text: 'Comprar 2 pases Angkor de 3 días (62 $ cada uno) en ticket.angkorenterprise.gov.kh — imprescindible tenerlos antes del amanecer del 11-nov', done: false },
-    { id: 'pre8', date: '2026-11-29', text: 'Informar al banco de los destinos para evitar bloqueos de tarjeta', done: false }
+    { id: 'pre8', date: '2026-11-01', text: 'Informar al banco de los destinos para evitar bloqueos de tarjeta', done: false }
   ],
 
   // Comprobado en exteriores.gob.es el 5-oct-2026 (páginas de las Embajadas en Hanói y en Bangkok).
@@ -1233,7 +1233,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 87;
+const DATA_VERSION = 88;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 

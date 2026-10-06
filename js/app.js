@@ -2698,9 +2698,18 @@ function dayEvents(trip, date) {
   const prevH = (prev && prev.hotel && prev.hotel.name) || '';
   const curH  = (day.hotel && day.hotel.name) || '';
   const ev = [];
+  let lastT = null;
   (day.transport || []).forEach(tr => {
-    const t = parseTimeMin(tr.time) ?? (/mañana/i.test(tr.time || '') ? 9 * 60 : null);
-    if (t != null) ev.push({ t, kind: 'transport', icon: tr.icon || transportIcon(tr.type), title: (tr.from || '') + ' → ' + (tr.to || ''), sub: tr.time || '', tr, date });
+    let t = parseTimeMin(tr.time) ?? (/mañana/i.test(tr.time || '') ? 9 * 60 : null);
+    // Un transporte que sale «antes» que el anterior del mismo día es de la madrugada siguiente
+    // (29-nov: Hanói 18:30 → Shenzhen, y Shenzhen → Barcelona a la 01:45 del 30)
+    if (t != null && lastT != null && t < lastT) t += 24 * 60;
+    if (t != null) lastT = t;
+    // Hora de llegada («18:30–21:20», «11:35–07:10 (+1)»): sirve para saber si el trayecto está en curso
+    const times = (tr.time || '').match(/\d{1,2}:\d{2}/g) || [];
+    let end = times.length > 1 ? parseTimeMin(times[1]) + (t >= 24 * 60 ? 24 * 60 : 0) : null;
+    if (end != null && t != null && end < t) end += 24 * 60;
+    if (t != null) ev.push({ t, end, kind: 'transport', icon: tr.icon || transportIcon(tr.type), title: (tr.from || '') + ' → ' + (tr.to || ''), sub: tr.time || '', tr, date });
   });
   const trTimes = ev.map(e => e.t);
   if (prevH && prevH !== curH) {
@@ -2751,15 +2760,19 @@ function buildNowNextHTML(trip, date) {
   const now = nowMinutes();
   const evs = dayEvents(trip, date);
   let next = evs.find(e => e.t > now), when = '';
-  if (next) when = `Hoy · ${fmtMin(next.t)} · dentro de ${fmtDiff(next.t - now)}`;
+  if (next) when = `${next.t >= 24 * 60 ? 'Madrugada del ' + fmtDayShort(addDaysIso(date, 1)) : 'Hoy'} · ${fmtMin(next.t)} · dentro de ${fmtDiff(next.t - now)}`;
   else {
     // Siguiente día con algo con hora (en Hoi An, p. ej., el 19 y el 20 no hay transportes)
     const tm = addDaysIso(date, 1);
     const later = trip.days.filter(d => d.date > date).map(d => dayEvents(trip, d.date)[0]).find(Boolean);
     if (later) { next = later; when = `${later.date === tm ? 'Mañana' : fmtDayShort(later.date)} · ${fmtMin(later.t)}`; }
   }
-  const cur = [...evs].reverse().find(e => e.t <= now && now - e.t < 90);
-  const nowText = cur ? `${cur.icon} ${cur.title}` : `📍 Día en ${cityForDayInfo(day) || day.city}`;
+  // En curso: un trayecto entre su salida y su llegada; si no, algo que empezó hace menos de 90 min
+  const cur = evs.find(e => e.end != null && e.t <= now && now < e.end)
+           || [...evs].reverse().find(e => e.t <= now && now - e.t < 90);
+  // Entre trayectos (p. ej. una escala), dónde se está según el último que haya terminado
+  const lastDone = [...evs].reverse().find(e => e.kind === 'transport' && e.end != null && e.end <= now);
+  const nowText = cur ? `${cur.icon} ${cur.title}` : lastDone ? `📍 En ${(lastDone.tr.to || '').replace(/\s*\(.*\)/, '')}` : `📍 Día en ${cityForDayInfo(day) || day.city}`;
   return `
     <div class="now-next" role="region" aria-label="Ahora y siguiente">
       <div class="nn-row"><span class="nn-label">Ahora</span><span class="nn-now">${escHtml(nowText)}</span></div>
