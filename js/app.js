@@ -2753,8 +2753,10 @@ function buildNowNextHTML(trip, date) {
   let next = evs.find(e => e.t > now), when = '';
   if (next) when = `Hoy · ${fmtMin(next.t)} · dentro de ${fmtDiff(next.t - now)}`;
   else {
-    next = dayEvents(trip, addDaysIso(date, 1))[0];
-    if (next) when = `Mañana · ${fmtMin(next.t)}`;
+    // Siguiente día con algo con hora (en Hoi An, p. ej., el 19 y el 20 no hay transportes)
+    const tm = addDaysIso(date, 1);
+    const later = trip.days.filter(d => d.date > date).map(d => dayEvents(trip, d.date)[0]).find(Boolean);
+    if (later) { next = later; when = `${later.date === tm ? 'Mañana' : fmtDayShort(later.date)} · ${fmtMin(later.t)}`; }
   }
   const cur = [...evs].reverse().find(e => e.t <= now && now - e.t < 90);
   const nowText = cur ? `${cur.icon} ${cur.title}` : `📍 Día en ${cityForDayInfo(day) || day.city}`;

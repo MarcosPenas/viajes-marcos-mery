@@ -71,7 +71,7 @@ Al tocar CSS o JS hay que subir su `?v=N` en `index.html`. Al tocar `DEFAULT_DAT
 | css/styles.css | `?v=100` |
 | js/data.js | `?v=88`, `DATA_VERSION` 87 |
 | js/guia.js | `?v=3` |
-| js/app.js | `?v=179` |
+| js/app.js | `?v=180` |
 | sw.js | cachés `viajes-shell-v4` y `viajes-media-v1` |
 
 ---
