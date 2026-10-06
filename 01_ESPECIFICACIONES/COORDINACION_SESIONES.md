@@ -14,10 +14,9 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 
 ---
 
-## 🟡 6-oct-2026 (noche) — PC de casa: commits NUEVOS sin publicar (revisión profunda)
+## ✅ 6-oct-2026 (noche) — PUBLICADO desde el PC de casa: `origin/main` = `3780b07` (+ commit de documentación)
 
-Encima de `origin/main` (`e5d274e`), el PC de casa tiene commits locales: «Ahora/Siguiente» con el vuelo de madrugada del 29-nov, tiempo en español, fechas de tareas, «✅» de las Previas y 10 funciones muertas borradas (`js/app.js`, `js/data.js` con `DATA_VERSION` 89, `index.html`, docs). Detalle en HISTORIAL 6-oct (PC de casa, noche). **Sin push** hasta que Marcos lo pida. **El PC del trabajo no debe editar `js/app.js` ni `js/data.js` hasta que esto se publique** (o avisar aquí antes).
-
+Revisión profunda del PC de casa (HISTORIAL 6-oct, PC de casa, noche): «Ahora/Siguiente» con el vuelo de madrugada del 29-nov, tiempo en español, fechas de tareas, «✅» de las Previas y 10 funciones muertas borradas. `DATA_VERSION` 89, `data.js?v=90`, `app.js?v=185`. Push normal (avance rápido desde `e5d274e`). **Para el PC del trabajo:** `git fetch origin && git reset --mixed origin/main` (nunca `--hard`; los archivos ya le habrán llegado por MEGA). Los dos PCs quedan sin commits pendientes.
 ---
 
 ## ✅ 6-oct-2026 — PC de casa YA RECONCILIADO con `origin/main` (`e5d274e`)
