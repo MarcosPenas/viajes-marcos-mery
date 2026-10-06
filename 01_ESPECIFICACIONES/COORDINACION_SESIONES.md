@@ -14,9 +14,11 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 
 ---
 
-## 🟠 6-oct-2026 (después de publicar) — Cambios NUEVOS SIN PUBLICAR en el PC del trabajo
+## ✅ 6-oct-2026 (noche) — PUBLICADO de nuevo desde el PC del trabajo: `50dde1f` (+ commit de documentación)
 
-Tras la publicación de abajo, el PC del trabajo hizo más cambios (HISTORIAL 6-oct, 4ª parte): `js/app.js`, `js/data.js` (`DATA_VERSION` 87, solo emojis de «Qué llevar»), `js/guia.js`, `css/styles.css`, `index.html`, `sw.js`, `.gitignore`, docs y `.claude/launch.json` sacado del repo (`git rm --cached`, el archivo local sigue). **Sin commit todavía**: los commitea y publica el PC del trabajo cuando Marcos lo pida. **El PC de casa no debe editar estos archivos hasta entonces** (o, si lo hace, avisar aquí antes). Cuando se publique, el PC de casa sigue los mismos pasos de abajo (`reset --mixed`, nunca `--hard`); su `.claude/launch.json` local no se toca.
+Publicada la 4ª parte del HISTORIAL (6-oct): Ahora/Siguiente, avisos, reservas, SOS, indicador sin conexión, fecha local, etc. Push normal, avance rápido desde `0e4d86a`. **Para el PC de casa:** los mismos pasos del bloque 🔴 de abajo (`git branch backup-5oct`, `git fetch origin && git reset --mixed origin/main`, `git checkout -- .gitignore`); con `reset --mixed` su `.claude/launch.json` local no se toca. No subir sus commits del 5-oct.
+
+*(Texto anterior, ya resuelto:)* Tras la publicación de abajo, el PC del trabajo hizo más cambios (HISTORIAL 6-oct, 4ª parte): `js/app.js`, `js/data.js` (`DATA_VERSION` 87, solo emojis de «Qué llevar»), `js/guia.js`, `css/styles.css`, `index.html`, `sw.js`, `.gitignore`, docs y `.claude/launch.json` sacado del repo (`git rm --cached`, el archivo local sigue). **Sin commit todavía**: los commitea y publica el PC del trabajo cuando Marcos lo pida. **El PC de casa no debe editar estos archivos hasta entonces** (o, si lo hace, avisar aquí antes). Cuando se publique, el PC de casa sigue los mismos pasos de abajo (`reset --mixed`, nunca `--hard`); su `.claude/launch.json` local no se toca.
 
 ---
 
@@ -115,6 +117,7 @@ Lo de **1-oct** sigue vigente:
 
 | Fecha | PC | Commit subido | Notas |
 |---|---|---|---|
+| 6-oct-2026 (noche) | Trabajo | `50dde1f` (+ documentación) | Ahora/Siguiente, avisos, reservas, SOS, sin conexión, fecha local. Avance rápido desde `0e4d86a` |
 | 6-oct-2026 | Trabajo | `c376f15` (+ documentación) | Todo lo del 5-oct (de casa, por MEGA) y del 6-oct en un commit; localizadores fuera del repo. Avance rápido desde `05e2559` |
 | 3-oct-2026 | Casa | `e504cb2` | Fotos congeladas + offline real + mejoras de modo oscuro (ver bloque ✅ de arriba). Avance rápido desde `599f20a` |
 | 2-oct-2026 | Trabajo | `81c5a1d` | Primer push real del itinerario de 25 días — mapa Leaflet, auditoría de imágenes, bug de data-photo corregido. Historial local reescrito antes del push para quitar un token expuesto (ver aviso 🔴 arriba) |

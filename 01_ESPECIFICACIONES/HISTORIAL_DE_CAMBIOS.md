@@ -21,7 +21,7 @@ Pedido de Marcos: «vete arreglando todo lo que puedas» de la lista de mejoras.
 - **Limpieza:** fuera `DISH_WIKI` (sin uso); `.claude/` sacado del repo y en `.gitignore` (configuración local de cada PC).
 - **Memoria Maestra reescrita entera (v3.0):** la anterior era de septiembre (23 días, `imageMap.js`, token pendiente…).
 - **Probado:** 26 días × todas las pestañas + Hoy simulado cada día + SOS cada día + todas las vistas: 0 errores, 0 imágenes rotas, 0 desbordes; contraste claro/oscuro de todo lo nuevo sin fallos; sin conexión con `tools/servidor_ruta_produccion.py`: todo funciona, Wikipedia incluida. `check_imagenes.py` OK y ningún localizador en el repo.
-- Versiones: `data.js?v=88` (`DATA_VERSION` 87), `guia.js?v=3`, `app.js?v=179`, `styles.css?v=100`, SW `viajes-shell-v4`. **Sin publicar.**
+- Versiones: `data.js?v=88` (`DATA_VERSION` 87), `guia.js?v=3`, `app.js?v=179`, `styles.css?v=100`, SW `viajes-shell-v4`. **Publicado el 6-oct por la noche (`50dde1f`).**
 
 ## 2026-10-06 (PC del trabajo, 3ª parte) — Localizadores fuera del repo público y PUBLICACIÓN
 
