@@ -2,7 +2,7 @@
 
 **Versión:** 3.0 (reescrita entera el 6-oct-2026; la 2.x era de septiembre y estaba desfasada)
 **Propósito:** recuperar el proyecto en cualquier cuenta, máquina o IA solo con este documento.
-**Documentos hermanos:** `COORDINACION_SESIONES.md` (qué pasa ahora entre los dos PCs, léelo primero), `CONTINUIDAD.md` (estado y pendientes), `HISTORIAL_DE_CAMBIOS.md` (qué se hizo, cuándo y por qué).
+**Documentos hermanos:** `COORDINACION_SESIONES.md` (qué pasa ahora entre los dos PCs, léelo primero), `CONTINUIDAD.md` (estado y pendientes), `HISTORIAL_DE_CAMBIOS.md` (qué se hizo, cuándo y por qué), `GUIA_MIGRACION_DESTINOS.md` (cómo reutilizar la app para otro viaje).
 
 ---
 
@@ -21,15 +21,14 @@
 
 | Pantalla | Qué tiene |
 |---|---|
-| **Inicio** | Foto de cabecera rotatoria, **estado del modo sin conexión** («✓ Lista para usar sin conexión · N fotos»), reloj doble (Santiago / Asia), tiempo de cada destino (rota cada 15 s; medias de noviembre sin conexión), ruta del viaje por zonas, consejos, **Notas** (notas libres, «Qué llevar» en 5 categorías, tareas previas), conversor EUR ↔ VND/KHR/USD (elige solo la moneda del país en que se está) y **frases de supervivencia** en vietnamita/jemer. Con un solo viaje se salta «Mis viajes». |
+| **Inicio** | Sin barra de título arriba (la portada ya pone «Vietnam & Camboya»; quitada el 9-oct). Foto de cabecera rotatoria con el globo 🌏 arriba a la izquierda y el **botón ☀️/🌙 del tema** arriba a la derecha (a la misma altura), **estado del modo sin conexión** («✓ Lista para usar sin conexión · N fotos»), reloj doble (Santiago / Asia, con zonas horarias reales: el cambio de hora va solo), tiempo de cada destino (rota cada 15 s; durante el viaje empieza por la ciudad en la que se está; sin datos en vivo enseña medias de noviembre y lo dice), ruta del viaje por zonas, consejos, **Notas** (notas libres, «Qué llevar» en 5 categorías, tareas previas), conversor EUR ↔ VND/KHR/USD (elige solo la moneda del país en que se está; debajo, el resultado con separador de miles) y **frases de supervivencia** en vietnamita/jemer (una tarjeta entera cada vez, se pasa deslizando o con ‹ ›, contador «n / 19»). Con un solo viaje se salta «Mis viajes». |
 | **Hoy** | Antes del viaje: cuenta atrás, preparativos y avisos. Durante el viaje: **«Ahora / Siguiente»** (lo próximo con hora y botones de punto de salida, localizador, llamar), **avisos de hoy y mañana** (salida del hotel, vuelos, fronteras, madrugones, bus nocturno, tareas con fecha), el día completo y el progreso del viaje. «Viajar en el tiempo» simula cualquier día. |
 | **Días** | Pestañas Días (lista por zonas), Transportes (todos los trayectos, con localizador) y Alojamiento (línea temporal; cada tarjeta abre la **ficha del alojamiento**). |
 | **Día** | Resumen (transporte con localizador, hotel con dirección/teléfono/«Cómo llegar», ficha «Sobre la ciudad», cultura y contexto), Lugares (fichas con foto, descripción, consejos, mini mapa, «Cómo llegar», favorito, visitado), Qué comer, Mapa del día y Notas. |
-| **Mapa** | Leaflet con 145 lugares por categoría, favoritos/visitados y «Cerca de mí» con seguimiento en vivo. |
-| **Docs** | **Reservas del viaje** (cronológico: transportes con localizador y alojamientos, con HOY/MAÑANA), visados, documentos propios (enlaces a Drive) y datos de emergencia. |
-| **SOS** (cabecera, siempre visible con un viaje abierto) | Emergencias y embajada del país en que se está, alojamiento de esta noche (cómo llegar, llamar) y acceso a Documentos. |
+| **Mapa** | Leaflet con 145 lugares por categoría, favoritos/visitados, «Cerca de mí» con seguimiento en vivo y botón «🗺️ Mi mapa de Google» (abre el My Maps del viaje, `myMapsUrl`). |
+| **Docs** | **Reservas del viaje** plegadas en una sola línea («🎫 Reservas del viaje · 26 · Próxima: …»); al abrirlas, una fila por reserva (fecha, trayecto u hotel, 🔒/＋ o noches) que se despliega para ver horario, localizador, dirección y botones; las ya pasadas van agrupadas en «Ya pasadas (N)». Después **Consejos prácticos** (11, plegados igual que las reservas), visados, documentos propios (enlaces a Drive; botón ⋯ para cambiar enlace, renombrar o borrar) y emergencias (números, embajada, **alojamiento de esta noche** —o el siguiente— con cómo llegar y llamar, seguro y pasaportes). |
 
-Tema claro/oscuro (sigue al sistema o al botón de la luna). Pantalla ampliable con los dedos (el 6-oct se quitó `user-scalable=no`; los campos de texto son de 16 px para que iOS no amplíe solo al escribir).
+Barra inferior con iconos de línea propios (SVG, no emojis) y la pestaña activa resaltada con una «píldora» de color (`--nav-pill`). Tema claro/oscuro: sigue al sistema; el botón ☀️/🌙 de la portada de Inicio alterna entre los dos (si lo elegido coincide con el del móvil, vuelve a «automático»). El botón **SOS** de la cabecera se quitó el 9-oct a petición de Marcos: su contenido ya está en Docs → emergencias. Pantalla ampliable con los dedos (el 6-oct se quitó `user-scalable=no`; los campos de texto son de 16 px para que iOS no amplíe solo al escribir).
 
 ---
 
@@ -42,7 +41,7 @@ App Viajes Marcos Mery\
 ├── sw.js               ← service worker (prefijo /viajes-marcos-mery/ — NO CAMBIAR)
 ├── css\styles.css      ← todos los estilos
 ├── js\data.js          ← itinerario (DEFAULT_DATA) + AppData (carga/guardado/fusión)
-├── js\guia.js          ← contenido fijo: SURVIVAL_DICT, CULTURE_CARDS, HOTEL_INFO
+├── js\guia.js          ← contenido fijo: SURVIVAL_DICT, CULTURE_CARDS, HOTEL_INFO, TRAVEL_TIPS
 ├── js\app.js           ← toda la lógica y las vistas
 ├── img\icon-192.png, icon-512.png
 ├── img\fotos\          ← 194 fotos fijas de las fichas (revisadas a ojo, máx. 800 px)
@@ -64,15 +63,17 @@ App Viajes Marcos Mery\
 
 ## PARTE 3 — VERSIONES (la fuente de verdad es `index.html`)
 
-Al tocar CSS o JS hay que subir su `?v=N` en `index.html`. Al tocar `DEFAULT_DATA` en `data.js` hay que subir **también** `DATA_VERSION` (dentro de `data.js`): si no, los móviles siguen con los datos guardados. Estado a 6-oct-2026 (comprobar siempre con grep, cambian casi a diario):
+Al tocar CSS o JS hay que subir su `?v=N` en `index.html`. Al tocar `DEFAULT_DATA` en `data.js` hay que subir **también** `DATA_VERSION` (dentro de `data.js`): si no, los móviles siguen con los datos guardados. Estado a 27-oct-2026 en la carpeta de MEGA (comprobar siempre con grep, cambian casi a diario):
 
 | Archivo | Versión |
 |---|---|
-| css/styles.css | `?v=100` |
-| js/data.js | `?v=88`, `DATA_VERSION` 87 |
-| js/guia.js | `?v=3` |
-| js/app.js | `?v=180` |
+| css/styles.css | `?v=114` |
+| js/data.js | `?v=92`, `DATA_VERSION` 91 |
+| js/guia.js | `?v=5` |
+| js/app.js | `?v=196` |
 | sw.js | cachés `viajes-shell-v4` y `viajes-media-v1` |
+
+Publicado todo el 27-oct-2026 (por la tarde). La revisión del 9-oct del PC del trabajo (`v195`/`v113`) se perdió en el choque de MEGA y se rehízo entera ese día a partir del HISTORIAL (menos la limpieza de CSS): por eso los números saltan de 186/101 a 196/114.
 
 ---
 
@@ -93,6 +94,7 @@ Al tocar CSS o JS hay que subir su `?v=N` en `index.html`. Al tocar `DEFAULT_DAT
 - `SURVIVAL_DICT` (`vi`/`km`: `lang, note, phrases[{es, local, pron}]`): frases de supervivencia (Inicio).
 - `CULTURE_CARDS` (clave = `block`): tarjetas «Cultura y contexto» del Resumen del día.
 - `HOTEL_INFO` (clave = `hotel.name` exacto): `address, phone, checkIn, checkOut, lat, lng, maps, desc` de los 12 alojamientos (dirección, teléfono y coordenadas de Google Maps; horarios de Booking/Trip/Agoda). **Si cambia un hotel en data.js, actualizar su entrada aquí.** Sin fotos de hoteles: tienen derechos y el repo es público (el botón de Google Maps lleva a fotos y opiniones).
+- `TRAVEL_TIPS` (`[{icon, title, html}]`, 11 consejos: clima, dinero, internet y SIM, moverse, comida, salud, vacunas, templos, enchufes, fotos, regatear): Docs › «Consejos prácticos» (`buildTipsHTML`). Revisados el 9-oct-2026.
 - En `app.js`: `CITY_INFO` (curiosidades y platos por ciudad, para «Sobre <ciudad>»), `WEATHER_DESTINATIONS` (ruta real y medias de noviembre), `FX_RATES` (VND 29.600, KHR 4.630, USD 1,14 por € — actualizadas el 28-sep-2026), `TRANSPORT_TIPS`.
 
 ---
@@ -107,7 +109,13 @@ Funciones a conocer (buscar por nombre; los números de línea cambian):
 | `navigate()` / `renderView()` | Router de la SPA. `clearHomeTimers()` cancela los temporizadores de Inicio al cambiar de vista. |
 | `renderTripDashboard()`, `renderToday()`, `renderItinerary(tab)`, `renderDay(date)`, `renderMap()`, `renderDocs()` | Vistas. |
 | `dayEvents(trip, date)` | Momentos con hora de un día: salida del hotel anterior, transportes y entrada en el nuevo. Base de lo siguiente. |
-| `buildNowNextHTML`, `buildAlertsHTML`, `buildReservationsHTML`, `openSOS` | «Ahora/Siguiente», avisos, centro de reservas y hoja SOS. |
+| `buildNowNextHTML`, `buildAlertsHTML`, `buildReservationsHTML` | «Ahora/Siguiente», avisos y reservas plegables de Docs (estado abierto/cerrado en `sessionStorage` `res-open`). |
+| `setHeader(title, showBack, hide)` | Título de la barra de arriba; `hide` la oculta (solo en Inicio). |
+| `toggleTheme()` | Botón ☀️/🌙 de la portada. |
+| `buildSurvivalDictHTML`, `dictStep`, `dictUpdateCount`, `toggleDictLang` | Frases de supervivencia: carrusel de una tarjeta, flechas, contador e idioma. |
+| `isOvernightTransport(tr)` | ¿Se duerme en ese transporte? `overnight: true` o «Sleeper» en el texto (avisos, noches por país, consejos de Transportes). |
+| `CLOCK_HOME`, `CLOCK_DEST`, `tzTime`, `tzOffset` | Reloj doble con zonas horarias reales (`Intl`). |
+| `docOptions(id)` | Cambiar enlace, renombrar o borrar un documento de Docs. |
 | `hotelInfo`, `hotelStay`, `hotelLinks`, `openHotelDetail` | Datos, estancia, enlaces y ficha de cada alojamiento. |
 | `bookingRefHtml`, `editBookingRef`, `copyBookingRef` | Localizadores guardados solo en el móvil. |
 | `cityForDayInfo`, `_cleanCityName`, `CITY_WIKI_ES`, `loadCitySummary` | Ficha «Sobre <ciudad>» (origen o destino en días de traslado; si no hay Wikipedia se muestra igualmente lo propio). |
@@ -183,6 +191,7 @@ Si se cambia la URL de Leaflet, recalcular el `integrity` con el hash real (cabe
 7. Nada personal ni localizadores en el repo.
 8. Fechas siempre con `today()`/`isoLocal()` (hora local), nunca `toISOString()`.
 9. Entregar archivos completos, nunca fragmentos.
+10. Contenido nuevo del destino, en `data.js`/`guia.js`, no dentro de `app.js` (para poder reutilizar la app en otros viajes: `GUIA_MIGRACION_DESTINOS.md`).
 
 ---
 
@@ -193,13 +202,15 @@ Si se cambia la URL de Leaflet, recalcular el `integrity` con el hash real (cabe
 - Si el otro PC tiene commits sin publicar, no commitear en este: trabajar sobre los archivos y anotarlo en `COORDINACION_SESIONES.md`.
 - El `.gitignore` local puede estar atrasado (MEGA no lo sincroniza): antes de commitear, comparar con el del repo (`git diff .gitignore`).
 - `.claude/` está ignorado desde el 6-oct (cada PC tiene su `launch.json` con sus rutas).
-- **Último estado:** publicado desde el PC del trabajo el 6-oct-2026 (`c376f15` + `0e4d86a`), con todo lo del 5-oct (de casa) y del 6-oct. El PC de casa debe hacer `git branch backup-5oct` + `git reset --mixed origin/main` y no subir sus commits del 5-oct.
+- **Último estado:** publicado TODO desde el PC del trabajo el 27-oct-2026 por la tarde (código rehecho del 9-oct, documentación, guía de migración y portada de la hoja de ruta; commit en `COORDINACION_SESIONES.md`). Antes, ese mismo día, `420c295` solo con los datos. El PC de casa: `git fetch origin && git reset --mixed origin/main`.
+- **Publicar solo algunos archivos** cuando la carpeta tiene otros cambios que no deben subir: `git add` de esos archivos y, para `index.html`, crear el blob a partir del de producción con solo las líneas `?v=` que tocan (`git show origin/main:index.html` → editar → `git hash-object -w` → `git update-index --cacheinfo 100644,<hash>,index.html`). Antes del push, probar la copia exacta del commit (`git checkout-index -a --prefix=<carpeta>/` y servirla).
 
 ---
 
 ## PARTE 13 — ITINERARIO Y FUENTES DE CONTENIDO
 
 - Itinerario de 26 días integrado del documento de María (5-oct); decisiones y erratas en `REVISION_ITINERARIO_MARIA.md`.
+- **Versión definitiva e impresa del documento de María: la del 22-oct-2026** (`itinerario final V&C.odt`, 440 KB, 74 páginas). Contrastada con la app el 26-oct (PC de Mery) y otra vez entera el 27-oct (PC del trabajo); detalle en HISTORIAL. No está en el repo, porque lleva los localizadores: vive en Descargas de cada PC (en el del trabajo, `Descargas\Imprimir\`, junto a su PDF).
 - **Listas de Google Maps de Marcos** (pool de sitios; criterio de relevancia: ≥150-300 reseñas):
 
 | Lista | Enlace |
@@ -235,6 +246,7 @@ Si se cambia la URL de Leaflet, recalcular el `integrity` con el hash real (cabe
 - Mapa sin conexión solo en zonas vistas con cobertura (Parte 7).
 - La instalación en iPhone (Safari) no se ha probado en un dispositivo real.
 - Las banderas emoji salen como imagen en Windows (necesitan conexión la primera vez); en el móvil son emoji.
+- **Reutilización para otros viajes:** hoy hay unas 25 tablas y textos de Vietnam/Camboya dentro de `app.js`, y el almacenamiento (`viajes_db`, `theme`…) y las cachés del service worker no llevan prefijo: dos apps en `marcospenas.github.io` se pisarían. Inventario y plan en 4 fases en `GUIA_MIGRACION_DESTINOS.md`.
 
 ---
 
@@ -250,6 +262,8 @@ Si se cambia la URL de Leaflet, recalcular el `integrity` con el hash real (cabe
 | 3-oct | Fotos congeladas (`img/fotos/`), service worker que por fin funciona, paleta sin violetas |
 | 5-oct | Itinerario definitivo de María (26 días), colores unificados, contraste, revisión general |
 | 6-oct | Frases y cultura, fichas reales de hoteles, traslados en estadísticas, Mausoleo/Shenzhen verificados, «Sobre la ciudad» sin cobertura, localizadores fuera del repo, publicación, «Ahora/Siguiente», avisos, centro de reservas, SOS, indicador sin conexión, fecha local, caché del SW, emojis compatibles, zoom |
+| 9-oct | Revisión profunda (11 fallos y 6 mejoras, CSS 23 % más ligero; se perdió en el choque de MEGA y se rehízo el 27-oct, menos la limpieza de CSS). Guía de migración a otros destinos (v1.0). Consejos prácticos en Docs, barra inferior nueva, globo y luna alineados. Fuera el botón SOS (alojamiento de esta noche pasa a Docs → emergencias), reservas de Docs plegables, Inicio sin barra de título repetida y con el botón del tema en la portada, frases de una en una sin tarjetas cortadas |
+| 26-27 oct | Itinerario definitivo e impreso de María (22-oct) contrastado dos veces: Lan Ha reservado, bus 86 por la parada del Meliá, sleeper Hue→Tam Coc hasta las 07:15, 4 fichas nuevas (Thung Nham, Van Long, Trà Quế, Kampong Khleang). Revisión del 9-oct (perdida en el choque de MEGA) rehecha entera y todo publicado: sin SOS, reservas y consejos plegables en Docs, portada sin barra con botón del tema, barra inferior nueva, frases de una en una, reloj con zonas horarias reales, tipos de cambio automáticos |
 
 Detalle completo en `HISTORIAL_DE_CAMBIOS.md`.
 

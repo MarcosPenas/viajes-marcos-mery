@@ -15,6 +15,7 @@
   --text:       #1a202c;
   --text-sm:    #4a5568;
   --text-xs:    #647181;   /* 5,0:1 sobre blanco (antes #8896a8, 3,0:1) */
+  --nav-pill:   #dce8f5;   /* fondo del icono activo de la barra inferior */
   --card:       #ffffff;
   --shadow:     0 2px 16px rgba(0,0,0,0.07);
   --shadow-sm:  0 1px 6px rgba(0,0,0,0.06);
@@ -119,29 +120,32 @@ html, body {
   border-top: 1px solid rgba(0,0,0,.07);
   z-index: 1000;
 }
+/* Barra inferior (9-oct-2026, rehecha el 27-oct): iconos SVG de línea y una «píldora» de
+   color detrás del activo en vez de la rayita de arriba; etiquetas en Poppins (los botones
+   no heredaban la fuente y salían en Arial) */
 .nav-item {
   flex: 1; display: flex; flex-direction: column;
   align-items: center; justify-content: center; gap: 3px;
   border: none; background: none; cursor: pointer;
-  padding: 8px 4px; color: var(--text-xs);
-  font-size: 10px; font-weight: 600;
-  transition: color .2s, transform .2s;
+  padding: 7px 4px; color: var(--text-xs);
+  font-family: 'Poppins', sans-serif; font-size: 11px; font-weight: 600;
+  transition: color .2s;
   -webkit-tap-highlight-color: transparent;
   position: relative;
 }
-/* indicador activo — línea superior */
-.nav-item.active::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 50%; transform: translateX(-50%);
-  width: 28px; height: 3px;
-  border-radius: 0 0 4px 4px;
-  background: var(--primary);
+.nav-item .nav-icon {
+  display: flex; align-items: center; justify-content: center;
+  width: 54px; height: 30px; border-radius: 15px;
+  transition: background .2s, transform .15s;
 }
-.nav-item .nav-icon { font-size: 20px; line-height: 1; transition: transform .2s; }
-.nav-item.active { color: var(--primary); font-weight: 800; }
-.nav-item.active .nav-icon { transform: scale(1.15) translateY(-2px); }
-.nav-item:active .nav-icon { transform: scale(.9); }
+.nav-item .nav-icon svg {
+  width: 22px; height: 22px; fill: none; stroke: currentColor;
+  stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round;
+}
+.nav-item.active { color: var(--primary); font-weight: 700; }
+.nav-item.active .nav-icon { background: var(--nav-pill); }
+.nav-item.active .nav-icon svg { stroke-width: 2.2; }
+.nav-item:active .nav-icon { transform: scale(.92); }
 
 /* ── CARDS ── */
 .card {
@@ -190,7 +194,6 @@ html, body {
   background: linear-gradient(to bottom, rgba(0,0,0,.15) 0%, rgba(0,0,0,.65) 100%);
 }
 .hero-content { position: relative; z-index: 1; }
-.trip-hero-emoji { font-size: 38px; margin-bottom: 4px; display: block; filter: drop-shadow(0 2px 6px rgba(0,0,0,.5)); }
 .trip-hero h2 {
   font-family: 'Poppins', sans-serif;
   font-size: 26px; font-weight: 800; margin-bottom: 4px;
@@ -865,6 +868,8 @@ html[data-theme="dark"] .htl-sheet-btn-maps { background: #2563a8; }
   border-top: 1px solid rgba(255,255,255,.1);
   display: flex; flex-wrap: wrap; gap: 8px;
 }
+/* Medias de noviembre (sin datos en vivo) */
+.wc-avg { font-size: 11px; font-weight: 600; color: rgba(255,255,255,.75); margin-top: 8px; }
 /* right column: map */
 /* ── ROUTE MAP ── */
 /* ══════════════════════════════════════════════════════════
@@ -1498,18 +1503,7 @@ html[data-theme="dark"] .htl-sheet-btn-maps { background: #2563a8; }
   cursor: pointer;
 }
 .dsc-maps-btn:active { background: var(--bg); }
-/* ── Momentos del día: Ahora/Siguiente, avisos, reservas, SOS, sin conexión (6-oct-2026) ── */
-.sos-btn {
-  flex-shrink: 0; height: 30px; padding: 0 11px;
-  border: none; border-radius: 15px; cursor: pointer;
-  background: #c0392b; color: #fff;
-  font-family: inherit; font-size: 12px; font-weight: 800; letter-spacing: .5px;
-}
-.sos-btn[hidden] { display: none; }
-.sos-btn:active { background: #a93226; }
-#sos-sheet-wrap { display: none; position: fixed; inset: 0; z-index: 1000; }
-#sos-sheet-wrap .em-block { margin-top: 14px; }
-#sos-sheet-wrap .nn-actions { margin-top: 8px; }
+/* ── Momentos del día: Ahora/Siguiente, avisos, reservas, sin conexión (6-oct-2026) ── */
 
 .today-top { padding: 12px 16px 0; display: flex; flex-direction: column; gap: 10px; }
 .now-next {
@@ -1538,18 +1532,60 @@ html[data-theme="dark"] .htl-sheet-btn-maps { background: #2563a8; }
 .alert-row + .alert-row { border-top: 1px solid var(--border); }
 .alert-icon { flex-shrink: 0; font-size: 16px; line-height: 1.3; }
 
-.res-hint { font-size: 12px; color: var(--text-sm); padding: 0 16px 8px; }
-.res-list { display: flex; flex-direction: column; gap: 8px; padding: 0 16px 6px; }
-.res-item { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 10px 12px; }
-.res-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.res-date { font-size: 12px; font-weight: 700; color: var(--text-sm); }
-.res-time { font-size: 12px; color: var(--text-sm); text-align: right; }
-.res-badge { font-size: 11px; font-weight: 800; border-radius: 8px; padding: 2px 8px; color: #1a2a40; }
+/* Reservas y consejos de Docs, plegables (9-oct-2026, rehecho el 27-oct) */
+.docs-fold { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px 0; }
+.res-wrap {
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  box-shadow: var(--shadow-sm); overflow: hidden;
+}
+.res-wrap > summary, .res-row > summary, .res-past-group > summary { list-style: none; cursor: pointer; }
+.res-wrap > summary::-webkit-details-marker, .res-row > summary::-webkit-details-marker,
+.res-past-group > summary::-webkit-details-marker { display: none; }
+.res-summary {
+  display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 8px;
+  padding: 12px 14px;
+}
+.res-sum-main { font-size: 15px; font-weight: 800; color: var(--text); }
+.res-sum-count {
+  display: inline-block; min-width: 22px; margin-left: 4px; padding: 1px 7px; border-radius: 10px;
+  background: var(--bg); color: var(--text-sm); font-size: 12px; font-weight: 700; text-align: center;
+}
+.res-sum-next {
+  grid-column: 1; font-size: 12.5px; color: var(--text-sm); margin-top: 2px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.res-summary .res-chev { grid-column: 2; grid-row: 1 / span 2; }
+.res-chev { font-size: 20px; line-height: 1; color: var(--text-sm); transition: transform .2s; }
+details[open] > summary .res-chev { transform: rotate(90deg); }
+.res-hint { font-size: 12px; color: var(--text-sm); padding: 0 14px 8px; }
+.res-list { display: flex; flex-direction: column; gap: 6px; padding: 0 10px 10px; }
+.res-row { background: var(--bg); border: 1px solid var(--border); border-radius: 11px; }
+.res-row-head { display: flex; align-items: center; gap: 8px; padding: 9px 10px; min-height: 44px; }
+.res-row-title {
+  flex: 1; min-width: 0; font-size: 14px; font-weight: 700; color: var(--text);
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.res-row-body { padding: 0 12px 10px; }
+.res-lock { font-size: 15px; font-weight: 800; color: var(--text-sm); }
+.res-date { flex-shrink: 0; font-size: 12px; font-weight: 700; color: var(--text-sm); }
+.res-time { flex-shrink: 0; font-size: 12px; color: var(--text-sm); text-align: right; }
+.res-badge { flex-shrink: 0; font-size: 11px; font-weight: 800; border-radius: 8px; padding: 2px 8px; color: #1a2a40; }
 .res-today { background: #e8b800; }
 .res-tomorrow { background: #f3d77a; }
-.res-title { font-size: 15px; font-weight: 800; color: var(--text); margin-top: 4px; }
-.res-sub { font-size: 12.5px; color: var(--text-sm); margin-top: 2px; }
-.res-past .res-title::after { content: ' ✓'; color: var(--green); }
+.res-sub { font-size: 12.5px; color: var(--text-sm); margin-top: 3px; }
+.res-past .res-row-title { color: var(--text-sm); }
+.res-past .res-row-title::after { content: ' ✓'; color: var(--green); }
+.res-past-sum { font-size: 13px; font-weight: 700; color: var(--text-sm); padding: 8px 4px 4px; }
+.res-list-past { padding: 4px 0 0; }
+.tip-item { background: var(--bg); border: 1px solid var(--border); border-radius: 11px; padding: 10px 12px; }
+.tip-item-title { font-size: 14px; font-weight: 800; color: var(--text); }
+.tip-item-text { font-size: 13px; line-height: 1.5; color: var(--text-sm); margin-top: 4px; }
+.tip-item-text strong { color: var(--text); }
+/* ⋯ de cada documento */
+.doc-more {
+  width: 32px; height: 32px; border: 1px solid var(--border); border-radius: 9px;
+  background: var(--card); color: var(--text-sm); font-size: 18px; line-height: 1; cursor: pointer;
+}
 
 .offline-status {
   margin: 12px 16px 0; padding: 8px 12px; border-radius: 12px;
@@ -2020,6 +2056,13 @@ html[data-theme="dark"] .htl-sheet-btn-maps { background: #2563a8; }
   box-shadow: 0 4px 16px rgba(0,0,0,.25); cursor: pointer; white-space: nowrap;
 }
 .map-nearme-btn-active { background: #b91c1c; }
+/* Botón al My Maps del viaje (9-oct-2026), arriba a la derecha del mapa */
+.map-mymaps-btn {
+  position: absolute; top: 56px; right: 10px; z-index: 500;
+  background: var(--card); color: var(--text); text-decoration: none;
+  border: 1px solid var(--border); border-radius: 18px; padding: 7px 12px;
+  font-size: 12.5px; font-weight: 700; box-shadow: 0 2px 10px rgba(0,0,0,.18);
+}
 .you-are-here-dot { animation: you-are-here-pulse 2s ease-out infinite; }
 @keyframes you-are-here-pulse {
   0%   { filter: drop-shadow(0 0 0 rgba(43,127,255,.6)); }
@@ -2062,10 +2105,25 @@ html[data-theme="dark"] .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg
 }
 .theme-toggle-btn:active { background: var(--border); }
 
-/* Icono según tema activo */
-html[data-theme="dark"]  .theme-toggle-btn::before { content: '☀️'; }
-html[data-theme="light"] .theme-toggle-btn::before { content: '🌙'; }
-html:not([data-theme])   .theme-toggle-btn::before { content: '🌓'; }
+/* Icono según tema activo: sol y luna en SVG, centrados exactos (9-oct-2026) */
+.ti-sun, .ti-moon { display: none; }
+html[data-theme="dark"]  .ti-sun  { display: block; }
+html[data-theme="light"] .ti-moon { display: block; }
+html[data-theme="light"] .theme-toggle-btn .ti-moon path { fill: #c99a00; } /* sobre blanco, 3:1 como icono */
+
+/* Inicio sin barra de título: globo y botón del tema sobre la foto de la portada */
+.app-header.is-hidden { display: none; }
+.hero-globe, .hero-theme-btn {
+  position: absolute; top: 12px; z-index: 2;
+  width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
+}
+.hero-globe { left: 12px; font-size: 30px; line-height: 1; filter: drop-shadow(0 2px 6px rgba(0,0,0,.5)); }
+.hero-theme-btn {
+  right: 12px; padding: 0; cursor: pointer; border-radius: 50%;
+  border: 1px solid rgba(255,255,255,.35); background: rgba(0,0,0,.28);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+}
+.hero-theme-btn:active { background: rgba(0,0,0,.45); }
 
 /* ══════════════════════════════════════════════════════════
    MODO OSCURO
@@ -2180,6 +2238,7 @@ html:not([data-theme])   .theme-toggle-btn::before { content: '🌓'; }
 
 /* ── Forzar OSCURO manual (anula media query) ── */
 html[data-theme="dark"] {
+  --nav-pill:   rgba(74,144,217,.24);
   --primary:    #4a90d9; --primary-lt: #5ba3e8;
   --accent:     #f6c252; --accent-lt:  #fad97a;
   --green:      #52b788; --red:        #e57373;
@@ -2246,6 +2305,7 @@ html[data-theme="dark"] .fx-tab.active { background: linear-gradient(135deg,#1a2
 
 /* ── Forzar CLARO manual (anula media query en sistemas oscuros) ── */
 html[data-theme="light"] {
+  --nav-pill:   #dce8f5;
   --primary:    #1a3a5c; --primary-lt: #2c5282;
   --accent:     #e8a020; --accent-lt:  #f6c252;
   --green:      #1a7b6b; --red:        #c0392b;
@@ -2273,7 +2333,7 @@ html[data-theme="light"] .tsg-num { color: #1a202c; }
 html[data-theme="light"] .tbc-name { color: #4a5568; }
 html[data-theme="light"] .htl-summary-num { color: #1a202c; }
 html[data-theme="light"] .bottom-nav { background: rgba(255,255,255,0.95); border-top-color: #e8ecf0; }
-html[data-theme="light"] .nav-item { color: #8896a8; }
+html[data-theme="light"] .nav-item { color: var(--text-xs); } /* antes #8896a8 (3,0:1) */
 html[data-theme="light"] .nav-item.active { color: #1a3a5c; }
 html[data-theme="light"] .trip-card, html[data-theme="light"] .day-card,
 html[data-theme="light"] .lugar-card, html[data-theme="light"] .block-section,
@@ -2515,14 +2575,15 @@ html[data-theme="light"] .sticky-btn:active { background: #e8ecf0; }
 }
 .dict-scroll {
   display: flex; gap: 10px;
-  overflow-x: auto; scroll-snap-type: x mandatory;
+  overflow-x: auto; scroll-snap-type: x mandatory; scroll-padding: 0 16px;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   padding: 2px 16px 6px;
 }
 .dict-scroll::-webkit-scrollbar { display: none; }
+/* Una tarjeta entera cada vez (antes ocupaba el 78 % y asomaba la siguiente cortada) */
 .dict-card {
-  flex: 0 0 78%; scroll-snap-align: start;
+  flex: 0 0 100%; scroll-snap-align: start; scroll-snap-stop: always;
   background: var(--surface); border-radius: 16px;
   padding: 18px 16px 16px;
   box-shadow: 0 2px 12px rgba(0,0,0,.07);
@@ -2541,6 +2602,14 @@ html[data-theme="light"] .sticky-btn:active { background: #e8ecf0; }
   font-size: 12px; color: var(--text-xs);
   font-style: normal;
 }
+.dict-nav { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 2px 16px 0; }
+.dict-arrow {
+  width: 36px; height: 36px; border-radius: 50%; cursor: pointer;
+  border: 1.5px solid var(--border); background: var(--surface); color: var(--text);
+  font-family: inherit; font-size: 22px; line-height: 1; padding-bottom: 3px;
+}
+.dict-arrow:active { background: var(--border); }
+.dict-count { min-width: 54px; text-align: center; font-size: 12.5px; font-weight: 700; color: var(--text-sm); }
 
 /* ══════════════════════════════════════════════════════════
    CULTURA Y CONTEXTO
@@ -2978,3 +3047,8 @@ html[data-theme="dark"] .lugar-act.on { background: #2f6fb3; border-color: #2f6f
 #full-leaflet-map { width: 100%; height: calc(100vh - var(--header-h) - var(--nav-h) - 46px); height: calc(100dvh - var(--header-h) - var(--nav-h) - 46px); }
 html[data-theme="dark"] .em-note { background: rgba(245,158,11,.14); color: #fcc56b; }
 .em-embassy .em-row { margin-top: 3px; }
+/* Fecha de los tipos de cambio del conversor (9-oct-2026) */
+.fx-updated { font-size: 11px; color: var(--text-xs); margin: -10px 0 12px; text-align: right; }
+/* Resultado legible del conversor, con separador de miles (9-oct-2026) */
+.fx-result { font-size: 15px; font-weight: 800; color: var(--text); text-align: center; min-height: 20px; }
+.fx-result:empty { display: none; }

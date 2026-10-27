@@ -33,6 +33,7 @@ Lee estos archivos antes de hacer cualquier cambio:
 1. `01_ESPECIFICACIONES/COORDINACION_SESIONES.md` — **léelo primero**: estado activo entre el PC del trabajo y el de casa (qué sesión está haciendo qué ahora mismo, decisiones de git pendientes de coordinar). Este proyecto se desarrolla en paralelo desde dos PCs sincronizados por MEGA — pero `.git` NO se sincroniza entre ellos (ver Parte 12 de la Memoria Maestra), así que este archivo es la única forma de saber qué ha hecho o está haciendo la otra sesión con git.
 2. `01_ESPECIFICACIONES/MEMORIA_MAESTRA.md` — descripción completa del proyecto (v3.0, reescrita el 6-oct-2026)
 3. `01_ESPECIFICACIONES/CONTINUIDAD.md` — estado actual y tareas pendientes
+4. `01_ESPECIFICACIONES/GUIA_MIGRACION_DESTINOS.md` — cómo reutilizar la app para otro viaje (motor / identidad / contenido, inventario de lo que es de Vietnam y Camboya, contrato de datos, pasos). **Al añadir contenido nuevo del destino, no meterlo en `js/app.js`**: va en `data.js`/`guia.js` (y apuntarlo en el inventario de la guía si no hay otro remedio). Mantener la guía al día si cambia algo de lo que describe.
 
 ## Dónde está el código activo
 
@@ -81,6 +82,7 @@ GitHub user: MarcosPenas
 00_INSTALACION/          ← instrucciones de instalación
 01_ESPECIFICACIONES/     ← documentación y memoria del proyecto
 02_DESARROLLO/           ← scripts antiguos, capturas, imágenes anteriores
+03_HOJA_DE_RUTA/         ← portada A4 de la hoja de ruta de María (PDF/PNG para imprimir, ver su LEEME.md)
 css/, js/, img/          ← código activo (NO MOVER)
 index.html               ← código activo (NO MOVER)
 manifest.json            ← código activo (NO MOVER)

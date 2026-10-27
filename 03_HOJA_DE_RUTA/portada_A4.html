@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Portada · Hoja de ruta Vietnam &amp; Camboya</title>
+<!-- Portada A4 vertical para la hoja de ruta de María, inspirada en el icono de la app.
+     El logotipo es el original a 1254 px (02_DESARROLLO/CAPTURAS_Y_RECURSOS_GRAFICOS/),
+     los colores salen de él. Para regenerar el PDF y el PNG: ver LEEME.md -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  @page { size: A4 portrait; margin: 0; }
+
+  :root {
+    /* Colores del icono */
+    --navy:     #051529;
+    --navy-lt:  #0c2240;
+    --teal:     #2e9474;   /* «VIETNAM» y el norte */
+    --orange:   #e07a30;   /* el centro */
+    --red:      #cf4a3f;   /* «CAMBOYA» */
+    --turq:     #2aa6b0;   /* el sur */
+    --grey:     #5f6672;
+    --text:     #051529;
+    /* versiones más oscuras para texto pequeño sobre blanco */
+    --teal-dk:   #1f7a5c;
+    --orange-dk: #b85a17;
+    --red-dk:    #b8382e;
+    --turq-dk:   #1a7f88;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #5a6470; }
+  body {
+    font-family: 'Poppins', 'Segoe UI', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  @media print { html, body { background: #fff; } .page { width: 100%; } }
+
+  .page {
+    width: 210mm; height: 297mm; margin: 0 auto;
+    position: relative; overflow: hidden;
+    color: var(--text);
+    background: #fff;
+  }
+
+  /* Rótulo con rayas a los lados, como «— MARCOS & MERY —» del icono */
+  .kicker {
+    display: flex; align-items: center; justify-content: center; gap: 5mm;
+    font-weight: 500; text-transform: uppercase; color: var(--grey);
+  }
+  .kicker::before, .kicker::after {
+    content: ''; height: .3mm; background: currentColor; opacity: .7;
+  }
+
+  .top {
+    position: absolute; top: 17mm; left: 0; right: 0;
+    font-size: 15pt; font-weight: 600; letter-spacing: .4em; color: var(--navy);
+  }
+  .top::before, .top::after { width: 18mm; height: .45mm; opacity: .55; }
+
+  /* ── LOGOTIPO ── */
+  .logo {
+    position: absolute; top: 31mm; left: 50%; transform: translateX(-50%);
+    width: 160mm; height: 160mm; border-radius: 50%; overflow: hidden;
+    box-shadow: 0 2.5mm 9mm rgba(5,21,41,.28);
+  }
+  /* el círculo ocupa el 97,6 % de la imagen original: se amplía para recortar las esquinas negras */
+  .logo img {
+    position: absolute; left: 50%; top: 50%;
+    width: 102.5%; height: 102.5%; transform: translate(-50%, -50%);
+    display: block;
+  }
+
+  /* ── FECHAS ── */
+  .dates {
+    position: absolute; top: 203mm; left: 0; right: 0; text-align: center;
+  }
+  .dates-main {
+    font-size: 17pt; font-weight: 600; letter-spacing: .26em; text-transform: uppercase; color: var(--navy);
+  }
+  .dates-main .dash { color: var(--orange); }
+  .dates-sub { margin-top: 1.6mm; font-size: 11pt; font-weight: 400; color: var(--grey); letter-spacing: .02em; }
+
+  /* ── RUTA (línea discontinua y chinchetas del icono) ── */
+  .route-box { position: absolute; top: 231mm; left: 14mm; right: 14mm; }
+  .route-title { font-size: 8.5pt; letter-spacing: .34em; margin-bottom: 6mm; }
+  .route-title::before, .route-title::after { width: 10mm; }
+
+  .route { display: flex; position: relative; }
+  .route::before {
+    /* de la primera a la última chincheta */
+    content: ''; position: absolute; top: 9.6mm; left: 6.25%; right: 6.25%;
+    border-top: .55mm dashed rgba(5,21,41,.45);
+  }
+  .stop { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; }
+  .pin { width: 7.4mm; height: 9.9mm; display: block; fill: var(--c); }
+  .stop-days {
+    margin-top: 2.8mm; font-size: 7.4pt; font-weight: 700; letter-spacing: .04em;
+    color: var(--d); white-space: nowrap;
+  }
+  .stop-name { margin-top: .8mm; font-size: 8.6pt; font-weight: 600; line-height: 1.2; color: var(--text); padding: 0 .5mm; }
+
+  /* Las cuatro rayas de color del icono, abajo */
+  .arcs { position: absolute; bottom: 16mm; left: 50%; transform: translateX(-50%); display: flex; gap: 2.4mm; }
+  .arcs span { width: 11mm; height: .9mm; border-radius: 1mm; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="kicker top">Hoja de ruta</div>
+
+  <div class="logo">
+    <img src="../02_DESARROLLO/CAPTURAS_Y_RECURSOS_GRAFICOS/ChatGPT%20Image%2029%20jun%202026%2C%2011_48_09.png" alt="Vietnam &amp; Camboya · Marcos &amp; Mery">
+  </div>
+
+  <div class="dates">
+    <div class="dates-main">5 <span class="dash">—</span> 30 noviembre 2026</div>
+    <div class="dates-sub">26 días por el sudeste asiático</div>
+  </div>
+
+  <div class="route-box">
+    <div class="kicker route-title">Ruta del viaje</div>
+    <svg width="0" height="0" style="position:absolute">
+      <symbol id="pin" viewBox="-2 -2 28 36"><path d="M12 0C5.4 0 0 5.3 0 11.9 0 20.6 12 32 12 32s12-11.4 12-20.1C24 5.3 18.6 0 12 0z" stroke="#fff" stroke-width="1.6"/><circle cx="12" cy="11.6" r="4.4" fill="#fff"/></symbol>
+    </svg>
+    <div class="route">
+      <div class="stop" style="--c:var(--teal);--d:var(--teal-dk)">
+        <svg class="pin"><use href="#pin"/></svg>
+        <div class="stop-days">7–9 nov</div>
+        <div class="stop-name">Hanói</div>
+      </div>
+      <div class="stop" style="--c:var(--red);--d:var(--red-dk)">
+        <svg class="pin"><use href="#pin"/></svg>
+        <div class="stop-days">10–13 nov</div>
+        <div class="stop-name">Angkor y Siem&nbsp;Reap</div>
+      </div>
+      <div class="stop" style="--c:var(--red);--d:var(--red-dk)">
+        <svg class="pin"><use href="#pin"/></svg>
+        <div class="stop-days">14–15 nov</div>
+        <div class="stop-name">Phnom Penh</div>
+      </div>
+      <div class="stop" style="--c:var(--turq);--d:var(--turq-dk)">
+        <svg class="pin"><use href="#pin"/></svg>
+        <div class="stop-days">16–17 nov</div>
+        <div class="stop-name">Delta del Mekong</div>
+      </div>
+      <div class="stop" style="--c:var(--orange);--d:var(--orange-dk)">
+        <svg class="pin"><use href="#pin"/></svg>
+        <div class="stop-days">18–23 nov</div>
+        <div class="stop-name">Hoi An, Da&nbsp;Nang y&nbsp;Hue</div>
+      </div>
+      <div class="stop" style="--c:var(--teal);--d:var(--teal-dk)">
+        <svg class="pin"><use href="#pin"/></svg>
+        <div class="stop-days">24–25 nov</div>
+        <div class="stop-name">Ninh Binh</div>
+      </div>
+      <div class="stop" style="--c:var(--teal);--d:var(--teal-dk)">
+        <svg class="pin"><use href="#pin"/></svg>
+        <div class="stop-days">26–28 nov</div>
+        <div class="stop-name">Cat Ba y Lan&nbsp;Ha</div>
+      </div>
+      <div class="stop" style="--c:var(--teal);--d:var(--teal-dk)">
+        <svg class="pin"><use href="#pin"/></svg>
+        <div class="stop-days">29 nov</div>
+        <div class="stop-name">Hanói</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arcs">
+    <span style="background:var(--teal)"></span>
+    <span style="background:var(--orange)"></span>
+    <span style="background:var(--red)"></span>
+    <span style="background:var(--turq)"></span>
+  </div>
+
+</div>
+</body>
+</html>

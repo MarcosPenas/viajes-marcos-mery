@@ -14,6 +14,18 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 
 ---
 
+## ✅ 27-oct-2026 (tarde, PC del trabajo) — TODO PUBLICADO: ya no hay cambios pendientes en ningún PC
+
+**Resueltos y borrados** los avisos 🔴/🟡 del 9-oct (choque de MEGA y cambios sin commit del trabajo), el del 26-oct (PC de Mery) y el de la mañana del 27-oct (publicación solo de datos, `420c295`).
+
+- **Qué pasó con el 9-oct:** la revisión del PC del trabajo (`app.js?v=195`, `styles.css?v=113`) no estaba en ningún PC ni en `MEGA\Rubbish`. Se rehízo entera el 27-oct a partir del HISTORIAL (9-oct, partes 1, 3 y 4) sobre el `app.js` de casa, que ya traía los tipos de cambio automáticos. Solo se dejó fuera la limpieza de CSS. Detalle en HISTORIAL 27-oct, 3ª parte. El parche `02_DESARROLLO/PARCHES_PENDIENTES/tipos_de_cambio_9oct.patch` ya no hace falta.
+- **Publicado** por petición de Marcos («publica todo, que no se quede nada»): código (`app.js?v=196`, `styles.css?v=114`, `index.html`), documentación, `CLAUDE.md`, `GUIA_MIGRACION_DESTINOS.md` y `03_HOJA_DE_RUTA/`. El commit se apunta en la tabla de pushes de abajo.
+- **Para el PC de casa:** `git fetch origin && git reset --mixed origin/main` (nunca `--hard`). Los archivos ya le llegan por MEGA; con `--mixed` no se tocan. Si `git status` sale limpio, está al día.
+- **PC de Mery:** solo carpeta de MEGA, sin git: puede editar, pero hay que avisar aquí, y luego publica el PC del trabajo o el de casa.
+- **Regla que sigue en pie:** antes de editar `js/app.js`, `css/styles.css`, `js/data.js` o `js/guia.js` en un PC, comprobar aquí que nadie más los está tocando. El choque del 9-oct pasó porque MEGA estaba apagado en un PC mientras el otro trabajaba.
+
+---
+
 ## ✅ 6-oct-2026 (noche) — PUBLICADO desde el PC de casa: `origin/main` = `3780b07` (+ commit de documentación)
 
 Revisión profunda del PC de casa (HISTORIAL 6-oct, PC de casa, noche): «Ahora/Siguiente» con el vuelo de madrugada del 29-nov, tiempo en español, fechas de tareas, «✅» de las Previas y 10 funciones muertas borradas. `DATA_VERSION` 89, `data.js?v=90`, `app.js?v=185`. Push normal (avance rápido desde `e5d274e`). **Para el PC del trabajo:** `git fetch origin && git reset --mixed origin/main` (nunca `--hard`; los archivos ya le habrán llegado por MEGA). Los dos PCs quedan sin commits pendientes.
@@ -128,6 +140,8 @@ Lo de **1-oct** sigue vigente:
 
 | Fecha | PC | Commit subido | Notas |
 |---|---|---|---|
+| 27-oct-2026 | Trabajo | `420c295` | Solo datos: itinerario definitivo de María (`DATA_VERSION` 91, `data.js?v=92`, `guia.js?v=5`, `sin_foto.txt`). `app.js?v=185` y `styles.css?v=100` sin tocar. Avance rápido desde `a777c49` |
+| 6-oct-2026 (noche) | Casa | `3780b07` (+ documentación `a777c49`) | Revisión profunda del PC de casa (ver bloque ✅ del 6-oct noche) |
 | 6-oct-2026 (noche) | Trabajo | `50dde1f` (+ documentación) | Ahora/Siguiente, avisos, reservas, SOS, sin conexión, fecha local. Avance rápido desde `0e4d86a` |
 | 6-oct-2026 | Trabajo | `c376f15` (+ documentación) | Todo lo del 5-oct (de casa, por MEGA) y del 6-oct en un commit; localizadores fuera del repo. Avance rápido desde `05e2559` |
 | 3-oct-2026 | Casa | `e504cb2` | Fotos congeladas + offline real + mejoras de modo oscuro (ver bloque ✅ de arriba). Avance rápido desde `599f20a` |
@@ -139,7 +153,7 @@ Lo de **1-oct** sigue vigente:
 
 | PC | Rama | Último commit local | ¿Desciende del remoto real? |
 |---|---|---|---|
-| Trabajo (`C:\Users\mpe.HP2008\...`) | `main` | == `origin/main` (publicado el 6-oct) | Sí, es el remoto |
+| Trabajo (`C:\Users\mpe.HP2008\...`) | `main` | == `origin/main` (publicado todo el 27-oct por la tarde; sin cambios pendientes) | Sí, es el remoto |
 | Casa (`C:\Users\marco\...`) | `main` | `05e2559` + 17+ commits del 5-oct **que NO deben subirse** | **Debe hacer `reset --mixed origin/main`** (ver bloque 🔴) |
 
 ---

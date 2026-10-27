@@ -22,24 +22,24 @@ if (window.matchMedia) {
   });
 }
 
+// Alterna siempre claro ↔ oscuro. Antes tenía un tercer paso «auto» que, con el móvil en
+// claro, no cambiaba nada a la vista (un toque de cada tres «no hacía nada»). Si lo elegido
+// coincide con el tema del móvil, se vuelve a «automático» (se borra la preferencia).
 function toggleTheme() {
   const html = document.documentElement;
-  const cur  = html.dataset.theme; // 'dark' | 'light' | undefined
-  let next;
-  if (!cur)        next = 'dark';
-  else if (cur === 'dark')  next = 'light';
-  else             next = null; // auto (sigue al sistema)
-  if (next) {
-    html.dataset.theme = next;
-    localStorage.setItem('theme', next);
-  } else {
-    localStorage.removeItem('theme');
-    _applyAutoTheme(); // vuelve a "auto", pero deja igualmente un data-theme explícito resuelto
-  }
+  const next = html.dataset.theme === 'dark' ? 'light' : 'dark';
+  html.dataset.theme = next;
+  const sys = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  try { if (next === sys) localStorage.removeItem('theme'); else localStorage.setItem('theme', next); } catch (e) { /* sin almacenamiento */ }
 }
 
+// Sol y luna en SVG (el emoji se dibujaba descentrado dentro del círculo, distinto en cada
+// sistema). El CSS enseña uno u otro según el tema.
+const THEME_ICONS = `<svg class="ti-sun" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><circle cx="12" cy="12" r="4.6" fill="#f5c518"/><path d="M12 2.2v2.6M12 19.2v2.6M2.2 12h2.6M19.2 12h2.6M5.1 5.1l1.8 1.8M17.1 17.1l1.8 1.8M5.1 18.9l1.8-1.8M17.1 6.9l1.8-1.8" stroke="#f5c518" stroke-width="2" stroke-linecap="round"/></svg><svg class="ti-moon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M20.2 14.6A8.6 8.6 0 0 1 9.4 3.8a8.6 8.6 0 1 0 10.8 10.8z" fill="#f5c518"/></svg>`;
+
 document.addEventListener('DOMContentLoaded', () => {
-  document.getElementById('theme-toggle-btn')?.addEventListener('click', toggleTheme);
+  const btn = document.getElementById('theme-toggle-btn');
+  if (btn) { btn.innerHTML = THEME_ICONS; btn.addEventListener('click', toggleTheme); }
 });
 
 let DB = AppData.loadData();
@@ -434,8 +434,6 @@ function updateNav(view) {
     b.classList.toggle('active', b.dataset.view === active);
   });
   el('bottom-nav').style.display = (view === 'home') ? 'none' : 'flex';
-  const sos = el('sos-btn');
-  if (sos) sos.hidden = (view === 'home' || !currentTripId);
 }
 
 function setupNav() {
@@ -454,7 +452,10 @@ function setupNav() {
   });
 }
 
-function setHeader(title, showBack) {
+// `hide`: en Inicio no hay barra (la portada ya dice «Vietnam & Camboya» unos píxeles más abajo;
+// pedido de Marcos, 9-oct-2026). El botón del tema pasa a la esquina de la portada.
+function setHeader(title, showBack, hide) {
+  document.querySelector('.app-header')?.classList.toggle('is-hidden', !!hide);
   el('header-title').textContent = title;
   const backBtn = el('header-back');
   if (showBack) {
@@ -612,18 +613,24 @@ function getContextualDestinations(trip) {
     return WEATHER_DESTINATIONS;
   }
 
-  const inBlock  = WEATHER_DESTINATIONS.filter(d => d.blocks.includes(currentBlock));
+  // Dentro del bloque, primero la ciudad en la que se está (la de destino si es día de traslado)
+  const here = (todayD.city || '').split('→').pop();
+  const inBlock  = WEATHER_DESTINATIONS.filter(d => d.blocks.includes(currentBlock))
+    .sort((a, b) => here.includes(b.label) - here.includes(a.label));
   const outBlock = WEATHER_DESTINATIONS.filter(d => !d.blocks.includes(currentBlock));
   return [...inBlock, ...outBlock];
 }
 
+// `data.isAvg`: medias de noviembre de respaldo (sin conexión o hasta que llega el tiempo
+// real). Se dice claramente: antes parecían el tiempo de ahora y salía «💨 —km/h».
 function weatherPill(data, label) {
   const icon = data?.icon || '🌡️';
   const temp = data?.temp || '—';
   const desc = data?.desc || '…';
   const meta = data
-    ? `<span>↑ ${data.max}°</span><span>↓ ${data.min}°</span><span>💧 ${data.humidity}%</span><span>💨 ${data.wind||'—'}km/h</span>`
+    ? `<span>↑ ${data.max}°</span><span>↓ ${data.min}°</span><span>💧 ${data.humidity}%</span>${data.wind ? `<span>💨 ${data.wind}km/h</span>` : ''}`
     : '';
+  const avg = data && data.isAvg ? '<div class="wc-avg">Media de noviembre · sin datos en vivo</div>' : '';
   return `
     <div class="weather-card">
       <div class="wc-left">
@@ -634,6 +641,7 @@ function weatherPill(data, label) {
         </div>
         <div class="wc-desc">${desc}</div>
         ${meta ? `<div class="wc-meta">${meta}</div>` : ''}
+        ${avg}
       </div>
     </div>`;
 }
@@ -658,7 +666,6 @@ function renderHome() {
   currentTripId = null;
   setHeader('Mis Viajes', false);
   el('bottom-nav').style.display = 'none';
-  if (el('sos-btn')) el('sos-btn').hidden = true;
 
   const content = el('view-content');
   const monthEs = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
@@ -707,39 +714,6 @@ function renderHome() {
 function openTrip(id) { currentTripId = id; navigate('trip'); }
 
 // ══════════════════════════════════════════════════════════
-//  TIP ROTATOR — iconos SVG y texto enriquecido
-// ══════════════════════════════════════════════════════════
-const _s = 'rgba(255,255,255,.9)', _sw = '1.8', _sl = 'round';
-const TIP_SVG_ICONS = {
-  'Vacunas':      `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${_s}" stroke-width="${_sw}" stroke-linecap="${_sl}" stroke-linejoin="${_sl}"><path d="m18 2 4 4-1.5 1.5-4-4L18 2z"/><path d="M10.5 9.5 4 16 5.5 18l1.5 1.5L13 13"/><path d="m6 10 4 4M14 6l4 4M3 21l3-3"/></svg>`,
-  'Dinero':       `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${_s}" stroke-width="${_sw}" stroke-linecap="${_sl}" stroke-linejoin="${_sl}"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>`,
-  'Clima':        `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${_s}" stroke-width="${_sw}" stroke-linecap="${_sl}" stroke-linejoin="${_sl}"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>`,
-  'Conectividad': `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${_s}" stroke-width="${_sw}" stroke-linecap="${_sl}" stroke-linejoin="${_sl}"><path d="M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0"/><circle cx="12" cy="20" r="1" fill="${_s}"/></svg>`,
-  'Transporte':   `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${_s}" stroke-width="${_sw}" stroke-linecap="${_sl}" stroke-linejoin="${_sl}"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>`,
-  'Comida':       `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${_s}" stroke-width="${_sw}" stroke-linecap="${_sl}" stroke-linejoin="${_sl}"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3zm0 0v7"/></svg>`,
-  'Templos':      `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${_s}" stroke-width="${_sw}" stroke-linecap="${_sl}" stroke-linejoin="${_sl}"><path d="M3 22h18M6 18V10M18 18V10M10 18v-4h4v4M2 10l10-8 10 8"/></svg>`,
-  'Salud':        `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${_s}" stroke-width="${_sw}" stroke-linecap="${_sl}" stroke-linejoin="${_sl}"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
-  'Electricidad': `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${_s}" stroke-width="${_sw}" stroke-linecap="${_sl}" stroke-linejoin="${_sl}"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" fill="none"/></svg>`,
-  'Fotos':        `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${_s}" stroke-width="${_sw}" stroke-linecap="${_sl}" stroke-linejoin="${_sl}"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>`,
-  'Regateo':      `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${_s}" stroke-width="${_sw}" stroke-linecap="${_sl}" stroke-linejoin="${_sl}"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1" fill="${_s}"/></svg>`,
-  'Visados':      `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${_s}" stroke-width="${_sw}" stroke-linecap="${_sl}" stroke-linejoin="${_sl}"><rect x="2" y="3" width="20" height="18" rx="2"/><path d="M2 9h20M7 15h4M7 12h2"/></svg>`,
-};
-const TIP_BOLD_HTML = {
-  'Vacunas':      'Consulta con tu médico <strong>6-8 semanas antes</strong>. Recomendadas: <strong>hepatitis A y B, tifoidea, tétanos</strong>. El paludismo no es riesgo en las zonas turísticas habituales.',
-  'Dinero':       'Vietnam usa <strong>dong (VND)</strong>. Camboya acepta <strong>USD</strong> oficialmente — lleva billetes de 1, 5 y 10 dólares. Los cajeros funcionan bien en ciudades grandes.',
-  'Clima':        'Noviembre es perfecta: <strong>estación seca</strong> en el sur y centro. En el norte puede refrescar de noche. Lleva una <strong>capa ligera</strong> para los templos con aire acondicionado.',
-  'Conectividad': 'Compra una <strong>SIM vietnamita</strong> en el aeropuerto de Hanói (Viettel o Vietnamobile). Unos <strong>5€ por 15 GB</strong>. En Camboya, <strong>Smart Axiata</strong> es la mejor opción.',
-  'Transporte':   'Usa <strong>Grab</strong> (el Uber de Asia) para taxis seguros con precio fijo. Para motos cortas, <strong>GrabBike</strong>. Los tuk-tuks en Camboya se negocian antes de subir.',
-  'Comida':       'Come donde hay <strong>cola de locales</strong> — los puestos callejeros son más seguros de lo que parecen. Lleva siempre <strong>Imodium</strong>. El <strong>pho, el bánh mì</strong> y el amok camboyano son imprescindibles.',
-  'Templos':      'Cubre <strong>hombros y rodillas</strong> para entrar a templos y pagodas. Los pañuelos sarong de la entrada son un gasto evitable si llevas <strong>ropa adecuada</strong>.',
-  'Salud':        'Lleva un <strong>botiquín básico</strong>: Imodium, ibuprofeno, antihistamínico, vendas y desinfectante. El <strong>seguro de viaje con repatriación médica</strong> es imprescindible.',
-  'Electricidad': 'Vietnam y Camboya usan enchufes <strong>tipo A, C y G (220 V)</strong>. Un <strong>adaptador universal</strong> cubre todo. Los hoteles suelen tener enchufes universales en los cuartos.',
-  'Fotos':        'En <strong>Tuol Sleng y los Killing Fields</strong>, guarda el móvil con respeto. En Angkor, los mejores ángulos están en los <strong>rincones menos transitados</strong>.',
-  'Regateo':      'En mercados, empieza en el <strong>40-50 % del precio pedido</strong>. En tiendas con precio fijo, no se regatea. Siempre con <strong>buen humor</strong> — el regateo agresivo es maleducado.',
-  'Visados':      'Vietnam: <strong>sin visado</strong> con pasaporte español (exención de 45 días), pero hay que rellenar la <strong>Digital Arrival Card</strong> online en los 3 días previos. Camboya: <strong>e-Visa online</strong> (~36 USD) + Digital Arrival Card en los 7 días previos. Pasaporte con <strong>mínimo 6 meses de vigencia</strong>.',
-};
-
-// ══════════════════════════════════════════════════════════
 //  VIEW: INICIO / TRIP DASHBOARD (con tiempo)
 // ══════════════════════════════════════════════════════════
 
@@ -747,7 +721,7 @@ async function renderTripDashboard() {
   clearHomeTimers(); // también si se repinta sin pasar por renderView
   const trip = getTrip(currentTripId);
   if (!trip) return renderHome();
-  setHeader(trip.name, false);
+  setHeader(trip.name, false, true);
 
   const active = isTripActive(trip);
   const past = isTripPast(trip);
@@ -785,13 +759,14 @@ async function renderTripDashboard() {
   const OFFLINE_SANTIAGO = { temp:'14', max:'17', min:'10', icon:'🌧️', desc:'Lluvia típica gallega', humidity:'85' };
   const destinations = getContextualDestinations(trip);
 
-  const allCities = [
-    { label: 'Santiago de Compostela', query: 'Santiago de Compostela', offline: OFFLINE_SANTIAGO, home: true },
-    ...destinations.map(d => ({ label: d.label, query: d.query, offline: d.offline, home: false }))
-  ];
+  // Antes y después del viaje, Santiago primero; durante el viaje, la ciudad en la que se
+  // está primero y Santiago al final
+  const santiago = { label: 'Santiago de Compostela', query: 'Santiago de Compostela', offline: OFFLINE_SANTIAGO, home: true };
+  const dests = destinations.map(d => ({ label: d.label, query: d.query, offline: d.offline, home: false }));
+  const allCities = active ? [...dests, santiago] : [santiago, ...dests];
 
   // Cargar todas las ciudades en paralelo y guardarlas en un array
-  const resolved = allCities.map(c => ({ label: c.label, data: c.offline, home: c.home }));
+  const resolved = allCities.map(c => ({ label: c.label, data: { ...c.offline, isAvg: true }, home: c.home }));
   let wIdx = 0;
   let wTimer = null;
 
@@ -863,88 +838,6 @@ async function renderTripDashboard() {
   // Moneda del país en que se está. Antes solo cambiaba el tipo interno (_fxRate) y en
   // Camboya convertía a rieles mostrando la etiqueta y la pestaña de VND.
   switchFXCurrency(getCurrentCountry(trip) === 'km' ? 'KHR' : 'VND');
-
-  // ── Tips rotantes con gradiente ──
-  const tips = trip.travelTips || [];
-  const tipGrads = [
-    'linear-gradient(135deg,#1a3a5c,#2d6a8f)',
-    'linear-gradient(135deg,#1b4332,#2d6a4f)',
-    'linear-gradient(135deg,#1f4e79,#2f6fa3)',
-    'linear-gradient(135deg,#2f3d17,#6b7f3a)',
-    'linear-gradient(135deg,#0d3b4f,#1a7a8a)',
-    'linear-gradient(135deg,#4a3510,#8a6a1c)',
-    'linear-gradient(135deg,#1a3a5c,#2d6a8f)',
-    'linear-gradient(135deg,#1b4332,#2d6a4f)',
-    'linear-gradient(135deg,#1f4e79,#2f6fa3)',
-    'linear-gradient(135deg,#2f3d17,#6b7f3a)',
-    'linear-gradient(135deg,#0d3b4f,#1a7a8a)',
-    'linear-gradient(135deg,#4a3510,#8a6a1c)',
-  ];
-  if (tips.length > 1) {
-    let tipIdx = 0;
-    // Pre-load tip photos
-    const _tipPhotoCache = {};
-    // Pre-load all hardcoded photos immediately
-    tips.forEach((t, i) => { if (t.photo) _tipPhotoCache[i] = t.photo; });
-
-    function showTip(i) {
-      const idx = i % tips.length;
-      const t = tips[idx];
-      const rotator = document.getElementById('tip-rotator');
-      const icon = document.getElementById('tip-icon');
-      const title = document.getElementById('tip-title');
-      const text = document.getElementById('tip-text');
-      const counter = document.getElementById('tip-counter');
-      const bgImg = document.getElementById('tip-bg-img');
-      const bgOverlay = document.getElementById('tip-bg-overlay');
-      if (!icon || !rotator) return;
-      rotator.classList.add('tip-fade-out');
-      setTimeout(() => {
-        icon.innerHTML = TIP_SVG_ICONS[t.title] || t.icon;
-        title.textContent = t.title;
-        text.innerHTML = TIP_BOLD_HTML[t.title] || t.tip;
-        if (counter) counter.textContent = `${idx + 1} / ${tips.length}`;
-        if (bgOverlay) bgOverlay.style.background = tipGrads[idx] || tipGrads[0];
-        document.querySelectorAll('.tip-dot').forEach((d, di) =>
-          d.classList.toggle('active', di === idx));
-        // Swap photo if available
-        if (bgImg) {
-          const src = _tipPhotoCache[idx];
-          if (src) {
-            bgImg.style.opacity = '0';
-            bgImg.onload = () => {
-              bgImg.style.opacity = '1';
-              rotator?.classList.add('has-photo');
-            };
-            bgImg.src = src;
-          } else {
-            bgImg.style.opacity = '0';
-            rotator?.classList.remove('has-photo');
-            if (_tipPhotoCache[idx] === undefined) loadTipPhoto(idx);
-          }
-        }
-        rotator.classList.remove('tip-fade-out');
-      }, 300);
-    }
-    document.querySelectorAll('.tip-dot').forEach(dot => {
-      dot.addEventListener('click', () => {
-        tipIdx = +dot.dataset.i;
-        clearInterval(tipTimer);
-        showTip(tipIdx);
-        tipTimer = homeInterval(() => { tipIdx++; showTip(tipIdx); }, 7000);
-      });
-    });
-    // Show first photo immediately (already in cache)
-    setTimeout(() => {
-      const bgImg = document.getElementById('tip-bg-img');
-      const rotator = document.getElementById('tip-rotator');
-      if (bgImg && _tipPhotoCache[0]) {
-        bgImg.onload = () => { bgImg.style.opacity = '1'; rotator?.classList.add('has-photo'); };
-        bgImg.src = _tipPhotoCache[0];
-      }
-    }, 100);
-    var tipTimer = homeInterval(() => { tipIdx++; showTip(tipIdx); }, 7000);
-  }
 }
 
 // ══════════════════════════════════════════════════════════
@@ -967,6 +860,19 @@ function getCurrentCountry(trip) {
 }
 
 // ── RELOJ DE DOBLE HUSO ────────────────────────────────────
+// Zonas horarias reales (Intl): el cambio de hora de España va solo. Antes tenía UTC+1 fijo
+// y hasta el 25-oct (horario de verano, UTC+2) iba una hora atrasado (9-oct-2026).
+const CLOCK_HOME = 'Europe/Madrid';
+const CLOCK_DEST = 'Asia/Ho_Chi_Minh'; // Vietnam y Camboya, UTC+7 todo el año
+function tzTime(tz, d) {
+  return d.toLocaleTimeString('es-ES', { timeZone: tz, hour: '2-digit', minute: '2-digit', hour12: false });
+}
+function tzOffset(tz, d) { // horas respecto a UTC
+  const wall = z => new Date(d.toLocaleString('en-US', { timeZone: z }));
+  return Math.round((wall(tz) - wall('UTC')) / 3600000);
+}
+const utcLabel = h => 'UTC' + (h >= 0 ? '+' : '−') + Math.abs(h);
+
 function buildDualClockHTML() {
   return `
     <div class="dual-clock-wrap">
@@ -974,7 +880,7 @@ function buildDualClockHTML() {
         <div class="dc-flag">🏠</div>
         <div class="dc-city">Santiago de Compostela</div>
         <div class="dc-time" id="dc-time-home">--:--</div>
-        <div class="dc-tz">UTC+1</div>
+        <div class="dc-tz" id="dc-tz-home">${utcLabel(tzOffset(CLOCK_HOME, new Date()))}</div>
       </div>
       <div class="dc-divider"></div>
       <div class="dc-card dc-dest">
@@ -994,34 +900,25 @@ function tickDualClock(trip) {
   if (!homeEl || !destEl) return;
 
   const now = new Date();
-  // Santiago: UTC+1 (Spain in November, after DST ends last Sunday of Oct)
-  const homeOffset = 1;
-  // Current destination timezone
-  const block = getCurrentBlock(trip);
-  // Current city: today's day city, or nearest upcoming day's city
+  // Ciudad del destino: la de hoy; en los días de vuelo, la del siguiente día real; y el
+  // 30-nov y después del viaje, la última del destino (antes salía «Aeropuerto de
+  // Barcelona-El Prat» con la hora de Vietnam)
   const t = today();
+  const real = trip.days.filter(day => !FLIGHT_BLOCKS.includes(day.block));
   const destCity = (() => {
-    const d = trip.days.find(day => day.date === t);
-    if (d && !FLIGHT_BLOCKS.includes(d.block)) return d.city;
-    // Días de vuelo (España→Asia) no son el "destino" a efectos de este reloj — saltar al primer día real
-    const next = trip.days.find(day => day.date > t && !FLIGHT_BLOCKS.includes(day.block)) || trip.days.find(day => day.date > t);
-    return next ? next.city : (trip.days[0]?.city || 'Destino');
+    const d = real.find(day => day.date === t);
+    if (d) return d.city;
+    const next = real.find(day => day.date > t);
+    if (next) return next.city;
+    return real.length ? real[real.length - 1].city : 'Destino';
   })();
-  // Vietnam & Cambodia both UTC+7
-  const destOffset = 7;
 
-  const fmt = (d, off) => {
-    const utc = d.getTime() + d.getTimezoneOffset() * 60000;
-    const local = new Date(utc + off * 3600000);
-    const h = String(local.getHours()).padStart(2,'0');
-    const m = String(local.getMinutes()).padStart(2,'0');
-    return `${h}:${m}`;
-  };
-
-  homeEl.textContent = fmt(now, homeOffset);
-  destEl.textContent = fmt(now, destOffset);
+  homeEl.textContent = tzTime(CLOCK_HOME, now);
+  destEl.textContent = tzTime(CLOCK_DEST, now);
+  const homeTz = document.getElementById('dc-tz-home');
+  if (homeTz) homeTz.textContent = utcLabel(tzOffset(CLOCK_HOME, now));
   if (cityEl) cityEl.textContent = destCity;
-  if (tzEl)   tzEl.textContent = 'UTC+7 · ICT';
+  if (tzEl)   tzEl.textContent = utcLabel(tzOffset(CLOCK_DEST, now)) + ' · ICT';
 }
 
 // ── CONVERSOR DE DIVISAS ────────────────────────────────────
@@ -1030,6 +927,58 @@ const FX_RATES = {
   KHR: { name: 'Riel camboyano',  cc: 'kh', symbol: '៛', perEur: 4630  },
   USD: { name: 'Dólar USA',       cc: 'us', symbol: '$', perEur: 1.14  },
 };
+// Tipos de cambio (9-oct-2026): los de arriba son de respaldo (28-sep-2026). Con conexión se
+// actualizan como mucho cada 12 h desde open.er-api.com (gratis, sin clave) y se guardan en el
+// móvil; sin conexión se usan los últimos guardados.
+const FX_DEFAULT = { VND: 29600, KHR: 4630, USD: 1.14 };
+const FX_LS_KEY = 'viajes_fx';
+let _fxUpdated = null; // fecha (ms) de los tipos en uso; null = los de respaldo
+function loadStoredFX() {
+  try {
+    const st = JSON.parse(localStorage.getItem(FX_LS_KEY) || 'null');
+    if (!st || !st.rates) return;
+    Object.keys(FX_DEFAULT).forEach(k => { if (st.rates[k] > 0) FX_RATES[k].perEur = st.rates[k]; });
+    _fxUpdated = st.ts;
+  } catch (e) { /* sin almacenamiento: respaldo */ }
+}
+loadStoredFX();
+function fxRateText(cur) { return cur.perEur > 10 ? Math.round(cur.perEur).toLocaleString('es') : cur.perEur.toFixed(2); }
+function fxUpdatedText() {
+  return _fxUpdated
+    ? 'Tipos del ' + new Date(_fxUpdated).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })
+    : 'Tipos de referencia del 28 sep';
+}
+async function refreshFX() {
+  try {
+    if (!navigator.onLine) return;
+    if (_fxUpdated && Date.now() - _fxUpdated < 12 * 3600 * 1000) return;
+    const r = await fetch('https://open.er-api.com/v6/latest/EUR');
+    if (!r.ok) return;
+    const j = await r.json();
+    if (j.result !== 'success' || !j.rates) return;
+    const rates = {};
+    for (const k of Object.keys(FX_DEFAULT)) {
+      const v = +j.rates[k];
+      // Si algún valor es disparatado (±30 % del de respaldo), no se usa nada
+      if (!(v > FX_DEFAULT[k] * 0.7 && v < FX_DEFAULT[k] * 1.3)) return;
+      rates[k] = v;
+    }
+    localStorage.setItem(FX_LS_KEY, JSON.stringify({ ts: Date.now(), rates }));
+    loadStoredFX();
+    _fxRate = FX_RATES[_fxCurKey].perEur;
+    // Si el conversor está en pantalla, actualizar cifras sin redibujar
+    document.querySelectorAll('.fx-tab').forEach(b => {
+      const el = b.querySelector('.fx-tab-rate'), cur = FX_RATES[b.dataset.key];
+      if (el && cur) el.textContent = `1€ = ${fxRateText(cur)} ${cur.symbol}`;
+    });
+    const note = document.getElementById('fx-rate-note');
+    if (note) note.textContent = `1 € = ${fxRateText(FX_RATES[_fxCurKey])} ${FX_RATES[_fxCurKey].symbol}`;
+    const upd = document.getElementById('fx-updated');
+    if (upd) upd.textContent = fxUpdatedText();
+    const eurEl = document.getElementById('fx-eur');
+    if (eurEl && eurEl.value) calcFXFrom('eur');
+  } catch (e) { /* sin cobertura o servicio caído: se siguen usando los guardados */ }
+}
 // Banderas emoji (🇻🇳, 🇰🇭…): en el móvil se dibujan bien, pero Windows no tiene banderas y
 // salen como letras («VN»). Solo en ese caso se cambian por imágenes; en el móvil se dejan
 // como emoji para que todo siga funcionando sin conexión.
@@ -1073,8 +1022,9 @@ function buildCurrencyHTML(trip) {
     <div class="currency-card">
       <div class="currency-header">
         <div class="currency-title">💶 Conversor de divisas</div>
-        <div class="currency-rate-note" id="fx-rate-note">1 € = ${mainCur.perEur.toLocaleString('es')} ${mainCur.symbol}</div>
+        <div class="currency-rate-note" id="fx-rate-note">1 € = ${fxRateText(mainCur)} ${mainCur.symbol}</div>
       </div>
+      <div class="fx-updated" id="fx-updated">${fxUpdatedText()}</div>
       <div class="currency-body">
         <div class="currency-input-row">
           <div class="currency-eur-badge">${flagImg('eu', 24)} € EUR</div>
@@ -1087,6 +1037,7 @@ function buildCurrencyHTML(trip) {
           <input class="currency-input" id="fx-local" type="number" placeholder="0"
                  inputmode="decimal" oninput="calcFXFrom('local')" aria-label="Cantidad en moneda local">
         </div>
+        <div class="fx-result" id="fx-result" aria-live="polite"></div>
       </div>
       <div class="currency-tabs" id="fx-tabs">
         ${allCurs.map((c, i) => `
@@ -1096,7 +1047,7 @@ function buildCurrencyHTML(trip) {
             <span class="fx-tab-info">
               <span class="fx-tab-key">${c.key}</span>
               <span class="fx-tab-name">${c.name}</span>
-              <span class="fx-tab-rate">1€ = ${c.perEur > 10 ? Math.round(c.perEur).toLocaleString('es') : c.perEur.toFixed(2)} ${c.symbol}</span>
+              <span class="fx-tab-rate">1€ = ${fxRateText(c)} ${c.symbol}</span>
             </span>
           </button>`).join('')}
       </div>
@@ -1123,6 +1074,20 @@ function calcFXFrom(from) {
     const eur = local / _fxRate;
     eurEl.value = eur.toFixed(2);
   }
+  fxShowResult();
+}
+
+// Resultado legible debajo del conversor: los campos numéricos no admiten puntos de miles
+// y con los dong costaba contar ceros (9-oct-2026, rehecho el 27-oct)
+function fxShowResult() {
+  const out = document.getElementById('fx-result');
+  if (!out) return;
+  const eur = parseFloat(document.getElementById('fx-eur')?.value);
+  const local = parseFloat(document.getElementById('fx-local')?.value);
+  if (!(eur > 0) || !(local > 0)) { out.textContent = ''; return; }
+  const cur = FX_RATES[_fxCurKey];
+  const fmt = (n, dec) => n.toLocaleString('es-ES', { minimumFractionDigits: dec, maximumFractionDigits: dec, useGrouping: 'always' }); // «5.000», no «5000»
+  out.textContent = `${fmt(local, cur.perEur > 10 ? 0 : 2)} ${cur.symbol} = ${fmt(eur, 2)} €`;
 }
 
 function switchFXCurrency(key) {
@@ -1133,7 +1098,7 @@ function switchFXCurrency(key) {
   document.querySelectorAll('.fx-tab').forEach(b => b.classList.toggle('active', b.dataset.key === key));
   const note  = document.getElementById('fx-rate-note');
   const badge = document.getElementById('fx-local-badge');
-  if (note)  note.textContent = `1 € = ${cur.perEur > 10 ? Math.round(cur.perEur).toLocaleString('es') : cur.perEur.toFixed(2)} ${cur.symbol}`;
+  if (note)  note.textContent = `1 € = ${fxRateText(cur)} ${cur.symbol}`;
   if (badge) badge.innerHTML = `${flagImg(cur.cc, 24)} ${cur.symbol} ${key}`;
   const eurEl = document.getElementById('fx-eur');
   if (eurEl?.value) calcFXFrom('eur'); else calcFXFrom('local');
@@ -1165,7 +1130,7 @@ function buildTripStatsHTML(trip) {
   // Noches por país: la noche de cada día se pasa en el país de DESTINO del día («Vietnam → Camboya» = Camboya),
   // y solo cuenta si se duerme en tierra (hotel o bus nocturno), no en un vuelo.
   const destCountry = d => ((d.country || '').split('→').pop() || '').toLowerCase();
-  const sleepsHere  = d => (d.hotel && d.hotel.name) || (d.transport || []).some(tr => /nocturno|sleeper/i.test(tr.details || ''));
+  const sleepsHere  = d => (d.hotel && d.hotel.name) || (d.transport || []).some(isOvernightTransport);
   const nightsVI = allDays.filter(d => sleepsHere(d) && destCountry(d).includes('vietnam')).length;
   const nightsKH = allDays.filter(d => sleepsHere(d) && /camboya|cambodia/.test(destCountry(d))).length;
 
@@ -1318,8 +1283,39 @@ function buildSurvivalDictHTML(trip) {
         <button class="dict-lang-badge" onclick="toggleDictLang()" aria-label="Cambiar a ${otherName}">${flagImg(langCC, 20)} ${dict.lang} ⇄</button>
       </div>
       ${dict.note ? `<div class="dict-note">${dict.note}</div>` : ''}
-      <div class="dict-scroll" id="dict-scroll">${cards}</div>
+      <div class="dict-scroll" id="dict-scroll" onscroll="dictUpdateCount()">${cards}</div>
+      <div class="dict-nav">
+        <button class="dict-arrow" onclick="dictStep(-1)" aria-label="Frase anterior">‹</button>
+        <span class="dict-count" id="dict-count" aria-live="polite">1 / ${dict.phrases.length}</span>
+        <button class="dict-arrow" onclick="dictStep(1)" aria-label="Frase siguiente">›</button>
+      </div>
     </div>`;
+}
+
+// Frases de una en una (antes asomaba la siguiente cortada): se pasa deslizando o con las
+// flechas; al llegar al final, vuelve a la primera (9-oct-2026, rehecho el 27-oct)
+function dictIndex(box) {
+  const card = box.querySelector('.dict-card');
+  const step = card ? card.offsetWidth + parseFloat(getComputedStyle(box).columnGap || 0) : 1;
+  return Math.round(box.scrollLeft / step);
+}
+function dictStep(dir) {
+  const box = document.getElementById('dict-scroll');
+  if (!box) return;
+  const cards = box.querySelectorAll('.dict-card');
+  const n = cards.length;
+  const i = (dictIndex(box) + dir + n) % n;
+  if (!cards[i]) return;
+  box.scrollTo({ left: cards[i].offsetLeft - cards[0].offsetLeft, behavior: 'smooth' });
+  // El contador, ya (sin esperar al evento de scroll, que llega al terminar el deslizamiento)
+  const out = document.getElementById('dict-count');
+  if (out) out.textContent = `${i + 1} / ${n}`;
+}
+function dictUpdateCount() {
+  const box = document.getElementById('dict-scroll'), out = document.getElementById('dict-count');
+  if (!box || !out) return;
+  const n = box.querySelectorAll('.dict-card').length;
+  out.textContent = `${Math.min(dictIndex(box), n - 1) + 1} / ${n}`;
 }
 
 function toggleDictLang() {
@@ -1515,35 +1511,6 @@ function buildDashboardHTML(trip, active, past, diff, day, nextDay, pendingTotal
       ${routeItems}
     </div>`;
 
-  // ── Tips de viaje (tarjeta grande rotante con gradiente) ──
-  const tips = trip.travelTips || [];
-  const tipGradients = [
-    'linear-gradient(135deg,#1a3a5c,#2d6a8f)',
-    'linear-gradient(135deg,#1b4332,#2d6a4f)',
-    'linear-gradient(135deg,#1f4e79,#2f6fa3)',
-    'linear-gradient(135deg,#2f3d17,#6b7f3a)',
-    'linear-gradient(135deg,#0d3b4f,#1a7a8a)',
-  ];
-  const tipsSection = tips.length ? `
-    <div class="section-title">Tips del viaje</div>
-    <div class="tip-rotator" id="tip-rotator">
-      <img class="tip-bg-img" id="tip-bg-img" src="" alt="">
-      <div class="tip-bg-overlay" id="tip-bg-overlay" style="background:${tipGradients[0]}"></div>
-      <div class="tip-rotator-card">
-        <div class="tip-rotator-header">
-          <span class="tip-rotator-icon" id="tip-icon">${TIP_SVG_ICONS[tips[0].title] || ''}</span>
-          <span class="tip-rotator-title" id="tip-title">${tips[0].title}</span>
-        </div>
-        <p class="tip-rotator-text" id="tip-text">${TIP_BOLD_HTML[tips[0].title] || tips[0].tip}</p>
-      </div>
-      <div class="tip-rotator-footer">
-        <div class="tip-rotator-dots" id="tip-dots">
-          ${tips.map((_, i) => `<span class="tip-dot${i===0?' active':''}" data-i="${i}"></span>`).join('')}
-        </div>
-        <span class="tip-counter" id="tip-counter">1 / ${tips.length}</span>
-      </div>
-    </div>` : '';
-
   const heroLayersHtml = HERO_WIKI_PLACES.map((_, i) =>
     `<div class="hero-img-layer ${i===0?'active':'inactive'}"></div>`
   ).join('');
@@ -1553,8 +1520,10 @@ function buildDashboardHTML(trip, active, past, diff, day, nextDay, pendingTotal
     <div class="trip-hero" id="trip-hero">
       ${heroLayersHtml}
       <div class="hero-overlay"></div>
+      <!-- Globo a la izquierda y botón del tema a la derecha, a la misma altura (9-oct-2026) -->
+      <span class="hero-globe" aria-hidden="true">${trip.emoji}</span>
+      <button class="hero-theme-btn" onclick="toggleTheme()" aria-label="Cambiar entre tema claro y oscuro">${THEME_ICONS}</button>
       <div class="hero-content">
-        <span class="trip-hero-emoji">${trip.emoji}</span>
         <h2>${trip.name}</h2>
         <div class="hero-sub">${trip.subtitle}</div>
         <div style="margin-top:10px">${statusBadge}</div>
@@ -1577,9 +1546,6 @@ function buildDashboardHTML(trip, active, past, diff, day, nextDay, pendingTotal
       <div class="section-title">Ruta del viaje</div>
       ${summarySection}
     </div>
-
-    <!-- Tips del viaje -->
-    ${tipsSection}
 
     <!-- Notas del viaje -->
     ${renderNotesSection(trip)}
@@ -1741,6 +1707,8 @@ function addNote() {
 }
 
 function deleteNote(noteId) {
+  // Una nota escrita a mano no se puede recuperar: se pide confirmación
+  if (!confirm('¿Borrar esta nota?')) return;
   const trip = getTrip(currentTripId);
   ensureTripNotes(trip);
   trip.tripNotes.freeNotes = trip.tripNotes.freeNotes.filter(n => n.id !== noteId);
@@ -1789,7 +1757,12 @@ function deleteNoteItem(type, idx) {
   const trip = getTrip(currentTripId);
   ensureTripNotes(trip);
   const key = type === 'packing' ? 'packingList' : 'preTripTasks';
-  trip.tripNotes[key].splice(idx, 1);
+  const [gone] = trip.tripNotes[key].splice(idx, 1);
+  // Los de serie (id sin Date.now() al final) se apuntan para que no vuelvan al actualizar
+  // los datos: AppData.mergeUserState los filtra (9-oct-2026)
+  if (gone && gone.id && !/\d{13}$/.test(gone.id)) {
+    trip.tripNotes.removedIds = [...new Set([...(trip.tripNotes.removedIds || []), gone.id])];
+  }
   save();
   refreshNotesPanel(trip, type);
 }
@@ -1888,6 +1861,7 @@ function renderItinerary(tab) {
     'bus+ferry':   { label: 'Bus + Ferry',     icon: '🚐',  color: '#0077a8' },
     'ferry':       { label: 'Ferry',           icon: '🚢',  color: '#0077a8' },
     'boat':        { label: 'Barco / Crucero', icon: '🚢',  color: '#0077a8' },
+    'car':         { label: 'Traslado',        icon: '🚗',  color: '#5c6b7a' },
     'bike':        { label: 'Bicicleta',       icon: '🚲',  color: '#2d6a4f' },
   };
 
@@ -1908,7 +1882,7 @@ function renderItinerary(tab) {
           const isToday = day.date === t;
           const hasTr = day.transport.length > 0;
           const trHtml = day.transport.map(tr => {
-            const info = TRANSPORT_TYPE_INFO[tr.type] || { icon: '🚗', color: zone.color };
+            const info = TRANSPORT_TYPE_INFO[transportKind(tr)] || { icon: '🚗', color: zone.color };
             const route = tr.from && tr.to ? `${tr.from} → ${tr.to}` : (tr.from || tr.to || '');
             return `<div class="tr-inline" style="border-left:3px solid ${info.color}">
               <span class="tr-inline-icon">${info.icon}</span>
@@ -1941,12 +1915,15 @@ function renderItinerary(tab) {
             </div>
             <div class="tr-detail-panel" id="${panelId}" style="display:none">
               ${day.transport.map(tr => {
-                const info = TRANSPORT_TYPE_INFO[tr.type] || { icon: '🚗', label: tr.type, color: zone.color };
-                const tips = TRANSPORT_TIPS[tr.type] || [];
+                const kind = transportKind(tr);
+                const info = TRANSPORT_TYPE_INFO[kind] || { icon: '🚗', label: 'Trayecto', color: zone.color };
+                const tips = TRANSPORT_TIPS[kind] || [];
+                // El color del tipo va en el borde; el texto, en el color normal (en oscuro,
+                // «Vuelos» azul marino sobre fondo oscuro se quedaba en 1,3:1)
                 return `<div class="tr-detail-card" style="border-left:3px solid ${info.color}">
                   <div class="tr-detail-head">
                     <span class="tr-detail-icon">${info.icon}</span>
-                    <span class="tr-detail-label" style="color:${info.color}">${info.label || tr.type}</span>
+                    <span class="tr-detail-label" style="color:var(--text)">${info.label}</span>
                     ${tr.time ? `<span class="tr-detail-time">${tr.time}</span>` : ''}
                   </div>
                   ${tr.from || tr.to ? `<div class="tr-detail-route">
@@ -2192,11 +2169,11 @@ function renderDay(date) {
   // ── Tabs ──
   const tabsHtml = `
     <div class="day-tabs" id="day-tabs">
-      <button class="day-tab active" onclick="showDayTab('resumen')">Resumen</button>
-      <button class="day-tab" onclick="showDayTab('lugares')">Lugares</button>
-      ${day.restaurants.length ? `<button class="day-tab" onclick="showDayTab('comer')">Qué comer</button>` : ''}
-      <button class="day-tab" onclick="showDayTab('mapa')">Mapa</button>
-      <button class="day-tab" onclick="showDayTab('notas')">Notas</button>
+      <button class="day-tab active" data-tab="resumen" onclick="showDayTab('resumen')">Resumen</button>
+      <button class="day-tab" data-tab="lugares" onclick="showDayTab('lugares')">Lugares</button>
+      ${day.restaurants.length ? `<button class="day-tab" data-tab="comer" onclick="showDayTab('comer')">Qué comer</button>` : ''}
+      <button class="day-tab" data-tab="mapa" onclick="showDayTab('mapa')">Mapa</button>
+      <button class="day-tab" data-tab="notas" onclick="showDayTab('notas')">Notas</button>
     </div>`;
 
   // ── TAB: Resumen ──
@@ -2588,10 +2565,9 @@ function toggleLugar(type, idx) {
 }
 
 function showDayTab(tab) {
-  document.querySelectorAll('.day-tab').forEach((b, i) => {
-    const tabs = ['resumen','lugares','comer','mapa','notas'];
-    b.classList.toggle('active', tabs[i] === tab);
-  });
+  // Por nombre: en los días sin «Qué comer» (5, 6 y 30-nov), activar por posición cruzaba
+  // Mapa con Notas
+  document.querySelectorAll('.day-tab').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
   ['resumen','lugares','comer','mapa','notas'].forEach(t => {
     const panel = document.getElementById('dtab-' + t);
     if (panel) panel.classList.toggle('hidden', t !== tab);
@@ -2639,7 +2615,7 @@ function initDayLeaflet() {
 }
 
 // ══════════════════════════════════════════════════════════
-//  MOMENTOS DEL DÍA (6-oct-2026): «Ahora / Siguiente», avisos, centro de reservas, SOS
+//  MOMENTOS DEL DÍA (6-oct-2026): «Ahora / Siguiente», avisos, centro de reservas
 //  y estado del modo sin conexión. Todo sale de los datos del itinerario (transportes con
 //  hora y entradas/salidas de los alojamientos), sin depender de la red.
 // ══════════════════════════════════════════════════════════
@@ -2759,7 +2735,7 @@ function buildAlertsHTML(trip, date) {
   const dayT = trip.days.find(d => d.date === date), dayM = trip.days.find(d => d.date === tm);
   dayEvents(trip, date).filter(e => e.kind === 'checkout')
     .forEach(e => out.push(['🔑', `Hoy dejáis ${e.hotel.name}: salida antes de las ${e.hotel.checkOut || '12:00'}.`]));
-  ((dayT && dayT.transport) || []).filter(tr => /nocturno|sleeper/i.test(tr.details || ''))
+  ((dayT && dayT.transport) || []).filter(isOvernightTransport)
     .forEach(tr => out.push(['🌙', `Esta noche dormís en el bus (${tr.from} → ${tr.to}, ${tr.time}). ${(TRANSPORT_TIPS['sleeper-bus'] || [])[0] || ''}`]));
   if (dayM) {
     const fl = (dayM.transport || []).find(tr => tr.type === 'flight');
@@ -2784,116 +2760,137 @@ function buildAlertsHTML(trip, date) {
     </div>`;
 }
 
-// Centro de reservas (arriba de Docs): transportes con reserva y alojamientos, por fecha
-function buildReservationsHTML(trip) {
-  const t = effectiveDate(), tm = addDaysIso(t, 1);
+// Reservas del viaje por orden: transportes con reserva y entradas en alojamientos.
+// Un trayecto que sale «antes» que el anterior del mismo día es de la madrugada siguiente
+// (29-nov: Hanói → Shenzhen a las 18:30 y Shenzhen → Barcelona a la 01:45 del 30).
+function reservationItems(trip) {
   const items = [];
   trip.days.forEach((day, i) => {
-    (day.transport || []).filter(tr => tr.ref).forEach(tr => items.push({ date: day.date, t: parseTimeMin(tr.time) ?? 0, tr }));
+    let lastT = null;
+    (day.transport || []).forEach(tr => {
+      let tt = parseTimeMin(tr.time) ?? 0;
+      if (lastT != null && tt < lastT) tt += 24 * 60;
+      lastT = tt;
+      if (tr.ref) items.push({ date: day.date, t: tt, tr });
+    });
     const h = day.hotel && day.hotel.name, prevH = i > 0 && trip.days[i - 1].hotel && trip.days[i - 1].hotel.name;
     if (h && h !== prevH) items.push({ date: day.date, t: 24 * 60, day });
   });
-  items.sort((a, b) => a.date.localeCompare(b.date) || a.t - b.t);
+  return items.sort((a, b) => a.date.localeCompare(b.date) || a.t - b.t);
+}
+
+// Centro de reservas (arriba de Docs), plegable para que no ocupe tanto (pedido de Marcos,
+// 9-oct-2026; rehecho el 27-oct). Cerrado: una línea con la próxima reserva. Abierto: una
+// fila por reserva que se despliega con horario, localizador, dirección y botones; las
+// pasadas, agrupadas al final. Abierto/cerrado se recuerda durante la sesión.
+function buildReservationsHTML(trip) {
+  const t = effectiveDate(), tm = addDaysIso(t, 1);
+  const items = reservationItems(trip);
+  const refs = DB.bookingRefs || {};
   const badge = d => d === t ? '<span class="res-badge res-today">HOY</span>'
                   : d === tm ? '<span class="res-badge res-tomorrow">MAÑANA</span>'
                   : `<span class="res-date">${fmtDayShort(d)}</span>`;
-  const rows = items.map(it => {
-    const past = it.date < t ? ' res-past' : '';
+  const titleOf = it => it.tr
+    ? `${it.tr.icon || transportIcon(it.tr.type)} ${it.tr.from} → ${it.tr.to}`
+    : `🏨 ${it.day.hotel.name}`;
+  const row = it => {
+    let end, body;
     if (it.tr) {
+      const key = bookingRefKey(it.date, it.tr);
       const company = (it.tr.details || '').split(/ — |\. /)[1] || '';
-      return `<div class="res-item${past}">
-        <div class="res-head">${badge(it.date)}<span class="res-time">${escHtml(it.tr.time || '')}</span></div>
-        <div class="res-title">${it.tr.icon || transportIcon(it.tr.type)} ${escHtml(it.tr.from + ' → ' + it.tr.to)}</div>
+      end = `<span class="res-lock" data-k="${escHtml(key)}" title="${refs[key] ? 'Localizador guardado' : 'Falta el localizador'}">${refs[key] ? '🔒' : '＋'}</span>`;
+      body = `
+        ${it.tr.time ? `<div class="res-sub">🕒 ${escHtml(it.tr.time)}</div>` : ''}
         ${company ? `<div class="res-sub">${escHtml(company.replace(/\.$/, ''))}</div>` : ''}
-        ${bookingRefHtml(it.date, it.tr)}
-      </div>`;
+        ${bookingRefHtml(it.date, it.tr)}`;
+    } else {
+      const info = hotelInfo(it.day.hotel);
+      const stay = hotelStay(trip, info.name, it.date);
+      const L = hotelLinks(info);
+      end = `<span class="res-time">${stay ? (stay.nights === 1 ? '1 noche' : stay.nights + ' noches') : ''}</span>`;
+      body = `
+        ${info.address ? `<div class="res-sub">📍 ${escHtml(info.address)}</div>` : ''}
+        ${info.checkIn ? `<div class="res-sub">Entrada ${escHtml(info.checkIn)}${info.checkOut ? ' · Salida ' + escHtml(info.checkOut) : ''}</div>` : ''}
+        <div class="nn-actions">
+          <a class="nn-btn" href="${L.dir}" target="_blank" rel="noopener">📍 Cómo llegar</a>
+          ${L.tel ? `<a class="nn-btn" href="${L.tel}">📞 Llamar</a>` : ''}
+          <button class="nn-btn" data-hotel="${escHtml(info.name)}" onclick="openHotelDetail(this.dataset.hotel,'${it.date}')">ℹ️ Ficha</button>
+        </div>`;
     }
-    const info = hotelInfo(it.day.hotel);
-    const stay = hotelStay(trip, info.name, it.date);
-    const L = hotelLinks(info);
-    return `<div class="res-item${past}">
-      <div class="res-head">${badge(it.date)}<span class="res-time">${stay ? (stay.nights === 1 ? '1 noche' : stay.nights + ' noches') : ''}</span></div>
-      <div class="res-title">🏨 ${escHtml(info.name)}</div>
-      ${info.address ? `<div class="res-sub">${escHtml(info.address)}</div>` : ''}
-      <div class="nn-actions">
-        <a class="nn-btn" href="${L.dir}" target="_blank" rel="noopener">📍 Cómo llegar</a>
-        ${L.tel ? `<a class="nn-btn" href="${L.tel}">📞 Llamar</a>` : ''}
-        <button class="nn-btn" data-hotel="${escHtml(info.name)}" onclick="openHotelDetail(this.dataset.hotel,'${it.date}')">ℹ️ Ficha</button>
-      </div>
-    </div>`;
-  }).join('');
+    return `
+      <details class="res-row${it.date < t ? ' res-past' : ''}">
+        <summary class="res-row-head">${badge(it.date)}<span class="res-row-title">${escHtml(titleOf(it))}</span>${end}<span class="res-chev" aria-hidden="true">›</span></summary>
+        <div class="res-row-body">${body}</div>
+      </details>`;
+  };
+  const upcoming = items.filter(it => it.date >= t), past = items.filter(it => it.date < t);
+  const next = upcoming[0];
+  let open = false;
+  try { open = sessionStorage.getItem('res-open') === '1'; } catch (e) { /* sin almacenamiento */ }
   return `
-    <div class="section-title">🎫 Reservas del viaje</div>
-    <div class="res-hint">Los localizadores se guardan solo en este móvil (la app es pública y no los publica).</div>
-    <div class="res-list">${rows}</div>`;
+    <details class="res-wrap"${open ? ' open' : ''} ontoggle="try{sessionStorage.setItem('res-open',this.open?'1':'')}catch(e){}">
+      <summary class="res-summary">
+        <span class="res-sum-main">🎫 Reservas del viaje <span class="res-sum-count">${items.length}</span></span>
+        ${next ? `<span class="res-sum-next">Próxima: ${escHtml(fmtDayShort(next.date) + ' · ' + titleOf(next))}</span>` : ''}
+        <span class="res-chev" aria-hidden="true">›</span>
+      </summary>
+      <div class="res-hint">Los localizadores se guardan solo en este móvil (la app es pública y no los publica). 🔒 = guardado · ＋ = falta.</div>
+      <div class="res-list">
+        ${upcoming.map(row).join('')}
+        ${past.length ? `
+        <details class="res-past-group">
+          <summary class="res-past-sum">Ya pasadas (${past.length})</summary>
+          <div class="res-list res-list-past">${past.map(row).join('')}</div>
+        </details>` : ''}
+      </div>
+    </details>`;
 }
 
-// SOS: emergencias, embajada y alojamiento de esta noche, en una hoja que se abre desde la cabecera
-function openSOS() {
-  const trip = getTrip(currentTripId);
-  if (!trip) return;
+// Alojamiento de esta noche (o el siguiente, si esta noche es en un bus o un avión), para
+// Docs → emergencias. Es lo único que tenía la hoja SOS y no estaba en Docs (el botón SOS de
+// la cabecera se quitó el 9-oct-2026 a petición de Marcos; rehecho el 27-oct).
+function tonightHotelHTML(trip) {
   const date = effectiveDate();
   const idx = trip.days.findIndex(d => d.date === date);
+  if (idx < 0 && date > trip.endDate) return '';
   const day = idx >= 0 ? trip.days[idx] : null;
-  const destCountry = day ? (day.country || '').split('→').pop() : '';
-  const where = /camboya/i.test(destCountry) ? 'camboya' : /vietnam/i.test(destCountry) ? 'vietnam' : '';
-  const pick = list => (list || []).filter(e => !where || (e.country || '').toLowerCase().includes(where));
-  const tel = n => `<a class="em-phone" href="tel:${(n || '').replace(/\s+/g, '')}">${escHtml(n || '')}</a>`;
-  // Alojamiento de esta noche (o el siguiente, si esta noche es en un bus o un avión)
   const hotelDay = (day && day.hotel && day.hotel.name) ? day : trip.days.slice(Math.max(idx, 0)).find(d => d.hotel && d.hotel.name);
-  const hi = hotelDay ? hotelInfo(hotelDay.hotel) : null;
-  const HL = hi ? hotelLinks(hi) : null;
-  const html = `
-    <div class="htl-sheet-overlay" onclick="closeSOS()"></div>
-    <div class="htl-sheet" role="dialog" aria-modal="true" aria-label="SOS">
-      <button class="htl-sheet-drag" onclick="closeSOS()" aria-label="Cerrar"></button>
-      <div class="htl-sheet-body">
-        <div class="htl-sheet-name">🆘 SOS</div>
-        <div class="em-block">
-          <div class="em-title">🚨 Emergencias${where ? '' : ' (Vietnam y Camboya)'}</div>
-          ${pick(DB.localEmergency).map(e => `
-            <div class="em-row em-phone-row"><span class="em-who">${flagText(e.country)}</span>
-              <span class="em-val">Policía ${tel(e.police)} · Ambulancia ${tel(e.ambulance)} · Bomberos ${tel(e.fire)}</span></div>`).join('')}
-        </div>
-        <div class="em-block">
-          <div class="em-title">${flagText('🇪🇸')} Embajada de España</div>
-          ${pick(DB.contacts).map(e => `
-            <div class="em-embassy">
-              <div class="em-emb-country">${flagText(e.country)} — ${escHtml(e.name || '')}</div>
-              ${e.emergency ? `<div class="em-row"><span class="em-who">Emergencia 24h</span>${tel(e.emergency)}</div>` : ''}
-              <div class="em-row"><span class="em-who">Teléfono</span>${tel(e.phone)}</div>
-            </div>`).join('')}
-        </div>
-        ${hi ? `
-        <div class="em-block">
-          <div class="em-title">🏨 ${hotelDay === day ? 'Alojamiento de esta noche' : 'Próximo alojamiento'}</div>
-          <div class="em-emb-country">${escHtml(hi.name)}</div>
-          ${hi.address ? `<div class="em-emb-addr">${escHtml(hi.address)}</div>` : ''}
-          <div class="nn-actions">
-            <a class="nn-btn" href="${HL.dir}" target="_blank" rel="noopener">📍 Cómo llegar</a>
-            ${HL.tel ? `<a class="nn-btn" href="${HL.tel}">📞 ${escHtml(hi.phone)}</a>` : ''}
-          </div>
-        </div>` : ''}
-        <div class="em-block">
-          <div class="em-title">🏥 Seguro y pasaportes</div>
-          <div class="em-note">La póliza (con su teléfono de asistencia 24 h) y las copias de los pasaportes, en «Documentos».</div>
-          <div class="nn-actions"><button class="nn-btn" onclick="closeSOS();navigate('docs')">📁 Abrir Documentos</button></div>
-        </div>
+  if (!hotelDay) return '';
+  const hi = hotelInfo(hotelDay.hotel), HL = hotelLinks(hi);
+  return `
+    <div class="em-block">
+      <div class="em-title">🏨 ${hotelDay === day ? 'Alojamiento de esta noche' : 'Próximo alojamiento · ' + escHtml(fmtDayShort(hotelDay.date))}</div>
+      <div class="em-emb-country">${escHtml(hi.name)}</div>
+      ${hi.address ? `<div class="em-emb-addr">${escHtml(hi.address)}</div>` : ''}
+      <div class="nn-actions">
+        <a class="nn-btn" href="${HL.dir}" target="_blank" rel="noopener">📍 Cómo llegar</a>
+        ${HL.tel ? `<a class="nn-btn" href="${HL.tel}">📞 ${escHtml(hi.phone)}</a>` : ''}
       </div>
     </div>`;
-  let wrap = document.getElementById('sos-sheet-wrap');
-  if (!wrap) { wrap = document.createElement('div'); wrap.id = 'sos-sheet-wrap'; document.body.appendChild(wrap); }
-  wrap.innerHTML = html;
-  wrap.style.display = 'block';
-  requestAnimationFrame(() => wrap.querySelector('.htl-sheet').classList.add('htl-sheet-open'));
 }
 
-function closeSOS() {
-  const wrap = document.getElementById('sos-sheet-wrap');
-  if (!wrap) return;
-  const sheet = wrap.querySelector('.htl-sheet');
-  if (sheet) sheet.classList.remove('htl-sheet-open');
-  setTimeout(() => { wrap.style.display = 'none'; wrap.innerHTML = ''; }, 280);
+// Consejos prácticos (Docs), debajo de las reservas y plegados igual. Textos en js/guia.js
+// (TRAVEL_TIPS, repasados el 9-oct-2026). Abierto/cerrado se recuerda durante la sesión.
+function buildTipsHTML() {
+  const tips = window.TRAVEL_TIPS || [];
+  if (!tips.length) return '';
+  let open = false;
+  try { open = sessionStorage.getItem('tips-open') === '1'; } catch (e) { /* sin almacenamiento */ }
+  return `
+    <details class="res-wrap tips-wrap"${open ? ' open' : ''} ontoggle="try{sessionStorage.setItem('tips-open',this.open?'1':'')}catch(e){}">
+      <summary class="res-summary">
+        <span class="res-sum-main">💡 Consejos prácticos <span class="res-sum-count">${tips.length}</span></span>
+        <span class="res-sum-next">${escHtml(tips.map(x => x.title).slice(0, 4).join(' · '))}…</span>
+        <span class="res-chev" aria-hidden="true">›</span>
+      </summary>
+      <div class="res-list">
+        ${tips.map(x => `
+          <div class="tip-item">
+            <div class="tip-item-title"><span aria-hidden="true">${x.icon}</span> ${escHtml(x.title)}</div>
+            <div class="tip-item-text">${x.html}</div>
+          </div>`).join('')}
+      </div>
+    </details>`;
 }
 
 // Estado del modo sin conexión (Inicio): ¿está la app guardada y cuántas fotos?
@@ -2930,6 +2927,7 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.addEventListener('message', e => { if (e.data && e.data.type === 'precache-done') updateOfflineStatus(); });
 }
 window.addEventListener('online', updateOfflineStatus);
+window.addEventListener('online', () => refreshFX());
 window.addEventListener('offline', updateOfflineStatus);
 
 // ── LOCALIZADORES DE RESERVA (solo en el móvil) ───────────
@@ -2963,6 +2961,12 @@ function editBookingRef(key) {
   const [date, type, ...to] = key.split('|');
   const html = bookingRefHtml(date, { ref: true, type, to: to.join('|') });
   document.querySelectorAll('.tr-ref').forEach(el => { if (el.dataset.k === key) el.outerHTML = html; });
+  // Y el 🔒 / ＋ de su fila en las reservas de Docs
+  document.querySelectorAll('.res-lock').forEach(el => {
+    if (el.dataset.k !== key) return;
+    el.textContent = clean ? '🔒' : '＋';
+    el.title = clean ? 'Localizador guardado' : 'Falta el localizador';
+  });
 }
 
 function copyBookingRef(btn) {
@@ -3108,17 +3112,19 @@ function toggleTask(date, idx) {
 
 // Consejos contextuales por tipo de transporte
 const TRANSPORT_TIPS = {
+  // Repasados el 9-oct-2026 (y rehechos el 27-oct): ningún bus nocturno del viaje cruza
+  // frontera, y el tren es Da Nang → Hue a las 07:05 (los de antes eran de la ruta antigua)
   'sleeper-bus': [
     'Recarga el móvil antes de subir — los enchufes del bus no siempre funcionan.',
+    'Se entra descalzo: te dan una bolsa para los zapatos. Calcetines para la noche.',
     'Lleva tapones y antifaz: las luces se apagan tarde y vuelven a las 5am.',
-    'Ten el pasaporte a mano por si hay controles nocturnos en la frontera.',
     'Los asientos delanteros vibran menos. Pide los de la fila 3-5.',
-    'Guarda lo imprescindible en la mochila pequeña debajo de la litera.',
+    'Guarda lo imprescindible en la mochila pequeña, contigo en la litera.',
   ],
   'train': [
-    'Asientos IZQUIERDA mirando a Da Nang para las vistas al mar en el Hai Van Pass.',
-    'El tren HD3 sale de Hue a las 14:05 — llega a Da Nang a las ~17:40.',
-    'El bar del tren sirve cerveza fría, fideos instantáneos y snacks.',
+    'Sentaos a la DERECHA del tren (lado del mar): son las vistas del paso de Hai Van.',
+    'Sale de Da Nang a las 07:05 y llega a Hue sobre las 11:00: desayunad antes o llevad algo.',
+    'El bar del tren sirve café, fideos instantáneos y snacks.',
     'Los portaequipajes superiores son seguros — el equipaje grande va ahí.',
   ],
   'flight': [
@@ -3132,11 +3138,22 @@ const TRANSPORT_TIPS = {
     'El equipaje grande se guarda abajo — sube solo con la mochila pequeña.',
   ],
   'boat': [
-    'El crucero incluye comida y snorkel — confirma qué está incluido.',
-    'Lleva protector solar resistente al agua y una capa ligera para la noche.',
-    'Los camarotes son pequeños — lleva solo lo esencial a bordo.',
+    'Excursión de día: confirma qué incluye (comida, kayak, baño) al recogeros en el hotel.',
+    'Bañador puesto, protector solar resistente al agua, gorra y algo fino de manga larga.',
+    'Una bolsa estanca o de plástico para el móvil si hay kayak.',
   ],
 };
+
+// ¿Se duerme en este trayecto? `overnight: true` en data.js o «Sleeper» en el texto (los dos
+// buses nocturnos reales). Antes bastaba con «nocturno», y el bus L99 del 5-nov («si el vuelo
+// se retrasa, bus nocturno N19») daba el aviso falso de «Esta noche dormís en el bus».
+function isOvernightTransport(tr) {
+  return !!(tr && (tr.overnight || /sleeper/i.test(tr.details || '')));
+}
+// Tipo para etiquetas y consejos: los sleeper son `bus` en data.js
+function transportKind(tr) {
+  return tr.type === 'bus' && isOvernightTransport(tr) ? 'sleeper-bus' : tr.type;
+}
 
 // ── COLORES DE ZONA: tabla ÚNICA para toda la app (paleta aprobada 3/5-oct-2026) ──
 // color = tono principal · lt = fondo suave · g = tono claro para degradados.
@@ -3350,8 +3367,9 @@ function renderTodayPreTrip(trip, isPast) {
 
     <div style="height:80px"></div>`;
 
-  // Avisos (p. ej. el 4-nov: «Mañana vuelo Santiago → Barcelona…»)
-  const preAlerts = buildAlertsHTML(trip, today());
+  // Avisos (p. ej. el 4-nov: «Mañana vuelo Santiago → Barcelona…»). Con la fecha simulada
+  // si se está «viajando en el tiempo» (antes usaba siempre la real)
+  const preAlerts = buildAlertsHTML(trip, effectiveDate());
   if (preAlerts) el('view-content').insertAdjacentHTML('afterbegin', `<div class="today-top">${preAlerts}</div>`);
 
   // Arrancar el timer de la cuenta atrás
@@ -3508,15 +3526,19 @@ function renderMap() {
   const trip = getTrip(currentTripId);
   setHeader('Mapa del viaje', false);
 
-  const hasMyMaps = trip.myMapsUrl && trip.myMapsUrl.trim() !== '';
+  // My Maps del viaje (se guarda la dirección «embed»; para abrirlo en Google Maps, «viewer»)
+  const myMapsHref = (trip.myMapsUrl || '').trim().replace('/maps/d/embed?', '/maps/d/viewer?');
+  // Texto de la leyenda en el color normal y el color del tipo en el borde y el fondo: en
+  // claro, «Mercados» o «Playas» en su color sobre su fondo se quedaban en 2:1 (9-oct-2026)
   const legendHtml = Object.entries(PLACE_TYPE_META).map(([type, meta]) =>
-    `<span class="map-legend-chip" style="--mc:${meta.color};background:${meta.color}22;color:${meta.color}">${meta.icon} ${meta.label}</span>`
+    `<span class="map-legend-chip" style="--mc:${meta.color};background:${meta.color}22;border:1px solid ${meta.color}88;color:var(--text)">${meta.icon} ${meta.label}</span>`
   ).join('');
 
   el('view-content').innerHTML = `
     <div id="maptab-full" style="position:relative;">
       <div class="map-legend">${legendHtml}</div>
       <div id="full-leaflet-map"></div>
+      ${myMapsHref ? `<a class="map-mymaps-btn" href="${escHtml(myMapsHref)}" target="_blank" rel="noopener">🗺️ Mi mapa de Google</a>` : ''}
       <button class="map-nearme-btn" onclick="showNearMe()">📍 Cerca de mí</button>
       <div id="map-nearme-panel" class="map-nearme-panel" style="display:none"></div>
     </div>`;
@@ -3696,8 +3718,8 @@ function renderDocs() {
                ${doc.url ? `onclick="openDoc('${doc.id}')"` : ''}>
             <div class="doc2-icon" style="background:${cfg.color}">${cfg.icon}</div>
             <div class="doc2-body">
-              <div class="doc2-name">${doc.name}</div>
-              ${doc.notes ? `<div class="doc2-notes">${doc.notes}</div>` : ''}
+              <div class="doc2-name">${escHtml(doc.name || '')}</div>
+              ${doc.notes ? `<div class="doc2-notes">${escHtml(doc.notes)}</div>` : ''}
               ${doc.date  ? `<div class="doc2-date">📅 ${formatDateShort(doc.date)}</div>` : ''}
             </div>
             <div class="doc2-right">
@@ -3707,6 +3729,7 @@ function renderDocs() {
               <div class="doc-confirm-check ${doc.confirmed ? 'on' : ''}" onclick="event.stopPropagation();toggleDocConfirmed('${doc.id}')">
                 ${doc.confirmed ? '✓' : ''}
               </div>
+              <button class="doc-more" onclick="event.stopPropagation();docOptions('${doc.id}')" aria-label="Opciones de ${escHtml(doc.name || 'documento')}">⋯</button>
             </div>
           </div>`).join('')}`;
     }).join('');
@@ -3772,6 +3795,7 @@ function renderDocs() {
             ${e.notes ? `<div class="em-note">${e.notes}</div>` : ''}
           </div>`).join('')}
       </div>
+      ${tonightHotelHTML(trip)}
       <div class="em-block">
         <div class="em-title">🏥 Seguro médico y pasaportes</div>
         <div class="em-note">Por privacidad no se guardan aquí (el repositorio es público). Añade la póliza (con su teléfono de asistencia 24h) y las copias de los pasaportes en «Documentos», arriba, con un enlace a Google Drive.</div>
@@ -3784,7 +3808,10 @@ function renderDocs() {
       <span>Sube tus documentos a <strong>Google Drive</strong>, compártelos y pega el enlace con <em>"+ Link"</em>. Un toque los abre.</span>
     </div>
 
-    ${buildReservationsHTML(trip)}
+    <div class="docs-fold">
+      ${buildReservationsHTML(trip)}
+      ${buildTipsHTML()}
+    </div>
 
     ${visaSection}
 
@@ -3807,11 +3834,31 @@ function openDoc(docId) {
 }
 
 function addDocUrl(docId) {
-  const url = prompt('Pega el enlace del documento (Google Drive, PDF online, etc.):');
-  if (!url) return;
   const trip = getTrip(currentTripId);
   const doc = (trip.documents || []).find(d => d.id === docId);
-  if (doc) { doc.url = url; save(); renderDocs(); }
+  if (!doc) return;
+  const url = prompt('Pega el enlace del documento (Google Drive, PDF online, etc.):', doc.url || '');
+  if (url === null) return;
+  doc.url = url.trim(); save(); renderDocs();
+}
+
+// ⋯ de cada documento (9-oct-2026, rehecho el 27-oct): antes, una vez añadido, no se podía
+// borrar ni corregir un enlace mal pegado
+function docOptions(docId) {
+  const trip = getTrip(currentTripId);
+  const doc = (trip.documents || []).find(d => d.id === docId);
+  if (!doc) return;
+  const choice = prompt(`«${doc.name}»\n\n1. Cambiar enlace\n2. Cambiar nombre\n3. Borrar\n\nEscribe el número:`);
+  if (choice === null) return;
+  const n = parseInt(choice, 10);
+  if (n === 1) addDocUrl(docId);
+  else if (n === 2) {
+    const name = prompt('Nombre del documento:', doc.name || '');
+    if (name && name.trim()) { doc.name = name.trim(); save(); renderDocs(); }
+  } else if (n === 3 && confirm(`¿Borrar «${doc.name}»?`)) {
+    trip.documents = trip.documents.filter(d => d.id !== docId);
+    save(); renderDocs();
+  }
 }
 
 function toggleDocConfirmed(docId) {
@@ -3877,4 +3924,5 @@ document.addEventListener('DOMContentLoaded', () => {
     navigate('home');
   }
   setTimeout(precacheCuratedPhotos, 5000);
+  setTimeout(refreshFX, 3000); // tipos de cambio del día (si hay conexión)
 });
