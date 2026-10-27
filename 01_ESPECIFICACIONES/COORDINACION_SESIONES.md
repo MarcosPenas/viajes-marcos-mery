@@ -140,6 +140,7 @@ Lo de **1-oct** sigue vigente:
 
 | Fecha | PC | Commit subido | Notas |
 |---|---|---|---|
+| 27-oct-2026 (tarde) | Trabajo | `2d8555d` (+ documentación) | Todo lo pendiente: revisión del 9-oct rehecha (`app.js?v=196`, `styles.css?v=114`), documentación, guía de migración y portada de la hoja de ruta. Avance rápido desde `420c295` |
 | 27-oct-2026 | Trabajo | `420c295` | Solo datos: itinerario definitivo de María (`DATA_VERSION` 91, `data.js?v=92`, `guia.js?v=5`, `sin_foto.txt`). `app.js?v=185` y `styles.css?v=100` sin tocar. Avance rápido desde `a777c49` |
 | 6-oct-2026 (noche) | Casa | `3780b07` (+ documentación `a777c49`) | Revisión profunda del PC de casa (ver bloque ✅ del 6-oct noche) |
 | 6-oct-2026 (noche) | Trabajo | `50dde1f` (+ documentación) | Ahora/Siguiente, avisos, reservas, SOS, sin conexión, fecha local. Avance rápido desde `0e4d86a` |
