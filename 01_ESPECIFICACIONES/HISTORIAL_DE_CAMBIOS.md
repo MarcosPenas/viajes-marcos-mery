@@ -19,6 +19,8 @@ Pedido de Marcos: «quiero que publiques con la información que tienes, que rev
 
 Versiones: `styles.css?v=114`, `app.js?v=196` (por encima de las 113/195 de la revisión perdida), `data.js?v=92`, `guia.js?v=5`; `sw.js` sin cambios. Publicado junto con la documentación, `GUIA_MIGRACION_DESTINOS.md` y `03_HOJA_DE_RUTA/` (portada A4; revisada: sin datos personales).
 
+**Publicación:** commit **`2d8555d`** (avance rápido desde `420c295`; 13 archivos) y **`91fc9f6`** (solo documentación, con el número del anterior). Antes del push: `check_imagenes.py` OK, `node --check` OK y ningún localizador ni token en el repo. GitHub Pages tardó unos minutos en desplegar (las dos publicaciones quedaron en cola). **Producción comprobada** después: sirve `styles.css?v=114`, `app.js?v=196`, `data.js?v=92` y `guia.js?v=5`; abierta en el navegador, las 5 vistas sin errores de consola, Inicio sin barra con el globo y el botón del tema, y sin SOS.
+
 ---
 
 
