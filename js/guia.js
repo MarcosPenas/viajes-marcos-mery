@@ -4,6 +4,7 @@
 //  - SURVIVAL_DICT → Inicio, «Frases de supervivencia» (buildSurvivalDictHTML)
 //  - CULTURE_CARDS → Día › Resumen, «Cultura y contexto», por bloque (buildCultureHTML)
 //  - HOTEL_INFO    → ficha de cada alojamiento (Alojamiento, Resumen del día y ficha emergente)
+//  - TRAVEL_TIPS   → Docs, «Consejos prácticos» (buildTipsHTML), añadido el 9-oct-2026
 //  Creado el 6-oct-2026 (PC del trabajo). Frases jemer contrastadas con
 //  bhasaly.com/khmer-phrases y lostplate.com (guía de comida en jemer).
 // ══════════════════════════════════════════════════════════
@@ -204,7 +205,7 @@ window.HOTEL_INFO = {
     address: '180 Núi Ngọc, pueblo de Cát Bà',
     phone: '+84 888 220 529', checkIn: '14:00', checkOut: '11:00',
     lat: 20.724753, lng: 107.0524103, maps: 'The Oversleep Catba Hostel',
-    desc: 'Hostal con piscina y pool bar (happy hour con cerveza gratis) en el pueblo de Cat Ba, a los pies del Cannon Fort y a unos 10 min a pie del mercado; las playas de Cat Co quedan a 700 m. La salida (27 o 28-nov) depende de si hacéis la excursión de un día o el crucero por Lan Ha.'
+    desc: 'Hostal con piscina y pool bar (happy hour con cerveza gratis) en el pueblo de Cat Ba, a los pies del Cannon Fort y a unos 10 min a pie del mercado; las playas de Cat Co quedan a 700 m. Dos noches: la salida es el 28-nov (la excursión de Lan Ha Bay del 27 es de un día y os recogen aquí).'
   },
   'La Passion Premium Cau Go': {
     address: '7 Cầu Gỗ, Hoàn Kiếm, Hanói',
@@ -213,3 +214,33 @@ window.HOTEL_INFO = {
     desc: 'Hotel boutique de 13 habitaciones, abierto en 2025 y seleccionado por la Guía Michelin, a 2 min a pie del lago Hoan Kiem, en pleno Old Quarter; azotea con bar y vistas al lago. Última noche del viaje.'
   }
 };
+
+
+// Consejos prácticos (Docs). Repasados el 9-oct-2026 a partir de los 12 que había en app.js
+// y nunca se mostraban: corregido el clima (noviembre es el mes MÁS lluvioso del centro, no
+// estación seca), quitados los precios de SIM que no se podían comprobar y el de visados
+// (ya está entero en la sección «Visados» de Docs). `html` admite <strong>.
+window.TRAVEL_TIPS = [
+  { icon: '🌦️', title: 'Clima',
+    html: 'Tres climas en un viaje. <strong>Norte</strong> (Hanói, Ninh Binh, Cat Ba): seco y fresco, 18-26 °C; una capa para la noche y el barco. <strong>Centro</strong> (Hoi An, Da Nang, Hue): noviembre es su <strong>mes más lluvioso</strong> y puede haber inundaciones en Hoi An; chubasquero y un plan B bajo techo. <strong>Sur y Camboya</strong>: empieza la estación seca, calor húmedo de ~30 °C.' },
+  { icon: '💵', title: 'Dinero',
+    html: 'Vietnam paga en <strong>dong (VND)</strong>. En Camboya se usa el <strong>dólar</strong> para casi todo y los rieles para el cambio (unos 4.000 por dólar): lleva billetes de 1, 5 y 10 $ <strong>en buen estado</strong>, los rotos o muy gastados no los aceptan. Los cajeros cobran comisión por retirada: mejor sacar pocas veces y más cantidad.' },
+  { icon: '📶', title: 'Internet y SIM',
+    html: 'Una <strong>eSIM</strong> comprada antes de salir funciona nada más aterrizar. Si no, SIM local con el pasaporte: <strong>Viettel</strong> en Vietnam (la de mejor cobertura, también en Cat Ba y el Delta) y <strong>Smart</strong> o Cellcard en Camboya. Para la escala en China, la <strong>VPN</strong> instalada antes de salir de España.' },
+  { icon: '🚕', title: 'Moverse por la ciudad',
+    html: '<strong>Grab</strong> (coches y motos con precio cerrado) funciona en Vietnam y en Camboya; en Vietnam también <strong>Xanh SM</strong> (taxis eléctricos). En Camboya, <strong>PassApp</strong> para tuk-tuks. Si coges uno en la calle, <strong>precio acordado antes de subir</strong>.' },
+  { icon: '🍜', title: 'Comida',
+    html: 'Come donde hay <strong>cola de gente local</strong>: los puestos callejeros con mucha rotación son de lo más seguro. Agua siempre embotellada; el hielo en cubitos industriales (con agujero) es seguro. Imprescindibles: <strong>phở, bún chả, bánh mì, cao lầu</strong> y el <strong>amok</strong> camboyano.' },
+  { icon: '💊', title: 'Salud',
+    html: 'Botiquín básico: antidiarreico, ibuprofeno, antihistamínico, tiritas y desinfectante. <strong>Repelente</strong> todos los días (hay dengue en toda la zona, sobre todo al atardecer). El <strong>seguro de viaje con repatriación</strong> es imprescindible: su teléfono, en «Documentos».' },
+  { icon: '💉', title: 'Vacunas',
+    html: 'Se piden en el <strong>Centro de Vacunación Internacional</strong> (Sanidad Exterior) con cita previa, idealmente 4-8 semanas antes. Las habituales para esta ruta: <strong>hepatitis A, fiebre tifoidea y tétanos</strong> al día. Lo que te digan allí manda.' },
+  { icon: '☸️', title: 'Templos',
+    html: '<strong>Hombros y rodillas cubiertos</strong> (en el nivel alto de Angkor Wat y en el Palacio Real de Phnom Penh lo controlan a la entrada). Zapatos fuera en pagodas y casas. No señales con el pie ni toques la cabeza de nadie, tampoco de los niños.' },
+  { icon: '🔌', title: 'Enchufes',
+    html: '220-230 V y enchufes de <strong>tipo A y C</strong> (y algún G en Camboya). Con un <strong>adaptador universal</strong> está todo cubierto; muchos hoteles tienen enchufes universales.' },
+  { icon: '📷', title: 'Fotos',
+    html: '<strong>Pide permiso</strong> antes de fotografiar a personas, sobre todo a monjes y en los mercados. En <strong>Tuol Sleng y Choeung Ek</strong>, móvil guardado y silencio. Drones: prohibidos en Angkor y muy restringidos en los dos países.' },
+  { icon: '🏷️', title: 'Regatear',
+    html: 'En mercados se regatea: empieza por el <strong>40-50 %</strong> de lo que piden y sube poco a poco. En tiendas con precio marcado, no. Siempre <strong>con una sonrisa</strong>: perder los nervios es perder la negociación.' },
+];

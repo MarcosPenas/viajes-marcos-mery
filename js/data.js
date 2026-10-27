@@ -39,7 +39,7 @@ const DEFAULT_DATA = {
           ],
           hotel: { name: '', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
           tasks: [],
-          notes: 'Escala de 5h 40min en Shenzhen. Si queréis salir del aeropuerto: con pasaporte español NO hace falta visado ni permiso de tránsito (China exime de visado a los españoles hasta 30 días, medida prorrogada hasta el 31-dic-2026; comprobado el 6-oct-2026 en gov.cn). Se pasa el control de inmigración normal (fila «Foreigners») con el pasaporte y la tarjeta de llegada (Arrival Card) rellenada. Con llegada a las 07:10 y salida a las 12:45 solo compensa algo cercano: hay que volver a facturar/pasar seguridad con margen (vuelo internacional). Internet en China: Google, WhatsApp e Instagram están bloqueados — instalar una VPN 1-2 días antes de salir de España (en China no se puede descargar): Astrill VPN (de pago) o ZoogVPN (gratis). En el aeropuerto: conectarse al wifi, abrir la VPN y «Conectar».'
+          notes: 'Escala de 5h 40min en Shenzhen. Si queréis salir del aeropuerto: con pasaporte español NO hace falta visado ni permiso de tránsito (China exime de visado a los españoles hasta 30 días, medida prorrogada hasta el 31-dic-2026; comprobado el 6-oct-2026 en gov.cn). La hoja impresa de María explica el permiso de tránsito de 24 h (tarjeta azul y pegatina en el pasaporte, que pueden denegar en escalas cortas): con la exención no hace falta. Se pasa el control de inmigración normal (fila «Foreigners») con el pasaporte y la tarjeta de llegada (Arrival Card) rellenada. Con llegada a las 07:10 y salida a las 12:45 solo compensa algo cercano: hay que volver a facturar/pasar seguridad con margen (vuelo internacional). Internet en China: Google, WhatsApp e Instagram están bloqueados — instalar una VPN 1-2 días antes de salir de España (en China no se puede descargar): Astrill VPN (de pago) o ZoogVPN (gratis). En el aeropuerto: conectarse al wifi, abrir la VPN y «Conectar».'
         },
         {
           date: '2026-11-07', city: 'Hanói', country: '🇨🇳 China → 🇻🇳 Vietnam', block: 'El Norte',
@@ -80,11 +80,11 @@ const DEFAULT_DATA = {
           ],
           transport: [
             { ref: true, type: 'flight', icon: '✈️', details: 'Vuelo Shenzhen→Hanói', from: 'Shenzhen', to: 'Hanói (HAN)', km: 830, time: '12:45–13:55 (2h 10min)' },
-            { type: 'car', icon: '🚖', details: 'Del aeropuerto de Nội Bài (T2) al hotel: Grab (250.000-350.000 VND con peaje) o bus 86 hasta la Estación de Tren (45.000 VND por persona): ver notas del día', from: 'Aeropuerto HAN', to: 'Hanói (Old Quarter)', km: 27, time: 'Al salir del aeropuerto (~15:00) · 35-50 min' }
+            { type: 'car', icon: '🚖', details: 'Del aeropuerto de Nội Bài (T2) al hotel: Grab (250.000-350.000 VND con peaje) o bus 86 hasta la parada del Hotel Meliá (45.000 VND por persona): ver notas del día', from: 'Aeropuerto HAN', to: 'Hanói (Old Quarter)', km: 27, time: 'Al salir del aeropuerto (~15:00) · 35-50 min' }
           ],
           hotel: { name: 'Secret Garden Hanoi', address: '', phone: '', checkIn: '', checkOut: '', breakfast: true },
           tasks: [],
-          notes: 'Llegada a Vietnam — qué hacer al aterrizar en Nội Bài (HAN): el avión llega a la Terminal T2 (terminal internacional), donde están los controles de inmigración, la recogida de maletas y la aduana. 1) Inmigración: con pasaporte español NO hace falta visado (exención para estancias turísticas de hasta 45 días) — ir directos a las colas generales («Foreigners»). Obligatorio: rellenar ANTES de volar la "Vietnam Digital Arrival Card" en prearrival.immigration.gov.vn, dentro de los 3 días previos a la llegada; genera un código QR que hay que llevar en el móvil (o impreso) y enseñar en el control de pasaportes. 2) Recogida de equipaje: bajar por las escaleras mecánicas a la planta baja y buscar en las pantallas cuál de las 6 cintas es la del vuelo de Shenzhen (las maletas tardan 20-30 min). Antes de salir al vestíbulo, todas las maletas (de mano y facturadas) vuelven a pasar por un escáner de aduanas (todo el proceso de inmigración+maletas suele llevar 30-60 min según cuánta gente haya). 3) Ir a la ciudad: el aeropuerto está a unos 27 km del Old Quarter (35-50 min en coche). Opción más cómoda: Grab (app de VTC, se pide en el propio aeropuerto con wifi) por 250.000-350.000 VND. Taxi oficial (Mai Linh u otro con distintivo del aeropuerto) algo más caro, 350.000-450.000 VND. Opción económica: bus 86 (línea exprés turística a Old Quarter/Estación de tren), 45.000 VND por persona, sale cada 25-30 min. Evitar a cualquiera que ofrezca taxi/transporte dentro de la terminal antes de la zona oficial de taxis — es la estafa clásica de todos los aeropuertos del sudeste asiático. Alojamiento Secret Garden Hanoi: entrada 7-nov, salida 10-nov.\n\nBUS 86 HASTA EL HOTEL: al salir de la T2 cruzar la calzada a la izquierda; marquesina naranja del 86 frente a la columna 14 de la zona de autobuses (6:15-23:00, cada 25-30 min, 45.000 VND en efectivo al revisor). Bajarse en la última parada, la Estación de Tren de Hanói (Ga Hà Nội); andar recto hacia el norte por Lê Duẩn ~500 m, girar a la derecha en Hàng Bông y buscar el callejón del nº 182 (8 min). Grab: 250.000-350.000 VND con el peaje del aeropuerto incluido; se pide con el wifi del aeropuerto y se recoge cruzando la primera calzada.\n\nDINERO: el efectivo en dong es imprescindible (mercados, comida callejera, taxis). Sacar en los cajeros de bancos locales como VP Bank o TP Bank (más límite y comisiones muy bajas); no cambiar mucho en las casas de cambio del aeropuerto (tipo de cambio inflado — mejor en joyerías y bancos del Old Quarter).\n\nPAGAR CON EL MÓVIL: LocalPay Wallet (la más recomendada): registrarse, vincular la Revolut y recargar poco a poco (cuesta recuperar el dinero); se paga escaneando el QR. Alternativas: Moreta Pay o Fizen (VietQR/Napas), y Wise vía Alipay+ en comercios con ese logo.\n\nSIM: en el hall de llegadas (1ª planta), entre las puertas A1 y A2, quioscos 24h. Mejor Viettel (mejor cobertura del país; Vinaphone es la segunda). Pedir una «Prepaid Data-only SIM Card» (150.000-250.000 VND, 4-5 GB al día durante 15-30 días) y evitar los «Combo Turista». Piden el pasaporte físico; no irse sin ver el 4G/5G en la pantalla.'
+          notes: 'Llegada a Vietnam — qué hacer al aterrizar en Nội Bài (HAN): el avión llega a la Terminal T2 (terminal internacional), donde están los controles de inmigración, la recogida de maletas y la aduana. 1) Inmigración: con pasaporte español NO hace falta visado (exención para estancias turísticas de hasta 45 días) — ir directos a las colas generales («Foreigners»). Obligatorio: rellenar ANTES de volar la "Vietnam Digital Arrival Card" en prearrival.immigration.gov.vn, dentro de los 3 días previos a la llegada; genera un código QR que hay que llevar en el móvil (o impreso) y enseñar en el control de pasaportes. 2) Recogida de equipaje: bajar por las escaleras mecánicas a la planta baja y buscar en las pantallas cuál de las 6 cintas es la del vuelo de Shenzhen (las maletas tardan 20-30 min). Antes de salir al vestíbulo, todas las maletas (de mano y facturadas) vuelven a pasar por un escáner de aduanas (todo el proceso de inmigración+maletas suele llevar 30-60 min según cuánta gente haya). 3) Ir a la ciudad: el aeropuerto está a unos 27 km del Old Quarter (35-50 min en coche). Opción más cómoda: Grab (app de VTC, se pide en el propio aeropuerto con wifi) por 250.000-350.000 VND. Taxi oficial (Mai Linh u otro con distintivo del aeropuerto) algo más caro, 350.000-450.000 VND. Opción económica: bus 86 (línea exprés turística a Old Quarter/Estación de tren), 45.000 VND por persona, sale cada 25-30 min. Evitar a cualquiera que ofrezca taxi/transporte dentro de la terminal antes de la zona oficial de taxis — es la estafa clásica de todos los aeropuertos del sudeste asiático. Alojamiento Secret Garden Hanoi: entrada 7-nov, salida 10-nov.\n\nBUS 86 HASTA EL HOTEL: al salir de la T2 cruzar la calzada a la izquierda; marquesina naranja del 86 frente a la columna 14 de la zona de autobuses (6:15-23:00, cada 25-30 min, 45.000 VND en efectivo al revisor). Bajarse en la parada del Hotel Meliá (44 Lý Thường Kiệt): el bus pasa cerca del lago Hoan Kiem, pero todavía no es ahí; avisar al revisor al subir o ir mirando Google Maps. Desde el Meliá, andar recto hacia el norte por Phố Quán Sứ unos 350 m; en el gran cruce con Hàng Bông, girar a la izquierda y seguir unos 250 m por la acera buscando el nº 182. El hotel no se ve desde la calle: en el 182 hay un pasillo estrecho (típico de las casas tubo) que a unos 15 m se abre a un patio ajardinado, donde está la entrada del Secret Garden. Grab: 250.000-350.000 VND con el peaje del aeropuerto incluido; se pide con el wifi del aeropuerto y se recoge cruzando la primera calzada.\n\nDINERO: el efectivo en dong es imprescindible (mercados, comida callejera, taxis). Sacar en los cajeros de bancos locales como VP Bank o TP Bank (más límite y comisiones muy bajas); no cambiar mucho en las casas de cambio del aeropuerto (tipo de cambio inflado — mejor en joyerías y bancos del Old Quarter).\n\nPAGAR CON EL MÓVIL: LocalPay Wallet (la más recomendada): registrarse, vincular la Revolut y recargar poco a poco (cuesta recuperar el dinero); se paga escaneando el QR. Alternativas: Moreta Pay o Fizen (VietQR/Napas), y Wise vía Alipay+ en comercios con ese logo.\n\nSIM: en el hall de llegadas (1ª planta), entre las puertas A1 y A2, quioscos 24h. Mejor Viettel (mejor cobertura del país; Vinaphone es la segunda). Pedir una «Prepaid Data-only SIM Card» (150.000-250.000 VND, 4-5 GB al día durante 15-30 días) y evitar los «Combo Turista». Piden el pasaporte físico; no irse sin ver el 4G/5G en la pantalla.'
         },
         {
           date: '2026-11-08', city: 'Hanói', country: '🇻🇳 Vietnam', block: 'El Norte',
@@ -245,13 +245,13 @@ const DEFAULT_DATA = {
               photo: 'img/fotos/num-pang.jpg' }
           ],
           transport: [
-            { type: 'bus', icon: '🚌', details: 'Bus Express 86 desde la Estación de Tren de Hanói al aeropuerto (bajarse en la 2ª parada, T2 internacional) — 45.000 VND en efectivo', from: 'Hanói', to: 'Aeropuerto HAN', km: 27, time: '11:00–12:00 (~60 min)' },
+            { type: 'bus', icon: '🚌', details: 'Bus Express 86 al aeropuerto desde la parada del nº 94 de Lý Thường Kiệt, frente al Ministerio de Trabajo (bajarse en la 2ª parada, T2 internacional) — 45.000 VND en efectivo', from: 'Hanói', to: 'Aeropuerto HAN', km: 27, time: '11:00–12:00 (~60 min)' },
             { ref: true, type: 'flight', icon: '✈️', details: 'Vuelo Hanói→Siem Reap — Vietnam Airlines. María: 23 kg facturado + cabina 8 kg. Marcos: 23 kg facturado + cabina 8 kg.', from: 'Hanói (HAN)', to: 'Siem Reap', km: 900, time: '15:10–16:55 (1h 40min)' },
             { type: 'car', icon: '🚐', details: 'Miniván compartida RESERVADA del aeropuerto de Siem Reap (SAI) al hotel — Siem Reap Shuttle, 15 € los dos (conductor con cartel y polo morado): ver notas del día', from: 'Aeropuerto SAI', to: 'Siem Reap', km: 45, time: '17:30 (~1 h)' }
           ],
           hotel: { name: 'The Nest', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
           tasks: [],
-          notes: 'Alojamiento The Nest: entrada 10-nov, salida 13-nov.\n\nAL AEROPUERTO DE HANÓI: bus Express 86 (45.000 VND en efectivo al revisor) desde la parada de enfrente de la fachada de la Estación de Tren de Hanói (8 min andando del hotel). Hace dos paradas en el aeropuerto: bajarse en la segunda, la T2 (internacional). Tarda ~60 min y pasa cada 30-45 min: cogerlo entre las 11:00 y las 12:00.\n\nLLEGADA A SIEM REAP: 1) Inmigración: cola general «Immigration» con el pasaporte + la eVisa impresa (una copia para entrar y otra para salir) y el QR de la Cambodia Digital Arrival Card. 2) Maletas en la planta baja (15-25 min) y escáner de aduanas obligatorio antes de salir.\n\n3) Dinero: se usa el dólar para casi todo y el riel (1 USD ≈ 4.000 KHR) para las vueltas de menos de 1 dólar. Cajeros de ABA Bank o Canadia Bank (comisión fija de 4-6 USD). Revisar cada billete de dólar: si tiene un rasguño, está pintado o muy gastado, no lo acepta nadie. App de pago Bakong Tourists (Play Store): registro con correo, verificación con foto del pasaporte + selfi (sube el límite de 500 a 3.000 USD al día), vincular la Revolut y pagar con «QR Pay» sobre el código KHQR.\n\n4) SIM: Smart (la más recomendada, ~5 USD por 30 GB); Metfone tiene mejor cobertura rural; Cellcard va por detrás.\n\n5) AL HOTEL — RESERVADO: miniván compartida, 15 € los dos, a las 17:30 (cancelación gratis hasta el día 9). Nos espera a la salida un conductor con nuestro nombre y un polo morado de «Siem Reap Shuttle»; si no aparece, buscarlo en los puestos de SIM. Alternativas: bus lanzadera oficial (8 USD por persona, solo dólares, a las 17:30, 19:00 y 20:00; mostrador a la izquierda al salir, cartel «Airport Bus»; deja en 7 Makara St y de ahí tuk-tuk de 5 min) o taxi/Grab (35-40 USD el coche).'
+          notes: 'Alojamiento The Nest: entrada 10-nov, salida 13-nov.\n\nAL AEROPUERTO DE HANÓI: bus Express 86 (45.000 VND en efectivo al revisor) desde la parada del nº 94 de Lý Thường Kiệt, frente al Ministerio de Trabajo: desde el hotel, andar hacia el sur por Phố Quán Sứ dos manzanas hasta el cruce con Lý Thường Kiệt. Hace dos paradas en el aeropuerto: bajarse en la segunda, la T2 (internacional). Tarda ~60 min y pasa cada 30-45 min: cogerlo entre las 11:00 y las 12:00.\n\nLLEGADA A SIEM REAP: 1) Inmigración: cola general «Immigration» con el pasaporte + la eVisa impresa (una copia para entrar y otra para salir) y el QR de la Cambodia Digital Arrival Card. 2) Maletas en la planta baja (15-25 min) y escáner de aduanas obligatorio antes de salir.\n\n3) Dinero: se usa el dólar para casi todo y el riel (1 USD ≈ 4.000 KHR) para las vueltas de menos de 1 dólar. Cajeros de ABA Bank o Canadia Bank (comisión fija de 4-6 USD). Revisar cada billete de dólar: si tiene un rasguño, está pintado o muy gastado, no lo acepta nadie. App de pago Bakong Tourists (Play Store): registro con correo, verificación con foto del pasaporte + selfi (sube el límite de 500 a 3.000 USD al día), vincular la Revolut y pagar con «QR Pay» sobre el código KHQR.\n\n4) SIM: Smart (la más recomendada, ~5 USD por 30 GB); Metfone tiene mejor cobertura rural; Cellcard va por detrás.\n\n5) AL HOTEL — RESERVADO: miniván compartida, 15 € los dos, a las 17:30 (cancelación gratis hasta el día 9). Nos espera a la salida un conductor con nuestro nombre y un polo morado de «Siem Reap Shuttle»; si no aparece, buscarlo en los puestos de SIM. Alternativas: bus lanzadera oficial (8 USD por persona, solo dólares, a las 17:30, 19:00 y 20:00; mostrador a la izquierda al salir, cartel «Airport Bus»; deja en 7 Makara St y de ahí tuk-tuk de 5 min) o taxi/Grab (35-40 USD el coche).'
         },
         {
           date: '2026-11-11', city: 'Siem Reap', country: '🇰🇭 Camboya', block: 'Angkor',
@@ -304,7 +304,7 @@ const DEFAULT_DATA = {
           transport: [],
           hotel: { name: 'The Nest', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
           tasks: [],
-          notes: 'Por la noche: Phare, The Cambodian Circus.\n\nPASE DE ANGKOR: el de 3 días vale para 3 días dentro de un periodo de 10 (~62 $) e incluye todos los templos del parque y TAMBIÉN Beng Mealea (incluido desde 2020; sin pase, 10 $ aparte). No incluye Kbal Spean (5 $) ni Koh Ker (15 $ según la web oficial; el documento dice 5 $). Comprarlo en la web oficial ticket.angkorenterprise.gov.kh (QR en el móvil, sin colas); la taquilla abre a las 4:30. Para el amanecer hay que tenerlo comprado desde el día anterior. Recinto abierto de 5:00 a 17:30. Hombros y rodillas cubiertos (no vale taparse con un pañuelo). Ojo con los monos de Angkor Thom: no darles comida, intentan quitar las mochilas.\n\nE-BIKES: Angkor Wat Bicycle Rental & Tour (la mejor: 12 USD/día, de 5:00 a 20:00, traen las bicis a primera hora; +855 78 454 593, angkorbicyclerental@gmail.com); Angkor Bike Rental Service (5:00-22:30, contact@angkor-cycling-tour.com); The Smiling Frog (entregan y recogen en los templos). Con horario de oficina: Blu E-bike Service (Angkor Night Market, 7:30-19:00, +855 96 266 4411), Bayon MTB Project, Khmer Kruisers y Green e-bike (Carretera Nacional 6, 8:00-19:00).'
+          notes: 'Por la noche: Phare, The Cambodian Circus.\n\nPASE DE ANGKOR: el de 3 días vale para 3 días dentro de un periodo de 10 (~62 $) e incluye todos los templos del parque y TAMBIÉN Beng Mealea (incluido desde 2020; sin pase, 10 $ aparte). No incluye Kbal Spean (5 $) ni Koh Ker (15 $ según la web oficial; el documento dice 5 $). Comprarlo en la web oficial ticket.angkorenterprise.gov.kh (QR en el móvil, sin colas); la taquilla abre a las 4:30. Para el amanecer hay que tenerlo comprado desde el día anterior. Recinto abierto de 5:00 a 17:30. Hombros y rodillas cubiertos (no vale taparse con un pañuelo). Ojo con los monos de Angkor Thom: no darles comida, intentan quitar las mochilas.\n\nE-BIKES: Angkor Wat Bicycle Rental & Tour (la mejor: 12 USD/día, de 5:00 a 20:00, traen las bicis a primera hora; +855 78 454 593, angkorbicyclerental@gmail.com o siemreapbiketour99@gmail.com); Angkor Bike Rental Service (5:00-22:30, contact@angkor-cycling-tour.com); The Smiling Frog (entregan y recogen en los templos). Con horario de oficina: Blu E-bike Service (Angkor Night Market, 7:30-19:00, +855 96 266 4411), Bayon MTB Project, Khmer Kruisers y Green e-bike (Carretera Nacional 6, 8:00-19:00). Otras para comparar: Blue Sky Cycling y Siem Reap Bike Tour (siemreapbiketour.com).'
         },
         {
           date: '2026-11-12', city: 'Siem Reap', country: '🇰🇭 Camboya', block: 'Angkor',
@@ -322,7 +322,7 @@ const DEFAULT_DATA = {
               notes: 'Fundado por Aki Ra, ex-niño soldado convertido en desminador. De camino a Banteay Srei.',
               photo: 'img/fotos/museo-de-minas-terrestres-de-camboya.jpg',
               description: 'Museo fundado por Aki Ra, antiguo niño soldado de los Jemeres Rojos que de adulto se dedicó a desactivar minas a mano y hoy dirige una ONG de desminado. Expone miles de minas y artefactos explosivos ya inertes recuperados por todo el país, y explica con crudeza el legado de las guerras de Camboya (se calcula que aún quedan millones de minas sin detonar en el país). Parte de la entrada financia directamente el desminado real.',
-              tips: 'Está en la carretera hacia Banteay Srei, se puede combinar con la visita a ese templo. Tema sensible — valorar si encaja con el ánimo del día.' },
+              tips: 'Abre de 7:30 a 17:30. Está en la carretera hacia Banteay Srei, unos 7 km al sur del templo: se puede combinar con la visita a ese templo. Tema sensible — valorar si encaja con el ánimo del día.' },
             { name: 'Banteay Srey Butterfly Centre', type: 'nature', lat: 13.5086887, lng: 103.9409963,
               notes: 'Santuario de mariposas tropicales, justo al lado del Museo de Minas, de camino a Banteay Srei.',
               photo: 'img/fotos/banteay-srey-butterfly-centre.jpg',
@@ -456,7 +456,11 @@ const DEFAULT_DATA = {
               photo: 'img/fotos/accb.jpg',
               notes: 'Centro de rescate de animales del tráfico ilegal y la caza furtiva, en la base de Kbal Spean.',
               description: 'Angkor Centre for Conservation of Biodiversity: rescata y cuida animales víctimas del tráfico ilegal y la caza furtiva.',
-              tips: 'En la zona de Banteay Srei / Kbal Spean: combinar con esas visitas.' }
+              tips: 'En la zona de Banteay Srei / Kbal Spean: combinar con esas visitas.' },
+            { name: 'Kampong Khleang, pueblo del Tonlé Sap (opcional)', type: 'nature', lat: 13.1063878, lng: 104.1263131,
+              notes: 'Uno de los pueblos pesqueros más grandes del lago Tonlé Sap: casas de madera sobre pilotes de varios metros de altura.',
+              description: 'Sus habitantes viven de la pesca y de lo que da el lago, y la vida cambia por completo con las estaciones: con las lluvias las casas quedan rodeadas de agua y en la estación seca aparecen calles y terrenos que antes estaban inundados. Recibe menos turismo de masas que Chong Kneas, aunque también llegan excursiones. Qué ver: las casas sobre pilotes (algunas altísimas, la imagen del pueblo), las barcas y redes de los pescadores, escuelas, pequeños comercios y pagodas, el mercado local y, según el nivel del agua, un paseo en barca por las zonas inundadas hasta el lago abierto.',
+              tips: 'A unos 50 km de Siem Reap: 1-1,5 h por trayecto, y entre trayectos y visita, 4-6 horas. Lo más práctico es una excursión organizada (se contrata el día anterior en el hotel o en una agencia). Más información sobre el Tonlé Sap en las notas del día.' }
           ],
           restaurants: [
             { name: 'Cena ligera antes del bus nocturno', type: 'restaurant', notes: 'Algo sencillo antes de 6 horas de autobús — nada demasiado copioso ni picante.' },
@@ -468,7 +472,7 @@ const DEFAULT_DATA = {
           ],
           hotel: { name: '', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
           tasks: [],
-          notes: 'Opción extra — LAGO TONLÉ SAP Y PUEBLOS FLOTANTES: en noviembre el agua está en su punto máximo. Se contrata el día anterior en el hotel o en una agencia (20-25 $ por persona con transporte, barco y guía); salen sobre las 14:30 y el atardecer sobre el lago es entre las 17:15 y las 17:45. Mejor Kompong Phluk (casas sobre pilotes de hasta 10 m y bosque inundado en barca de remo, ~5 $ por persona; unas 3 h + 45 min de carretera) o Kompong Khleang (la más grande y auténtica, a 55 km, medio día). Evitar Chong Kneas (masificada, timos y falsos orfanatos).\n\nOTRAS COSAS QUE VER EN SIEM REAP (lista de María): están como fichas «(opcional)» en Lugares de este día — Grupo Roluos, Kbal Spean, Ta Keo, Baksei Chamkrong, Prasat Kravan, Prasat Bei, Mebon Oriental, Thommanon, Chau Say Tevoda, Ta Prohm Kel, Krol Ko y Prasat Prei, Neak Pean, Srah Srang, Angkor Silk Farm y Khmer Ceramics, Preah Dak (azúcar de palma y paseo en carro de bueyes) y el centro ACCB. El Museo de Minas, el Butterfly Centre y la Lotus Silk Farm están en el día 12, junto a Banteay Srei.'
+          notes: 'Opción extra — LAGO TONLÉ SAP Y PUEBLOS FLOTANTES: en noviembre el agua está en su punto máximo. Se contrata el día anterior en el hotel o en una agencia (20-25 $ por persona con transporte, barco y guía); salen sobre las 14:30 y el atardecer sobre el lago es entre las 17:15 y las 17:45. Mejor Kompong Phluk (casas sobre pilotes de hasta 10 m y bosque inundado en barca de remo, ~5 $ por persona; unas 3 h + 45 min de carretera) o Kompong Khleang (la más grande y auténtica, a 50-55 km, medio día; tiene ficha propia en Lugares). Evitar Chong Kneas (masificada, timos y falsos orfanatos).\n\nOTRAS COSAS QUE VER EN SIEM REAP (lista de María): están como fichas «(opcional)» en Lugares de este día — Grupo Roluos, Kbal Spean, Ta Keo, Baksei Chamkrong, Prasat Kravan, Prasat Bei, Mebon Oriental, Thommanon, Chau Say Tevoda, Ta Prohm Kel, Krol Ko y Prasat Prei, Neak Pean, Srah Srang, Angkor Silk Farm y Khmer Ceramics, Preah Dak (azúcar de palma y paseo en carro de bueyes), el centro ACCB y Kampong Khleang (pueblo sobre pilotes del Tonlé Sap). El Museo de Minas, el Butterfly Centre y la Lotus Silk Farm están en el día 12, junto a Banteay Srei.'
         },
         {
           date: '2026-11-14', city: 'Phnom Penh', country: '🇰🇭 Camboya', block: 'Phnom Penh',
@@ -651,7 +655,7 @@ const DEFAULT_DATA = {
               notes: 'El mercado flotante más grande del Delta del Mekong. Decenas de barcas cargadas de fruta y verdura al amanecer.',
               photo: 'img/fotos/cho-noi-cai-rang.jpg',
               description: 'El mayor y más auténtico de los mercados flotantes del Delta del Mekong: decenas de barcas de mayoristas cargadas hasta arriba de piñas, sandías, coles y demás producto, cada una con un "bẹo" (palo vertical) del que cuelga una muestra de lo que vende, para no tener que gritar por encima del ruido de los motores. Los barqueros más pequeños venden fruta, café y fideos directamente a otras barcas y a los turistas, sin bajarse nunca del agua.',
-              tips: 'Hay que ir muy temprano — el pico es entre 5:30 y 7:00; pedir al barquero salir a las 5:15-5:30 (más tarde de las 6:00 te pierdes el amanecer y lo más auténtico). Bote privado desde el muelle de Ninh Kieu (~45 min de trayecto): 300.000-500.000 VND. Tres formas de contratarlo: directamente con los barqueros del muelle negociando precio, hora y duración (lo más barato); en la taquilla oficial del muelle (tarifas fijas por tipo de barco); o a través del alojamiento (lo más cómodo). Antes de salir, aclarar si para junto a los puestos para desayunar y si entra en los canales pequeños y huertos. Pagar al volver, nunca todo por adelantado. Desayunar un hủ tiếu o bún riêu de las cocinas flotantes.' },
+              tips: 'Hay que ir muy temprano — el pico es entre 5:30 y 7:00; pedir al barquero salir a las 5:15-5:30 (más tarde de las 6:00 te pierdes el amanecer y lo más auténtico). Bote privado desde el muelle de Ninh Kieu (~45 min de trayecto): 300.000-500.000 VND por un recorrido de 3-4 h, que a menudo incluye una parada en una fábrica de fideos de arroz (hủ tiếu). Tres formas de contratarlo: directamente con los barqueros del muelle negociando precio, hora y duración (lo más barato); en la taquilla oficial del muelle (tarifas fijas por tipo de barco); o a través del alojamiento (lo más cómodo). Antes de salir, aclarar si para junto a los puestos para desayunar y si entra en los canales pequeños y huertos. Pagar al volver, nunca todo por adelantado. Desayunar un hủ tiếu o bún riêu de las cocinas flotantes.' },
             { name: 'Old Quarter Hoi An (paseo introductorio)', type: 'monument', lat: 15.877, lng: 108.329, notes: 'Comprar bono y escoger 5 monumentos.',
               photo: 'img/fotos/old-quarter-hoi-an.jpg',
               tips: 'Primer vistazo general al casco antiguo antes de dedicarle el bono de 5 monumentos otro día — buen momento para orientarse y decidir qué 5 elegir.',
@@ -677,11 +681,11 @@ const DEFAULT_DATA = {
           ],
           transport: [
             { ref: true, type: 'flight', icon: '✈️', details: 'Vuelo Can Tho→Da Nang — VietJet. María: 20 kg facturado + cabina 7 kg. Marcos: 20 kg facturado + cabina 7 kg.', from: 'Can Tho', to: 'Da Nang', km: 715, time: '12:40–14:10 (1h 30min)' },
-            { type: 'car', icon: '🚖', details: 'Transporte desde el Aeropuerto de Da Nang a Hoi An (miniván compartida, bus 02 o Grab: ver notas del día)', from: 'Da Nang', to: 'Hoi An', km: 30, time: 'Al aterrizar (14:10) · 45-60 min' }
+            { type: 'car', icon: '🚖', details: 'Traslado del aeropuerto de Da Nang a Hoi An — RESERVADO con el hotel por 330.000 VND (se paga en efectivo en el hotel)', from: 'Da Nang', to: 'Hoi An', km: 30, time: 'Al aterrizar (14:10) · 45-60 min' }
           ],
           hotel: { name: 'Villa Soleil Hoi An', address: '', phone: '', checkIn: '', checkOut: '', breakfast: true },
           tasks: [],
-          notes: 'Alojamiento Villa Soleil Hoi An (con desayuno): entrada 18-nov, salida 21-nov (3 noches).\n\nDEL AEROPUERTO DE DA NANG A HOI AN: 1) Miniván compartida (~140.000 VND por persona, unos 11 € los dos), reservable online (Hoi An Express, Barri Ann Travel); el conductor espera en llegadas con un cartel con nuestro nombre, y si no aparece, avisar a la agencia por WhatsApp con el wifi del aeropuerto. 2) Bus público naranja línea 02 de FUTA (35.000-40.000 VND, cada 20-30 min de 5:30 a 18:00-19:00): no entra en la terminal, hay que andar ~10 min hasta la calle principal; deja en la estación de autobuses de Hoi An (Nguyen Tat Thanh), a 15 min a pie o 5 en Grab del hotel. 3) Grab: 300.000-400.000 VND el coche (GrabCar, carril «Grab Pickup» a la derecha al salir).'
+          notes: 'Alojamiento Villa Soleil Hoi An (con desayuno): entrada 18-nov, salida 21-nov (3 noches).\n\n✅ TRASLADO YA RESERVADO: el propio hotel (Villa Soleil) nos lleva del aeropuerto de Da Nang a Hoi An por 330.000 VND, que se pagan en efectivo en el hotel. Las opciones de abajo quedan solo como plan B.\n\nDEL AEROPUERTO DE DA NANG A HOI AN: 1) Miniván compartida (~140.000 VND por persona, unos 11 € los dos), reservable online (Hoi An Express, Barri Ann Travel); el conductor espera en llegadas con un cartel con nuestro nombre, y si no aparece, avisar a la agencia por WhatsApp con el wifi del aeropuerto. 2) Bus público naranja línea 02 de FUTA (35.000-40.000 VND, cada 20-30 min de 5:30 a 18:00-19:00): no entra en la terminal, hay que andar ~10 min hasta la calle principal; deja en la estación de autobuses de Hoi An (Nguyen Tat Thanh), a 15 min a pie o 5 en Grab del hotel. 3) Grab: 300.000-400.000 VND el coche (GrabCar, carril «Grab Pickup» a la derecha al salir).'
         },
         {
           date: '2026-11-19', city: 'Hoi An', country: '🇻🇳 Vietnam', block: 'El Centro',
@@ -769,13 +773,17 @@ const DEFAULT_DATA = {
             { name: 'Mercado de Ba Le', type: 'market', lat: 15.883589, lng: 108.349295, notes: 'Abierto de 05:00 a 19:00.',
               description: 'Pequeño mercado local de Hoi An, alejado del circuito turístico, para ver el día a día del barrio.',
               tips: 'Abierto de 5:00 a 19:00; más animado a primera hora.' },
+            { name: 'Trà Quế (pueblo agrícola tradicional)', type: 'nature', lat: 15.902179, lng: 108.3377346,
+              notes: 'Aldea de huertos de hierbas aromáticas a 3 km, de camino a An Bang. Reconocida por ONU Turismo en 2024.',
+              description: 'Trà Quế es una pequeña aldea agrícola a unos 3 km del casco antiguo de Hoi An, famosa por el cultivo tradicional de verduras, hierbas aromáticas y plantas de la cocina vietnamita. Sus habitantes mantienen técnicas transmitidas durante generaciones, como usar algas de los canales cercanos de abono natural. Tiene más de 500 años de historia y en 2024 fue reconocida como una de las Best Tourism Villages de ONU Turismo. Se ven los huertos, los agricultores preparando la tierra y recolectando, y se puede recorrer en bici por los caminos entre cultivos.',
+              tips: 'Queda de camino a la playa de An Bang: en la ruta en bici por Hai Bà Trưng hay que tomar un desvío a la derecha. Hay fincas que ofrecen experiencias agrícolas y clases de cocina con producto recién cortado, y pequeños restaurantes rurales.' },
             { name: 'Playa An Bang (ruta en bici)', type: 'beach', lat: 15.915667, lng: 108.336874,
               notes: '4-5 km en bici por Hai Bà Trưng. Pasando por la aldea de Trà Quế (hierbas aromáticas).',
               photo: 'img/fotos/playa-an-bang.jpg',
               description: 'El paseo en bici más popular de Hoi An. Desde la calle Hai Bà Trưng hasta la playa de An Bang (4-5 km). De camino se pasa por la aldea de Trà Quế (desvío a la derecha), famosa por sus cultivos de hierbas aromáticas.',
               tips: 'Punto de partida: calle Hai Bà Trưng. ~20-25 min en bici. Parar en la aldea de Trà Quế de camino.' },
             { name: 'Clases de Cocina', type: 'activity', photo: 'img/fotos/clases-de-cocina.jpg', lat: 15.8741703, lng: 108.3692252,
-              notes: 'Dos opciones en islas rurales del río Thu Bon: mercado + barco + cocina (35€) o cocina tradicional con huertos (34€). El pin marca la isla de Thuận Tình (opción 1).',
+              notes: 'Dos opciones en islas rurales del río Thu Bon: mercado + barco + cocina (35€) o cocina tradicional con huertos (34€). El pin marca la isla de Thuận Tình (opción 1). ✅ En el itinerario definitivo, María marca la opción 1 (Thuận Tình, 08:30-11:30, 35 €).',
               description: 'Opción 1 (Isla de Thuan Tinh, 08:30-11:30, 35€): visita al mercado local, paseo en barco por el río Thu Bon hasta una zona rural de cocoteros de agua, y clase de cocina en una cocina abierta con vistas al río. Incluye paseo en barca tradicional por el bosque de cocoteros de Cam Thanh. Opción 2 (Cocina Tradicional, 09:30-13:00, 34€): en una isla rural del delta, con visita a huertos locales y técnicas como la elaboración de leche de arroz o papel de arroz para nems.',
               tips: 'Reservar con antelación, son experiencias de medio día. La opción 1 combina mejor con el paseo en barca por Cam Thanh si no se hace aparte.' },
             { name: 'Talleres Artesanales', type: 'activity', lat: 15.87662, lng: 108.32735,
@@ -932,7 +940,7 @@ const DEFAULT_DATA = {
             { name: 'Vả Trộn', type: 'restaurant', notes: 'Ensalada de higos verdes vietnamitas con cacahuetes, cerdo y gambas — un contraste fresco y ácido en medio de tanto plato especiado.' }
           ],
           transport: [
-            { ref: true, type: 'bus', icon: '🚌', details: 'Sleeper Bus Hue→Tam Coc — HK Buslines (reservado a través de Trip, confirmado por correo). Salida: 35 Nguyen Cong Tru, Hue. Llegada: Tam Coc Agency, Ninh Binh.', from: 'Hue', to: 'Tam Coc', km: 560, time: '22:30 → llegada a primera hora (~9h)' }
+            { ref: true, type: 'bus', icon: '🚌', details: 'Sleeper Bus Hue→Tam Coc — HK Buslines (reservado a través de Trip; comprobar que llegó el correo con el billete definitivo). Salida: 35 Nguyen Cong Tru, Hue. Llegada: Tam Coc Agency, Ninh Binh.', from: 'Hue', to: 'Tam Coc', km: 560, time: '22:30–07:15 (+1) · 9h 15min' }
           ],
           hotel: { name: '', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
           tasks: [],
@@ -940,7 +948,7 @@ const DEFAULT_DATA = {
         },
         {
           date: '2026-11-24', city: 'Tam Coc', country: '🇻🇳 Vietnam', block: 'Ninh Binh',
-          summary: 'Llegada de madrugada en bus nocturno. Plan: Tam Coc en bici — paisajes de piedra caliza y el secreto de Bich Dong.',
+          summary: 'Llegada en el bus nocturno a las 07:15. Plan: Tam Coc en bici — paisajes de piedra caliza y el secreto de Bich Dong.',
           places: [
             { name: 'Tam Coc', type: 'nature', lat: 20.2172113, lng: 105.9406594,
               notes: 'Tam Coc al atardecer desde la bicicleta. Arrozales, búfalos y montañas kársticas.',
@@ -951,7 +959,11 @@ const DEFAULT_DATA = {
               notes: 'Pagoda de 3 niveles construida dentro de un acantilado. A 2 km en bici de Tam Coc.',
               photo: 'img/fotos/pagoda-bich-dong.jpg',
               description: 'Pagoda de tres niveles construida literalmente dentro del acantilado de una montaña. La entrada tiene un fotogénico puente de piedra sobre un estanque.',
-              tips: 'A 2 km en bici desde Tam Coc. Visitar temprano, antes de las excursiones del día.' }
+              tips: 'A 2 km en bici desde Tam Coc. Visitar temprano, antes de las excursiones del día.' },
+            { name: 'Thung Nham (jardín de aves)', type: 'nature', lat: 20.2169247, lng: 105.8932752,
+              notes: 'Parque natural con lagunas, cuevas y colonias de aves que vuelven a los árboles al caer la tarde.',
+              description: 'Thung Nham es un parque natural y turístico cerca de Tam Coc, formado por lagunas, vegetación tropical, montañas calizas y cuevas. Su mayor atractivo es el Bird Garden: al final de la tarde vuelven a los árboles colonias enteras de aves. También hay paseo en barca por una laguna rodeada de vegetación, la cueva Hang But (Cueva de Buda), senderos entre árboles y miradores ajardinados. Es un recinto turístico acondicionado, con caminos y entradas reguladas, más que naturaleza virgen.',
+              tips: 'A 7-10 km de Tam Coc según el acceso: en bici, moto o coche. Entrada ~8 €. Visita de 2-4 horas. El mejor momento es la última parte de la tarde, por las aves — confirmar antes el horario de cierre.' }
           ],
           restaurants: [
             { name: 'Cơm Cháy', type: 'restaurant', photo: 'img/fotos/com-chay.jpg', notes: 'Arroz de corteza tostada y crujiente, especialidad de Ninh Binh.' },
@@ -988,7 +1000,11 @@ const DEFAULT_DATA = {
               notes: 'El complejo budista más grande de Vietnam. 5 récords nacionales. Torre Bao Thien de 100m.',
               photo: 'img/fotos/pagoda-de-bai-dinh.jpg',
               description: 'A 15 km de Trang An. El complejo más grande de Vietnam (500 hectáreas). Torre de la Campana octogonal, Palacio de Avalokitesvara (estatua de 80 toneladas con mil ojos y mil manos), el Gran Buda de 100 toneladas y la Torre Bao Thien de 100m (13 pisos, se puede subir en ascensor). En la cima, el Buda Maitreya («Buda sonriente») de bronce de 100 toneladas; en el Hall Phap Chu, el gran Buda de 100 toneladas.',
-              tips: '7:00-18:00, 60.000 VND (100.000 con coche eléctrico). 3-4 horas de visita. El coche eléctrico (40.000 VND) ahorra mucho con el calor. La pagoda antigua al fondo (Hang Sang y Dong Toi) son cuevas naturales convertidas en templos.' },
+              tips: '7:00-18:00, 60.000 VND (100.000 con coche eléctrico). 3-4 horas de visita. El coche eléctrico (40.000 VND) ahorra mucho con el calor. La pagoda antigua al fondo (Hang Sang y Dong Toi) son cuevas naturales convertidas en templos. Ascensor de la Torre Bao Thien: 50.000 VND, para las vistas panorámicas.' },
+            { name: 'Reserva Natural de Van Long', type: 'nature', lat: 20.3858631, lng: 105.8605764,
+              notes: 'Humedales al norte de Ninh Binh: barca lenta entre montañas kársticas reflejadas en el agua. Refugio del langur de Delacour.',
+              description: 'Van Long es una extensa zona de humedales al norte de Ninh Binh, rodeada de montañas de piedra caliza que se reflejan en aguas muy tranquilas. Frente a Trang An, que mezcla paisaje con cuevas y monumentos, Van Long es una experiencia centrada en la naturaleza: paseo lento en barca tradicional, paisajes espejo, observación de garzas y otras aves de humedal, y pequeñas aldeas agrícolas alrededor. Sirve además de refugio al langur de Delacour, un primate rarísimo de Vietnam que vive en las montañas de la reserva — verlo no está garantizado.',
+              tips: 'A 30-40 km de Tam Coc (45-60 min en coche). Entrada ~5 €. El paseo en barca dura 1-1,5 h; cuenta con 3-4 horas en total desde Tam Coc. El recorrido depende del horario, del nivel del agua y del tiempo: confirmar tarifas y horario el día anterior.' },
             { name: 'Parque nacional de Cuc Phuong (descartar por distancia)', type: 'nature', lat: 20.3162835, lng: 105.6176593,
               notes: 'A 45 km. Centro de rescate de primates en peligro. Árbol milenario de 45m. Solo si hay día extra.',
               photo: 'img/fotos/parque-nacional-de-cuc-phuong.jpg',
@@ -1045,17 +1061,17 @@ const DEFAULT_DATA = {
           ],
           hotel: { name: 'The Oversleep Catba Hostel & Pool', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
           tasks: [],
-          notes: 'Alojamiento The Oversleep Catba Hostel & Pool: entrada 26-nov, salida 27 o 28-nov (por confirmar según se reserve el crucero de Lan Ha Bay).'
+          notes: 'Alojamiento The Oversleep Catba Hostel & Pool: entrada 26-nov, salida 28-nov (confirmado: la excursión de Lan Ha Bay es de 1 día, el 27, y ya está reservada).'
         },
         {
           date: '2026-11-27', city: 'Cat Ba', country: '🇻🇳 Vietnam', block: 'Vuelta al Norte',
-          summary: 'Plan: navegar por los islotes.',
+          summary: 'Plan: navegar por los islotes. Excursión de 1 día por Lan Ha Bay ya reservada (Serenity Boutique Cruise, 09:00-17:00, recogida en el hotel).',
           places: [
-            { name: 'Lan Ha Bay (crucero 2d/1n o excursión de 1 día)', type: 'nature', lat: 20.751572, lng: 107.104278,
-              notes: 'La hermana tranquila de Ha Long Bay — mismos islotes kársticos, muchísimos menos cruceros masivos.',
+            { name: 'Lan Ha Bay — Serenity Boutique Cruise (excursión de 1 día)', type: 'nature', lat: 20.751572, lng: 107.104278,
+              notes: '✅ RESERVADO: excursión de 1 día por Lan Ha y Ha Long, 09:00-17:00, nos recogen en el hotel.',
               photo: 'img/fotos/lan-ha-bay.jpg',
-              description: 'Lan Ha Bay comparte la misma bahía y los mismos picos de piedra caliza que la famosa Ha Long Bay, pero al estar administrada desde Cat Ba (no desde Ha Long City) recibe una fracción de los cruceros masivos — aguas más limpias y playas casi vacías entre semana. Un día o dos típicos de crucero incluyen navegación entre los islotes, kayak o paddle surf en calas escondidas, parada para nadar en aguas turquesa, y si es de 2D/1N, noche a bordo o en un bungalow flotante con cena de marisco. PROGRAMA DE LA EXCURSIÓN DE 1 DÍA (Lan Ha - Ha Long - isla Dau Be): 8:00-8:30 recogida en el hotel en minibús y 10 min hasta el puerto de Beo; 8:30-9:00 pueblo pesquero flotante (de los más antiguos de Vietnam); islotes de la tortuga, el sapo o la vela; kayak por las cuevas Brillante, Oscura y de los Murciélagos (con suerte, el langur de Cat Ba); baño en las playas de Ba Trai Dao; 12:00-13:00 comida a bordo (vietnamita, marisco y vegetariana); 13:00-14:30 descanso en cubierta; 14:30-15:30 en bici por los arrozales hasta Viet Hai y masaje de peces; 16:00-16:30 fiesta al atardecer; 17:00 vuelta al puerto y 17:15 al hotel. PROGRAMA DEL CRUCERO 2D/1N: día 1 — 11:30 recogida en el hotel, 12:00 embarque, bebida de bienvenida y seguridad, 12:30 comida navegando por la ruta poco usada de Cua Dong y el islote Coc Ngoi hacia Ba Trai Dao, 14:30 kayak y baño, 17:15 puesta de sol sobre el golfo de Tonkín, clase de cocina y happy hour, 19:00 cena, 21:00 pesca de calamares y karaoke, noche a bordo; día 2 — 6:00 café y amanecer con desayuno ligero, 8:00 barca auxiliar a la aldea de Viet Hai en bici (o coche eléctrico) por un túnel de selva, casa tradicional y escuela, 10:45 comida de regreso, 11:45 desembarco en el muelle sur y 12:00 fin.',
-              tips: 'Por decidir: EXCURSIÓN DE 1 DÍA (~21 €/persona, 8:00-17:00): recogida en el hotel, pueblo flotante Cai Beo, kayak por las cuevas Brillante, Oscura y de los Murciélagos, baño en Ba Trai Dao, comida a bordo, bici por los arrozales hasta Viet Hai y masaje de peces; ritmo intenso, pero deja libres las tardes para las playas. CRUCERO 2D/1N (~107 € desde Cat Ba, ~130 € desde Hanói, de 12:00 a 12:00): camarote privado, pensión completa, kayak, baño, clase de cocina, pesca de calamares y Viet Hai en bici a la mañana siguiente; dormir entre los islotes es mágico, pero quita un día en tierra. Llevar bañador puesto y protección solar.' },
+              description: 'Lan Ha Bay comparte la misma bahía y los mismos picos de piedra caliza que la famosa Ha Long Bay, pero al estar administrada desde Cat Ba (no desde Ha Long City) recibe una fracción de los cruceros masivos — aguas más limpias y playas casi vacías entre semana. PROGRAMA DE LA EXCURSIÓN DE 1 DÍA (Lan Ha - Ha Long - isla Dau Be): recogida en el hotel en minibús y 10 min hasta el puerto de Beo; pueblo pesquero flotante (de los más antiguos de Vietnam); islotes de la tortuga, el sapo o la vela; kayak por las cuevas Brillante, Oscura y de los Murciélagos (con suerte, el langur de Cat Ba); baño en las playas de Ba Trai Dao; 12:00-13:00 comida a bordo (vietnamita, marisco y vegetariana); 13:00-14:30 descanso en cubierta; 14:30-15:30 en bici por los arrozales hasta Viet Hai y masaje de peces; 16:00-16:30 fiesta al atardecer; 17:00 vuelta al puerto y de ahí al hotel.',
+              tips: '✅ RESERVADO (itinerario de María, 22-oct-2026): SERENITY BOUTIQUE CRUISE – Lan Ha Bay / Ha Long Bay, contratado a través de Catba Outdoors. Horario 09:00-17:00 aprox. Sale del puerto de Beo (Cat Ba) y nos pasan a recoger por el hotel. El localizador se guarda solo en el móvil: Docs → Reservas → «🔒 Añadir localizador». Llevar el bañador puesto, protección solar, gorra y algo fino de manga larga para la cubierta. El trekking/visita a Viet Hai suele ir incluido en el tour.' },
             { name: 'Trekking al pueblo de Viet Hai', type: 'nature', photo: 'img/fotos/trekking-al-pueblo-de-viet-hai.jpg', lat: 20.7983859, lng: 107.0433985,
               notes: 'Pueblo rural aislado dentro del Parque Nacional, solo accesible en barco + sendero o en bici.',
               description: 'Viet Hai es un pequeño pueblo agrícola escondido en un valle dentro del Parque Nacional de Cat Ba, sin carretera de acceso directo — solo se llega en barco hasta un embarcadero y luego a pie o en bici por un sendero entre arrozales y selva (unos 45-60 min caminando). Vida rural tradicional, casas de adobe y mucha tranquilidad, en fuerte contraste con el ambiente turístico del pueblo de Cat Ba.',
@@ -1071,10 +1087,12 @@ const DEFAULT_DATA = {
             { name: 'Coco fresco en la playa', type: 'restaurant', notes: 'Un coco recién abierto en cualquier parada de playa o islote del crucero — el refresco de toda la bahía.',
               photo: 'img/fotos/coco-fresco-en-la-playa.jpg' }
           ],
-          transport: [],
+          transport: [
+            { ref: true, type: 'boat', icon: '⛵', details: 'Serenity Boutique Cruise — excursión de 1 día por Lan Ha Bay / Ha Long Bay, reservada a través de Catba Outdoors. Nos recogen en el hotel; el barco sale del puerto de Beo.', from: 'Cat Ba (puerto de Beo)', to: 'Lan Ha Bay', km: 0, time: '09:00–17:00 aprox. (día completo)' }
+          ],
           hotel: { name: 'The Oversleep Catba Hostel & Pool', address: '', phone: '', checkIn: '', checkOut: '', breakfast: false },
           tasks: [],
-          notes: ''
+          notes: 'Excursión de 1 día por Lan Ha Bay RESERVADA (Serenity Boutique Cruise, vía Catba Outdoors): 09:00-17:00 aprox., recogida en el hotel, salida del puerto de Beo. Con esto queda decidida la duda que había entre la excursión de 1 día y el crucero de 2D/1N: la salida del Oversleep es el 28-nov.'
         },
         {
           date: '2026-11-28', city: 'Cat Ba → Hanói', country: '🇻🇳 Vietnam', block: 'Vuelta al Norte',
@@ -1084,14 +1102,14 @@ const DEFAULT_DATA = {
               notes: 'Mirador del Parque Nacional. Vistas al archipiélago. Sin las masas del Canon Fort.',
               photo: 'img/fotos/ngu-lam-peak.jpg',
               description: 'El pico Ngu Lam dentro del Parque Nacional de Cat Ba ofrece vistas panorámicas al archipiélago kárstico similares al Canon Fort pero sin la afluencia turística. El sendero sube entre vegetación subtropical densa con avistamiento de monos langur dorados — el mamífero más amenazado del mundo, con menos de 70 individuos en libertad, exclusivo de Cat Ba.',
-              tips: '8:00-17:00. 120.000 VND (~4,5 €), incluye la entrada al Parque Nacional y vale también para la Cueva Trung Trang — no tirar el billete. Ruta de 3 km ida y vuelta, muy empinada (escaleras de roca y raíces); agua y calzado cerrado. Para llegar: taxi o coche eléctrico (20-25 min, ~12 €) o el bus local QH Green Bus (verde o azul con franjas blancas), que se para levantando la mano en la plaza del puerto, calle 1/4 Road (junto al Cat Ba Tourism Monument o la oficina de correos); pasa cada 1-2 h.' },
+              tips: '8:00-17:00. 120.000 VND (~4,5 €), incluye la entrada al Parque Nacional y vale también para la Cueva Trung Trang — no tirar el billete. Ruta de 3 km ida y vuelta, muy empinada (escaleras de roca y raíces); agua y calzado cerrado. Para llegar: taxi o coche eléctrico (20-25 min, ~12 €) o el bus local QH Green Bus (verde o azul con franjas blancas), que se para levantando la mano en la plaza del puerto, calle 1/4 Road (junto al Cat Ba Tourism Monument o la oficina de correos): 30.000 VND en efectivo, 25-30 min. Pasa cada 1-2 h, así que la noche antes pedid en recepción que confirmen a qué hora pasa el primero. Enseñad al conductor «Vườn Quốc Gia Cát Bà» (Parque Nacional de Cat Ba): para justo delante de las taquillas. La vuelta, en el mismo sitio en dirección contraria.' },
             { name: 'Cueva Trung Trang', type: 'nature', lat: 20.78877, lng: 106.997437,
               notes: 'La mayor cueva del Parque Nacional de Cat Ba. Estalactitas gigantes y formaciones kársticas.',
               photo: 'img/fotos/cueva-trung-trang.jpg',
               description: 'La cueva más grande del Parque Nacional de Cat Ba, con más de 300 metros de recorrido accesible. Su interior alberga formaciones kársticas de estalactitas y estalagmitas de millones de años. Durante la guerra de Vietnam sirvió también como refugio para la población local.',
               tips: '8:00-17:00. Incluida en la entrada de 120.000 VND del Parque Nacional (la de Ngu Lam Peak). A 1 km de la entrada del parque en dirección al pueblo: 10-15 min a pie por el arcén. Recorrido lineal de 15-20 min con tramos estrechos donde hay que agacharse; se sale por el otro lado de la montaña y en 5 min se vuelve a la carretera, donde se puede parar el QH Green Bus de vuelta.' },
             { name: 'Hospital Cave', type: 'museum', lat: 20.770351, lng: 107.020726,
-              notes: 'Hospital secreto a prueba de bombas durante la guerra. Salas médicas intactas.',
+              notes: 'Hospital secreto a prueba de bombas durante la guerra: tres plantas dentro de la roca, con quirófanos, salas de heridos y hasta una pequeña sala de cine.',
               photo: 'img/fotos/hospital-cave.jpg',
               description: 'Sirvió como hospital secreto y refugio militar durante la guerra de Vietnam. Sus salas médicas y habitaciones se conservan intactas. Visita de 1 hora.',
               tips: '8:00-17:00, 40.000 VND (se paga en la taquilla de la acera de enfrente). La visita dura 20-30 min. En el QH Green Bus desde la plaza del puerto: 30.000 VND en efectivo, ~15 min; enseñar al conductor «Hang Quân Y» para bajar justo frente a las escaleras metálicas. Queda a mitad de camino entre el pueblo y el Parque Nacional.' }
@@ -1147,7 +1165,7 @@ const DEFAULT_DATA = {
       tripNotes: {
         freeNotes: [],
         packingList: [
-          { id: 'p01', text: '🛂 Pasaportes (validez +6 meses desde la vuelta)', done: false },
+          { id: 'p01', text: '🛂 Pasaportes (validez +6 meses, como mínimo hasta mayo de 2027, y 2-3 páginas libres para los sellos)', done: false },
           { id: 'p02', text: '🛂 QR de la Vietnam Digital Arrival Card en el móvil (sin visado: exención 45 días)', done: false },
           { id: 'p03', text: '🛂 eVisa Camboya impresa — 2 copias por persona (una al entrar y otra al salir)', done: false },
           { id: 'p04', text: '📄 Seguro de viaje con cobertura médica y repatriación', done: false },
@@ -1191,7 +1209,7 @@ const DEFAULT_DATA = {
           { id: 'pre_t03', text: 'Instalar Grab (taxis Vietnam y Camboya) y Xanh SM (Cat Ba)', done: false },
           { id: 'pre_t04', text: 'Descargar Google Translate con paquetes de vietnamita y jemer offline', done: false },
           { id: 'pre_t05', text: 'Instalar una VPN 1-2 días antes de salir (Astrill o ZoogVPN) — en China no se puede descargar', done: false },
-          { id: 'pre_t07', text: 'Lan Ha Bay: decidir excursión de 1 día (~21 €) o crucero 2D/1N (~107 €) y reservar', done: false },
+          { id: 'pre_t07', text: '✅ Lan Ha Bay reservado: excursión de 1 día el 27-nov (Serenity Boutique Cruise, vía Catba Outdoors). Queda apuntar el localizador en cada móvil', done: false },
           { id: 'pre_t08', text: 'Reservar entradas Hoi An Memories Show en klook.com', done: false },
           { id: 'pre_t09', text: 'Comprar 2 pases Angkor de 3 días (62 $ cada uno) para el 11, 12 y 13-nov en ticket.angkorenterprise.gov.kh — incluye Beng Mealea', done: false },
           { id: 'pre_t10', text: 'Vuelo de regreso confirmado (check-in online 24h antes)', done: false },
@@ -1203,11 +1221,12 @@ const DEFAULT_DATA = {
   ],
 
   tasks: [
-    { id: 'pre1', date: '2026-10-25', text: 'Comprar seguros de viaje', done: false },
+    { id: 'pre1', date: '2026-10-25', text: 'Contratar el seguro de viaje con cobertura médica para el Sudeste Asiático (IATI, Mondo, Chapka…) e imprimir la póliza con el nº de asistencia 24h', done: false },
     { id: 'pre2', date: '2026-11-08', text: 'Rellenar la Cambodia Digital Arrival Card (arrival.gov.kh) — dentro de los 7 días antes de llegar a Camboya, guardar el QR', done: false },
-    { id: 'pre3', date: '2026-10-25', text: 'Solicitar eVisa Camboya (evisa.gov.kh, ~36 $) e imprimir 2 copias por persona', done: false },
+    { id: 'pre3', date: '2026-10-25', text: '✅ eVisa de Camboya ya tramitada (36 €, evisa.gov.kh). Queda imprimir 2 copias por persona: una para entrar y otra para salir', done: false },
+    { id: 'pre3c', date: '2026-10-28', text: 'Revisar el correo: confirmar que llegó el billete definitivo de Trip del sleeper bus Hue→Tam Coc (HK Buslines) — lo pide María', done: false },
     { id: 'pre3b', date: '2026-11-06', text: 'Rellenar la Vietnam Digital Arrival Card (prearrival.immigration.gov.vn) — dentro de las 72h antes del vuelo a Hanói, genera QR para inmigración', done: false },
-    { id: 'pre4', date: '2026-11-10', text: 'Lan Ha Bay: decidir excursión de 1 día o crucero 2D/1N y reservar', done: false },
+    { id: 'pre4', date: '2026-11-03', text: 'Apuntar en cada móvil el localizador de la excursión de Lan Ha Bay del 27-nov (ya reservada con Catba Outdoors)', done: false },
     { id: 'pre6', date: '2026-11-17', text: 'Reservar entradas Hoi An Memories Show (klook.com)', done: false },
     { id: 'pre7', date: '2026-11-10', text: 'Comprar 2 pases Angkor de 3 días (62 $ cada uno) en ticket.angkorenterprise.gov.kh — imprescindible tenerlos antes del amanecer del 11-nov', done: false },
     { id: 'pre8', date: '2026-11-01', text: 'Informar al banco de los destinos para evitar bloqueos de tarjeta', done: false }
@@ -1233,7 +1252,7 @@ const DEFAULT_DATA = {
 //  AppData — persistencia en localStorage
 // ============================================================
 
-const DATA_VERSION = 89;
+const DATA_VERSION = 91;
 const LS_KEY  = 'viajes_db';
 const LS_VER  = 'viajes_db_version';
 
@@ -1289,6 +1308,13 @@ const AppData = {
       if (ot.tripNotes) {
         trip.tripNotes = trip.tripNotes || { freeNotes: [], packingList: [], preTripTasks: [] };
         trip.tripNotes.freeNotes = ot.tripNotes.freeNotes || [];
+        // Lo que el usuario quitó de las listas de serie no vuelve (9-oct-2026)
+        const gone = new Set(ot.tripNotes.removedIds || []);
+        if (gone.size) {
+          trip.tripNotes.removedIds = [...gone];
+          trip.tripNotes.packingList  = (trip.tripNotes.packingList  || []).filter(it => !gone.has(it.id));
+          trip.tripNotes.preTripTasks = (trip.tripNotes.preTripTasks || []).filter(it => !gone.has(it.id));
+        }
         mergeList(trip.tripNotes.packingList, ot.tripNotes.packingList);
         mergeList(trip.tripNotes.preTripTasks, ot.tripNotes.preTripTasks);
       }
