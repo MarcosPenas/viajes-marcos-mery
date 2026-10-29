@@ -2739,11 +2739,14 @@ function buildAlertsHTML(trip, date) {
     .forEach(tr => out.push(['🌙', `Esta noche dormís en el bus (${tr.from} → ${tr.to}, ${tr.time}). ${(TRANSPORT_TIPS['sleeper-bus'] || [])[0] || ''}`]));
   if (dayM) {
     const fl = (dayM.transport || []).find(tr => tr.type === 'flight');
-    if (fl) out.push(['✈️', `Mañana vuelo ${fl.from} → ${fl.to} (${fl.time}). Pasaportes a mano; los visados están en «Docs».`]);
+    if (fl) out.push(['✈️', `Mañana vuelo ${fl.from} → ${fl.to} (${fl.time}). Pasaportes a mano; los papeles de cada frontera, en Info › Guía.`]);
     if ((dayM.country || '').includes('→')) {
       const dest = dayM.country.split('→').pop().replace(/[^\p{L} ]/gu, '').trim();
-      const need = /camboya/i.test(dest) ? 'e-Visa impresa (2 copias por persona) y QR de la Cambodia Digital Arrival Card'
-                 : /vietnam/i.test(dest) ? 'QR de la Vietnam Digital Arrival Card (se rellena en los 3 días previos)'
+      const need = /camboya/i.test(dest) ? 'e-Visa impresa (2 copias por persona) y QR de la e-Arrival de Camboya'
+                 : /vietnam/i.test(dest) && !(dayM.transport || []).some(tr => tr.type === 'flight')
+                   // 16-nov, por el Mekong: la tarjeta de llegada (PAI) es de los aeropuertos
+                   ? 'pasaporte a mano, entrada sin visado (la tarjeta de llegada PAI es de los aeropuertos: preguntad a Hang Chau si os piden algo más)'
+                 : /vietnam/i.test(dest) ? 'QR de la tarjeta de llegada de Vietnam (PAI, gratis, en las 72 h previas: hacedla aunque las fuentes no se ponen de acuerdo en si es obligatoria)'
                  : /china/i.test(dest)   ? 'pasaporte (no hace falta visado) y la VPN instalada antes de salir de España'
                  : 'pasaporte';
       out.push(['🛂', `Mañana entráis en ${dest}: ${need}.`]);
@@ -2751,6 +2754,8 @@ function buildAlertsHTML(trip, date) {
     const early = dayEvents(trip, tm).find(e => e.kind === 'transport' && e.t < 9 * 60);
     if (early) out.push(['⏰', `Mañana madrugáis: ${early.title} a las ${fmtMin(early.t)}.`]);
   }
+  // La víspera de los momentos delicados (shuttle de Siem Reap, frontera del Mekong…): js/guia.js
+  (window.GUIDE_REMINDERS || []).filter(r => r.date === date).forEach(r => out.push([r.icon, r.text]));
   (DB.tasks || []).filter(t => !t.done && t.date && t.date >= date && t.date <= tm)
     .forEach(t => out.push(['✅', `Pendiente para ${t.date === date ? 'hoy' : 'mañana'}: ${t.text}`]));
   if (!out.length) return '';
@@ -2779,10 +2784,41 @@ function reservationItems(trip) {
   return items.sort((a, b) => a.date.localeCompare(b.date) || a.t - b.t);
 }
 
-// Centro de reservas (arriba de Docs), plegable para que no ocupe tanto (pedido de Marcos,
+// Centro de reservas (Info › Mi viaje), plegable para que no ocupe tanto (pedido de Marcos,
 // 9-oct-2026; rehecho el 27-oct). Cerrado: una línea con la próxima reserva. Abierto: una
 // fila por reserva que se despliega con horario, localizador, dirección y botones; las
 // pasadas, agrupadas al final. Abierto/cerrado se recuerda durante la sesión.
+// Título, dato del final de la fila (🔒/＋ o noches) y detalle de una reserva: lo usan la
+// lista de reservas y la tarjeta «Próxima reserva» de Info › Mi viaje
+function reservationParts(trip, it) {
+  const refs = DB.bookingRefs || {};
+  if (it.tr) {
+    const key = bookingRefKey(it.date, it.tr);
+    const company = (it.tr.details || '').split(/ — |\. /)[1] || '';
+    return {
+      title: `${it.tr.icon || transportIcon(it.tr.type)} ${it.tr.from} → ${it.tr.to}`,
+      end: `<span class="res-lock" data-k="${escHtml(key)}" title="${refs[key] ? 'Localizador guardado' : 'Falta el localizador'}">${refs[key] ? '🔒' : '＋'}</span>`,
+      body: `
+        ${it.tr.time ? `<div class="res-sub">🕒 ${escHtml(it.tr.time)}</div>` : ''}
+        ${company ? `<div class="res-sub">${escHtml(company.replace(/\.$/, ''))}</div>` : ''}
+        ${bookingRefHtml(it.date, it.tr)}` };
+  }
+  const info = hotelInfo(it.day.hotel);
+  const stay = hotelStay(trip, info.name, it.date);
+  const L = hotelLinks(info);
+  return {
+    title: `🏨 ${it.day.hotel.name}`,
+    end: `<span class="res-time">${stay ? (stay.nights === 1 ? '1 noche' : stay.nights + ' noches') : ''}</span>`,
+    body: `
+      ${info.address ? `<div class="res-sub">📍 ${escHtml(info.address)}</div>` : ''}
+      ${info.checkIn ? `<div class="res-sub">Entrada ${escHtml(info.checkIn)}${info.checkOut ? ' · Salida ' + escHtml(info.checkOut) : ''}</div>` : ''}
+      <div class="nn-actions">
+        <a class="nn-btn" href="${L.dir}" target="_blank" rel="noopener">📍 Cómo llegar</a>
+        ${L.tel ? `<a class="nn-btn" href="${L.tel}">📞 Llamar</a>` : ''}
+        <button class="nn-btn" data-hotel="${escHtml(info.name)}" onclick="openHotelDetail(this.dataset.hotel,'${it.date}')">ℹ️ Ficha</button>
+      </div>` };
+}
+
 function buildReservationsHTML(trip) {
   const t = effectiveDate(), tm = addDaysIso(t, 1);
   const items = reservationItems(trip);
@@ -2790,48 +2826,25 @@ function buildReservationsHTML(trip) {
   const badge = d => d === t ? '<span class="res-badge res-today">HOY</span>'
                   : d === tm ? '<span class="res-badge res-tomorrow">MAÑANA</span>'
                   : `<span class="res-date">${fmtDayShort(d)}</span>`;
-  const titleOf = it => it.tr
-    ? `${it.tr.icon || transportIcon(it.tr.type)} ${it.tr.from} → ${it.tr.to}`
-    : `🏨 ${it.day.hotel.name}`;
   const row = it => {
-    let end, body;
-    if (it.tr) {
-      const key = bookingRefKey(it.date, it.tr);
-      const company = (it.tr.details || '').split(/ — |\. /)[1] || '';
-      end = `<span class="res-lock" data-k="${escHtml(key)}" title="${refs[key] ? 'Localizador guardado' : 'Falta el localizador'}">${refs[key] ? '🔒' : '＋'}</span>`;
-      body = `
-        ${it.tr.time ? `<div class="res-sub">🕒 ${escHtml(it.tr.time)}</div>` : ''}
-        ${company ? `<div class="res-sub">${escHtml(company.replace(/\.$/, ''))}</div>` : ''}
-        ${bookingRefHtml(it.date, it.tr)}`;
-    } else {
-      const info = hotelInfo(it.day.hotel);
-      const stay = hotelStay(trip, info.name, it.date);
-      const L = hotelLinks(info);
-      end = `<span class="res-time">${stay ? (stay.nights === 1 ? '1 noche' : stay.nights + ' noches') : ''}</span>`;
-      body = `
-        ${info.address ? `<div class="res-sub">📍 ${escHtml(info.address)}</div>` : ''}
-        ${info.checkIn ? `<div class="res-sub">Entrada ${escHtml(info.checkIn)}${info.checkOut ? ' · Salida ' + escHtml(info.checkOut) : ''}</div>` : ''}
-        <div class="nn-actions">
-          <a class="nn-btn" href="${L.dir}" target="_blank" rel="noopener">📍 Cómo llegar</a>
-          ${L.tel ? `<a class="nn-btn" href="${L.tel}">📞 Llamar</a>` : ''}
-          <button class="nn-btn" data-hotel="${escHtml(info.name)}" onclick="openHotelDetail(this.dataset.hotel,'${it.date}')">ℹ️ Ficha</button>
-        </div>`;
-    }
+    const p = reservationParts(trip, it);
     return `
       <details class="res-row${it.date < t ? ' res-past' : ''}">
-        <summary class="res-row-head">${badge(it.date)}<span class="res-row-title">${escHtml(titleOf(it))}</span>${end}<span class="res-chev" aria-hidden="true">›</span></summary>
-        <div class="res-row-body">${body}</div>
+        <summary class="res-row-head">${badge(it.date)}<span class="res-row-title">${escHtml(p.title)}</span>${p.end}<span class="res-chev" aria-hidden="true">›</span></summary>
+        <div class="res-row-body">${p.body}</div>
       </details>`;
   };
   const upcoming = items.filter(it => it.date >= t), past = items.filter(it => it.date < t);
-  const next = upcoming[0];
+  // La próxima ya sale destacada encima (Info › Mi viaje): el resumen dice cuántos
+  // localizadores faltan por apuntar en este móvil
+  const withRef = items.filter(it => it.tr), saved = withRef.filter(it => refs[bookingRefKey(it.date, it.tr)]).length;
   let open = false;
   try { open = sessionStorage.getItem('res-open') === '1'; } catch (e) { /* sin almacenamiento */ }
   return `
     <details class="res-wrap"${open ? ' open' : ''} ontoggle="try{sessionStorage.setItem('res-open',this.open?'1':'')}catch(e){}">
       <summary class="res-summary">
-        <span class="res-sum-main">🎫 Reservas del viaje <span class="res-sum-count">${items.length}</span></span>
-        ${next ? `<span class="res-sum-next">Próxima: ${escHtml(fmtDayShort(next.date) + ' · ' + titleOf(next))}</span>` : ''}
+        <span class="res-sum-main">🎫 Todas las reservas <span class="res-sum-count">${items.length}</span></span>
+        <span class="res-sum-next">${saved === withRef.length ? `🔒 Los ${withRef.length} localizadores, guardados` : `🔒 ${saved} de ${withRef.length} localizadores guardados en este móvil`}</span>
         <span class="res-chev" aria-hidden="true">›</span>
       </summary>
       <div class="res-hint">Los localizadores se guardan solo en este móvil (la app es pública y no los publica). 🔒 = guardado · ＋ = falta.</div>
@@ -2847,7 +2860,7 @@ function buildReservationsHTML(trip) {
 }
 
 // Alojamiento de esta noche (o el siguiente, si esta noche es en un bus o un avión), para
-// Docs → emergencias. Es lo único que tenía la hoja SOS y no estaba en Docs (el botón SOS de
+// Info › Urgencias. Es lo único que tenía la hoja SOS y no estaba en Docs (el botón SOS de
 // la cabecera se quitó el 9-oct-2026 a petición de Marcos; rehecho el 27-oct).
 function tonightHotelHTML(trip) {
   const date = effectiveDate();
@@ -2867,30 +2880,6 @@ function tonightHotelHTML(trip) {
         ${HL.tel ? `<a class="nn-btn" href="${HL.tel}">📞 ${escHtml(hi.phone)}</a>` : ''}
       </div>
     </div>`;
-}
-
-// Consejos prácticos (Docs), debajo de las reservas y plegados igual. Textos en js/guia.js
-// (TRAVEL_TIPS, repasados el 9-oct-2026). Abierto/cerrado se recuerda durante la sesión.
-function buildTipsHTML() {
-  const tips = window.TRAVEL_TIPS || [];
-  if (!tips.length) return '';
-  let open = false;
-  try { open = sessionStorage.getItem('tips-open') === '1'; } catch (e) { /* sin almacenamiento */ }
-  return `
-    <details class="res-wrap tips-wrap"${open ? ' open' : ''} ontoggle="try{sessionStorage.setItem('tips-open',this.open?'1':'')}catch(e){}">
-      <summary class="res-summary">
-        <span class="res-sum-main">💡 Consejos prácticos <span class="res-sum-count">${tips.length}</span></span>
-        <span class="res-sum-next">${escHtml(tips.map(x => x.title).slice(0, 4).join(' · '))}…</span>
-        <span class="res-chev" aria-hidden="true">›</span>
-      </summary>
-      <div class="res-list">
-        ${tips.map(x => `
-          <div class="tip-item">
-            <div class="tip-item-title"><span aria-hidden="true">${x.icon}</span> ${escHtml(x.title)}</div>
-            <div class="tip-item-text">${x.html}</div>
-          </div>`).join('')}
-      </div>
-    </details>`;
 }
 
 // Estado del modo sin conexión (Inicio): ¿está la app guardada y cuántas fotos?
@@ -2961,7 +2950,7 @@ function editBookingRef(key) {
   const [date, type, ...to] = key.split('|');
   const html = bookingRefHtml(date, { ref: true, type, to: to.join('|') });
   document.querySelectorAll('.tr-ref').forEach(el => { if (el.dataset.k === key) el.outerHTML = html; });
-  // Y el 🔒 / ＋ de su fila en las reservas de Docs
+  // Y el 🔒 / ＋ de su fila en las reservas de Info
   document.querySelectorAll('.res-lock').forEach(el => {
     if (el.dataset.k !== key) return;
     el.textContent = clean ? '🔒' : '＋';
@@ -3682,11 +3671,16 @@ function showNearMe() {
 }
 
 // ══════════════════════════════════════════════════════════
-//  VIEW: DOCUMENTOS
+//  VIEW: INFO (antes «Docs», 29-oct-2026). Marcos lo veía «un cajón desastre»: ahora son
+//  tres secciones, como Días: Mi viaje (reservas y documentos) · Guía (TRIP_GUIDE y consejos
+//  de js/guia.js) · Urgencias. La ruta interna sigue llamándose 'docs'.
 // ══════════════════════════════════════════════════════════
 
 const DOC_CATEGORIES = {
   identificacion: { label: 'Identificación',  icon: '📋', color: '#e3f2fd' },
+  visados:        { label: 'Visados',          icon: '🛂', color: '#e3f2fd' },
+  entradas:       { label: 'Entradas',         icon: '🎟️', color: '#fff3e0' },
+  salud:          { label: 'Salud',            icon: '💉', color: '#e8f5e9' },
   vuelos:         { label: 'Vuelos',           icon: '✈️', color: '#e0f0ee' },
   transportes:    { label: 'Transportes',      icon: '🚌', color: '#e8f5e9' },
   reservas:       { label: 'Reservas',         icon: '🏨', color: '#fff3e0' },
@@ -3694,143 +3688,193 @@ const DOC_CATEGORIES = {
   otros:          { label: 'Otros',            icon: '📄', color: '#f5f5f5' },
 };
 
-function renderDocs() {
+const INFO_TABS = [['viaje', '🎫 Mi viaje'], ['guia', '📖 Guía'], ['urgencias', '🆘 Urgencias']];
+let _infoTab = null;
+
+// `tab`: 'viaje' | 'guia' | 'urgencias'. Sin él, la última abierta en esta sesión.
+function renderDocs(tab) {
   const trip = getTrip(currentTripId);
-  setHeader('Documentos', false);
-  const docs = trip.documents || [];
+  setHeader('Info', false);
+  if (tab) _infoTab = tab;
+  if (!_infoTab) { try { _infoTab = sessionStorage.getItem('info-tab'); } catch (e) { /* sin almacenamiento */ } }
+  if (!INFO_TABS.some(([k]) => k === _infoTab)) _infoTab = 'viaje';
+  try { sessionStorage.setItem('info-tab', _infoTab); } catch (e) { /* sin almacenamiento */ }
+  const body = _infoTab === 'guia' ? infoGuideHTML()
+             : _infoTab === 'urgencias' ? infoEmergencyHTML(trip)
+             : infoTripHTML(trip);
+  const vc = el('view-content');
+  vc.innerHTML = `
+    <div class="itin-tabs" role="tablist">
+      ${INFO_TABS.map(([k, label]) => `<button class="itin-tab${k === _infoTab ? ' active' : ''}" role="tab" aria-selected="${k === _infoTab}" onclick="renderDocs('${k}')">${label}</button>`).join('')}
+    </div>
+    <div class="info-body">${body}</div>
+    <div style="height:80px"></div>`;
+  if (tab) vc.scrollTop = 0;
+}
 
-  // Agrupar por categoría
-  const grouped = {};
-  Object.keys(DOC_CATEGORIES).forEach(k => { grouped[k] = []; });
-  docs.forEach(d => {
-    const cat = DOC_CATEGORIES[d.category] ? d.category : 'otros';
-    grouped[cat].push(d);
-  });
+// ── Mi viaje: próxima reserva, todas las reservas y mis documentos ──
+function infoTripHTML(trip) {
+  return `
+    ${nextReservationHTML(trip)}
+    ${buildReservationsHTML(trip)}
+    <div class="info-h">📁 Mis documentos</div>
+    <div class="info-hint">Subid cada documento a Google Drive, compartidlo y pegad aquí el enlace: un toque lo abre (con conexión; para tenerlo sin ella, guardad también el PDF en el móvil). Pasaportes y seguro, solo aquí: el repositorio de la app es público.</div>
+    ${docTilesHTML(trip)}`;
+}
 
-  const categorySections = Object.entries(grouped)
-    .filter(([, items]) => items.length > 0)
-    .map(([cat, items]) => {
-      const cfg = DOC_CATEGORIES[cat];
-      return `
-        <div class="section-title">${cfg.icon} ${cfg.label}</div>
-        ${items.map(doc => `
-          <div class="doc-item2 ${doc.confirmed ? 'doc-confirmed' : 'doc-pending'}"
-               ${doc.url ? `onclick="openDoc('${doc.id}')"` : ''}>
-            <div class="doc2-icon" style="background:${cfg.color}">${cfg.icon}</div>
-            <div class="doc2-body">
-              <div class="doc2-name">${escHtml(doc.name || '')}</div>
-              ${doc.notes ? `<div class="doc2-notes">${escHtml(doc.notes)}</div>` : ''}
-              ${doc.date  ? `<div class="doc2-date">📅 ${formatDateShort(doc.date)}</div>` : ''}
-            </div>
-            <div class="doc2-right">
-              ${doc.url
-                ? `<span class="doc-status confirmed">🔗</span>`
-                : `<button class="doc-add-url" onclick="event.stopPropagation();addDocUrl('${doc.id}')">+ Link</button>`}
-              <div class="doc-confirm-check ${doc.confirmed ? 'on' : ''}" onclick="event.stopPropagation();toggleDocConfirmed('${doc.id}')">
-                ${doc.confirmed ? '✓' : ''}
-              </div>
-              <button class="doc-more" onclick="event.stopPropagation();docOptions('${doc.id}')" aria-label="Opciones de ${escHtml(doc.name || 'documento')}">⋯</button>
-            </div>
-          </div>`).join('')}`;
-    }).join('');
-
-  // ── Visados multi-país ──
-  const visaSection = `
-    <div class="section-title">🛃 Visados</div>
-    <div class="visa-grid">
-      <div class="visa-card visa-vn">
-        <div class="visa-country">${flagText('🇻🇳')} Vietnam</div>
-        <div class="visa-name">Sin visado</div>
-        <div class="visa-detail">Exención · pasaporte español · hasta 45 días</div>
-        <div class="visa-steps">
-          <div class="visa-step">1. Dentro de los 3 días antes de llegar, entra en prearrival.immigration.gov.vn</div>
-          <div class="visa-step">2. Rellena la Digital Arrival Card con los datos del pasaporte y del vuelo</div>
-          <div class="visa-step">3. Guarda el código QR en el móvil (o impreso)</div>
-          <div class="visa-step">4. En inmigración, cola general «Foreigners»: pasaporte + QR</div>
-          <div class="visa-step">5. Se entra dos veces (7-nov y 16-nov por el Mekong): comprobar si hay que repetir el registro para la segunda</div>
-        </div>
-        <div class="visa-warning">⚠️ Pasaporte con mínimo 6 meses de vigencia (hasta mayo de 2027) y 2-3 páginas libres</div>
-      </div>
-      <div class="visa-card visa-kh">
-        <div class="visa-country">${flagText('🇰🇭')} Camboya</div>
-        <div class="visa-name">e-Visa Camboya</div>
-        <div class="visa-detail">~36 USD · online · 30 días</div>
-        <div class="visa-steps">
-          <div class="visa-step">1. Accede a evisa.gov.kh</div>
-          <div class="visa-step">2. Sube foto pasaporte y foto personal</div>
-          <div class="visa-step">3. Paga 36 USD con tarjeta</div>
-          <div class="visa-step">4. Recibe aprobación en 3 días hábiles</div>
-          <div class="visa-step">5. Imprime 2 copias por persona (una al entrar y otra al salir)</div>
-          <div class="visa-step">6. Rellena la Digital Arrival Card en arrival.gov.kh (7 días antes) y guarda el QR</div>
-        </div>
-        <div class="visa-warning">⚠️ También disponible a la llegada pero hay colas largas. Online es más rápido.</div>
-      </div>
+function nextReservationHTML(trip) {
+  const t = effectiveDate(), tm = addDaysIso(t, 1);
+  const it = reservationItems(trip).find(i => i.date >= t);
+  if (!it) return '';
+  const p = reservationParts(trip, it);
+  const when = it.date === t ? 'Hoy' : it.date === tm ? 'Mañana' : fmtDayShort(it.date);
+  return `
+    <div class="next-res">
+      <div class="next-res-label">Próxima reserva · ${escHtml(when)}</div>
+      <div class="next-res-title">${escHtml(p.title)}</div>
+      <div class="next-res-body">${p.body}</div>
     </div>`;
+}
 
-  // ── Emergencias ──
-  // Datos de emergencia: embajadas (DB.contacts) y teléfonos locales (DB.localEmergency) de data.js.
-  // (Antes leía window.EMERGENCY_DATA, que no existía: la sección salía vacía.)
-  const embassies = DB.contacts || [];
-  const localEm   = DB.localEmergency || [];
-  const tel = n => `<a class="em-phone" href="tel:${(n || '').replace(/\s+/g, '')}">${n}</a>`;
-  const emergencySection = `
-    <div class="section-title">🆘 Datos de emergencia</div>
+function docTilesHTML(trip) {
+  // Ordenados por categoría (pasaportes, visados, entradas…) y luego por nombre
+  const order = Object.keys(DOC_CATEGORIES);
+  const rank = c => { const i = order.indexOf(c); return i < 0 ? order.length : i; };
+  const docs = (trip.documents || []).slice().sort((a, b) => rank(a.category) - rank(b.category) || (a.name || '').localeCompare(b.name || '', 'es'));
+  // Una sugerida desaparece en cuanto hay un documento de ese tipo (`match` de SUGGESTED_DOCS)
+  const sugg = (window.SUGGESTED_DOCS || []).map((s, i) => ({ ...s, i }))
+    .filter(s => !docs.some(d => new RegExp(s.match || s.name, 'i').test(d.name || '')));
+  const icon = c => (DOC_CATEGORIES[c] || DOC_CATEGORIES.otros).icon;
+  return `
+    <div class="doc-tiles">
+      ${docs.map(doc => `
+        <div class="doc-tile${doc.url ? ' has-url' : ''}" role="button" tabindex="0"
+             onclick="${doc.url ? `openDoc('${doc.id}')` : `addDocUrl('${doc.id}')`}"
+             onkeydown="if(event.key==='Enter')this.click()">
+          <span class="doc-tile-icon" aria-hidden="true">${icon(doc.category)}</span>
+          <span class="doc-tile-name">${escHtml(doc.name || '')}${doc.confirmed ? ' ✓' : ''}</span>
+          <span class="doc-tile-state">${doc.url ? '🔗 Abrir' : '＋ Añadir enlace'}</span>
+          <button class="doc-more" onclick="event.stopPropagation();docOptions('${doc.id}')" aria-label="Opciones de ${escHtml(doc.name || 'documento')}">⋯</button>
+        </div>`).join('')}
+      ${sugg.map(s => `
+        <button class="doc-tile doc-tile-sugg" onclick="addSuggestedDoc(${s.i})">
+          <span class="doc-tile-icon" aria-hidden="true">${icon(s.category)}</span>
+          <span class="doc-tile-name">${escHtml(s.name)}</span>
+          <span class="doc-tile-state">＋ Añadir enlace</span>
+        </button>`).join('')}
+      <button class="doc-tile doc-tile-add" onclick="addNewDoc()">
+        <span class="doc-tile-icon" aria-hidden="true">＋</span>
+        <span class="doc-tile-name">Otro documento</span>
+      </button>
+    </div>`;
+}
+
+// ── Guía: los temas de TRIP_GUIDE y los consejos generales, plegables (uno abierto a la vez) ──
+function infoGuideHTML() {
+  const topics = window.TRIP_GUIDE || [];
+  const general = (window.TRAVEL_TIPS || []).filter(x => !x.enGuia);
+  let open = '';
+  try { open = sessionStorage.getItem('guide-open') || ''; } catch (e) { /* sin almacenamiento */ }
+  const wrap = (id, icon, title, sub, inner) => `
+    <details class="res-wrap guide-topic"${open === id ? ' open' : ''} data-id="${id}" ontoggle="guideToggle(this)">
+      <summary class="res-summary">
+        <span class="res-sum-main">${icon} ${escHtml(title)}</span>
+        <span class="res-sum-next">${escHtml(sub)}</span>
+        <span class="res-chev" aria-hidden="true">›</span>
+      </summary>
+      ${inner}
+    </details>`;
+  return `
+    <div class="info-hint">Lo esencial de cada tema, también sin conexión. Etiquetas: <span class="g-tag g-ok">Oficial</span> fuente oficial · <span class="g-tag g-info">Orientativo</span> guías y viajeros · <span class="g-tag g-warn">Confirmar allí</span> cambia según el día o el sitio.</div>
+    <div class="guide-list">
+      ${topics.map(tp => wrap(tp.id, tp.icon, tp.title, tp.sub, `
+        <ul class="guide-items">${tp.items.map(x => `<li>${x}</li>`).join('')}</ul>
+        ${tp.sources && tp.sources.length ? `
+        <div class="guide-src">
+          <div class="guide-src-title">Fuentes (se abren con conexión)</div>
+          ${tp.sources.map(s => `<a href="${escHtml(s.u)}" target="_blank" rel="noopener">${escHtml(s.t)} ↗</a>`).join('')}
+        </div>` : ''}`)).join('')}
+      ${general.length ? wrap('generales', '💡', 'Consejos generales', general.map(x => x.title).join(' · '), `
+        <div class="res-list">
+          ${general.map(x => `
+            <div class="tip-item">
+              <div class="tip-item-title"><span aria-hidden="true">${x.icon}</span> ${escHtml(x.title)}</div>
+              <div class="tip-item-text">${x.html}</div>
+            </div>`).join('')}
+        </div>`) : ''}
+    </div>
+    <div class="info-hint">Revisado el ${escHtml(window.GUIDE_CHECKED || '')}. Lo que tiene fecha concreta (el shuttle de Siem Reap, la frontera del Mekong…) sale además en Hoy la víspera.</div>`;
+}
+
+function guideToggle(det) {
+  try {
+    if (det.open) {
+      document.querySelectorAll('.guide-topic[open]').forEach(d => { if (d !== det) d.open = false; });
+      sessionStorage.setItem('guide-open', det.dataset.id);
+    } else if (sessionStorage.getItem('guide-open') === det.dataset.id) {
+      sessionStorage.removeItem('guide-open');
+    }
+  } catch (e) { /* sin almacenamiento */ }
+}
+
+// ── Urgencias: teléfonos del país en el que se está, embajada, alojamiento de esta noche y
+//    «¿Qué ha pasado?» (EMERGENCY_HELP de js/guia.js) ──
+function infoEmergencyHTML(trip) {
+  const date = effectiveDate();
+  const day = trip.days.find(d => d.date === date);
+  const dest = day ? (day.country || '').split('→').pop() : '';
+  const where = /camboya/i.test(dest) ? 'camboya' : /vietnam/i.test(dest) ? 'vietnam' : '';
+  const pick = list => (list || []).filter(e => !where || (e.country || '').toLowerCase().includes(where));
+  const telHref = n => 'tel:' + (n || '').replace(/[^\d+]/g, '');
+  const tel = n => `<a class="em-phone" href="${telHref(n)}">${escHtml(n || '')}</a>`;
+  const extra = c => (window.EMERGENCY_EXTRA || {})[/camboya/i.test(c) ? 'camboya' : /vietnam/i.test(c) ? 'vietnam' : ''] || [];
+  return `
+    <div class="info-hint">${where ? `Estáis en ${where === 'camboya' ? 'Camboya' : 'Vietnam'}: sus teléfonos primero.` : 'Fuera del viaje se enseñan los dos países.'} Un toque llama.</div>
+    ${pick(DB.localEmergency).map(e => `
+      <div class="em-country">
+        <div class="info-h">${flagText(e.country)}</div>
+        <div class="em-big-row">
+          <a class="em-big" href="${telHref(e.police)}"><b>${escHtml(e.police)}</b><span>Policía</span></a>
+          <a class="em-big" href="${telHref(e.ambulance)}"><b>${escHtml(e.ambulance)}</b><span>Ambulancia</span></a>
+          <a class="em-big" href="${telHref(e.fire)}"><b>${escHtml(e.fire)}</b><span>Bomberos</span></a>
+        </div>
+        ${extra(e.country).map(x => `<div class="em-row"><span class="em-who">${escHtml(x.label)}</span>${tel(x.phone)}</div>`).join('')}
+      </div>`).join('')}
     <div class="emergency-card">
       <div class="em-block">
-        <div class="em-title">🚨 Emergencias locales</div>
-        ${localEm.map(e => `
-          <div class="em-row em-phone-row">
-            <span class="em-who">${flagText(e.country)}</span>
-            <span class="em-val">Policía ${tel(e.police)} · Ambulancia ${tel(e.ambulance)} · Bomberos ${tel(e.fire)}</span>
-          </div>`).join('')}
-      </div>
-      <div class="em-block">
         <div class="em-title">${flagText('🇪🇸')} Embajada y consulado de España</div>
-        ${embassies.map(e => `
+        ${pick(DB.contacts).map(e => `
           <div class="em-embassy">
             <div class="em-emb-country">${flagText(e.country)} — ${escHtml(e.name || '')}</div>
-            <div class="em-emb-addr">${e.address}</div>
+            ${e.emergency ? `<div class="em-row"><span class="em-who">Emergencia 24 h</span>${tel(e.emergency)}</div>` : ''}
             <div class="em-row"><span class="em-who">Teléfono</span>${tel(e.phone)}</div>
-            ${e.emergency ? `<div class="em-row"><span class="em-who">Emergencia 24h</span>${tel(e.emergency)}</div>` : ''}
-            ${e.notes ? `<div class="em-note">${e.notes}</div>` : ''}
+            <div class="em-emb-addr">${escHtml(e.address || '')}</div>
+            ${e.notes ? `<div class="em-note">${escHtml(e.notes)}</div>` : ''}
           </div>`).join('')}
       </div>
       ${tonightHotelHTML(trip)}
       <div class="em-block">
-        <div class="em-title">🏥 Seguro médico y pasaportes</div>
-        <div class="em-note">Por privacidad no se guardan aquí (el repositorio es público). Añade la póliza (con su teléfono de asistencia 24h) y las copias de los pasaportes en «Documentos», arriba, con un enlace a Google Drive.</div>
+        <div class="em-title">🏥 Seguro y pasaportes</div>
+        <div class="em-note">La póliza (con su teléfono de asistencia 24 h) y las copias de los pasaportes van en Mi viaje › Mis documentos, con su enlace: aquí no se publican.</div>
+        <div class="nn-actions"><button class="nn-btn" onclick="renderDocs('viaje')">📁 Mis documentos</button></div>
       </div>
+    </div>
+    <div class="info-h">¿Qué ha pasado?</div>
+    <div class="guide-list">
+      ${(window.EMERGENCY_HELP || []).map(h => `
+        <details class="res-wrap help-item">
+          <summary class="res-summary"><span class="res-sum-main">${h.icon} ${escHtml(h.title)}</span><span class="res-chev" aria-hidden="true">›</span></summary>
+          <ol class="guide-items">${h.steps.map(s => `<li>${escHtml(s)}</li>`).join('')}</ol>
+        </details>`).join('')}
     </div>`;
-
-  el('view-content').innerHTML = `
-    <div class="docs-hint">
-      <span>💡</span>
-      <span>Sube tus documentos a <strong>Google Drive</strong>, compártelos y pega el enlace con <em>"+ Link"</em>. Un toque los abre.</span>
-    </div>
-
-    <div class="docs-fold">
-      ${buildReservationsHTML(trip)}
-      ${buildTipsHTML()}
-    </div>
-
-    ${visaSection}
-
-    <div class="section-title">📁 Documentos</div>
-    ${categorySections || `<div class="empty-state"><span class="empty-icon">📁</span><p>No hay documentos aún.</p></div>`}
-
-    <div style="padding:12px 16px">
-      <button onclick="addNewDoc()" class="add-doc-btn">+ Añadir documento</button>
-    </div>
-
-    ${emergencySection}
-
-    <div style="height:80px"></div>`;
 }
 
 function openDoc(docId) {
   const trip = getTrip(currentTripId);
   const doc = (trip.documents || []).find(d => d.id === docId);
-  if (doc && doc.url) window.open(doc.url, '_blank');
+  // Solo enlaces web (https/http): nada de «javascript:» pegado por error o por un enlace manipulado
+  if (doc && /^https?:\/\//i.test(doc.url || '')) window.open(doc.url, '_blank', 'noopener');
+  else if (doc) addDocUrl(docId);
 }
 
 function addDocUrl(docId) {
@@ -3848,17 +3892,77 @@ function docOptions(docId) {
   const trip = getTrip(currentTripId);
   const doc = (trip.documents || []).find(d => d.id === docId);
   if (!doc) return;
-  const choice = prompt(`«${doc.name}»\n\n1. Cambiar enlace\n2. Cambiar nombre\n3. Borrar\n\nEscribe el número:`);
+  const choice = prompt(`«${doc.name}»\n\n1. Cambiar enlace\n2. Cambiar nombre\n3. ${doc.confirmed ? 'Quitar la marca de comprobado' : 'Marcar como comprobado (✓)'}\n4. Borrar\n\nEscribe el número:`);
   if (choice === null) return;
   const n = parseInt(choice, 10);
   if (n === 1) addDocUrl(docId);
   else if (n === 2) {
     const name = prompt('Nombre del documento:', doc.name || '');
     if (name && name.trim()) { doc.name = name.trim(); save(); renderDocs(); }
-  } else if (n === 3 && confirm(`¿Borrar «${doc.name}»?`)) {
+  } else if (n === 3) toggleDocConfirmed(docId);
+  else if (n === 4 && confirm(`¿Borrar «${doc.name}»?`)) {
     trip.documents = trip.documents.filter(d => d.id !== docId);
     save(); renderDocs();
   }
+}
+
+// ── Cargar documentos desde un enlace (29-oct-2026) ──
+// …/viajes-marcos-mery/#docs=<lista>. La lista va tras el «#», que el navegador no envía al
+// servidor: los enlaces de los documentos no pasan por GitHub ni quedan en el repositorio
+// (es público); se guardan solo en el móvil que abre el enlace. Formato: base64url de un JSON
+// [[nombre, categoría, destino], …]; destino = dirección https completa, el id de un archivo
+// de Google Drive o «f:» + el id de una carpeta.
+function docLinkUrl(dest) {
+  if (/^https:\/\//i.test(dest)) return dest;
+  if (/^f:[\w-]{10,}$/.test(dest)) return 'https://drive.google.com/drive/folders/' + dest.slice(2);
+  if (/^[\w-]{10,}$/.test(dest)) return 'https://drive.google.com/file/d/' + dest + '/view';
+  return '';
+}
+
+function importDocsFromHash() {
+  const m = /^#docs=([\w-]+)/.exec(location.hash || '');
+  if (!m) return false;
+  history.replaceState(null, '', location.pathname + location.search); // que no se repita al recargar
+  let list;
+  try {
+    const b64 = m[1].replace(/-/g, '+').replace(/_/g, '/');
+    const bin = atob(b64 + '='.repeat((4 - b64.length % 4) % 4));
+    list = JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, ch => ch.charCodeAt(0))));
+  } catch (e) { alert('Ese enlace de documentos no se puede leer.'); return true; }
+  const items = (Array.isArray(list) ? list : [])
+    .map(x => Array.isArray(x) ? { name: String(x[0] || '').trim().slice(0, 80), category: DOC_CATEGORIES[x[1]] ? x[1] : 'otros', url: docLinkUrl(String(x[2] || '')) } : null)
+    .filter(x => x && x.name && x.url);
+  const trip = getTrip(currentTripId) || DB.trips[0];
+  if (!trip || !items.length) { alert('Ese enlace no trae documentos.'); return true; }
+  if (!confirm(`¿Añadir ${items.length} documentos a «Mis documentos» de este móvil?\n\n${items.map(x => '· ' + x.name).join('\n')}\n\nSolo se guardan los enlaces, y solo en este móvil.`)) return true;
+  if (!trip.documents) trip.documents = [];
+  let added = 0, updated = 0;
+  items.forEach((x, k) => {
+    const same = trip.documents.find(d => (d.name || '').toLowerCase() === x.name.toLowerCase() || d.url === x.url);
+    if (same) { same.name = x.name; same.url = x.url; same.category = x.category; updated++; }
+    else { trip.documents.push({ id: 'doc' + (Date.now() + k), name: x.name, category: x.category, notes: '', url: x.url, date: '', confirmed: false }); added++; }
+  });
+  save();
+  currentTripId = trip.id;
+  navigate('docs');
+  renderDocs('viaje');
+  const n = (k, one, many) => `${k} ${k === 1 ? one : many}`;
+  setTimeout(() => alert(`Hecho: ${n(added, 'documento añadido', 'documentos añadidos')}${updated ? ` y ${n(updated, 'actualizado', 'actualizados')}` : ''}. Están en Info › Mi viaje › Mis documentos.`), 300);
+  return true;
+}
+window.addEventListener('hashchange', importDocsFromHash);
+
+// Tarjeta sugerida de Mis documentos (SUGGESTED_DOCS de js/guia.js): se crea al pegar su enlace
+function addSuggestedDoc(i) {
+  const s = (window.SUGGESTED_DOCS || [])[i];
+  if (!s) return;
+  const url = prompt(`${s.name}\n\nPega el enlace (Google Drive, PDF online…):`);
+  if (!url || !url.trim()) return;
+  const trip = getTrip(currentTripId);
+  if (!trip.documents) trip.documents = [];
+  trip.documents.push({ id: 'doc' + Date.now(), name: s.name, category: s.category, notes: '', url: url.trim(), date: '', confirmed: false });
+  save();
+  renderDocs();
 }
 
 function toggleDocConfirmed(docId) {
@@ -3923,6 +4027,8 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     navigate('home');
   }
+  // Enlace de carga de documentos (#docs=…): se ofrece al abrir la app con él
+  if (/^#docs=/.test(location.hash)) setTimeout(importDocsFromHash, 400);
   setTimeout(precacheCuratedPhotos, 5000);
   setTimeout(refreshFX, 3000); // tipos de cambio del día (si hay conexión)
 });

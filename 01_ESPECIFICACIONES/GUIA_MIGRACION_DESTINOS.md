@@ -92,7 +92,11 @@ Se citan identificadores, no números de línea (cambian a diario). Para encontr
 | `SURVIVAL_DICT` | Código de idioma (`vi`, `km`) | Nombre del idioma, nota, frases (`es`, `local`, `pron`). Hoy, 19 en vietnamita y 18 en jemer |
 | `CULTURE_CARDS` | Valor exacto de `block` | 2-4 tarjetas por zona (`icon`, `title`, `text`) |
 | `HOTEL_INFO` | Valor exacto de `hotel.name` | Dirección, teléfono, entrada/salida, `lat`/`lng`, búsqueda de Maps, descripción. Sin fotos (derechos) |
-| `TRAVEL_TIPS` | — (lista) | Consejos prácticos de Docs (`icon`, `title`, `html`): clima, dinero, SIM, transporte, comida, salud, vacunas, templos, enchufes, fotos, regateo. Todos dependen del destino |
+| `TRAVEL_TIPS` | — (lista) | Consejos (`icon`, `title`, `html`, `enGuia`): clima, dinero, SIM, transporte, comida, salud, vacunas, templos, enchufes, fotos, regateo. Los que no llevan `enGuia` salen en Info › Guía › «Consejos generales». Todos dependen del destino |
+| `TRIP_GUIDE`, `GUIDE_CHECKED` | — (lista de temas) | Info › Guía (29-oct-2026): temas (`id`, `icon`, `title`, `sub`, `items` en HTML con la etiqueta de fiabilidad `g-tag g-ok/g-info/g-warn`, `sources` con `t` y `u`) y fecha de revisión. Fronteras, dinero, transporte, internet: todo del destino y con fecha |
+| `EMERGENCY_HELP`, `EMERGENCY_EXTRA` | — / país en minúsculas (`camboya`) | Info › Urgencias: «¿Qué ha pasado?» (situaciones con pasos) y teléfonos extra por país, además de `localEmergency` de `data.js` |
+| `GUIDE_REMINDERS` | Fecha `AAAA-MM-DD` | Avisos de Hoy la víspera de momentos delicados del itinerario (dependen de las fechas del viaje) |
+| `SUGGESTED_DOCS` | — (lista) | Info › Mi viaje: documentos sugeridos (`name`, `category` de `DOC_CATEGORIES`) |
 
 ### 4.3 `js/app.js` — contenido del destino metido en el código (lo que saca la Fase 2)
 
@@ -115,12 +119,11 @@ Se citan identificadores, no números de línea (cambian a diario). Para encontr
 | `FLIGHT_BLOCKS` | Estadísticas, reloj, ruta | Bloques que son solo vuelos (`Vuelos`, `Vuelta a casa`) | Valor de `block` |
 | `CITY_PHOTOS` (dentro de `renderDay`) | Portada de cada día | Foto por ciudad (`img/places/`, `img/fotos/`) | Ciudad de `day.city` |
 | `FLIGHT_AIRPORT` | «Cómo llegar» de los vuelos | Nombre completo del aeropuerto de salida | `transport.from` |
-| `buildAlertsHTML()` | Hoy, avisos | Requisitos de entrada por país (Camboya, Vietnam, China) escritos en el código | País de destino del día |
+| `buildAlertsHTML()` | Hoy, avisos | Requisitos de entrada por país (Camboya, Vietnam —en avión o por el río—, China) escritos en el código. Los avisos de víspera ya están en `guia.js` (`GUIDE_REMINDERS`) | País de destino del día |
 | `TRANSPORT_TIPS` | Días › Transportes y avisos | Genéricos salvo `train` (asiento del lado del mar Da Nang→Hue) | `transport.type`; `sleeper-bus` si `isOvernightTransport` |
 | Texto «Media de noviembre · sin datos en vivo» (`weatherPill`) | Inicio, tiempo sin conexión | Mes del viaje | Las medias de `WEATHER_DESTINATIONS` y `OFFLINE_SANTIAGO` son de ese mes |
 | `highlights` (dentro de `renderToday`, antes del viaje) | Hoy, cuenta atrás | 7 momentos estrella con fecha fija | — |
-| `visaSection` (dentro de `renderDocs`) | Docs, visados | Tarjetas de Vietnam y Camboya en HTML fijo (+ CSS `.visa-vn`, `.visa-kh`) | — |
-| Título «Embajada y consulado de España» (`renderDocs`) | Docs, emergencias | Nacionalidad de los viajeros | Identidad |
+| Título «Embajada y consulado de España» y «Estáis en Vietnam/Camboya» (`infoEmergencyHTML`) | Info › Urgencias | Nacionalidad de los viajeros y países del destino | Identidad; país de `day.country` |
 
 Genéricos (normalmente no se tocan, solo se amplían si el destino lo pide): `PLACE_TYPE_META` y `CIRCLE_ICONS` (tipos de lugar: templo, monumento, museo, mercado, naturaleza, playa, café, actividad), `TRANSPORT_ICONS`, `TRANSPORT_TYPE_INFO`, `DOC_CATEGORIES`, `PACK_CATS`, `WEATHER_ICONS`, `WEATHER_ES`.
 
@@ -269,6 +272,7 @@ Copiar y pegar al empezar la migración:
 
 | Fecha | Cambio |
 |---|---|
+| 29-oct-2026 | v1.3: «Docs» pasa a «Info» (Mi viaje · Guía · Urgencias). Los visados salen de `app.js` (`visaSection` borrado) y van a `guia.js` (`TRIP_GUIDE`, tema «Fronteras y papeles»), con `EMERGENCY_HELP`, `EMERGENCY_EXTRA`, `GUIDE_REMINDERS` y `SUGGESTED_DOCS`. |
 | 9-oct-2026 | v1.2: reloj con `CLOCK_HOME`/`CLOCK_DEST`, `overnight: true` en el contrato, texto del mes en el tiempo sin conexión. |
 | 9-oct-2026 | v1.1: los consejos pasan de `app.js` (donde no se mostraban) a `guia.js` (`TRAVEL_TIPS`, Docs). |
 | 9-oct-2026 | v1.0: tres capas, opciones de convivencia, regla crítica del almacenamiento compartido, inventario completo, contrato del contenido, procedimiento, plan en 4 fases |

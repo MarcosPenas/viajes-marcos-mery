@@ -14,6 +14,16 @@ Este archivo es un **tablón de estado activo**, no un histórico — a diferenc
 
 ---
 
+## ✅ 29-oct-2026 (PC del trabajo) — PUBLICADO: pestaña «Docs» → «Info», enlace de carga de documentos y tarjetas con comisiones
+
+Marcos pidió meter, resumidos, los dos documentos de la sesión de casa del 28-oct (`MEGA\INFO_GUIA_PRACTICA_VIAJE_CLAUDE_2026.md` y `MEGA\GUIA_TARJETAS_CAJEROS_VIETNAM_CAMBOYA_2026.md`, en la raíz de MEGA, fuera del repo) y reordenar «Docs», que veía como un cajón desastre: ahora es **«Info»** con tres secciones (Mi viaje · Guía · Urgencias). Detalle en HISTORIAL 29-oct, partes 1 a 3.
+
+**Publicado el 29-oct** con su aprobación («Publícala»): código (`styles.css?v=116`, `app.js?v=200`, `data.js?v=93` con `DATA_VERSION` 92, `guia.js?v=8`, `index.html`) y `01_ESPECIFICACIONES`. El commit se apunta en la tabla de pushes de abajo. `tools/enlace_documentos.py` queda **fuera de git a propósito** (solo sirve en el PC que tiene Drive para escritorio con la cuenta del trabajo; su salida, con los enlaces de Drive, tampoco va al repo).
+
+**Para el PC de casa:** `git fetch origin && git reset --mixed origin/main` (nunca `--hard`). Antes de editar `js/` o `css/`, avisar aquí.
+
+---
+
 ## ✅ 27-oct-2026 (tarde, PC del trabajo) — TODO PUBLICADO: ya no hay cambios pendientes en ningún PC
 
 **Resueltos y borrados** los avisos 🔴/🟡 del 9-oct (choque de MEGA y cambios sin commit del trabajo), el del 26-oct (PC de Mery) y el de la mañana del 27-oct (publicación solo de datos, `420c295`).

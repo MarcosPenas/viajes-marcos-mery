@@ -4,7 +4,11 @@
 //  - SURVIVAL_DICT → Inicio, «Frases de supervivencia» (buildSurvivalDictHTML)
 //  - CULTURE_CARDS → Día › Resumen, «Cultura y contexto», por bloque (buildCultureHTML)
 //  - HOTEL_INFO    → ficha de cada alojamiento (Alojamiento, Resumen del día y ficha emergente)
-//  - TRAVEL_TIPS   → Docs, «Consejos prácticos» (buildTipsHTML), añadido el 9-oct-2026
+//  - TRAVEL_TIPS   → Info › Guía, «Consejos generales» (añadido el 9-oct-2026)
+//  - TRIP_GUIDE    → Info › Guía, los cuatro temas plegables (29-oct-2026)
+//  - EMERGENCY_HELP, EMERGENCY_EXTRA → Info › Urgencias (29-oct-2026)
+//  - GUIDE_REMINDERS → avisos de Hoy la víspera de los momentos delicados (29-oct-2026)
+//  - SUGGESTED_DOCS  → Info › Mi viaje, documentos sugeridos (29-oct-2026)
 //  Creado el 6-oct-2026 (PC del trabajo). Frases jemer contrastadas con
 //  bhasaly.com/khmer-phrases y lostplate.com (guía de comida en jemer).
 // ══════════════════════════════════════════════════════════
@@ -216,23 +220,24 @@ window.HOTEL_INFO = {
 };
 
 
-// Consejos prácticos (Docs). Repasados el 9-oct-2026 a partir de los 12 que había en app.js
-// y nunca se mostraban: corregido el clima (noviembre es el mes MÁS lluvioso del centro, no
-// estación seca), quitados los precios de SIM que no se podían comprobar y el de visados
-// (ya está entero en la sección «Visados» de Docs). `html` admite <strong>.
+// Consejos prácticos (Info › Guía › Consejos generales). Repasados el 9-oct-2026 a partir de
+// los 12 que había en app.js y nunca se mostraban: corregido el clima (noviembre es el mes MÁS
+// lluvioso del centro, no estación seca), quitados los precios de SIM que no se podían
+// comprobar y el de visados. `html` admite <strong>. `enGuia: true` = su contenido ya está
+// dentro de un tema de TRIP_GUIDE (29-oct-2026) y no se repite en «Consejos generales».
 window.TRAVEL_TIPS = [
   { icon: '🌦️', title: 'Clima',
     html: 'Tres climas en un viaje. <strong>Norte</strong> (Hanói, Ninh Binh, Cat Ba): seco y fresco, 18-26 °C; una capa para la noche y el barco. <strong>Centro</strong> (Hoi An, Da Nang, Hue): noviembre es su <strong>mes más lluvioso</strong> y puede haber inundaciones en Hoi An; chubasquero y un plan B bajo techo. <strong>Sur y Camboya</strong>: empieza la estación seca, calor húmedo de ~30 °C.' },
-  { icon: '💵', title: 'Dinero',
+  { icon: '💵', title: 'Dinero', enGuia: true,
     html: 'Vietnam paga en <strong>dong (VND)</strong>. En Camboya se usa el <strong>dólar</strong> para casi todo y los rieles para el cambio (unos 4.000 por dólar): lleva billetes de 1, 5 y 10 $ <strong>en buen estado</strong>, los rotos o muy gastados no los aceptan. Los cajeros cobran comisión por retirada: mejor sacar pocas veces y más cantidad.' },
-  { icon: '📶', title: 'Internet y SIM',
+  { icon: '📶', title: 'Internet y SIM', enGuia: true,
     html: 'Una <strong>eSIM</strong> comprada antes de salir funciona nada más aterrizar. Si no, SIM local con el pasaporte: <strong>Viettel</strong> en Vietnam (la de mejor cobertura, también en Cat Ba y el Delta) y <strong>Smart</strong> o Cellcard en Camboya. Para la escala en China, la <strong>VPN</strong> instalada antes de salir de España.' },
-  { icon: '🚕', title: 'Moverse por la ciudad',
+  { icon: '🚕', title: 'Moverse por la ciudad', enGuia: true,
     html: '<strong>Grab</strong> (coches y motos con precio cerrado) funciona en Vietnam y en Camboya; en Vietnam también <strong>Xanh SM</strong> (taxis eléctricos). En Camboya, <strong>PassApp</strong> para tuk-tuks. Si coges uno en la calle, <strong>precio acordado antes de subir</strong>.' },
   { icon: '🍜', title: 'Comida',
     html: 'Come donde hay <strong>cola de gente local</strong>: los puestos callejeros con mucha rotación son de lo más seguro. Agua siempre embotellada; el hielo en cubitos industriales (con agujero) es seguro. Imprescindibles: <strong>phở, bún chả, bánh mì, cao lầu</strong> y el <strong>amok</strong> camboyano.' },
   { icon: '💊', title: 'Salud',
-    html: 'Botiquín básico: antidiarreico, ibuprofeno, antihistamínico, tiritas y desinfectante. <strong>Repelente</strong> todos los días (hay dengue en toda la zona, sobre todo al atardecer). El <strong>seguro de viaje con repatriación</strong> es imprescindible: su teléfono, en «Documentos».' },
+    html: 'Botiquín básico: antidiarreico, ibuprofeno, antihistamínico, tiritas y desinfectante. <strong>Repelente</strong> todos los días (hay dengue en toda la zona, sobre todo al atardecer). El <strong>seguro de viaje con repatriación</strong> es imprescindible: su teléfono, en Info › Mi viaje › Mis documentos.' },
   { icon: '💉', title: 'Vacunas',
     html: 'Se piden en el <strong>Centro de Vacunación Internacional</strong> (Sanidad Exterior) con cita previa, idealmente 4-8 semanas antes. Las habituales para esta ruta: <strong>hepatitis A, fiebre tifoidea y tétanos</strong> al día. Lo que te digan allí manda.' },
   { icon: '☸️', title: 'Templos',
@@ -243,4 +248,156 @@ window.TRAVEL_TIPS = [
     html: '<strong>Pide permiso</strong> antes de fotografiar a personas, sobre todo a monjes y en los mercados. En <strong>Tuol Sleng y Choeung Ek</strong>, móvil guardado y silencio. Drones: prohibidos en Angkor y muy restringidos en los dos países.' },
   { icon: '🏷️', title: 'Regatear',
     html: 'En mercados se regatea: empieza por el <strong>40-50 %</strong> de lo que piden y sube poco a poco. En tiendas con precio marcado, no. Siempre <strong>con una sonrisa</strong>: perder los nervios es perder la negociación.' },
+];
+
+
+// ══════════════════════════════════════════════════════════
+//  GUÍA PRÁCTICA DEL VIAJE (Info › Guía), 29-oct-2026
+//  Resumen de dos documentos de investigación del 28-oct-2026 que están en la raíz de MEGA
+//  (INFO_GUIA_PRACTICA_VIAJE_CLAUDE_2026.md y GUIA_TARJETAS_CAJEROS_VIETNAM_CAMBOYA_2026.md),
+//  fuera del repo. Tarjetas: primero en genérico; el mismo 29-oct Marcos pidió nombres y
+//  comisiones claras de cada una (son tarifas públicas de cada banco; sin números de tarjeta
+//  ni datos personales). Etiquetas de fiabilidad en cada punto:
+//  g-ok «Oficial» (fuente oficial, 28-oct-2026) · g-info «Orientativo» (guías y viajeros) ·
+//  g-warn «Confirmar allí» (cambia según el día o el sitio). Lo que tiene fecha concreta
+//  (shuttle, frontera del Mekong…) va además en GUIDE_REMINDERS, que sale en Hoy la víspera.
+//  Comprobado de nuevo el 29-oct: la tarjeta de llegada de Vietnam (PAI) y el plazo del pase
+//  de Angkor tienen fuentes que discrepan; se dice así.
+// ══════════════════════════════════════════════════════════
+window.GUIDE_CHECKED = '28-29 oct 2026';
+
+window.TRIP_GUIDE = [
+  { id: 'fronteras', icon: '🛂', title: 'Fronteras y papeles', sub: 'Shenzhen, Hanói, Siem Reap y el Mekong',
+    items: [
+      '<span class="g-tag g-ok">Oficial</span> <strong>Antes de salir:</strong> pasaporte original con más de 6 meses de validez y páginas libres. Copias en papel y en el móvil, por separado: una foto <strong>no sirve</strong> como pasaporte.',
+      '<span class="g-tag g-ok">Oficial</span> <strong>Escala en Shenzhen (6-7 nov):</strong> con pasaporte español no hace falta visado (exención de 30 días, hasta el 31-dic-2026). Solo compensa salir si sobra margen para volver a facturar y pasar seguridad.',
+      '<span class="g-tag g-ok">Oficial</span> <strong>Vietnam (7 y 16 nov):</strong> sin visado, hasta 45 días. <span class="g-tag g-warn">Confirmar allí</span> La tarjeta de llegada (PAI) se rellena <strong>gratis</strong> en <strong>prearrival.immigration.gov.vn</strong> en las 72 h previas: las fuentes no se ponen de acuerdo en si en Noi Bai ya es obligatoria, así que <strong>hacedla igual</strong> y guardad el QR. Hay webs falsas que cobran: solo esa.',
+      '<span class="g-tag g-ok">Oficial</span> <strong>Camboya (10 nov):</strong> la eVisa ya está tramitada: <strong>2 copias impresas por persona</strong> (una al entrar y otra al salir). Además, la <strong>e-Arrival</strong>, gratis, en <strong>arrival.gov.kh</strong> en los 7 días previos, con su QR en el móvil. No pagar a intermediarios.',
+      '<span class="g-tag g-ok">Oficial</span> <strong>Angkor:</strong> dos pases de 3 días, solo en la web oficial de Angkor Enterprise o en su taquilla, comprados <strong>antes del amanecer del 11</strong>. El plazo para usarlos es corto (la web oficial habla ahora de 7 días; guías antiguas dicen 10): con el 11, 12 y 13 seguidos, vale igual.',
+      '<span class="g-tag g-warn">Confirmar allí</span> <strong>Frontera por el Mekong (16 nov):</strong> pasaportes a mano, no en la maleta. Confirmad con Hang Chau el embarcadero, la hora de presentación y si gestionan ellos los trámites. Comprobad el <strong>sello de salida de Camboya y el de entrada en Vietnam</strong>, y que os devuelven los dos pasaportes. Un pago extra: concepto y recibo.',
+      '<span class="g-tag g-ok">Oficial</span> <strong>Vuelta (29-30 nov):</strong> el Shenzhen → Barcelona sale a la 01:45 del 30, hora de China. Al facturar en Hanói, comprobad hasta dónde va la maleta.',
+    ],
+    sources: [
+      { t: 'Exteriores: recomendaciones para Vietnam', u: 'https://www.exteriores.gob.es/es/ServiciosAlCiudadano/Paginas/Detalle-recomendaciones-de-viaje.aspx?trc=Vietnam' },
+      { t: 'Exteriores: recomendaciones para Camboya', u: 'https://www.exteriores.gob.es/es/ServiciosAlCiudadano/Paginas/Detalle-recomendaciones-de-viaje.aspx?trc=Camboya' },
+      { t: 'Embajada de China: exención de visado', u: 'https://es.china-embassy.gov.cn/esp/lqyw/202511/t20251105_11747149.htm' },
+      { t: 'Vietnam: tarjeta de llegada (PAI)', u: 'https://prearrival.immigration.gov.vn/' },
+      { t: 'Camboya: eVisa', u: 'https://www.evisa.gov.kh/' },
+      { t: 'Camboya: e-Arrival', u: 'https://arrival.gov.kh/' },
+      { t: 'Angkor Enterprise: entradas', u: 'https://www.angkorenterprise.gov.kh/en/available-tickets' },
+    ] },
+
+  { id: 'dinero', icon: '💳', title: 'Dinero y tarjetas', sub: 'Comisiones de cada tarjeta y qué cajeros no cobran',
+    items: [
+      '<strong>Qué tarjeta usar, por orden:</strong> <strong>1. Trade Republic</strong> para pagar y para sacar. <strong>2. Revolut</strong>, de respaldo (mejor entre semana). <strong>3. Openbank</strong>, solo si fallan las dos. <strong>4. Bankinter (crédito)</strong>, guardada aparte para fianzas y emergencias: <strong>nunca para sacar efectivo</strong>. Llevadlas en sitios distintos.',
+      '<span class="g-tag g-ok">Oficial</span> <strong>Comisiones de vuestras tarjetas</strong> (lo que cobra vuestro banco; el cajero puede cobrar lo suyo aparte):'
+        + '<table class="g-table"><thead><tr><th>Tarjeta</th><th>Pagar con tarjeta</th><th>Sacar del cajero</th></tr></thead><tbody>'
+        + '<tr><th>Trade Republic</th><td class="g-free">0 % (cambio de Visa)</td><td class="g-free">0 € si sacas 100 € o más · 1 € si menos</td></tr>'
+        + '<tr><th>Revolut Standard</th><td class="g-free">0 % de lunes a viernes, hasta 1.000 € al mes · <span class="g-cost">1 % en fin de semana y por encima</span></td><td class="g-free">Gratis hasta 200 € o 5 retiradas al mes · <span class="g-cost">luego 2 % (mín. 1 €)</span></td></tr>'
+        + '<tr><th>Openbank Open Debit</th><td class="g-cost">3 %</td><td class="g-cost">4,5 % (mín. 3 €)</td></tr>'
+        + '<tr><th>Bankinter crédito</th><td class="g-cost">3 % (salvo exención en vuestro contrato)</td><td class="g-cost">4 % (mín. 3 €) + 3 %: evitar</td></tr>'
+        + '</tbody></table>',
+      '<strong>Ejemplos.</strong> Sacar el equivalente a 200 €: Trade Republic <strong>0 €</strong> · Revolut <strong>0 €</strong> (si te queda cupo del mes) · Openbank <strong>9 €</strong> · Bankinter <strong>unos 14 €</strong>, más lo del cajero. Pagar 100 €: Trade Republic y Revolut <strong>0 €</strong> (Revolut, 1 € en fin de semana) · Openbank y Bankinter <strong>3 €</strong>. Con Trade Republic, sacad de una vez <strong>100 € o más</strong>: por debajo cobra 1 €.',
+      '<span class="g-tag g-ok">Oficial</span> <strong>Rechazad siempre la «conversión a euros»</strong> del cajero o del datáfono (DCC, «guaranteed rate», «charge in EUR»): elegid la moneda local, «without conversion». Si no, el cajero aplica su cambio, que es peor.',
+      '<strong>Cajeros de Vietnam</strong> (pagad siempre en dong):<br>'
+        + '✅ <strong>No cobran:</strong> <strong>Shinhan Bank</strong> <span class="g-tag g-ok">Oficial</span> (no cobra a las Visa de bancos europeos) y <strong>VPBank</strong> <span class="g-tag g-info">Orientativo</span> (0 ₫ según los viajeros).<br>'
+        + '⚠️ <strong>Depende del cajero:</strong> ACB y Eximbank.<br>'
+        + '❌ <strong>Cobran:</strong> TPBank (~3,3 %), BIDV (hasta 3 %, mín. 50.000 ₫), Vietcombank (~50.000 ₫), Agribank y Techcombank (una cantidad fija pequeña). <span class="g-tag g-info">Orientativo</span>',
+      '<strong>Cajeros de Camboya</strong> (casi todos cobran; dan dólares o rieles):<br>'
+        + '✅ <strong>No cobra:</strong> <strong>Shinhan Bank</strong> <span class="g-tag g-warn">Confirmar allí</span> (0 $ según los viajeros, sin tarifa oficial).<br>'
+        + '❌ <strong>Cobran:</strong> Mékong Bank (~3 $), PPCBank (5 $ <span class="g-tag g-ok">Oficial</span>), ABA (5 $ + 0,4 %), ACLEDA (~5 $), Canadia (~5 $) y BRED (entre 4 y 10 $). <span class="g-tag g-info">Orientativo</span><br>'
+        + 'Si cobra una cantidad fija, sacad de una vez lo de varios días. Revisad que los billetes de dólar no estén rotos ni muy gastados: no los aceptan.',
+      '<span class="g-tag g-ok">Oficial</span> <strong>Grab en Vietnam</strong> cobra un <strong>4 % extra</strong> si se paga con tarjeta extranjera (también con Trade Republic): si la app lo deja, en efectivo sale mejor.',
+      '<strong>Antes de salir:</strong> Trade Republic con saldo, PIN y la tarjeta física activada; Revolut, comprobad que la tenéis <strong>física</strong> (la virtual no sirve en los cajeros) y cuándo se reinicia su cupo mensual; Bankinter, mirad en la app si vuestra tarjeta está exenta de la comisión internacional y si se paga a fin de mes. Revisad el extracto después de cada retirada.',
+    ],
+    sources: [
+      { t: 'Trade Republic: comisiones de retirada', u: 'https://support.traderepublic.com/es-es/1666-What-are-the-withdrawal-limits-and-fees' },
+      { t: 'Revolut: plan Standard', u: 'https://help.revolut.com/es-ES/help/profile-and-plan/my-plan-benefits/revolut-plans1/standard-plan/' },
+      { t: 'Revolut: retiradas en otras monedas', u: 'https://help.revolut.com/es-ES/help/card-payments-withdrawals/atm-withdrawals/withdrawing-in-other-currencies/' },
+      { t: 'Openbank: Open Debit', u: 'https://www.openbank.es/tarjeta-debito-open-debit/' },
+      { t: 'Bankinter: tarjeta de crédito', u: 'https://www.bankinter.com/banca/cuentas-tarjetas/tarjetas/tarjeta-credito' },
+      { t: 'Shinhan Bank Vietnam: cajeros', u: 'https://shinhan.com.vn/en/personal/atm.html' },
+      { t: 'PPCBank Camboya: comisión de cajeros', u: 'https://www.ppcbank.com.kh/atm-fee/' },
+      { t: 'Grab Vietnam: pago con tarjeta', u: 'https://help.grab.com/passenger/en-vn/115014922167-How-do-I-add-my-creditdebit-card-to-GrabPay' },
+      { t: 'Comparativa de cajeros en Vietnam (no oficial)', u: 'https://povnomad.com/en/atm-fees-vietnam/' },
+      { t: 'Comparativa de cajeros en Camboya (no oficial)', u: 'https://atm-fees.com/en/cambodia' },
+    ] },
+
+  { id: 'transporte', icon: '🚕', title: 'Transporte y timos', sub: 'Shuttle, tuk-tuks, bus nocturno y barcos',
+    items: [
+      '<strong>Antes de subir:</strong> comprobad el operador, la matrícula y el precio total (por coche o por persona, con peajes y equipaje). No creáis a quien diga que «el transporte oficial está cerrado» y <strong>nunca dejéis el pasaporte como fianza</strong> (motos, e-bikes).',
+      '<strong>Apps:</strong> Grab (coche o moto, precio cerrado) en los dos países; en Vietnam también Xanh SM, y en Camboya PassApp para tuk-tuks. En la calle, precio acordado antes de subir.',
+      '<span class="g-tag g-warn">Confirmar allí</span> <strong>Siem Reap (10 nov):</strong> aterrizáis a las 16:55 y el shuttle es a las 17:30. Preguntad antes cuánto espera si el vuelo se retrasa. Si no aparece, buscadlo en llegadas: no subáis al primero que diga ser «el shuttle».',
+      '<strong>Angkor (11-13 nov):</strong> con tuk-tuk de día completo, acordad el precio por todo el día y los dos, el recorrido, las esperas y la vuelta. Con e-bike, mirad frenos, batería y casco.',
+      '<strong>Bus nocturno (13-14 nov):</strong> llega a Phnom Penh a las 04:30: dejad pensado cómo ir al hotel (Grab o PassApp) antes de bajar. Objetos de valor pegados al cuerpo.',
+      '<strong>Barcos (16 y 27 nov):</strong> chalecos a bordo y vista al tiempo. Si hay aviso de tormenta, no forcéis el embarque.',
+      '<strong>Si cambian el precio o dicen que se ha cancelado:</strong> nada de suplementos sin recibo; confirmad por el canal de la reserva y, si algo no parece seguro, volved al hotel.',
+    ],
+    sources: [
+      { t: 'Grab Vietnam: recargo con tarjeta extranjera', u: 'https://help.grab.com/passenger/en-vn/115014922167-How-do-I-add-my-creditdebit-card-to-GrabPay' },
+    ] },
+
+  { id: 'internet', icon: '📶', title: 'Internet y móvil', sub: 'SIM, roaming y la app sin conexión',
+    items: [
+      '<span class="g-tag g-ok">Oficial</span> <strong>El roaming de la UE no vale</strong> en Vietnam, Camboya ni China: desactivad los datos en itinerancia de la SIM española si no tenéis un bono para allí.',
+      '<span class="g-tag g-info">Orientativo</span> <strong>SIM o eSIM local:</strong> una eSIM comprada antes funciona al aterrizar. Si no, en un mostrador oficial y con el pasaporte: <strong>Viettel</strong> en Vietnam (la de mejor cobertura) y <strong>Smart</strong> o Metfone en Camboya. No os vayáis del mostrador sin ver datos en el móvil.',
+      '<strong>China (escala):</strong> Google, WhatsApp e Instagram están bloqueados: la VPN, instalada antes de salir de España.',
+      '<strong>Esta app sin conexión:</strong> con wifi, abridla en los dos móviles hasta que Inicio diga «Lista para usar sin conexión»; probadla en modo avión y pasad por el Mapa de cada ciudad (el mapa solo se guarda en las zonas vistas). Bajad también los mapas sin conexión de Google Maps.',
+      '<strong>Fuera de la app, guardad en el móvil:</strong> los PDF de las reservas, la eVisa, los QR de las tarjetas de llegada y la póliza del seguro.',
+      '<strong>Sin datos:</strong> modo avión y quitarlo, reiniciar, wifi del hotel. Nada de contraseñas del banco en wifis públicas.',
+    ],
+    sources: [] },
+];
+
+// Urgencias › «¿Qué ha pasado?»: pasos cortos, en orden
+window.EMERGENCY_HELP = [
+  { icon: '🤒', title: 'Me encuentro mal o hay un accidente', steps: [
+    'Si es grave, llamad a la ambulancia (botón de arriba) y dad la ubicación exacta.',
+    'Después, la asistencia 24 h del seguro: os dice a qué hospital ir y lo autoriza. Su teléfono, en Mi viaje › Mis documentos.',
+    'Guardad facturas e informes. En Camboya, fuera de Phnom Penh la ambulancia puede no llegar: pedid ayuda al hotel.' ] },
+  { icon: '🛂', title: 'He perdido el pasaporte', steps: [
+    'Buscadlo y avisad al hotel. Si no aparece, denuncia en la policía.',
+    'Llamad a la embajada (botón de arriba) y avisad a la aerolínea y al seguro.',
+    'En Vietnam, después del pasaporte provisional hace falta un permiso de salida que tarda varios días: actuad cuanto antes. Si el viejo aparece después de denunciarlo, ya no vale.' ] },
+  { icon: '💳', title: 'Nos han robado el móvil o una tarjeta', steps: [
+    'Bloquead las tarjetas desde la app del banco (con el otro móvil) o por su teléfono oficial. No pulséis enlaces de supuestos bancos.',
+    'Bloquead la SIM y cambiad la contraseña del correo; cerrad sesiones.',
+    'Seguid con la tarjeta de reserva guardada aparte y denunciad si hay cargos que no reconocéis.' ] },
+  { icon: '👥', title: 'Nos hemos separado', steps: [
+    'No sigáis andando: id al alojamiento de esta noche (abajo) o al sitio que hayáis acordado.',
+    'Llamaos o escribíos; si no hay datos, pedid el wifi o el teléfono de un hotel o una cafetería.' ] },
+  { icon: '🚌', title: 'Hemos perdido un transporte', steps: [
+    'Revisad la reserva: punto de salida, hora local y operador (Mi viaje › Reservas).',
+    'Contactad con el operador por el canal de la reserva y guardad capturas y tiques de los gastos.',
+    'No deis dinero a intermediarios improvisados. Con billetes separados, el siguiente no os recoloca solo.' ] },
+  { icon: '🌧️', title: 'Tormenta, inundación o barco poco seguro', steps: [
+    'Seguid lo que digan las autoridades y el hotel.',
+    'No subáis a un barco sin chalecos o sobrecargado, ni vayáis en moto con lluvia fuerte. La seguridad va antes que la excursión.' ] },
+];
+
+// Teléfonos públicos extra de Camboya para extranjeros (Ministerio de Turismo, vía la agencia
+// oficial AKP, 3-sep-2026). Se enseñan en Urgencias junto a los de DB.localEmergency.
+window.EMERGENCY_EXTRA = {
+  camboya: [
+    { label: 'Policía para extranjeros', phone: '+855 31 201 2345' },
+    { label: 'Policía turística', phone: '+855 16 654 736' },
+  ],
+};
+
+// Avisos de Hoy la víspera de los momentos delicados (además de los automáticos)
+window.GUIDE_REMINDERS = [
+  { date: '2026-11-09', icon: '🚐', text: 'Mañana aterrizáis en Siem Reap a las 16:55 y el shuttle es a las 17:30: confirmad hoy con Siem Reap Shuttle cuánto espera si el vuelo se retrasa.' },
+  { date: '2026-11-13', icon: '🌙', text: 'El bus nocturno llega a Phnom Penh a las 04:30: dejad pensado cómo ir al hotel (Grab o PassApp) y avisad al hotel de la hora.' },
+  { date: '2026-11-15', icon: '⛴️', text: 'Mañana, frontera por el Mekong: confirmad con Hang Chau el embarcadero y la hora de presentación. Pasaportes a mano (no en la maleta) y comprobad los dos sellos.' },
+  { date: '2026-11-26', icon: '🌊', text: 'Mañana, excursión por Lan Ha: mirad el parte del mar y confirmad la hora de recogida en el hotel.' },
+];
+
+// Mis documentos: los que conviene tener a mano. Se enseñan como tarjetas para añadir su
+// enlace (Google Drive…) hasta que hay un documento cuyo nombre encaja con `match`.
+window.SUGGESTED_DOCS = [
+  { name: 'Pasaportes (copias)', category: 'identificacion', match: 'pasaporte' },
+  { name: 'Seguro de viaje', category: 'seguros', match: 'seguro|póliza|poliza' },
+  { name: 'Billetes de avión', category: 'vuelos', match: 'billete|vuelo|embarque' },
+  { name: 'eVisa de Camboya', category: 'visados', match: 'evisa|visado' },
+  { name: 'Reservas de hoteles', category: 'reservas', match: 'hotel|alojamiento' },
 ];

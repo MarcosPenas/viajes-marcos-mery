@@ -26,9 +26,9 @@
 | **Días** | Pestañas Días (lista por zonas), Transportes (todos los trayectos, con localizador) y Alojamiento (línea temporal; cada tarjeta abre la **ficha del alojamiento**). |
 | **Día** | Resumen (transporte con localizador, hotel con dirección/teléfono/«Cómo llegar», ficha «Sobre la ciudad», cultura y contexto), Lugares (fichas con foto, descripción, consejos, mini mapa, «Cómo llegar», favorito, visitado), Qué comer, Mapa del día y Notas. |
 | **Mapa** | Leaflet con 145 lugares por categoría, favoritos/visitados, «Cerca de mí» con seguimiento en vivo y botón «🗺️ Mi mapa de Google» (abre el My Maps del viaje, `myMapsUrl`). |
-| **Docs** | **Reservas del viaje** plegadas en una sola línea («🎫 Reservas del viaje · 26 · Próxima: …»); al abrirlas, una fila por reserva (fecha, trayecto u hotel, 🔒/＋ o noches) que se despliega para ver horario, localizador, dirección y botones; las ya pasadas van agrupadas en «Ya pasadas (N)». Después **Consejos prácticos** (11, plegados igual que las reservas), visados, documentos propios (enlaces a Drive; botón ⋯ para cambiar enlace, renombrar o borrar) y emergencias (números, embajada, **alojamiento de esta noche** —o el siguiente— con cómo llegar y llamar, seguro y pasaportes). |
+| **Info** (antes «Docs», 29-oct) | Tres secciones, como Días. **Mi viaje:** la próxima reserva destacada; «Todas las reservas» plegadas (una fila por reserva con 🔒/＋ o noches, que se despliega con horario, localizador, dirección y botones; las pasadas en «Ya pasadas (N)»; el resumen dice cuántos localizadores faltan en el móvil); y **Mis documentos** en tarjetas ordenadas por categoría (enlaces a Drive guardados solo en el móvil; tarjetas sugeridas —pasaportes, seguro, billetes, eVisa, hoteles— que se crean al pegar el enlace y desaparecen cuando ya hay uno de ese tipo; ⋯ para cambiar enlace, renombrar, marcar como comprobado o borrar). Se pueden cargar todos de golpe con un **enlace `#docs=…`** (ver `tools/enlace_documentos.py`). **Guía:** 4 temas plegables (Fronteras y papeles, Dinero y tarjetas, Transporte y timos, Internet y móvil) y los consejos generales; uno abierto a la vez; cada punto con su fiabilidad (Oficial / Orientativo / Confirmar allí) y las fuentes al final. **Urgencias:** teléfonos del país en el que se está (botones grandes), policía para extranjeros de Camboya, embajada y consulado, **alojamiento de esta noche**, seguro y «¿Qué ha pasado?» (6 situaciones con pasos cortos). |
 
-Barra inferior con iconos de línea propios (SVG, no emojis) y la pestaña activa resaltada con una «píldora» de color (`--nav-pill`). Tema claro/oscuro: sigue al sistema; el botón ☀️/🌙 de la portada de Inicio alterna entre los dos (si lo elegido coincide con el del móvil, vuelve a «automático»). El botón **SOS** de la cabecera se quitó el 9-oct a petición de Marcos: su contenido ya está en Docs → emergencias. Pantalla ampliable con los dedos (el 6-oct se quitó `user-scalable=no`; los campos de texto son de 16 px para que iOS no amplíe solo al escribir).
+Barra inferior con iconos de línea propios (SVG, no emojis) y la pestaña activa resaltada con una «píldora» de color (`--nav-pill`). Tema claro/oscuro: sigue al sistema; el botón ☀️/🌙 de la portada de Inicio alterna entre los dos (si lo elegido coincide con el del móvil, vuelve a «automático»). El botón **SOS** de la cabecera se quitó el 9-oct a petición de Marcos: su contenido está en Info › Urgencias. Pantalla ampliable con los dedos (el 6-oct se quitó `user-scalable=no`; los campos de texto son de 16 px para que iOS no amplíe solo al escribir).
 
 ---
 
@@ -41,7 +41,7 @@ App Viajes Marcos Mery\
 ├── sw.js               ← service worker (prefijo /viajes-marcos-mery/ — NO CAMBIAR)
 ├── css\styles.css      ← todos los estilos
 ├── js\data.js          ← itinerario (DEFAULT_DATA) + AppData (carga/guardado/fusión)
-├── js\guia.js          ← contenido fijo: SURVIVAL_DICT, CULTURE_CARDS, HOTEL_INFO, TRAVEL_TIPS
+├── js\guia.js          ← contenido fijo: SURVIVAL_DICT, CULTURE_CARDS, HOTEL_INFO, TRAVEL_TIPS, TRIP_GUIDE…
 ├── js\app.js           ← toda la lógica y las vistas
 ├── img\icon-192.png, icon-512.png
 ├── img\fotos\          ← 194 fotos fijas de las fichas (revisadas a ojo, máx. 800 px)
@@ -49,6 +49,7 @@ App Viajes Marcos Mery\
 ├── tools\check_imagenes.py           ← test OBLIGATORIO antes de publicar (debe dar OK)
 ├── tools\servidor_ruta_produccion.py ← prueba del modo sin conexión en local
 ├── tools\sin_foto.txt, fotos_compartidas.txt
+├── tools\enlace_documentos.py ← FUERA DE GIT: enlace #docs=… y QR para cargar los documentos de Drive en los móviles
 ├── CREDITOS_FOTOS.md   ← origen y licencia de cada foto
 ├── CLAUDE.md           ← instrucciones para la IA
 ├── 00_INSTALACION\     ← cómo instalar en otro PC
@@ -63,17 +64,17 @@ App Viajes Marcos Mery\
 
 ## PARTE 3 — VERSIONES (la fuente de verdad es `index.html`)
 
-Al tocar CSS o JS hay que subir su `?v=N` en `index.html`. Al tocar `DEFAULT_DATA` en `data.js` hay que subir **también** `DATA_VERSION` (dentro de `data.js`): si no, los móviles siguen con los datos guardados. Estado a 27-oct-2026 en la carpeta de MEGA (comprobar siempre con grep, cambian casi a diario):
+Al tocar CSS o JS hay que subir su `?v=N` en `index.html`. Al tocar `DEFAULT_DATA` en `data.js` hay que subir **también** `DATA_VERSION` (dentro de `data.js`): si no, los móviles siguen con los datos guardados. Estado a 29-oct-2026 en la carpeta de MEGA (comprobar siempre con grep, cambian casi a diario):
 
 | Archivo | Versión |
 |---|---|
-| css/styles.css | `?v=114` |
-| js/data.js | `?v=92`, `DATA_VERSION` 91 |
-| js/guia.js | `?v=5` |
-| js/app.js | `?v=196` |
+| css/styles.css | `?v=116` |
+| js/data.js | `?v=93`, `DATA_VERSION` 92 |
+| js/guia.js | `?v=8` |
+| js/app.js | `?v=200` |
 | sw.js | cachés `viajes-shell-v4` y `viajes-media-v1` |
 
-Publicado todo el 27-oct-2026 (por la tarde). La revisión del 9-oct del PC del trabajo (`v195`/`v113`) se perdió en el choque de MEGA y se rehízo entera ese día a partir del HISTORIAL (menos la limpieza de CSS): por eso los números saltan de 186/101 a 196/114.
+Publicado todo el 27-oct-2026 (por la tarde); la pestaña Info del 29-oct, ver `COORDINACION_SESIONES.md`. La revisión del 9-oct del PC del trabajo (`v195`/`v113`) se perdió en el choque de MEGA y se rehízo entera ese día a partir del HISTORIAL (menos la limpieza de CSS): por eso los números saltan de 186/101 a 196/114.
 
 ---
 
@@ -94,7 +95,9 @@ Publicado todo el 27-oct-2026 (por la tarde). La revisión del 9-oct del PC del 
 - `SURVIVAL_DICT` (`vi`/`km`: `lang, note, phrases[{es, local, pron}]`): frases de supervivencia (Inicio).
 - `CULTURE_CARDS` (clave = `block`): tarjetas «Cultura y contexto» del Resumen del día.
 - `HOTEL_INFO` (clave = `hotel.name` exacto): `address, phone, checkIn, checkOut, lat, lng, maps, desc` de los 12 alojamientos (dirección, teléfono y coordenadas de Google Maps; horarios de Booking/Trip/Agoda). **Si cambia un hotel en data.js, actualizar su entrada aquí.** Sin fotos de hoteles: tienen derechos y el repo es público (el botón de Google Maps lleva a fotos y opiniones).
-- `TRAVEL_TIPS` (`[{icon, title, html}]`, 11 consejos: clima, dinero, internet y SIM, moverse, comida, salud, vacunas, templos, enchufes, fotos, regatear): Docs › «Consejos prácticos» (`buildTipsHTML`). Revisados el 9-oct-2026.
+- `TRAVEL_TIPS` (`[{icon, title, html, enGuia}]`, 11 consejos): los 8 sin `enGuia` salen en Info › Guía › «Consejos generales»; Dinero, Internet y SIM y Moverse por la ciudad (`enGuia: true`) ya están dentro de los temas de la Guía. Revisados el 9-oct-2026.
+- `TRIP_GUIDE` (`[{id, icon, title, sub, items[html], sources[{t, u}]}]`, 29-oct-2026): los 4 temas de Info › Guía, resumen de dos documentos de investigación del 28-oct que están en la raíz de MEGA, fuera del repo (`INFO_GUIA_PRACTICA_VIAJE_CLAUDE_2026.md` y `GUIA_TARJETAS_CAJEROS_VIETNAM_CAMBOYA_2026.md`). Cada punto lleva su fiabilidad con `<span class="g-tag g-ok|g-info|g-warn">` (Oficial / Orientativo / Confirmar allí). **«Dinero y tarjetas» con nombres y comisiones** (Trade Republic, Revolut, Openbank y Bankinter: tabla pagar/sacar con `.g-table`, `.g-free`, `.g-cost`) y los cajeros que no cobran y los que sí en cada país: decisión de Marcos del 29-oct (primero se hizo en genérico). Son tarifas públicas; nunca números de tarjeta ni datos personales. `GUIDE_CHECKED` = fecha de revisión.
+- `EMERGENCY_HELP` (6 situaciones con pasos) y `EMERGENCY_EXTRA` (teléfonos extra por país): Info › Urgencias. `GUIDE_REMINDERS` (`[{date, icon, text}]`): avisos de Hoy la víspera de los momentos delicados (shuttle de Siem Reap, bus de las 04:30, frontera del Mekong, excursión de Lan Ha). `SUGGESTED_DOCS`: tarjetas sugeridas de Mis documentos.
 - En `app.js`: `CITY_INFO` (curiosidades y platos por ciudad, para «Sobre <ciudad>»), `WEATHER_DESTINATIONS` (ruta real y medias de noviembre), `FX_RATES` (VND 29.600, KHR 4.630, USD 1,14 por € — actualizadas el 28-sep-2026), `TRANSPORT_TIPS`.
 
 ---
@@ -107,15 +110,16 @@ Funciones a conocer (buscar por nombre; los números de línea cambian):
 |---|---|
 | `today()`, `isoLocal()` | Fecha **local** del móvil (no UTC: en Vietnam/Camboya UTC+7 se equivocaba de 00:00 a 07:00, corregido el 6-oct). |
 | `navigate()` / `renderView()` | Router de la SPA. `clearHomeTimers()` cancela los temporizadores de Inicio al cambiar de vista. |
-| `renderTripDashboard()`, `renderToday()`, `renderItinerary(tab)`, `renderDay(date)`, `renderMap()`, `renderDocs()` | Vistas. |
+| `renderTripDashboard()`, `renderToday()`, `renderItinerary(tab)`, `renderDay(date)`, `renderMap()`, `renderDocs(tab)` | Vistas. `renderDocs` pinta Info (`tab`: `viaje`, `guia` o `urgencias`; la última abierta queda en `sessionStorage` `info-tab`; la ruta interna sigue siendo `docs`), con `infoTripHTML`, `infoGuideHTML` (+ `guideToggle`, `guide-open`) e `infoEmergencyHTML`. |
 | `dayEvents(trip, date)` | Momentos con hora de un día: salida del hotel anterior, transportes y entrada en el nuevo. Base de lo siguiente. |
-| `buildNowNextHTML`, `buildAlertsHTML`, `buildReservationsHTML` | «Ahora/Siguiente», avisos y reservas plegables de Docs (estado abierto/cerrado en `sessionStorage` `res-open`). |
+| `buildNowNextHTML`, `buildAlertsHTML`, `buildReservationsHTML`, `reservationItems`, `reservationParts`, `nextReservationHTML` | «Ahora/Siguiente», avisos (también los de `GUIDE_REMINDERS`) y reservas de Info › Mi viaje (lista plegable, `res-open`, y la próxima destacada). |
 | `setHeader(title, showBack, hide)` | Título de la barra de arriba; `hide` la oculta (solo en Inicio). |
 | `toggleTheme()` | Botón ☀️/🌙 de la portada. |
 | `buildSurvivalDictHTML`, `dictStep`, `dictUpdateCount`, `toggleDictLang` | Frases de supervivencia: carrusel de una tarjeta, flechas, contador e idioma. |
 | `isOvernightTransport(tr)` | ¿Se duerme en ese transporte? `overnight: true` o «Sleeper» en el texto (avisos, noches por país, consejos de Transportes). |
 | `CLOCK_HOME`, `CLOCK_DEST`, `tzTime`, `tzOffset` | Reloj doble con zonas horarias reales (`Intl`). |
-| `docOptions(id)` | Cambiar enlace, renombrar o borrar un documento de Docs. |
+| `docOptions(id)`, `addSuggestedDoc(i)`, `docTilesHTML` | Mis documentos: cambiar enlace, renombrar, marcar como comprobado o borrar; crear uno sugerido al pegar su enlace. |
+| `importDocsFromHash`, `docLinkUrl` | Carga de documentos desde `#docs=<base64url de [[nombre, categoría, destino]]>` (destino: id de archivo de Drive, `f:`+id de carpeta o https). Pregunta, no duplica y limpia la dirección. La lista no llega al servidor ni al repo. `openDoc` solo abre `http(s)`. |
 | `hotelInfo`, `hotelStay`, `hotelLinks`, `openHotelDetail` | Datos, estancia, enlaces y ficha de cada alojamiento. |
 | `bookingRefHtml`, `editBookingRef`, `copyBookingRef` | Localizadores guardados solo en el móvil. |
 | `cityForDayInfo`, `_cleanCityName`, `CITY_WIKI_ES`, `loadCitySummary` | Ficha «Sobre <ciudad>» (origen o destino en días de traslado; si no hay Wikipedia se muestra igualmente lo propio). |
