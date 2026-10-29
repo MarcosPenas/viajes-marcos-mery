@@ -150,6 +150,7 @@ Lo de **1-oct** sigue vigente:
 
 | Fecha | PC | Commit subido | Notas |
 |---|---|---|---|
+| 29-oct-2026 | Trabajo | `fbd1c7d` (+ documentación) | «Docs» → «Info» (Mi viaje · Guía · Urgencias), tarjetas con comisiones, carga de documentos `#docs=`, avisos de víspera. `app.js?v=200`, `styles.css?v=116`, `guia.js?v=8`, `data.js?v=93` (`DATA_VERSION` 92). Avance rápido desde `10b1a62` |
 | 27-oct-2026 (tarde) | Trabajo | `2d8555d` (+ documentación) | Todo lo pendiente: revisión del 9-oct rehecha (`app.js?v=196`, `styles.css?v=114`), documentación, guía de migración y portada de la hoja de ruta. Avance rápido desde `420c295` |
 | 27-oct-2026 | Trabajo | `420c295` | Solo datos: itinerario definitivo de María (`DATA_VERSION` 91, `data.js?v=92`, `guia.js?v=5`, `sin_foto.txt`). `app.js?v=185` y `styles.css?v=100` sin tocar. Avance rápido desde `a777c49` |
 | 6-oct-2026 (noche) | Casa | `3780b07` (+ documentación `a777c49`) | Revisión profunda del PC de casa (ver bloque ✅ del 6-oct noche) |
@@ -164,7 +165,7 @@ Lo de **1-oct** sigue vigente:
 
 | PC | Rama | Último commit local | ¿Desciende del remoto real? |
 |---|---|---|---|
-| Trabajo (`C:\Users\mpe.HP2008\...`) | `main` | == `origin/main` (publicado todo el 27-oct por la tarde; sin cambios pendientes) | Sí, es el remoto |
+| Trabajo (`C:\Users\mpe.HP2008\...`) | `main` | == `origin/main` (publicado el 29-oct, `fbd1c7d` + documentación; sin cambios pendientes) | Sí, es el remoto |
 | Casa (`C:\Users\marco\...`) | `main` | `05e2559` + 17+ commits del 5-oct **que NO deben subirse** | **Debe hacer `reset --mixed origin/main`** (ver bloque 🔴) |
 
 ---

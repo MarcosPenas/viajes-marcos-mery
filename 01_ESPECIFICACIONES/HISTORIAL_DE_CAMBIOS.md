@@ -45,6 +45,14 @@ Marcos vio Info y le gustó, pero cambió de idea con las tarjetas: «háblame d
 - Las dos notas de pago con el móvil (días 7 y 10) vuelven a decir «vincular la Revolut», como en el documento de María.
 - Versiones: `styles.css?v=116`, `guia.js?v=8` (el resto igual: `app.js?v=200`, `data.js?v=93`, `DATA_VERSION` 92).
 
+### 4ª parte (29-oct) — Publicado y documentos nuevos
+
+- **Publicado** con la aprobación de Marcos: `fbd1c7d` (avance rápido desde `10b1a62`). GitHub Pages tardó ~1 min; producción comprobada en el navegador (`app.js?v=200`, `styles.css?v=116`, `guia.js?v=8`, `data.js?v=93`; las 5 vistas y las tres secciones de Info sin errores; barra con «Info»).
+- **Documentos nuevos** en `G:\Mi unidad\VARIOS\DOCUMENTOS VIAJE`: la póliza del seguro y 8 reservas de transporte. Renombrados con fecha y trayecto para que salgan en orden: `SEGURO DE VIAJE/Seguro de viaje (póliza)` y `TRANSPORTE/` `10 nov - Traslado aeropuerto de Siem Reap`, `13 nov - Bus nocturno Siem Reap - Phnom Penh`, `16 nov - Ferry Phnom Penh - Chau Doc`, `22 nov - Tren Da Nang - Hue`, `23 nov - Bus nocturno Hue - Tam Coc` (es un PNG), `26 nov - Bus Tam Coc - Cat Ba`, `27 nov - Excursión Lan Ha Bay`, `28 nov - Bus Cat Ba - Hanói`.
+- `tools/enlace_documentos.py`: se salta `desktop.ini` y temporales (Drive para escritorio los crea en cada carpeta) y el QR pasa a 560 px (el enlace ya tiene ~2.000 caracteres). Nuevo enlace con **18 documentos**: probado en la web publicada (carga los 18, ordenados por tipo y los transportes por fecha) y borrado después del navegador de pruebas.
+- Para ver el QR en el PC: configuración `qr-documentos` de `.claude/launch.json` (local, puerto 3003, sirve `%TEMP%\viajes_enlace_documentos`). Abrir la página como archivo no vale: se ve como imagen fija y no dibuja el QR.
+- Siguen faltando en la carpeta: carnet de conducir de María, billetes de avión y reservas de hoteles.
+
 ---
 
 

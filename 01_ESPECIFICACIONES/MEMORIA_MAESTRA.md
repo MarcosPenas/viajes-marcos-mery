@@ -206,7 +206,7 @@ Si se cambia la URL de Leaflet, recalcular el `integrity` con el hash real (cabe
 - Si el otro PC tiene commits sin publicar, no commitear en este: trabajar sobre los archivos y anotarlo en `COORDINACION_SESIONES.md`.
 - El `.gitignore` local puede estar atrasado (MEGA no lo sincroniza): antes de commitear, comparar con el del repo (`git diff .gitignore`).
 - `.claude/` está ignorado desde el 6-oct (cada PC tiene su `launch.json` con sus rutas).
-- **Último estado:** publicado TODO desde el PC del trabajo el 27-oct-2026 por la tarde (código rehecho del 9-oct, documentación, guía de migración y portada de la hoja de ruta; commit en `COORDINACION_SESIONES.md`). Antes, ese mismo día, `420c295` solo con los datos. El PC de casa: `git fetch origin && git reset --mixed origin/main`.
+- **Último estado:** publicado desde el PC del trabajo el 29-oct-2026 (`fbd1c7d` + documentación: pestaña Info, tarjetas con comisiones, carga de documentos). Antes, el 27-oct, todo lo pendiente (`2d8555d`). El PC de casa: `git fetch origin && git reset --mixed origin/main`.
 - **Publicar solo algunos archivos** cuando la carpeta tiene otros cambios que no deben subir: `git add` de esos archivos y, para `index.html`, crear el blob a partir del de producción con solo las líneas `?v=` que tocan (`git show origin/main:index.html` → editar → `git hash-object -w` → `git update-index --cacheinfo 100644,<hash>,index.html`). Antes del push, probar la copia exacta del commit (`git checkout-index -a --prefix=<carpeta>/` y servirla).
 
 ---
